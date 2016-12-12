@@ -1,0 +1,4 @@
+{
+  "org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory": "org.amdocs.tsuzammen.adaptor.outbound.impl.CollaborationAdaptorFactoryImpl",
+  "org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptorFactory": "org.amdocs.tsuzammen.adaptor.outbound.impl.StateAdaptorFactoryImpl"
+}
