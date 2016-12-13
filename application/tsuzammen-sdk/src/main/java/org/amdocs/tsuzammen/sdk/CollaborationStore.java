@@ -22,8 +22,17 @@ public interface CollaborationStore {
   void createItemVersion(SessionContext context, String itemId, String baseVersionId, String versionId,
                          Info versionInfo);
 
-  void createItemVersionElement(SessionContext context,String id,String versionId,URI namespace,
-                                EntityData entityData) ;
+  void createItemVersionElementData(SessionContext context,String id,String versionId,URI namespace,
+                                String entityId,EntityData entityData) ;
+
+  void saveItemVersionElementData(SessionContext context,String id,String versionId,URI namespace,
+                                String entityId,EntityData entityData) ;
+
+  void deleteItemVersionElement(SessionContext context,String id,String versionId,URI namespace,
+                              String elementId) ;
+
+  void commitItemVersionElementAction(SessionContext context,String itemId,String versionId,
+                                      String message) ;
 
   void saveItemVersion(SessionContext context, String itemId, String versionId, ItemVersion itemVersion,
                        String message);
