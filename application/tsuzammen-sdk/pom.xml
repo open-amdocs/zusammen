@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>org.amdocs.tsuzammen</groupId>
-        <artifactId>tsuzammen</artifactId>
+        <artifactId>application</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
