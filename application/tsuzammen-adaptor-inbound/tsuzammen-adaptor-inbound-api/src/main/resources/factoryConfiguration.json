@@ -1,5 +1,5 @@
 {
   "org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemAdaptorFactory": "org.amdocs.tsuzammen.adaptor.inbound.impl.item.ItemAdaptorFactoryImpl",
-  "org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionAdaptorFactory": "org.amdocs.tsuzammen.adaptor.inbount.impl.item.ItemVersionAdaptorFactoryImpl",
+  "org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionAdaptorFactory": "org.amdocs.tsuzammen.adaptor.inbound.impl.item.ItemVersionAdaptorFactoryImpl",
   "org.amdocs.tsuzammen.adaptor.inbound.api.workspace.WorkspaceAdaptorFactory": "org.amdocs.tsuzammen.adaptor.inbound.impl.workspace.WorkspaceAdaptorFactoryImpl"
 }
