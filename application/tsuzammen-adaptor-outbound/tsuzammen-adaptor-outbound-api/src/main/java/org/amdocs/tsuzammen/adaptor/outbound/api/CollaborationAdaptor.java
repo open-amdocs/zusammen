@@ -1,6 +1,6 @@
 package org.amdocs.tsuzammen.adaptor.outbound.api;
 
-import org.amdocs.tsuzammen.commons.datatypes.Id;
+
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
@@ -12,29 +12,29 @@ import java.util.Collection;
  */
 public interface CollaborationAdaptor {
 
-  void createItem(SessionContext context, Id itemId,Id initialBranch, Info info);
+  void createItem(SessionContext context, String itemId,String initialBranch, Info info);
 
-  void saveItem(SessionContext context, Id itemId, Info itemInfo);
+  void saveItem(SessionContext context, String itemId, Info itemInfo);
 
-  void deleteItem(SessionContext context, Id itemId);
+  void deleteItem(SessionContext context, String itemId);
 
-  void createItemVersion(SessionContext context, Id itemId, Id baseVersionId, Id versionId,
+  void createItemVersion(SessionContext context, String itemId, String baseVersionId, String versionId,
                          Info info);
 
-  void saveItemVersion(SessionContext context, Id itemId, Id versionId, ItemVersion itemVersion,
+  void saveItemVersion(SessionContext context, String itemId, String versionId, ItemVersion itemVersion,
                        String message);
 
-  void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
+  void deleteItemVersion(SessionContext context, String itemId, String versionId);
 
-  void publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
+  void publishItemVersion(SessionContext context, String itemId, String versionId, String message);
 
-  void syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  void syncItemVersion(SessionContext context, String itemId, String versionId);
 
-  void revertItemVersion(SessionContext context, Id itemId, Id versionId, String targetRevisionId);
+  void revertItemVersion(SessionContext context, String itemId, String versionId, String targetRevisionId);
 
-  Collection listItemVersionRevisions(SessionContext context, Id itemId, Id versionId);
+  Collection listItemVersionRevisions(SessionContext context, String itemId, String versionId);
 
-  Collection listItemVersionMissingRevisions(SessionContext context, Id itemId, Id versionId);
+  Collection listItemVersionMissingRevisions(SessionContext context, String itemId, String versionId);
 
-  Collection listItemVersionOverRevisions(SessionContext context, Id itemId, Id versionId);
+  Collection listItemVersionOverRevisions(SessionContext context, String itemId, String versionId);
 }

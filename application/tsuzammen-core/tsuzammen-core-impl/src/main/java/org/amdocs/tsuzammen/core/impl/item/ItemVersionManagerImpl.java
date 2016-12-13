@@ -1,6 +1,6 @@
 package org.amdocs.tsuzammen.core.impl.item;
 
-import org.amdocs.tsuzammen.commons.datatypes.Id;
+
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
@@ -18,9 +18,9 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
 
   @Override
-  public Id create(SessionContext context, Id itemId,Id baseVersionId,  Info versionInfo) {
-    //Id versionId = baseVersionId == null ? MAIN_VERSION : new Id(CommonMethods.nextUUID());
-    Id versionId = new Id(CommonMethods.nextUUID());
+  public String create(SessionContext context, String itemId,String baseVersionId,  Info versionInfo) {
+    //String versionId = baseVersionId == null ? MAIN_VERSION : new String(CommonMethods.nextUUID());
+    String versionId = new String(CommonMethods.nextUUID());
     getCollaborationAdaptor(context)
         .createItemVersion(context, itemId, baseVersionId, versionId, versionInfo);
 
@@ -31,7 +31,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public void save(SessionContext context, Id itemId, Id versionId, ItemVersion itemVersion,
+  public void save(SessionContext context, String itemId, String versionId, ItemVersion itemVersion,
                    String message) {
     validateExistence(context, itemId, versionId);
 
@@ -42,7 +42,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public void delete(SessionContext context, Id itemId, Id versionId) {
+  public void delete(SessionContext context, String itemId, String versionId) {
     validateExistence(context, itemId, versionId);
 
     getCollaborationAdaptor(context).deleteItemVersion(context, itemId, versionId);
@@ -50,35 +50,35 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public void publish(SessionContext context, Id itemId, Id versionId, String message) {
+  public void publish(SessionContext context, String itemId, String versionId, String message) {
     getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
     getStateAdaptor(context).publishItemVersion(context, itemId, versionId);
   }
 
   @Override
-  public void sync(SessionContext context, Id itemId, Id versionId) {
+  public void sync(SessionContext context, String itemId, String versionId) {
     getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
     getStateAdaptor(context).syncItemVersion(context, itemId, versionId);
   }
 
   @Override
-  public void revert(SessionContext context, Id itemId, Id versionId,
+  public void revert(SessionContext context, String itemId, String versionId,
                      String targetRevisionId) {
 
   }
 
   @Override
-  public Collection<ItemVersion> get(SessionContext context, Id itemId, Id versionId) {
+  public Collection<ItemVersion> get(SessionContext context, String itemId, String versionId) {
     // TODO: 12/4/2016 add filter
     return null;
   }
 
   @Override
-  public Collection<ItemVersion> getInfo(SessionContext context, Id itemId, Id versionId) {
+  public Collection<ItemVersion> getInfo(SessionContext context, String itemId, String versionId) {
     return null;
   }
 
-  private void validateExistence(SessionContext context, Id itemId, Id versionId) {
+  private void validateExistence(SessionContext context, String itemId, String versionId) {
     getStateAdaptor(context).validateItemVersionExistence(context, itemId, versionId);
   }
 

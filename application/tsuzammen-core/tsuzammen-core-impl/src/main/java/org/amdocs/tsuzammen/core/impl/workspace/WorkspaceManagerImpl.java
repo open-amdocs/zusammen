@@ -4,7 +4,6 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptorFactory;
-import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.ItemVersionKey;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
@@ -18,19 +17,19 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
 
 
   @Override
-  public Id create(SessionContext context, Info workspaceInfo) {
-    Id workspaceId = new Id(CommonMethods.nextUUID());
+  public String create(SessionContext context, Info workspaceInfo) {
+    String workspaceId = new String(CommonMethods.nextUUID());
     getStateAdaptor(context).createWorkspace(context, workspaceId, workspaceInfo);
     return workspaceId;
   }
 
   @Override
-  public void save(SessionContext context, Id workspaceId, Info workspaceInfo) {
+  public void save(SessionContext context, String workspaceId, Info workspaceInfo) {
     getStateAdaptor(context).saveWorkspace(context, workspaceId, workspaceInfo);
   }
 
   @Override
-  public void delete(SessionContext context, Id workspaceId) {
+  public void delete(SessionContext context, String workspaceId) {
     getStateAdaptor(context).deleteWorkspace(context, workspaceId);
   }
 
@@ -40,7 +39,7 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
   }
 
   @Override
-  public void addItem(SessionContext context, Id workspaceId, Id itemId, Id versionId) {
+  public void addItem(SessionContext context, String workspaceId, String itemId, String versionId) {
 
     //get item from collaborative store
     //save item in state store
@@ -49,12 +48,12 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
   }
 
   @Override
-  public void removeItem(SessionContext context, Id workspaceId, Id itemId, Id versionId) {
+  public void removeItem(SessionContext context, String workspaceId, String itemId, String versionId) {
 
   }
 
   @Override
-  public List<ItemVersionKey> listItems(SessionContext context, Id workspaceId) {
+  public List<ItemVersionKey> listItems(SessionContext context, String workspaceId) {
     return null;
   }
 

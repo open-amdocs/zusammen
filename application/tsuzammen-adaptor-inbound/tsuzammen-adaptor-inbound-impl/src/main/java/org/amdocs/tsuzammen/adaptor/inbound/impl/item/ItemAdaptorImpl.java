@@ -1,7 +1,7 @@
 package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemAdaptor;
-import org.amdocs.tsuzammen.commons.datatypes.Id;
+
 import org.amdocs.tsuzammen.commons.datatypes.ItemVersionKey;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
@@ -21,13 +21,13 @@ public class ItemAdaptorImpl implements ItemAdaptor {
   }
 
   @Override
-  public void save(SessionContext context, Id itemId, Info itemInfo) {
+  public void save(SessionContext context, String itemId, Info itemInfo) {
 
     getItemManager(context).save(context, itemId, itemInfo);
   }
 
   @Override
-  public void delete(SessionContext context, Id itemId) {
+  public void delete(SessionContext context, String itemId) {
 
     getItemManager(context).delete(context, itemId);
   }
