@@ -22,7 +22,6 @@ public class CollaborationStoreFactoryImpl extends CollaborationStoreFactory {
       try {
         collaborationStore = CommonMethods
             .newInstance(pluginInfo.getImplementationClass(), CollaborationStore.class);
-        collaborationStore.init(context);
       } catch (Exception ex) {
         throw new RuntimeException(ex);
       }
