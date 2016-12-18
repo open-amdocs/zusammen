@@ -6,20 +6,18 @@ import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.core.impl.item.mocks.CollaborationAdaptorEmptyImpl;
 import org.amdocs.tsuzammen.core.impl.item.mocks.StateAdaptorEmptyImpl;
-import org.mockito.Spy;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class ItemVersionManagerImplTest {
-
   public static final UserInfo USER = new UserInfo("ItemVersionManagerImplTest_user");
 
-  @Spy
-  ItemVersionManagerImpl itemVersionManagerImpl = new ItemVersionManagerImpl();
+  ItemVersionManagerImpl itemVersionManagerImpl = spy(new ItemVersionManagerImpl());
 
   @BeforeClass
   public void init() {
