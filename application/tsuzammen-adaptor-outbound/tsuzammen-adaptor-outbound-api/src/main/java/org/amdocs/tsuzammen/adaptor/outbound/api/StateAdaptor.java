@@ -2,16 +2,13 @@ package org.amdocs.tsuzammen.adaptor.outbound.api;
 
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.Namespace;
+import org.amdocs.tsuzammen.commons.datatypes.item.Entity;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
 
+import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
-/**
- * Created by TALIG on 11/30/2016.
- */
 public interface StateAdaptor {
   void createItem(SessionContext context, String itemId, Info itemInfo);
 
@@ -21,7 +18,8 @@ public interface StateAdaptor {
 
   void validateItemVersionExistence(SessionContext context, String itemId, String versionId);
 
-  void createItemVersion(SessionContext context, String itemId, String baseVersionId, String versionId,
+  void createItemVersion(SessionContext context, String itemId, String baseVersionId,
+                         String versionId,
                          Info versionInfo);
 
   void saveItemVersion(SessionContext context, String itemId, String versionId, Info versionInfo);
@@ -32,17 +30,11 @@ public interface StateAdaptor {
 
   void syncItemVersion(SessionContext context, String itemId, String versionId);
 
-  void saveEntity(SessionContext context, String itemId, String versionId, Namespace entityNamespace,
-                  Info entityInfo);
+  void createItemVersionEntity(SessionContext context, String itemId, String versionId,
+                               URI namespace, Entity entity);
 
-  void deleteEntity(SessionContext context, String itemId, String versionId, Namespace entityNamespace);
-
-  Info getEntity(SessionContext context, String itemId, String versionId, Namespace entityNamespace);
-
-  void deleteContent(SessionContext context, String itemId, String versionId, Namespace contentNamespace);
-
-  Map<String, Info> getContent(SessionContext context, String itemId, String versionId, Namespace
-      contentNamespace);
+  void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
+                             URI namespace, Entity entity);
 
   void createWorkspace(SessionContext context, String workspaceId, Info workspaceInfo);
 

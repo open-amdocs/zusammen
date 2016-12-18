@@ -8,34 +8,19 @@ import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
 
 import java.net.URI;
 
-/**
- * Created by TALIG on 11/27/2016.
- */
 public interface CollaborationStore {
 
   void init(SessionContext context);
 
-  void createItem(SessionContext context, String itemId,String initialVersion, Info itemInfo);
+  void createItem(SessionContext context, String itemId, String initialVersion, Info itemInfo);
 
   void deleteItem(SessionContext context, String itemId);
 
-  void createItemVersion(SessionContext context, String itemId, String baseVersionId, String versionId,
-                         Info versionInfo);
+  void createItemVersion(SessionContext context, String itemId, String baseVersionId,
+                         String versionId, Info versionInfo);
 
-  void createItemVersionElementData(SessionContext context,String id,String versionId,URI namespace,
-                                String entityId,EntityData entityData) ;
-
-  void saveItemVersionElementData(SessionContext context,String id,String versionId,URI namespace,
-                                String entityId,EntityData entityData) ;
-
-  void deleteItemVersionElement(SessionContext context,String id,String versionId,URI namespace,
-                              String elementId) ;
-
-  void commitItemVersionElementAction(SessionContext context,String itemId,String versionId,
-                                      String message) ;
-
-  void saveItemVersion(SessionContext context, String itemId, String versionId, ItemVersion itemVersion,
-                       String message);
+  void saveItemVersion(SessionContext context, String itemId, String versionId,
+                       ItemVersion itemVersion, String message);
 
   void deleteItemVersion(SessionContext context, String itemId, String versionId);
 
@@ -45,4 +30,16 @@ public interface CollaborationStore {
 
   ItemVersion getItemVersion(SessionContext context, String itemId, String versionId,
                              ItemVersion itemVersion);
+
+  void createItemVersionEntity(SessionContext context, String itemId, String versionId,
+                               URI namespace, String entityId, EntityData entityData);
+
+  void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
+                             URI namespace, String entityId, EntityData entityData);
+
+  void deleteItemVersionEntity(SessionContext context, String itemId, String versionId,
+                               URI namespace, String entityId);
+
+  void commitItemVersionEntities(SessionContext context, String itemId, String versionId,
+                                 String message);
 }
