@@ -1,3 +1,19 @@
+/*
+ * Copyright © 2016 Amdocs Software Systems Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.amdocs.tsuzammen.core.impl.item;
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
@@ -6,7 +22,7 @@ import org.amdocs.tsuzammen.commons.datatypes.item.Content;
 import org.amdocs.tsuzammen.commons.datatypes.item.Entity;
 import org.amdocs.tsuzammen.commons.datatypes.item.Format;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
+import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 import org.amdocs.tsuzammen.core.impl.item.mocks.CollaborationAdaptorEmptyImpl;
 import org.amdocs.tsuzammen.core.impl.item.mocks.StateAdaptorEmptyImpl;
 import org.testng.Assert;
@@ -49,8 +65,13 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testSave() throws Exception {
-    ItemVersion itemVersion = new ItemVersion();
+  public void testSaveInfo() throws Exception {
+
+  }
+
+  @Test
+  public void testSaveData() throws Exception {
+    ItemVersionData versionData = new ItemVersionData();
     Content rootContent1 = new Content();
     rootContent1.setDataFormat(new Format());
     Entity e11 = new Entity();
@@ -67,8 +88,7 @@ public class ItemVersionManagerImplTest {
     e12.getContents().put("subContent", subContent);
     rootContent1.getEntities().add(e12);
 
-
-    itemVersion.getContents().put("rootContent1", rootContent1);
+    versionData.getContents().put("rootContent1", rootContent1);
 
     Content rootContent2 = new Content();
     rootContent2.setDataFormat(new Format());
@@ -78,11 +98,12 @@ public class ItemVersionManagerImplTest {
     Entity e22 = new Entity();
     e22.setInfo(createInfo("e22"));
     rootContent2.getEntities().add(e22);
-    itemVersion.getContents().put("rootContent2", rootContent2);
+    versionData.getContents().put("rootContent2", rootContent2);
 
     SessionContext context = createSessionContext(USER, "test");
 
-    itemVersionManagerImpl.save(context, "item1", "version1", itemVersion, "save item!");
+    itemVersionManagerImpl.saveData(context, "item1", "version1", versionData, null, null,
+        "save item version data!");
 
     Assert.assertNotNull(e11.getId());
     Assert.assertNotNull(e3.getId());

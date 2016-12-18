@@ -1,3 +1,19 @@
+/*
+ * Copyright © 2016 Amdocs Software Systems Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.amdocs.tsuzammen.core.impl.item;
 
 
@@ -5,18 +21,22 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptorFactory;
+import org.amdocs.tsuzammen.commons.datatypes.ContentNamespace;
+import org.amdocs.tsuzammen.commons.datatypes.EntityNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Content;
 import org.amdocs.tsuzammen.commons.datatypes.item.Entity;
 import org.amdocs.tsuzammen.commons.datatypes.item.Format;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
+import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionManager;
 import org.amdocs.tsuzammen.utils.common.CommonMethods;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class ItemVersionManagerImpl implements ItemVersionManager {
@@ -35,20 +55,21 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public void save(SessionContext context, String itemId, String versionId, ItemVersion itemVersion,
-                   String message) {
+  public void saveInfo(SessionContext context, String itemId, String versionId, Info versionInfo) {
     validateExistence(context, itemId, versionId);
 
-    /*getCollaborationAdaptor(context)
-        .saveItemVersion(context, itemId, versionId, itemVersion, message); // saves only info*/
-    getStateAdaptor(context).saveItemVersion(context, itemId, versionId, itemVersion.getInfo());
-
-    saveItemVersionContents(context, itemId, versionId, itemVersion.getContents(), message);
+    getCollaborationAdaptor(context).saveItemVersion(context, itemId, versionId, versionInfo);
+    getStateAdaptor(context).saveItemVersion(context, itemId, versionId, versionInfo);
   }
 
-  private void saveItemVersionContents(SessionContext context, String itemId, String versionId,
-                                       Map<String, Content> contents, String message) {
-    saveContents(context, itemId, versionId, null, null, contents);
+  @Override
+  public void saveData(SessionContext context, String itemId, String versionId,
+                       ItemVersionData versionData,
+                       List<ContentNamespace> contentsToDelete,
+                       List<EntityNamespace> entitiesToDelete,
+                       String message) {
+    saveContents(context, itemId, versionId, null, null, versionData.getContents());
+    deleteContents(context, itemId, versionId, contentsToDelete);
   }
 
   private void saveContents(SessionContext context, String itemId, String versionId,
@@ -59,6 +80,11 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
           contentEntry.getKey(),
           contentEntry.getValue());
     });
+  }
+
+  private void deleteContents(SessionContext context, String itemId, String versionId,
+                              List<ContentNamespace> contentsToDelete) {
+
   }
 
   private void saveContent(SessionContext context, String itemId, String versionId,
