@@ -32,12 +32,12 @@ public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
 
   }
 
-  @Override
+  /*@Override
   public void saveItemVersion(SessionContext context, String itemId, String versionId,
                               ItemVersion itemVersion, String message) {
 
   }
-
+*/
   @Override
   public void deleteItemVersion(SessionContext context, String itemId, String versionId) {
 

@@ -19,9 +19,9 @@ public interface CollaborationStore {
   void createItemVersion(SessionContext context, String itemId, String baseVersionId,
                          String versionId, Info versionInfo);
 
-  void saveItemVersion(SessionContext context, String itemId, String versionId,
+  /*void saveItemVersion(SessionContext context, String itemId, String versionId,
                        ItemVersion itemVersion, String message);
-
+*/
   void deleteItemVersion(SessionContext context, String itemId, String versionId);
 
   void publishItemVersion(SessionContext context, String itemId, String versionId, String message);

@@ -39,8 +39,8 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
                    String message) {
     validateExistence(context, itemId, versionId);
 
-    getCollaborationAdaptor(context)
-        .saveItemVersion(context, itemId, versionId, itemVersion, message); // saves only info
+    /*getCollaborationAdaptor(context)
+        .saveItemVersion(context, itemId, versionId, itemVersion, message); // saves only info*/
     getStateAdaptor(context).saveItemVersion(context, itemId, versionId, itemVersion.getInfo());
 
     saveItemVersionContents(context, itemId, versionId, itemVersion.getContents(), message);
