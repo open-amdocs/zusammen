@@ -17,9 +17,9 @@ import java.util.Collection;
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   @Override
-  public void createItem(SessionContext context, String itemId, String initialVersion,
+  public void createItem(SessionContext context, String itemId,
                          Info itemInfo) {
-    getCollaborationStore(context).createItem(context, itemId, initialVersion, itemInfo);
+    getCollaborationStore(context).createItem(context, itemId,  itemInfo);
   }
 
   @Override

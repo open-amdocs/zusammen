@@ -12,7 +12,7 @@ public interface CollaborationStore {
 
   void init(SessionContext context);
 
-  void createItem(SessionContext context, String itemId, String initialVersion, Info itemInfo);
+  void createItem(SessionContext context, String itemId,  Info itemInfo);
 
   void deleteItem(SessionContext context, String itemId);
 

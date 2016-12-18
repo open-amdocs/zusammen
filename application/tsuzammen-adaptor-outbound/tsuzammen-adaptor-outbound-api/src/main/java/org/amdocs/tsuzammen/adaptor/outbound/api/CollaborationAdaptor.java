@@ -12,7 +12,7 @@ import java.util.Collection;
 
 public interface CollaborationAdaptor {
 
-  void createItem(SessionContext context, String itemId, String initialBranch, Info info);
+  void createItem(SessionContext context, String itemId, Info info);
 
   void saveItem(SessionContext context, String itemId, Info itemInfo);
 
