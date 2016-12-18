@@ -14,19 +14,17 @@ import org.amdocs.tsuzammen.core.api.item.ItemVersionManagerFactory;
 import org.amdocs.tsuzammen.utils.common.CommonMethods;
 
 public class ItemManagerImpl implements ItemManager {
-  private static final String MAIN_VERSION = new String("main");
+
 
   @Override
   public ItemVersionKey create(SessionContext context, Info itemInfo) {
     String itemId = new String(CommonMethods.nextUUID());
-    getCollaborationAdaptor(context).createItem(context, itemId, MAIN_VERSION, itemInfo);
+    getCollaborationAdaptor(context).createItem(context, itemId,  itemInfo);
     getStateAdaptor(context).createItem(context, itemId, itemInfo);
 
     ItemVersionManager itemVersionManager = getItemVersionManager(context);
-    //String versionId = itemVersionManager.create(context, itemId, null);
-    //itemVersionManager.publish(context, itemId, versionId, CREATE_ITEM_PUBLISH_MSG);
 
-    return new ItemVersionKey(itemId, MAIN_VERSION);
+    return new ItemVersionKey(itemId, null);
   }
 
   @Override

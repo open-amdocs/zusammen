@@ -12,7 +12,7 @@ import java.util.Collection;
 
 public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
   @Override
-  public void createItem(SessionContext context, String itemId, String initialBranch, Info info) {
+  public void createItem(SessionContext context, String itemId,  Info info) {
 
   }
 
@@ -32,12 +32,12 @@ public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
 
   }
 
-  @Override
+  /*@Override
   public void saveItemVersion(SessionContext context, String itemId, String versionId,
                               ItemVersion itemVersion, String message) {
 
   }
-
+*/
   @Override
   public void deleteItemVersion(SessionContext context, String itemId, String versionId) {
 

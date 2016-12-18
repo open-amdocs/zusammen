@@ -17,9 +17,9 @@ import java.util.Collection;
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   @Override
-  public void createItem(SessionContext context, String itemId, String initialVersion,
+  public void createItem(SessionContext context, String itemId,
                          Info itemInfo) {
-    getCollaborationStore(context).createItem(context, itemId, initialVersion, itemInfo);
+    getCollaborationStore(context).createItem(context, itemId,  itemInfo);
   }
 
   @Override
@@ -39,12 +39,12 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
         .createItemVersion(context, itemId, baseVersionId, versionId, info);
   }
 
-  @Override
+  /*@Override
   public void saveItemVersion(SessionContext context, String itemId, String versionId,
                               ItemVersion itemVersion, String message) {
     getCollaborationStore(context)
         .saveItemVersion(context, itemId, versionId, itemVersion, message);
-  }
+  }*/
 
   @Override
   public void deleteItemVersion(SessionContext context, String itemId, String versionId) {
