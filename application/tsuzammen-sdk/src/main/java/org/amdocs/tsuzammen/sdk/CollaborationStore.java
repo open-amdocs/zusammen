@@ -26,7 +26,7 @@ import java.net.URI;
 
 public interface CollaborationStore {
 
-  void init(SessionContext context);
+
 
   void createItem(SessionContext context, String itemId, Info itemInfo);
 
