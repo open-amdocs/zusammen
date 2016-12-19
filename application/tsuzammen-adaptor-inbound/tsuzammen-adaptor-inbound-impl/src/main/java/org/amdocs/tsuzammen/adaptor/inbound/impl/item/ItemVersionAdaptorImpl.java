@@ -21,7 +21,6 @@ import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.UserInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
-import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionManager;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionManagerFactory;
 
@@ -47,9 +46,14 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   }
 
   @Override
-  public void saveInfo(SessionContext context, String itemId, String versionId,
-                       Info versionInfo) {
+  public void save(SessionContext context, String itemId, String versionId,
+                   Info versionInfo) {
     getItemVersionManager(context).save(context, itemId, versionId, versionInfo);
+  }
+
+  @Override
+  public void delete(SessionContext context, String itemId, String versionId) {
+    getItemVersionManager(context).delete(context, itemId, versionId);
   }
 
   @Override

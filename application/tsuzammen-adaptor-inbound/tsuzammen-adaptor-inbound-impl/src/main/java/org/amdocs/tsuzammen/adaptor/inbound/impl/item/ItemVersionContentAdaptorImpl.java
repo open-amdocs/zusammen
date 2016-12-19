@@ -20,6 +20,7 @@ import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionContentAdaptor;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionContentManager;
+import org.amdocs.tsuzammen.core.api.item.ItemVersionContentManagerFactory;
 
 public class ItemVersionContentAdaptorImpl implements ItemVersionContentAdaptor {
   @Override
@@ -30,6 +31,6 @@ public class ItemVersionContentAdaptorImpl implements ItemVersionContentAdaptor 
   }
 
   private ItemVersionContentManager getItemVersionContentManager(SessionContext context) {
-    return null;
+    return ItemVersionContentManagerFactory.getInstance().createInterface(context);
   }
 }
