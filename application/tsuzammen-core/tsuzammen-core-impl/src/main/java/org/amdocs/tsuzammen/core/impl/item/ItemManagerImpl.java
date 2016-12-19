@@ -23,11 +23,24 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptorFactory;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.commons.datatypes.item.Item;
 import org.amdocs.tsuzammen.core.api.item.ItemManager;
 import org.amdocs.tsuzammen.utils.common.CommonMethods;
 
+import java.util.Collection;
+
 public class ItemManagerImpl implements ItemManager {
 
+
+  @Override
+  public Collection<Item> list(SessionContext context) {
+    return getStateAdaptor(context).listItems(context);
+  }
+
+  @Override
+  public Item get(SessionContext context, String itemId) {
+    return getStateAdaptor(context).getItem(context, itemId);
+  }
 
   @Override
   public String create(SessionContext context, Info itemInfo) {

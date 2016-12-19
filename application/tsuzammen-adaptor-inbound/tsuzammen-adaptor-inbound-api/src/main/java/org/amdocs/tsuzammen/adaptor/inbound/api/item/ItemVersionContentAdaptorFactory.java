@@ -16,22 +16,16 @@
 
 package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
-
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.Item;
+import org.amdocs.tsuzammen.utils.facade.api.AbstractComponentFactory;
+import org.amdocs.tsuzammen.utils.facade.api.AbstractFactory;
 
-import java.util.Collection;
+public abstract class ItemVersionContentAdaptorFactory
+    extends AbstractComponentFactory<ItemVersionContentAdaptor> {
 
-public interface ItemAdaptor {
+  public static ItemVersionContentAdaptorFactory getInstance() {
+    return AbstractFactory.getInstance(ItemVersionContentAdaptorFactory.class);
+  }
 
-  Collection<Item> list(SessionContext context);
-
-  Item get(SessionContext context, String itemId);
-
-  String create(SessionContext context, Info itemInfo);
-
-  void save(SessionContext context, String itemId, Info itemInfo);
-
-  void delete(SessionContext context, String itemId);
+  public abstract ItemVersionContentAdaptor createInterface(SessionContext context);
 }

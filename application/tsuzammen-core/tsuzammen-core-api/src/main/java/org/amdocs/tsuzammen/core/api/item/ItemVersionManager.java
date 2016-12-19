@@ -17,26 +17,21 @@
 package org.amdocs.tsuzammen.core.api.item;
 
 
-import org.amdocs.tsuzammen.commons.datatypes.ContentNamespace;
-import org.amdocs.tsuzammen.commons.datatypes.EntityNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
-import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface ItemVersionManager {
 
+  Collection<ItemVersion> list(SessionContext context, String itemId);
+
+  ItemVersion get(SessionContext context, String itemId, String versionId);
+
   String create(SessionContext context, String itemId, String baseVersionId, Info versionInfo);
 
-  void saveInfo(SessionContext context, String itemId, String versionId, Info versionInfo);
-
-  void saveData(SessionContext context, String itemId, String versionId,
-                ItemVersionData versionData,
-                List<ContentNamespace> contentsToDelete, List<EntityNamespace> entitiesToDelete,
-                String message);
+  void save(SessionContext context, String itemId, String versionId, Info versionInfo);
 
   void delete(SessionContext context, String itemId, String versionId);
 
@@ -45,8 +40,4 @@ public interface ItemVersionManager {
   void sync(SessionContext context, String itemId, String versionId);
 
   void revert(SessionContext context, String itemId, String versionId, String targetRevisionId);
-
-  Collection<ItemVersion> get(SessionContext context, String itemId, String versionId);
-
-  Collection<ItemVersion> getInfo(SessionContext context, String itemId, String versionId);
 }

@@ -19,17 +19,21 @@ package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 
+import java.util.Collection;
+
 public interface ItemVersionAdaptor {
+
+  Collection<ItemVersion> list(SessionContext context, String itemId);
+
+  ItemVersion get(SessionContext context, String itemId, String versionId);
 
   String create(SessionContext context, String itemId, String baseVersionId, Info versionInfo);
 
   void saveInfo(SessionContext context, String itemId, String versionId,
                 Info versionInfo);
-
-  void saveData(SessionContext context, String itemId, String versionId,
-                ItemVersionData versionData, String message);
 
   void publish(SessionContext context, String itemId, String versionId, String message);
 

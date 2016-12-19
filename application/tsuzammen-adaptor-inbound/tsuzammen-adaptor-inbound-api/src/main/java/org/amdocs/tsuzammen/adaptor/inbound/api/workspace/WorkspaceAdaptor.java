@@ -5,14 +5,14 @@ import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by TALIG on 11/27/2016.
  */
 public interface WorkspaceAdaptor {
 
-  List<WorkspaceInfo> list(SessionContext context);
+  Collection<WorkspaceInfo> list(SessionContext context);
 
   String create(SessionContext context, Info workspaceInfo);
 
@@ -24,6 +24,6 @@ public interface WorkspaceAdaptor {
 
   void removeItem(SessionContext context, String workspaceId, String itemId, String versionId);
 
-  List<ItemVersionKey> listItems(SessionContext context, String workspaceId);
+  Collection<ItemVersionKey> listItems(SessionContext context, String workspaceId);
 
 }

@@ -14,24 +14,17 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.inbound.api.item;
+package org.amdocs.tsuzammen.core.api.item;
 
-
+import org.amdocs.tsuzammen.commons.datatypes.ContentNamespace;
+import org.amdocs.tsuzammen.commons.datatypes.EntityNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.Item;
+import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 
-import java.util.Collection;
+import java.util.List;
 
-public interface ItemAdaptor {
-
-  Collection<Item> list(SessionContext context);
-
-  Item get(SessionContext context, String itemId);
-
-  String create(SessionContext context, Info itemInfo);
-
-  void save(SessionContext context, String itemId, Info itemInfo);
-
-  void delete(SessionContext context, String itemId);
+public interface ItemVersionContentManager {
+  void save(SessionContext context, String itemId, String versionId, ItemVersionData versionData,
+            List<ContentNamespace> contentsToDelete, List<EntityNamespace> entitiesToDelete,
+            String message);
 }

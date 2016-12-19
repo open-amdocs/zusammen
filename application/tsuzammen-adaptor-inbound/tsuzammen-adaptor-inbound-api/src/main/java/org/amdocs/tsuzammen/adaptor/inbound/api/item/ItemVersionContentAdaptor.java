@@ -18,20 +18,9 @@ package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.Item;
+import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 
-import java.util.Collection;
-
-public interface ItemAdaptor {
-
-  Collection<Item> list(SessionContext context);
-
-  Item get(SessionContext context, String itemId);
-
-  String create(SessionContext context, Info itemInfo);
-
-  void save(SessionContext context, String itemId, Info itemInfo);
-
-  void delete(SessionContext context, String itemId);
+public interface ItemVersionContentAdaptor {
+  void save(SessionContext context, String itemId, String versionId,
+            ItemVersionData versionData, String message);
 }

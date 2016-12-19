@@ -19,10 +19,23 @@ package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemAdaptor;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.commons.datatypes.item.Item;
 import org.amdocs.tsuzammen.core.api.item.ItemManager;
 import org.amdocs.tsuzammen.core.api.item.ItemManagerFactory;
 
+import java.util.Collection;
+
 public class ItemAdaptorImpl implements ItemAdaptor {
+
+  @Override
+  public Collection<Item> list(SessionContext context) {
+    return getItemManager(context).list(context);
+  }
+
+  @Override
+  public Item get(SessionContext context, String itemId) {
+    return getItemManager(context).get(context, itemId);
+  }
 
   @Override
   public String create(SessionContext context, Info itemInfo) {

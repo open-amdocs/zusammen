@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.inbound.api.item;
-
+package org.amdocs.tsuzammen.core.impl;
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
+import org.amdocs.tsuzammen.commons.datatypes.UserInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.Item;
 
-import java.util.Collection;
+public class TestUtils {
+  public static Info createInfo(String value) {
+    Info info = new Info();
+    info.addProperty("Name", "name_" + value);
+    info.addProperty("Desc", "desc_" + value);
+    return info;
+  }
 
-public interface ItemAdaptor {
-
-  Collection<Item> list(SessionContext context);
-
-  Item get(SessionContext context, String itemId);
-
-  String create(SessionContext context, Info itemInfo);
-
-  void save(SessionContext context, String itemId, Info itemInfo);
-
-  void delete(SessionContext context, String itemId);
+  public static SessionContext createSessionContext(UserInfo user, String tenant) {
+    SessionContext context = new SessionContext();
+    context.setUser(user);
+    context.setTenant(tenant);
+    return context;
+  }
 }

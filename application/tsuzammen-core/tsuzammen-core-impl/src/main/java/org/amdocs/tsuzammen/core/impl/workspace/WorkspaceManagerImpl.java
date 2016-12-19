@@ -27,7 +27,7 @@ import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
 import org.amdocs.tsuzammen.core.api.workspace.WorkspaceManager;
 import org.amdocs.tsuzammen.utils.common.CommonMethods;
 
-import java.util.List;
+import java.util.Collection;
 
 public class WorkspaceManagerImpl implements WorkspaceManager {
 
@@ -50,7 +50,7 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
   }
 
   @Override
-  public List<WorkspaceInfo> list(SessionContext context) {
+  public Collection<WorkspaceInfo> list(SessionContext context) {
     return getStateAdaptor(context).listWorkspaces(context);
   }
 
@@ -58,7 +58,7 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
   public void addItem(SessionContext context, String workspaceId, String itemId, String versionId) {
 
     //get item from collaborative store
-    //saveInfo item in state store
+    //save item in state store
     //add item to workspace in the state store
 
   }
@@ -70,7 +70,7 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
   }
 
   @Override
-  public List<ItemVersionKey> listItems(SessionContext context, String workspaceId) {
+  public Collection<ItemVersionKey> listItems(SessionContext context, String workspaceId) {
     return null;
   }
 

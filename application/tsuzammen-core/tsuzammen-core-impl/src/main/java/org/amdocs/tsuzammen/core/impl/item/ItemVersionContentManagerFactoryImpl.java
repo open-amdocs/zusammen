@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 Amdocs Software Systems Limited
+ * Copyright © 2016 Amdocs Software Systems Limited 
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.inbound.api.item;
-
+package org.amdocs.tsuzammen.core.impl.item;
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.Item;
+import org.amdocs.tsuzammen.core.api.item.ItemVersionContentManager;
+import org.amdocs.tsuzammen.core.api.item.ItemVersionContentManagerFactory;
 
-import java.util.Collection;
+public class ItemVersionContentManagerFactoryImpl extends ItemVersionContentManagerFactory {
 
-public interface ItemAdaptor {
+  private static final ItemVersionContentManager INSTANCE = new ItemVersionContentManagerImpl();
 
-  Collection<Item> list(SessionContext context);
-
-  Item get(SessionContext context, String itemId);
-
-  String create(SessionContext context, Info itemInfo);
-
-  void save(SessionContext context, String itemId, Info itemInfo);
-
-  void delete(SessionContext context, String itemId);
+  @Override
+  public ItemVersionContentManager createInterface(SessionContext context) {
+    return INSTANCE;
+  }
 }

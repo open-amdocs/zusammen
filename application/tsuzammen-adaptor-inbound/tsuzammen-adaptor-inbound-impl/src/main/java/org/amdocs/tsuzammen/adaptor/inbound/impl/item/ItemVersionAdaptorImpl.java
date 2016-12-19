@@ -20,11 +20,24 @@ import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionAdaptor;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.UserInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionManager;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionManagerFactory;
 
+import java.util.Collection;
+
 public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
+
+  @Override
+  public Collection<ItemVersion> list(SessionContext context, String itemId) {
+    return getItemVersionManager(context).list(context, itemId);
+  }
+
+  @Override
+  public ItemVersion get(SessionContext context, String itemId, String versionId) {
+    return getItemVersionManager(context).get(context, itemId, versionId);
+  }
 
   @Override
   public String create(SessionContext context, String itemId, String baseVersionId,
@@ -36,14 +49,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   @Override
   public void saveInfo(SessionContext context, String itemId, String versionId,
                        Info versionInfo) {
-    getItemVersionManager(context).saveInfo(context, itemId, versionId, versionInfo);
-  }
-
-  @Override
-  public void saveData(SessionContext context, String itemId, String versionId,
-                       ItemVersionData versionData, String message) {
-    getItemVersionManager(context).saveData(context, itemId, versionId, versionData, null,
-        null, message); // TODO: 12/18/2016 delete namespaces...
+    getItemVersionManager(context).save(context, itemId, versionId, versionInfo);
   }
 
   @Override

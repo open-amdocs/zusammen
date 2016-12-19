@@ -1,3 +1,19 @@
+/*
+ * Copyright © 2016 Amdocs Software Systems Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.amdocs.tsuzammen.adaptor.outbound.impl;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptor;
@@ -5,14 +21,26 @@ import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.impl.item.EntityInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.Entity;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.commons.datatypes.item.Item;
+import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
 import org.amdocs.tsuzammen.sdk.StateStore;
 import org.amdocs.tsuzammen.sdk.StateStoreFactory;
 
 import java.net.URI;
-import java.util.List;
+import java.util.Collection;
 
 public class StateAdaptorImpl implements StateAdaptor {
+  @Override
+  public Collection<Item> listItems(SessionContext context) {
+    return getStateStore(context).listItems(context);
+  }
+
+  @Override
+  public Item getItem(SessionContext context, String itemId) {
+    return getStateStore(context).getItem(context, itemId);
+  }
+
   @Override
   public void createItem(SessionContext context, String itemId, Info itemInfo) {
     getStateStore(context).createItem(context, itemId, itemInfo);
@@ -26,6 +54,16 @@ public class StateAdaptorImpl implements StateAdaptor {
   @Override
   public void deleteItem(SessionContext context, String itemId) {
     getStateStore(context).deleteItem(context, itemId);
+  }
+
+  @Override
+  public Collection<ItemVersion> listItemVersions(SessionContext context, String itemId) {
+    return getStateStore(context).listItemVersions(context, itemId);
+  }
+
+  @Override
+  public ItemVersion getItemVersion(SessionContext context, String itemId, String versionId) {
+    return getStateStore(context).getItemVersion(context, itemId, versionId);
   }
 
   @Override
@@ -92,7 +130,7 @@ public class StateAdaptorImpl implements StateAdaptor {
   }
 
   @Override
-  public List<WorkspaceInfo> listWorkspaces(SessionContext context) {
+  public Collection<WorkspaceInfo> listWorkspaces(SessionContext context) {
     return getStateStore(context).listWorkspaces(context);
   }
 

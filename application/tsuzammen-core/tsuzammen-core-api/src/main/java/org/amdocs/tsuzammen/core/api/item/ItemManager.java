@@ -19,8 +19,15 @@ package org.amdocs.tsuzammen.core.api.item;
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.commons.datatypes.item.Item;
+
+import java.util.Collection;
 
 public interface ItemManager {
+
+  Collection<Item> list(SessionContext context);
+
+  Item get(SessionContext context, String itemId);
 
   String create(SessionContext context, Info itemInfo);
 
