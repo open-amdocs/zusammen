@@ -31,6 +31,8 @@ public interface StateStore {
 
   Collection<Item> listItems(SessionContext context);
 
+  boolean isItemExist(SessionContext context, String itemId);
+
   Item getItem(SessionContext context, String itemId);
 
   void createItem(SessionContext context, String itemId, Info itemInfo);
@@ -41,6 +43,8 @@ public interface StateStore {
 
   Collection<ItemVersion> listItemVersions(SessionContext context, String itemId);
 
+  boolean isItemVersionExist(SessionContext context, String itemId, String versionId);
+
   ItemVersion getItemVersion(SessionContext context, String itemId, String versionId);
 
   void createItemVersion(SessionContext context, String itemId, String baseVersionId,
@@ -49,6 +53,12 @@ public interface StateStore {
   void publishItemVersion(SessionContext context, String itemId, String versionId);
 
   void syncItemVersion(SessionContext context, String itemId, String versionId);
+
+  boolean isItemVersionEntityExist(SessionContext context, String itemId, String versionId,
+                                   URI namespace, String entityId);
+
+  EntityInfo getItemVersionEntity(SessionContext context, String itemId, String versionId,
+                                  URI namespace, String entityId);
 
   void createItemVersionEntity(SessionContext context, String itemId, String versionId,
                                URI namespace, String entityId, EntityInfo entityInfo);

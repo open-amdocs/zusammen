@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.outbound.api;
+package org.amdocs.tsuzammen.core.impl;
 
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractComponentFactory;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractFactory;
-
-public abstract class CollaborationAdaptorFactory
-    extends AbstractComponentFactory<CollaborationAdaptor> {
-
-  public static CollaborationAdaptorFactory getInstance() {
-    return AbstractFactory.getInstance(CollaborationAdaptorFactory.class);
-  }
-
-  public abstract CollaborationAdaptor createInterface(SessionContext context);
+public class Messages {
+  public static final String ITEM_NOT_EXIST = "Item with id %s does not exists.";
+  public static final String ITEM_VERSION_NOT_EXIST =
+      "Item Id %s, version Id %s does not exist in space %s";
+  public static final String ITEM_VERSION_ENTITY_NOT_EXIST =
+      "Item Id %s, version Id %s, namespace %s, entity Id %s does not exist in space %s";
 }

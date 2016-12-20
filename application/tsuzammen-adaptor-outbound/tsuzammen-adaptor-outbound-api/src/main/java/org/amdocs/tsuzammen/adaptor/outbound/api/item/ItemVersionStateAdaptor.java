@@ -14,36 +14,20 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.outbound.api;
-
+package org.amdocs.tsuzammen.adaptor.outbound.api.item;
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Entity;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.Item;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
-import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
 
-import java.net.URI;
 import java.util.Collection;
 
-public interface StateAdaptor {
-
-  Collection<Item> listItems(SessionContext context);
-
-  Item getItem(SessionContext context, String itemId);
-
-  void createItem(SessionContext context, String itemId, Info itemInfo);
-
-  void saveItem(SessionContext context, String itemId, Info itemInfo);
-
-  void deleteItem(SessionContext context, String itemId);
-
+public interface ItemVersionStateAdaptor {
   Collection<ItemVersion> listItemVersions(SessionContext context, String itemId);
 
-  ItemVersion getItemVersion(SessionContext context, String itemId, String versionId);
+  boolean isItemVersionExist(SessionContext context, String itemId, String versionId);
 
-  void validateItemVersionExistence(SessionContext context, String itemId, String versionId);
+  ItemVersion getItemVersion(SessionContext context, String itemId, String versionId);
 
   void createItemVersion(SessionContext context, String itemId, String baseVersionId,
                          String versionId,
@@ -56,18 +40,4 @@ public interface StateAdaptor {
   void publishItemVersion(SessionContext context, String itemId, String versionId);
 
   void syncItemVersion(SessionContext context, String itemId, String versionId);
-
-  void createItemVersionEntity(SessionContext context, String itemId, String versionId,
-                               URI namespace, Entity entity);
-
-  void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
-                             URI namespace, Entity entity);
-
-  void createWorkspace(SessionContext context, String workspaceId, Info workspaceInfo);
-
-  void saveWorkspace(SessionContext context, String workspaceId, Info workspaceInfo);
-
-  void deleteWorkspace(SessionContext context, String workspaceId);
-
-  Collection<WorkspaceInfo> listWorkspaces(SessionContext context);
 }

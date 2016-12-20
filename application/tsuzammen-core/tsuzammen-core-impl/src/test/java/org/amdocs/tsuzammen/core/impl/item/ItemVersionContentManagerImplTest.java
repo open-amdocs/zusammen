@@ -24,7 +24,9 @@ import org.amdocs.tsuzammen.commons.datatypes.item.Format;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 import org.amdocs.tsuzammen.core.impl.TestUtils;
 import org.amdocs.tsuzammen.core.impl.item.mocks.CollaborationAdaptorEmptyImpl;
-import org.amdocs.tsuzammen.core.impl.item.mocks.StateAdaptorEmptyImpl;
+import org.amdocs.tsuzammen.core.impl.item.mocks.ItemStateAdaptorEmptyImpl;
+import org.amdocs.tsuzammen.core.impl.item.mocks.ItemVersionContentStateAdaptorEmptyImpl;
+import org.amdocs.tsuzammen.core.impl.item.mocks.ItemVersionStateAdaptorEmptyImpl;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -43,18 +45,24 @@ public class ItemVersionContentManagerImplTest {
   private ItemVersionContentManagerImpl itemVersionContentManager =
       spy(new ItemVersionContentManagerImpl());
 
-  private StateAdaptorEmptyImpl stateAdaptorEmpty = spy(new StateAdaptorEmptyImpl());
-  private CollaborationAdaptorEmptyImpl collaborationAdaptorEmpty =
+  private ItemVersionContentStateAdaptorEmptyImpl stateAdaptor =
+      spy(new ItemVersionContentStateAdaptorEmptyImpl());
+
+  private CollaborationAdaptorEmptyImpl collaborationAdaptor =
       spy(new CollaborationAdaptorEmptyImpl());
 
   @BeforeClass
   public void init() {
+    when(itemVersionContentManager.getStateAdaptor(anyObject()))
+        .thenReturn(stateAdaptor);
+    when(itemVersionContentManager.getItemVersionStateAdaptor(anyObject()))
+        .thenReturn(new ItemVersionStateAdaptorEmptyImpl());
+    when(itemVersionContentManager.getItemStateAdaptor(anyObject()))
+        .thenReturn(new ItemStateAdaptorEmptyImpl());
+
     when(itemVersionContentManager.getCollaborationAdaptor(anyObject()))
-        .thenReturn(collaborationAdaptorEmpty);
-
-    when(itemVersionContentManager.getStateAdaptor(anyObject())).thenReturn(stateAdaptorEmpty);
+        .thenReturn(collaborationAdaptor);
   }
-
 
   @Test
   public void testSave() throws Exception {
@@ -108,15 +116,15 @@ public class ItemVersionContentManagerImplTest {
     URI subContentUri = new URI("rootContent1/e12/subContent");
     URI rootContent2Uri = new URI("rootContent2");
 
-    verify(stateAdaptorEmpty)
+    verify(stateAdaptor)
         .createItemVersionEntity(context, "item1", "version1", rootContent1Uri, e11);
-    verify(stateAdaptorEmpty)
+    verify(stateAdaptor)
         .saveItemVersionEntity(context, "item1", "version1", rootContent1Uri, e12);
-    verify(stateAdaptorEmpty)
+    verify(stateAdaptor)
         .createItemVersionEntity(context, "item1", "version1", subContentUri, e3);
-    verify(stateAdaptorEmpty)
+    verify(stateAdaptor)
         .createItemVersionEntity(context, "item1", "version1", rootContent2Uri, e21);
-    verify(stateAdaptorEmpty)
+    verify(stateAdaptor)
         .createItemVersionEntity(context, "item1", "version1", rootContent2Uri, e22);
   }
 
@@ -129,18 +137,18 @@ public class ItemVersionContentManagerImplTest {
     URI subContentUri = new URI("rootContent1/e12/subContent");
     URI rootContent2Uri = new URI("rootContent2");
 
-    verify(collaborationAdaptorEmpty)
+    verify(collaborationAdaptor)
         .createItemVersionEntity(context, "item1", "version1", rootContent1Uri, e11,
             rootContent1Format);
-    verify(collaborationAdaptorEmpty)
+    verify(collaborationAdaptor)
         .saveItemVersionEntity(context, "item1", "version1", rootContent1Uri, e12,
             rootContent1Format);
-    verify(collaborationAdaptorEmpty)
+    verify(collaborationAdaptor)
         .createItemVersionEntity(context, "item1", "version1", subContentUri, e3, subContentFormat);
-    verify(collaborationAdaptorEmpty)
+    verify(collaborationAdaptor)
         .createItemVersionEntity(context, "item1", "version1", rootContent2Uri, e21,
             rootContent2Format);
-    verify(collaborationAdaptorEmpty)
+    verify(collaborationAdaptor)
         .createItemVersionEntity(context, "item1", "version1", rootContent2Uri, e22,
             rootContent2Format);
   }

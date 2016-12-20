@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.outbound.api;
+package org.amdocs.tsuzammen.adaptor.outbound.api.item;
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractComponentFactory;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractFactory;
+import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.commons.datatypes.item.Item;
 
-public abstract class CollaborationAdaptorFactory
-    extends AbstractComponentFactory<CollaborationAdaptor> {
+import java.util.Collection;
 
-  public static CollaborationAdaptorFactory getInstance() {
-    return AbstractFactory.getInstance(CollaborationAdaptorFactory.class);
-  }
+public interface ItemStateAdaptor {
 
-  public abstract CollaborationAdaptor createInterface(SessionContext context);
+  Collection<Item> listItems(SessionContext context);
+
+  boolean isItemExist(SessionContext context, String itemId);
+
+  Item getItem(SessionContext context, String itemId);
+
+  void createItem(SessionContext context, String itemId, Info itemInfo);
+
+  void saveItem(SessionContext context, String itemId, Info itemInfo);
+
+  void deleteItem(SessionContext context, String itemId);
 }

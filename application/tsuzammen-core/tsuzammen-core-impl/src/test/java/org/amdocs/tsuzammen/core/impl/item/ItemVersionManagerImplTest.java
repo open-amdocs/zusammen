@@ -21,7 +21,7 @@ import org.amdocs.tsuzammen.commons.datatypes.UserInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.core.impl.TestUtils;
 import org.amdocs.tsuzammen.core.impl.item.mocks.CollaborationAdaptorEmptyImpl;
-import org.amdocs.tsuzammen.core.impl.item.mocks.StateAdaptorEmptyImpl;
+import org.amdocs.tsuzammen.core.impl.item.mocks.ItemVersionStateAdaptorEmptyImpl;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -35,7 +35,8 @@ public class ItemVersionManagerImplTest {
 
   private ItemVersionManagerImpl itemVersionManagerImpl = spy(new ItemVersionManagerImpl());
 
-  private StateAdaptorEmptyImpl stateAdaptorEmpty = spy(new StateAdaptorEmptyImpl());
+  private ItemVersionStateAdaptorEmptyImpl stateAdaptorEmpty =
+      spy(new ItemVersionStateAdaptorEmptyImpl());
   private CollaborationAdaptorEmptyImpl collaborationAdaptorEmpty =
       spy(new CollaborationAdaptorEmptyImpl());
 

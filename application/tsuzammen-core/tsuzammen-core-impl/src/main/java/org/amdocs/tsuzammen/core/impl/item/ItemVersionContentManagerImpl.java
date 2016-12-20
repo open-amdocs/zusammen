@@ -18,8 +18,12 @@ package org.amdocs.tsuzammen.core.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory;
-import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptor;
-import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptorFactory;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionContentStateAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionContentStateAdaptorFactory;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
 import org.amdocs.tsuzammen.commons.datatypes.ContentNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.EntityNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
@@ -28,6 +32,7 @@ import org.amdocs.tsuzammen.commons.datatypes.item.Entity;
 import org.amdocs.tsuzammen.commons.datatypes.item.Format;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionContentManager;
+import org.amdocs.tsuzammen.core.impl.Messages;
 import org.amdocs.tsuzammen.utils.common.CommonMethods;
 
 import java.net.URI;
@@ -41,6 +46,9 @@ public class ItemVersionContentManagerImpl implements ItemVersionContentManager 
   public void save(SessionContext context, String itemId, String versionId,
                    ItemVersionData versionData, List<ContentNamespace> contentsToDelete,
                    List<EntityNamespace> entitiesToDelete, String message) {
+    validateItemVersionExistence(context, itemId, versionId);
+    // TODO: 12/20/2016 instead of executing an action (create/save/delete) on an entity during
+    // the recursion - collect the actions and do it all together at the end. will enable doing it in parallel.
     saveContents(context, itemId, versionId, null, null, versionData.getContents());
     deleteContents(context, itemId, versionId, contentsToDelete);
   }
@@ -92,6 +100,7 @@ public class ItemVersionContentManagerImpl implements ItemVersionContentManager 
 
   private void saveEntity(SessionContext context, String itemId, String versionId, URI namespace,
                           Entity entity, Format dataFormat) {
+    validateEntityExistence(context, itemId, versionId, namespace, entity.getId());
     getCollaborationAdaptor(context).saveItemVersionEntity(context, itemId, versionId,
         namespace, entity, dataFormat);
     getStateAdaptor(context).saveItemVersionEntity(context, itemId, versionId,
@@ -109,11 +118,40 @@ public class ItemVersionContentManagerImpl implements ItemVersionContentManager 
     }
   }
 
+  private void validateItemVersionExistence(SessionContext context, String itemId,
+                                            String versionId) {
+    String space = context.getUser().getUserName();
+    if (!getItemVersionStateAdaptor(context).isItemVersionExist(context, itemId, versionId)) {
+      String message = getItemStateAdaptor(context).isItemExist(context, itemId)
+          ? String.format(Messages.ITEM_VERSION_NOT_EXIST, itemId, versionId, space)
+          : String.format(Messages.ITEM_NOT_EXIST, itemId);// TODO: 12/20/2016 space!
+      throw new RuntimeException(message);
+    }
+  }
+
+  private void validateEntityExistence(SessionContext context, String itemId, String versionId,
+                                       URI namespace, String entityId) {
+    if (!getStateAdaptor(context)
+        .isItemVersionEntityExist(context, itemId, versionId, namespace, entityId)) {
+      throw new RuntimeException(String.format(
+          Messages.ITEM_VERSION_ENTITY_NOT_EXIST, itemId, versionId, namespace, entityId, context
+              .getUser().getUserName())); // TODO: 12/20/2016 space!
+    }
+  }
+
   protected CollaborationAdaptor getCollaborationAdaptor(SessionContext context) {
     return CollaborationAdaptorFactory.getInstance().createInterface(context);
   }
 
-  protected StateAdaptor getStateAdaptor(SessionContext context) {
-    return StateAdaptorFactory.getInstance().createInterface(context);
+  protected ItemVersionContentStateAdaptor getStateAdaptor(SessionContext context) {
+    return ItemVersionContentStateAdaptorFactory.getInstance().createInterface(context);
+  }
+
+  protected ItemVersionStateAdaptor getItemVersionStateAdaptor(SessionContext context) {
+    return ItemVersionStateAdaptorFactory.getInstance().createInterface(context);
+  }
+
+  protected ItemStateAdaptor getItemStateAdaptor(SessionContext context) {
+    return ItemStateAdaptorFactory.getInstance().createInterface(context);
   }
 }

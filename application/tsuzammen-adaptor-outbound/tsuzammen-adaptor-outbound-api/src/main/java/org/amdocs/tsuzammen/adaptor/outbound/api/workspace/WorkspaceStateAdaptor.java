@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.outbound.api;
+package org.amdocs.tsuzammen.adaptor.outbound.api.workspace;
+
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractComponentFactory;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractFactory;
+import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
 
-public abstract class CollaborationAdaptorFactory
-    extends AbstractComponentFactory<CollaborationAdaptor> {
+import java.util.Collection;
 
-  public static CollaborationAdaptorFactory getInstance() {
-    return AbstractFactory.getInstance(CollaborationAdaptorFactory.class);
-  }
+public interface WorkspaceStateAdaptor {
 
-  public abstract CollaborationAdaptor createInterface(SessionContext context);
+  void createWorkspace(SessionContext context, String workspaceId, Info workspaceInfo);
+
+  void saveWorkspace(SessionContext context, String workspaceId, Info workspaceInfo);
+
+  void deleteWorkspace(SessionContext context, String workspaceId);
+
+  Collection<WorkspaceInfo> listWorkspaces(SessionContext context);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 Amdocs Software Systems Limited
+ * Copyright © 2016 Amdocs Software Systems Limited 
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.outbound.api;
+package org.amdocs.tsuzammen.adaptor.outbound.impl.item;
 
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractComponentFactory;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractFactory;
 
-public abstract class CollaborationAdaptorFactory
-    extends AbstractComponentFactory<CollaborationAdaptor> {
+public class ItemStateAdaptorFactoryImpl extends ItemStateAdaptorFactory {
+  private static final ItemStateAdaptor INSTANCE = new ItemStateAdaptorImpl();
 
-  public static CollaborationAdaptorFactory getInstance() {
-    return AbstractFactory.getInstance(CollaborationAdaptorFactory.class);
+  @Override
+  public ItemStateAdaptor createInterface(SessionContext context) {
+    return INSTANCE;
   }
-
-  public abstract CollaborationAdaptor createInterface(SessionContext context);
 }

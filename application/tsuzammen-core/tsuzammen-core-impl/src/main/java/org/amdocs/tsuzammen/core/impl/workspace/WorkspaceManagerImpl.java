@@ -18,8 +18,8 @@ package org.amdocs.tsuzammen.core.impl.workspace;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory;
-import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptor;
-import org.amdocs.tsuzammen.adaptor.outbound.api.StateAdaptorFactory;
+import org.amdocs.tsuzammen.adaptor.outbound.api.workspace.WorkspaceStateAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.workspace.WorkspaceStateAdaptorFactory;
 import org.amdocs.tsuzammen.commons.datatypes.ItemVersionKey;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
@@ -78,8 +78,8 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
     return CollaborationAdaptorFactory.getInstance().createInterface(context);
   }
 
-  private StateAdaptor getStateAdaptor(SessionContext context) {
-    return StateAdaptorFactory.getInstance().createInterface(context);
+  private WorkspaceStateAdaptor getStateAdaptor(SessionContext context) {
+    return WorkspaceStateAdaptorFactory.getInstance().createInterface(context);
   }
 
 
