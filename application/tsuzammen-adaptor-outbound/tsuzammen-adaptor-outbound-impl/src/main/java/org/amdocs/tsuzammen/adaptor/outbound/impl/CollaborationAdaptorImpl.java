@@ -111,21 +111,21 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   public void createItemVersionEntity(SessionContext context, String itemId, String versionId,
                                       URI namespace, Entity entity,
                                       Format dataFormat) {
-    getCollaborationStore(context).createItemVersionEntity(context, itemId, versionId, namespace,
-        entity.getId(), createEntityData(entity, dataFormat));
+    getCollaborationStore(context).createEntity(context, itemId, versionId, namespace,
+         createEntityData(entity, dataFormat));
   }
 
   @Override
   public void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
                                     URI namespace, Entity entity, Format dataFormat) {
-    getCollaborationStore(context).saveItemVersionEntity(context, itemId, versionId, namespace,
-        entity.getId(), createEntityData(entity, dataFormat));
+    getCollaborationStore(context).saveEntity(context, itemId, versionId, namespace,
+         createEntityData(entity, dataFormat));
   }
 
   @Override
   public void deleteItemVersionEntity(SessionContext context, String itemId, String versionId,
                                       URI namespace, String entityId) {
-    getCollaborationStore(context).deleteItemVersionEntity(context, itemId, versionId, namespace,
+    getCollaborationStore(context).deleteEntity(context, itemId, versionId, namespace,
         entityId);
   }
 
@@ -139,9 +139,10 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     EntityData entityData = new EntityData();
     entityData.setInfo(entity.getInfo());
     entityData.setRelations(entity.getRelations());
-    entityData.setData(entity.getData());
+    //entityData.setData(entity.getData());
+    //entityData.setVisualization(entity.getVisualization());
     entityData.setDataFormat(dataFormat);
-    entityData.setVisualization(entity.getVisualization());
+
     return entityData;
   }
 

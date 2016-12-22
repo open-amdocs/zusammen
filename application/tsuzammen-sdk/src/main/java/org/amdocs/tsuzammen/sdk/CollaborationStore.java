@@ -23,6 +23,7 @@ import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
 
 import java.net.URI;
+import java.util.Collection;
 
 public interface CollaborationStore {
 
@@ -47,15 +48,32 @@ public interface CollaborationStore {
   ItemVersion getItemVersion(SessionContext context, String itemId, String versionId,
                              ItemVersion itemVersion);
 
-  void createItemVersionEntity(SessionContext context, String itemId, String versionId,
+  /*void createItemVersionEntity(SessionContext context, String itemId, String versionId,
                                URI namespace, String entityId, EntityData entityData);
-
-  void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
+*/
+  /*void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
                              URI namespace, String entityId, EntityData entityData);
-
-  void deleteItemVersionEntity(SessionContext context, String itemId, String versionId,
+*/
+  /*void deleteItemVersionEntity(SessionContext context, String itemId, String versionId,
                                URI namespace, String entityId);
-
+*/
   void commitItemVersionEntities(SessionContext context, String itemId, String versionId,
                                  String message);
+  void createEntity(SessionContext context, String itemId, String versionId,
+                  URI namespace, EntityData entityData);
+
+  void saveEntity(SessionContext context, String itemId, String versionId,
+                  URI namespace, EntityData entityData);
+
+  EntityData getEntity(SessionContext context, String itemId, String versionId,
+                                   URI namespace,String entityId);
+
+  Collection<EntityData> getContentEntities(SessionContext context, String itemId, String versionId,
+                                            URI namespace);
+
+  void deleteEntity(SessionContext context, String itemId, String versionId,
+                                      URI namespace,String entityId);
+
+  void deleteContentEntities(SessionContext context, String itemId, String
+      versionId,URI namespace);
 }
