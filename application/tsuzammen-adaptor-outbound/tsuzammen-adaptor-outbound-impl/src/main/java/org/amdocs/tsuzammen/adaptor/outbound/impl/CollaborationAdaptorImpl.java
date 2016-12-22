@@ -139,9 +139,9 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     EntityData entityData = new EntityData();
     entityData.setInfo(entity.getInfo());
     entityData.setRelations(entity.getRelations());
-    //entityData.setData(entity.getData());
-    //entityData.setVisualization(entity.getVisualization());
-    entityData.setDataFormat(dataFormat);
+    entityData.setData(entity.getData());
+    entityData.setVisualization(entity.getVisualization());
+    //entityData.setImplClass(entity.getClass());
 
     return entityData;
   }

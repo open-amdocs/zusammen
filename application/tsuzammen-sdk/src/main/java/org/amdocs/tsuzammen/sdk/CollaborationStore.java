@@ -48,15 +48,6 @@ public interface CollaborationStore {
   ItemVersion getItemVersion(SessionContext context, String itemId, String versionId,
                              ItemVersion itemVersion);
 
-  /*void createItemVersionEntity(SessionContext context, String itemId, String versionId,
-                               URI namespace, String entityId, EntityData entityData);
-*/
-  /*void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
-                             URI namespace, String entityId, EntityData entityData);
-*/
-  /*void deleteItemVersionEntity(SessionContext context, String itemId, String versionId,
-                               URI namespace, String entityId);
-*/
   void commitItemVersionEntities(SessionContext context, String itemId, String versionId,
                                  String message);
   void createEntity(SessionContext context, String itemId, String versionId,
