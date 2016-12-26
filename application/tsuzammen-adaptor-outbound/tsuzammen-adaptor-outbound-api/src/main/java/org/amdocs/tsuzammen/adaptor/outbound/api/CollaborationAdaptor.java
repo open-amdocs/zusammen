@@ -17,9 +17,10 @@
 package org.amdocs.tsuzammen.adaptor.outbound.api;
 
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Entity;
-import org.amdocs.tsuzammen.commons.datatypes.item.Format;
+import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 
 import java.net.URI;
@@ -27,43 +28,43 @@ import java.util.Collection;
 
 public interface CollaborationAdaptor {
 
-  void createItem(SessionContext context, String itemId, Info info);
+  void createItem(SessionContext context, Id itemId, Info info);
 
-  void saveItem(SessionContext context, String itemId, Info itemInfo);
+  void saveItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void deleteItem(SessionContext context, String itemId);
+  void deleteItem(SessionContext context, Id itemId);
 
-  void createItemVersion(SessionContext context, String itemId, String baseVersionId,
-                         String versionId, Info info);
+  void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
+                         Id versionId, Info info);
 
-  void saveItemVersion(SessionContext context, String itemId, String versionId,
+  void saveItemVersion(SessionContext context, Id itemId, Id versionId,
                        Info versionInfo);
 
-  void deleteItemVersion(SessionContext context, String itemId, String versionId);
+  void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void publishItemVersion(SessionContext context, String itemId, String versionId, String message);
+  void publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
 
-  void syncItemVersion(SessionContext context, String itemId, String versionId);
+  void syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void revertItemVersion(SessionContext context, String itemId, String versionId,
+  void revertItemVersion(SessionContext context, Id itemId, Id versionId,
                          String targetRevisionId);
 
-  Collection listItemVersionRevisions(SessionContext context, String itemId, String versionId);
+  Collection listItemVersionRevisions(SessionContext context, Id itemId, Id versionId);
 
-  Collection listItemVersionMissingRevisions(SessionContext context, String itemId,
-                                             String versionId);
+  Collection listItemVersionMissingRevisions(SessionContext context, Id itemId,
+                                             Id versionId);
 
-  Collection listItemVersionOverRevisions(SessionContext context, String itemId, String versionId);
+  Collection listItemVersionOverRevisions(SessionContext context, Id itemId, Id versionId);
 
-  void createItemVersionEntity(SessionContext context, String itemId, String versionId,
-                               URI namespace, Entity entity, Format dataFormat);
+  void createEntity(SessionContext context, ElementContext elementContext,
+                    URI namespace, CoreEntity entity);
 
-  void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
-                             URI namespace, Entity entity, Format dataFormat);
+  void saveEntity(SessionContext context, ElementContext elementContext,
+                  URI namespace, CoreEntity entity);
 
-  void deleteItemVersionEntity(SessionContext context, String itemId, String versionId,
-                               URI namespace, String entityId);
+  void deleteEntity(SessionContext context, ElementContext elementContext,
+                    URI namespace, String entityId);
 
-  void commitItemVersionEntities(SessionContext context, String itemId, String versionId,
-                                 String message);
+  void commitEntities(SessionContext context, ElementContext elementContext,
+                      String message);
 }

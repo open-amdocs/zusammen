@@ -21,5 +21,5 @@ public class Messages {
   public static final String ITEM_VERSION_NOT_EXIST =
       "Item Id %s, version Id %s does not exist in space %s";
   public static final String ITEM_VERSION_ENTITY_NOT_EXIST =
-      "Item Id %s, version Id %s, namespace %s, entity Id %s does not exist in space %s";
+      "Item Id %s, version Id %s, entity Id %s does not exist in space %s";
 }

@@ -17,9 +17,10 @@
 package org.amdocs.tsuzammen.core.impl.item.mocks;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Entity;
-import org.amdocs.tsuzammen.commons.datatypes.item.Format;
+import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 
 import java.net.URI;
@@ -27,93 +28,93 @@ import java.util.Collection;
 
 public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
   @Override
-  public void createItem(SessionContext context, String itemId, Info info) {
+  public void createItem(SessionContext context, Id itemId, Info info) {
 
   }
 
   @Override
-  public void saveItem(SessionContext context, String itemId, Info itemInfo) {
+  public void saveItem(SessionContext context, Id itemId, Info itemInfo) {
 
   }
 
   @Override
-  public void deleteItem(SessionContext context, String itemId) {
+  public void deleteItem(SessionContext context, Id itemId) {
 
   }
 
   @Override
-  public void createItemVersion(SessionContext context, String itemId, String baseVersionId,
-                                String versionId, Info info) {
+  public void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
+                                Id versionId, Info info) {
 
   }
 
   @Override
-  public void saveItemVersion(SessionContext context, String itemId, String versionId,
+  public void saveItemVersion(SessionContext context, Id itemId, Id versionId,
                               Info versionInfo) {
 
   }
 
   @Override
-  public void deleteItemVersion(SessionContext context, String itemId, String versionId) {
+  public void deleteItemVersion(SessionContext context, Id itemId, Id versionId) {
 
   }
 
   @Override
-  public void publishItemVersion(SessionContext context, String itemId, String versionId,
+  public void publishItemVersion(SessionContext context, Id itemId, Id versionId,
                                  String message) {
 
   }
 
   @Override
-  public void syncItemVersion(SessionContext context, String itemId, String versionId) {
+  public void syncItemVersion(SessionContext context, Id itemId, Id versionId) {
 
   }
 
   @Override
-  public void revertItemVersion(SessionContext context, String itemId, String versionId,
+  public void revertItemVersion(SessionContext context, Id itemId, Id versionId,
                                 String targetRevisionId) {
 
   }
 
   @Override
-  public Collection listItemVersionRevisions(SessionContext context, String itemId,
-                                             String versionId) {
+  public Collection listItemVersionRevisions(SessionContext context, Id itemId,
+                                             Id versionId) {
     return null;
   }
 
   @Override
-  public Collection listItemVersionMissingRevisions(SessionContext context, String itemId,
-                                                    String versionId) {
+  public Collection listItemVersionMissingRevisions(SessionContext context, Id itemId,
+                                                    Id versionId) {
     return null;
   }
 
   @Override
-  public Collection listItemVersionOverRevisions(SessionContext context, String itemId,
-                                                 String versionId) {
+  public Collection listItemVersionOverRevisions(SessionContext context, Id itemId,
+                                                 Id versionId) {
     return null;
   }
 
   @Override
-  public void createItemVersionEntity(SessionContext context, String itemId, String versionId,
-                                      URI namespace, Entity entity, Format dataFormat) {
+  public void createEntity(SessionContext context, ElementContext elementContext,
+                           URI namespace, CoreEntity entity) {
 
   }
 
   @Override
-  public void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
-                                    URI namespace, Entity entity, Format dataFormat) {
+  public void saveEntity(SessionContext context, ElementContext elementContext,
+                         URI namespace, CoreEntity entity) {
 
   }
 
   @Override
-  public void deleteItemVersionEntity(SessionContext context, String itemId, String versionId,
-                                      URI namespace, String entityId) {
+  public void deleteEntity(SessionContext context, ElementContext elementContext,
+                           URI namespace, String entityId) {
 
   }
 
   @Override
-  public void commitItemVersionEntities(SessionContext context, String itemId, String versionId,
-                                        String message) {
+  public void commitEntities(SessionContext context, ElementContext elementContext,
+                             String message) {
 
   }
 }

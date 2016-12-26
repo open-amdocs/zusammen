@@ -16,6 +16,7 @@
 
 package org.amdocs.tsuzammen.core.impl.item;
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.UserInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
@@ -53,8 +54,9 @@ public class ItemVersionManagerImplTest {
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     Info versionInfo = TestUtils.createInfo("v1");
 
-    String versionId =
-        itemVersionManagerImpl.create(context, "item1", null, versionInfo);
+    Id itemId = new Id();
+    Id versionId =
+        itemVersionManagerImpl.create(context, itemId, null, versionInfo);
     Assert.assertNotNull(versionId);
   }
 

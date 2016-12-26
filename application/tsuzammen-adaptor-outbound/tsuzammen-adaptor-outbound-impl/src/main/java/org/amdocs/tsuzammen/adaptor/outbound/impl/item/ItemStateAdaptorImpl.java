@@ -18,6 +18,7 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.impl.OutboundAdaptorUtils;
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.Item;
@@ -31,27 +32,27 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
   }
 
   @Override
-  public boolean isItemExist(SessionContext context, String itemId) {
+  public boolean isItemExist(SessionContext context, Id itemId) {
     return OutboundAdaptorUtils.getStateStore(context).isItemExist(context, itemId);
   }
 
   @Override
-  public Item getItem(SessionContext context, String itemId) {
+  public Item getItem(SessionContext context, Id itemId) {
     return OutboundAdaptorUtils.getStateStore(context).getItem(context, itemId);
   }
 
   @Override
-  public void createItem(SessionContext context, String itemId, Info itemInfo) {
+  public void createItem(SessionContext context, Id itemId, Info itemInfo) {
     OutboundAdaptorUtils.getStateStore(context).createItem(context, itemId, itemInfo);
   }
 
   @Override
-  public void saveItem(SessionContext context, String itemId, Info itemInfo) {
+  public void saveItem(SessionContext context, Id itemId, Info itemInfo) {
     OutboundAdaptorUtils.getStateStore(context).saveItem(context, itemId, itemInfo);
   }
 
   @Override
-  public void deleteItem(SessionContext context, String itemId) {
+  public void deleteItem(SessionContext context, Id itemId) {
     OutboundAdaptorUtils.getStateStore(context).deleteItem(context, itemId);
   }
 

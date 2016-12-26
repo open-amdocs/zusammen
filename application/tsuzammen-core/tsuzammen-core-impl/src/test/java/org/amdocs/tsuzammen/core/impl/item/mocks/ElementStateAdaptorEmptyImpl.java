@@ -16,42 +16,39 @@
 
 package org.amdocs.tsuzammen.core.impl.item.mocks;
 
-import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.Item;
+import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 
-import java.util.Collection;
+import java.net.URI;
 
-public class ItemStateAdaptorEmptyImpl implements ItemStateAdaptor {
+public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
+
   @Override
-  public Collection<Item> listItems(SessionContext context) {
+  public URI getNamespace(SessionContext context, ElementContext elementContext,
+                          Id elementId) {
     return null;
   }
 
   @Override
-  public boolean isItemExist(SessionContext context, Id itemId) {
+  public boolean isExist(SessionContext context, ElementContext elementContext, Id elementId) {
     return true;
   }
 
   @Override
-  public Item getItem(SessionContext context, Id itemId) {
+  public CoreEntity get(SessionContext context, ElementContext elementContext, Id elementId) {
     return null;
   }
 
   @Override
-  public void createItem(SessionContext context, Id itemId, Info itemInfo) {
+  public void create(SessionContext context, ElementContext elementContext, CoreEntity entity) {
 
   }
 
   @Override
-  public void saveItem(SessionContext context, Id itemId, Info itemInfo) {
-
-  }
-
-  @Override
-  public void deleteItem(SessionContext context, Id itemId) {
+  public void save(SessionContext context, ElementContext elementContext, CoreEntity entity) {
 
   }
 }

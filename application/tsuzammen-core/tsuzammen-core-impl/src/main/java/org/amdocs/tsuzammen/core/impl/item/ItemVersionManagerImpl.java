@@ -23,6 +23,7 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
@@ -35,20 +36,20 @@ import java.util.Collection;
 public class ItemVersionManagerImpl implements ItemVersionManager {
 
   @Override
-  public Collection<ItemVersion> list(SessionContext context, String itemId) {
+  public Collection<ItemVersion> list(SessionContext context, Id itemId) {
     return getStateAdaptor(context).listItemVersions(context, itemId);
   }
 
   @Override
-  public ItemVersion get(SessionContext context, String itemId, String versionId) {
+  public ItemVersion get(SessionContext context, Id itemId, Id versionId) {
     validateItemVersionExistence(context, itemId, versionId);
     return getStateAdaptor(context).getItemVersion(context, itemId, versionId);
   }
 
   @Override
-  public String create(SessionContext context, String itemId, String baseVersionId,
+  public Id create(SessionContext context, Id itemId, Id baseVersionId,
                        Info versionInfo) {
-    String versionId = new String(CommonMethods.nextUUID());
+    Id versionId = new Id();
     getCollaborationAdaptor(context)
         .createItemVersion(context, itemId, baseVersionId, versionId, versionInfo);
 
@@ -59,40 +60,40 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public void save(SessionContext context, String itemId, String versionId, Info versionInfo) {
+  public void save(SessionContext context, Id itemId, Id versionId, Info versionInfo) {
     validateItemVersionExistence(context, itemId, versionId);
     getCollaborationAdaptor(context).saveItemVersion(context, itemId, versionId, versionInfo);
     getStateAdaptor(context).saveItemVersion(context, itemId, versionId, versionInfo);
   }
 
   @Override
-  public void delete(SessionContext context, String itemId, String versionId) {
+  public void delete(SessionContext context, Id itemId, Id versionId) {
     validateItemVersionExistence(context, itemId, versionId);
     getCollaborationAdaptor(context).deleteItemVersion(context, itemId, versionId);
     getStateAdaptor(context).deleteItemVersion(context, itemId, versionId);
   }
 
   @Override
-  public void publish(SessionContext context, String itemId, String versionId, String message) {
+  public void publish(SessionContext context, Id itemId, Id versionId, String message) {
     validateItemVersionExistence(context, itemId, versionId);
     getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
     getStateAdaptor(context).publishItemVersion(context, itemId, versionId);
   }
 
   @Override
-  public void sync(SessionContext context, String itemId, String versionId) {
+  public void sync(SessionContext context, Id itemId, Id versionId) {
     validateItemVersionExistence(context, itemId, versionId);
     getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
     getStateAdaptor(context).syncItemVersion(context, itemId, versionId);
   }
 
   @Override
-  public void revert(SessionContext context, String itemId, String versionId,
+  public void revert(SessionContext context, Id itemId, Id versionId,
                      String targetRevisionId) {
   }
 
-  private void validateItemVersionExistence(SessionContext context, String itemId,
-                                            String versionId) {
+  private void validateItemVersionExistence(SessionContext context, Id itemId,
+                                            Id versionId) {
     String space = context.getUser().getUserName();
     if (!getStateAdaptor(context).isItemVersionExist(context, itemId, versionId)) {
       String message = getItemStateAdaptor(context).isItemExist(context, itemId)

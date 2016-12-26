@@ -18,6 +18,7 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.impl.OutboundAdaptorUtils;
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
@@ -27,46 +28,46 @@ import java.util.Collection;
 public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
 
   @Override
-  public Collection<ItemVersion> listItemVersions(SessionContext context, String itemId) {
+  public Collection<ItemVersion> listItemVersions(SessionContext context, Id itemId) {
     return OutboundAdaptorUtils.getStateStore(context).listItemVersions(context, itemId);
   }
 
   @Override
-  public boolean isItemVersionExist(SessionContext context, String itemId, String versionId) {
+  public boolean isItemVersionExist(SessionContext context, Id itemId, Id versionId) {
     return OutboundAdaptorUtils.getStateStore(context)
         .isItemVersionExist(context, itemId, versionId);
   }
 
   @Override
-  public ItemVersion getItemVersion(SessionContext context, String itemId, String versionId) {
+  public ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId) {
     return OutboundAdaptorUtils.getStateStore(context).getItemVersion(context, itemId, versionId);
   }
 
   @Override
-  public void createItemVersion(SessionContext context, String itemId, String baseVersionId,
-                                String versionId, Info versionInfo) {
+  public void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
+                                Id versionId, Info versionInfo) {
     OutboundAdaptorUtils.getStateStore(context)
         .createItemVersion(context, itemId, baseVersionId, versionId, versionInfo);
   }
 
   @Override
-  public void saveItemVersion(SessionContext context, String itemId, String versionId,
+  public void saveItemVersion(SessionContext context, Id itemId, Id versionId,
                               Info versionInfo) {
 
   }
 
   @Override
-  public void deleteItemVersion(SessionContext context, String itemId, String versionId) {
+  public void deleteItemVersion(SessionContext context, Id itemId, Id versionId) {
 
   }
 
   @Override
-  public void publishItemVersion(SessionContext context, String itemId, String versionId) {
+  public void publishItemVersion(SessionContext context, Id itemId, Id versionId) {
     OutboundAdaptorUtils.getStateStore(context).publishItemVersion(context, itemId, versionId);
   }
 
   @Override
-  public void syncItemVersion(SessionContext context, String itemId, String versionId) {
+  public void syncItemVersion(SessionContext context, Id itemId, Id versionId) {
     OutboundAdaptorUtils.getStateStore(context).syncItemVersion(context, itemId, versionId);
   }
 }

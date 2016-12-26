@@ -17,6 +17,7 @@
 package org.amdocs.tsuzammen.core.api.workspace;
 
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.ItemVersionKey;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
@@ -26,17 +27,17 @@ import java.util.Collection;
 
 public interface WorkspaceManager {
 
-  String create(SessionContext context, Info workspaceInfo);
+  Id create(SessionContext context, Info workspaceInfo);
 
-  void save(SessionContext context, String workspaceId, Info workspaceInfo);
+  void save(SessionContext context, Id workspaceId, Info workspaceInfo);
 
-  void delete(SessionContext context, String workspaceId);
+  void delete(SessionContext context, Id workspaceId);
 
   Collection<WorkspaceInfo> list(SessionContext context);
 
-  void addItem(SessionContext context, String workspaceId, String itemId, String versionId);
+  void addItem(SessionContext context, Id workspaceId, Id itemId, Id versionId);
 
-  void removeItem(SessionContext context, String workspaceId, String itemId, String versionId);
+  void removeItem(SessionContext context, Id workspaceId, Id itemId, Id versionId);
 
-  Collection<ItemVersionKey> listItems(SessionContext context, String workspaceId);
+  Collection<ItemVersionKey> listItems(SessionContext context, Id workspaceId);
 }

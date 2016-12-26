@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.core.api.item;
+package org.amdocs.tsuzammen.adaptor.outbound.api.item;
 
-import org.amdocs.tsuzammen.commons.datatypes.ContentNamespace;
-import org.amdocs.tsuzammen.commons.datatypes.EntityNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
+import org.amdocs.tsuzammen.utils.facade.api.AbstractComponentFactory;
+import org.amdocs.tsuzammen.utils.facade.api.AbstractFactory;
 
-import java.util.List;
+public abstract class ElementStateAdaptorFactory extends
+    AbstractComponentFactory<ElementStateAdaptor> {
 
-public interface ItemVersionContentManager {
-  void save(SessionContext context, String itemId, String versionId, ItemVersionData versionData,
-            List<ContentNamespace> contentsToDelete, List<EntityNamespace> entitiesToDelete,
-            String message);
+  public static ElementStateAdaptorFactory getInstance() {
+    return AbstractFactory.getInstance(ElementStateAdaptorFactory.class);
+  }
+
+  public abstract ElementStateAdaptor createInterface(SessionContext context);
 }

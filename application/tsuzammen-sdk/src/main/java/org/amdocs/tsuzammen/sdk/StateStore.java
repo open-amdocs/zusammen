@@ -17,6 +17,7 @@
 package org.amdocs.tsuzammen.sdk;
 
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.impl.item.EntityInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
@@ -31,49 +32,54 @@ public interface StateStore {
 
   Collection<Item> listItems(SessionContext context);
 
-  boolean isItemExist(SessionContext context, String itemId);
+  boolean isItemExist(SessionContext context, Id itemId);
 
-  Item getItem(SessionContext context, String itemId);
+  Item getItem(SessionContext context, Id itemId);
 
-  void createItem(SessionContext context, String itemId, Info itemInfo);
+  void createItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void saveItem(SessionContext context, String itemId, Info itemInfo);
+  void saveItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void deleteItem(SessionContext context, String itemId);
+  void deleteItem(SessionContext context, Id itemId);
 
-  Collection<ItemVersion> listItemVersions(SessionContext context, String itemId);
+  Collection<ItemVersion> listItemVersions(SessionContext context, Id itemId);
 
-  boolean isItemVersionExist(SessionContext context, String itemId, String versionId);
+  boolean isItemVersionExist(SessionContext context, Id itemId, Id versionId);
 
-  ItemVersion getItemVersion(SessionContext context, String itemId, String versionId);
+  ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void createItemVersion(SessionContext context, String itemId, String baseVersionId,
-                         String versionId, Info versionInfo);
+  void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
+                         Id versionId, Info versionInfo);
 
-  void publishItemVersion(SessionContext context, String itemId, String versionId);
+  void publishItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void syncItemVersion(SessionContext context, String itemId, String versionId);
+  void syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  boolean isItemVersionEntityExist(SessionContext context, String itemId, String versionId,
-                                   URI namespace, String entityId);
+  URI getEntityNamespace(SessionContext context, Id itemId, Id versionId,
+                         Id entityId);
 
-  EntityInfo getItemVersionEntity(SessionContext context, String itemId, String versionId,
-                                  URI namespace, String entityId);
+  boolean isEntityExist(SessionContext context, Id itemId, Id versionId,
+                        Id entityId);
 
-  void createItemVersionEntity(SessionContext context, String itemId, String versionId,
-                               URI namespace, String entityId, EntityInfo entityInfo);
 
-  void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
-                             URI namespace, String entityId, EntityInfo entityInfo);
+  EntityInfo getEntity(SessionContext context, Id itemId, Id versionId,
+                       Id entityId);
 
-  void deleteItemVersionEntity(SessionContext context, String itemId, String versionId,
-                               URI namespace, String entityId);
+  void createEntity(SessionContext context, Id itemId, Id versionId,
+                    EntityInfo entity);
 
-  void createWorkspace(SessionContext context, String workspaceId, Info workspaceInfo);
+  void saveEntity(SessionContext context, Id itemId, Id versionId,
+                  EntityInfo entity);
 
-  void saveWorkspace(SessionContext context, String workspaceId, Info workspaceInfo);
+  void deleteEntity(SessionContext context, Id itemId, Id versionId,
+                    Id entityId);
 
-  void deleteWorkspace(SessionContext context, String workspaceId);
+
+  void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
+
+  void saveWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
+
+  void deleteWorkspace(SessionContext context, Id workspaceId);
 
   Collection<WorkspaceInfo> listWorkspaces(SessionContext context);
 }

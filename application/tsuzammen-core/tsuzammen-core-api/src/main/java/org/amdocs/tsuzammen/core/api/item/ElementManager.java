@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.inbound.api.item;
+package org.amdocs.tsuzammen.core.api.item;
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
+import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractComponentFactory;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractFactory;
+import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
+import org.amdocs.tsuzammen.commons.datatypes.item.Content;
+import org.amdocs.tsuzammen.commons.datatypes.item.Element;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 
-public abstract class ItemVersionContentAdaptorFactory
-    extends AbstractComponentFactory<ItemVersionContentAdaptor> {
+public interface ElementManager {
 
-  public static ItemVersionContentAdaptorFactory getInstance() {
-    return AbstractFactory.getInstance(ItemVersionContentAdaptorFactory.class);
-  }
+  Element get(SessionContext context, ElementContext elementContext, Id elementId,
+              SearchCriteria searchCriteria);
 
-  public abstract ItemVersionContentAdaptor createInterface(SessionContext context);
+  void save(SessionContext context, ElementContext elementContext, Element element,
+            String message);
 }

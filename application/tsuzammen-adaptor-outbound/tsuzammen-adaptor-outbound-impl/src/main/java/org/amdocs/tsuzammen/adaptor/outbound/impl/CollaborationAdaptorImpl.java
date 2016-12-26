@@ -18,10 +18,11 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl;
 
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
+import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
 import org.amdocs.tsuzammen.commons.datatypes.impl.item.EntityData;
-import org.amdocs.tsuzammen.commons.datatypes.item.Entity;
-import org.amdocs.tsuzammen.commons.datatypes.item.Format;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.sdk.CollaborationStore;
 import org.amdocs.tsuzammen.sdk.CollaborationStoreFactory;
@@ -32,117 +33,111 @@ import java.util.Collection;
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   @Override
-  public void createItem(SessionContext context, String itemId,
+  public void createItem(SessionContext context, Id itemId,
                          Info itemInfo) {
     getCollaborationStore(context).createItem(context, itemId, itemInfo);
   }
 
   @Override
-  public void saveItem(SessionContext context, String itemId, Info itemInfo) {
+  public void saveItem(SessionContext context, Id itemId, Info itemInfo) {
     //getCollaborationStore(context).saveItem(context, itemId, itemInfo);
   }
 
   @Override
-  public void deleteItem(SessionContext context, String itemId) {
+  public void deleteItem(SessionContext context, Id itemId) {
     getCollaborationStore(context).deleteItem(context, itemId);
   }
 
   @Override
-  public void createItemVersion(SessionContext context, String itemId, String baseVersionId,
-                                String versionId, Info info) {
+  public void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
+                                Id versionId, Info info) {
     getCollaborationStore(context)
         .createItemVersion(context, itemId, baseVersionId, versionId, info);
   }
 
   @Override
-  public void saveItemVersion(SessionContext context, String itemId, String versionId,
+  public void saveItemVersion(SessionContext context, Id itemId, Id versionId,
                               Info versionInfo) {
     getCollaborationStore(context).saveItemVersion(context, itemId, versionId, versionInfo);
   }
 
   /*@Override
-  public void saveItemVersion(SessionContext context, String itemId, String versionId,
+  public void saveItemVersion(SessionContext context, Id itemId, Id versionId,
                               ItemVersion itemVersion, String message) {
     getCollaborationStore(context)
         .saveItemVersion(context, itemId, versionId, itemVersion, message);
   }*/
 
   @Override
-  public void deleteItemVersion(SessionContext context, String itemId, String versionId) {
+  public void deleteItemVersion(SessionContext context, Id itemId, Id versionId) {
     getCollaborationStore(context).deleteItemVersion(context, itemId, versionId);
   }
 
   @Override
-  public void publishItemVersion(SessionContext context, String itemId, String versionId,
+  public void publishItemVersion(SessionContext context, Id itemId, Id versionId,
                                  String message) {
     getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
   }
 
   @Override
-  public void syncItemVersion(SessionContext context, String itemId, String versionId) {
+  public void syncItemVersion(SessionContext context, Id itemId, Id versionId) {
     getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
   }
 
   @Override
-  public void revertItemVersion(SessionContext context, String itemId, String versionId,
+  public void revertItemVersion(SessionContext context, Id itemId, Id versionId,
                                 String targetRevisionId) {
 
   }
 
   @Override
-  public Collection listItemVersionRevisions(SessionContext context, String itemId,
-                                             String versionId) {
+  public Collection listItemVersionRevisions(SessionContext context, Id itemId,
+                                             Id versionId) {
     return null;
   }
 
   @Override
-  public Collection listItemVersionMissingRevisions(SessionContext context, String itemId,
-                                                    String versionId) {
+  public Collection listItemVersionMissingRevisions(SessionContext context, Id itemId,
+                                                    Id versionId) {
     return null;
   }
 
   @Override
-  public Collection listItemVersionOverRevisions(SessionContext context, String itemId,
-                                                 String versionId) {
+  public Collection listItemVersionOverRevisions(SessionContext context, Id itemId,
+                                                 Id versionId) {
     return null;
   }
 
   @Override
-  public void createItemVersionEntity(SessionContext context, String itemId, String versionId,
-                                      URI namespace, Entity entity,
-                                      Format dataFormat) {
-    getCollaborationStore(context).createItemVersionEntity(context, itemId, versionId, namespace,
-        entity.getId(), createEntityData(entity, dataFormat));
+  public void createEntity(SessionContext context, ElementContext elementContext,
+                           URI namespace, CoreEntity entity) {
+    getCollaborationStore(context)
+        .createEntity(context, elementContext.getItemId(), elementContext.getVersionId(), namespace,
+            new EntityData<>(entity));
   }
 
   @Override
-  public void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
-                                    URI namespace, Entity entity, Format dataFormat) {
-    getCollaborationStore(context).saveItemVersionEntity(context, itemId, versionId, namespace,
-        entity.getId(), createEntityData(entity, dataFormat));
+  public void saveEntity(SessionContext context, ElementContext elementContext,
+                         URI namespace, CoreEntity entity) {
+    getCollaborationStore(context)
+        .saveEntity(context, elementContext.getItemId(), elementContext.getVersionId(), namespace,
+            new EntityData<>(entity));
   }
 
   @Override
-  public void deleteItemVersionEntity(SessionContext context, String itemId, String versionId,
-                                      URI namespace, String entityId) {
-    getCollaborationStore(context).deleteItemVersionEntity(context, itemId, versionId, namespace,
-        entityId);
+  public void deleteEntity(SessionContext context, ElementContext elementContext,
+                           URI namespace, String entityId) {
+    getCollaborationStore(context)
+        .deleteEntity(context, elementContext.getItemId(), elementContext.getVersionId(), namespace,
+            entityId);
   }
 
   @Override
-  public void commitItemVersionEntities(SessionContext context, String itemId, String versionId,
-                                        String message) {
-    getCollaborationStore(context).commitItemVersionEntities(context, itemId, versionId, message);
-  }
-
-  private EntityData createEntityData(Entity entity, Format dataFormat) {
-    EntityData entityData = new EntityData();
-    entityData.setInfo(entity.getInfo());
-    entityData.setRelations(entity.getRelations());
-    entityData.setData(entity.getData());
-    entityData.setDataFormat(dataFormat);
-    entityData.setVisualization(entity.getVisualization());
-    return entityData;
+  public void commitEntities(SessionContext context, ElementContext elementContext,
+                             String message) {
+    getCollaborationStore(context)
+        .commitEntities(context, elementContext.getItemId(), elementContext.getVersionId(),
+            message);
   }
 
   private CollaborationStore getCollaborationStore(SessionContext context) {

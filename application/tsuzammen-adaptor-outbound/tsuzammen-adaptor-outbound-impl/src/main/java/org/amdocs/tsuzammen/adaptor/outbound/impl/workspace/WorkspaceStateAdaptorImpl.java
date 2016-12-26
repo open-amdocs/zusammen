@@ -18,6 +18,7 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl.workspace;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.workspace.WorkspaceStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.impl.OutboundAdaptorUtils;
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
@@ -27,18 +28,18 @@ import java.util.Collection;
 public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
 
   @Override
-  public void createWorkspace(SessionContext context, String workspaceId, Info workspaceInfo) {
+  public void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo) {
     OutboundAdaptorUtils.getStateStore(context)
         .createWorkspace(context, workspaceId, workspaceInfo);
   }
 
   @Override
-  public void saveWorkspace(SessionContext context, String workspaceId, Info workspaceInfo) {
+  public void saveWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo) {
     OutboundAdaptorUtils.getStateStore(context).saveWorkspace(context, workspaceId, workspaceInfo);
   }
 
   @Override
-  public void deleteWorkspace(SessionContext context, String workspaceId) {
+  public void deleteWorkspace(SessionContext context, Id workspaceId) {
     OutboundAdaptorUtils.getStateStore(context).deleteWorkspace(context, workspaceId);
   }
 

@@ -17,45 +17,55 @@
 package org.amdocs.tsuzammen.sdk;
 
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.impl.item.EntityData;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
 
 import java.net.URI;
+import java.util.Collection;
 
 public interface CollaborationStore {
 
 
+  void createItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void createItem(SessionContext context, String itemId, Info itemInfo);
+  void deleteItem(SessionContext context, Id itemId);
 
-  void deleteItem(SessionContext context, String itemId);
+  void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
+                         Id versionId, Info versionInfo);
 
-  void createItemVersion(SessionContext context, String itemId, String baseVersionId,
-                         String versionId, Info versionInfo);
-
-  void saveItemVersion(SessionContext context, String itemId, String versionId,
+  void saveItemVersion(SessionContext context, Id itemId, Id versionId,
                        Info versionInfo);
 
-  void deleteItemVersion(SessionContext context, String itemId, String versionId);
+  void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void publishItemVersion(SessionContext context, String itemId, String versionId, String message);
+  void publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
 
-  void syncItemVersion(SessionContext context, String itemId, String versionId);
+  void syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  ItemVersion getItemVersion(SessionContext context, String itemId, String versionId,
+  ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
                              ItemVersion itemVersion);
 
-  void createItemVersionEntity(SessionContext context, String itemId, String versionId,
-                               URI namespace, String entityId, EntityData entityData);
+  Collection<EntityData> getContentEntities(SessionContext context, Id itemId, Id versionId,
+                                            URI namespace); //namespace end = content name
 
-  void saveItemVersionEntity(SessionContext context, String itemId, String versionId,
-                             URI namespace, String entityId, EntityData entityData);
+  EntityData getEntity(SessionContext context, Id itemId, Id versionId,
+                       URI namespace, String entityId);
 
-  void deleteItemVersionEntity(SessionContext context, String itemId, String versionId,
-                               URI namespace, String entityId);
+  void createEntity(SessionContext context, Id itemId, Id versionId,
+                    URI namespace, EntityData entityData);
 
-  void commitItemVersionEntities(SessionContext context, String itemId, String versionId,
-                                 String message);
+  void saveEntity(SessionContext context, Id itemId, Id versionId,
+                  URI namespace, EntityData entityData);
+
+  void deleteContentEntities(SessionContext context, Id itemId, Id versionId,
+                             URI namespace);
+
+  void deleteEntity(SessionContext context, Id itemId, Id versionId,
+                    URI namespace, String entityId);
+
+  void commitEntities(SessionContext context, Id itemId, Id versionId,
+                      String message);
 }

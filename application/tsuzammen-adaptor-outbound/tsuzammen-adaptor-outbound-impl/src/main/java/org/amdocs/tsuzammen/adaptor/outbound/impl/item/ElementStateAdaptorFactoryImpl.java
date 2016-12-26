@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.core.api.item;
+package org.amdocs.tsuzammen.adaptor.outbound.impl.item;
 
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptorFactory;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractComponentFactory;
-import org.amdocs.tsuzammen.utils.facade.api.AbstractFactory;
 
-public abstract class ItemVersionContentManagerFactory
-    extends AbstractComponentFactory<ItemVersionContentManager> {
+public class ElementStateAdaptorFactoryImpl extends ElementStateAdaptorFactory {
+  private static final ElementStateAdaptor INSTANCE = new ElementStateAdaptorImpl();
 
-  public static ItemVersionContentManagerFactory getInstance() {
-    return AbstractFactory.getInstance(ItemVersionContentManagerFactory.class);
+  @Override
+  public ElementStateAdaptor createInterface(SessionContext context) {
+    return INSTANCE;
   }
-
-  public abstract ItemVersionContentManager createInterface(SessionContext context);
 }

@@ -21,14 +21,15 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.Item;
 import org.amdocs.tsuzammen.core.api.item.ItemManager;
 import org.amdocs.tsuzammen.core.impl.Messages;
-import org.amdocs.tsuzammen.utils.common.CommonMethods;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public class ItemManagerImpl implements ItemManager {
 
@@ -39,34 +40,34 @@ public class ItemManagerImpl implements ItemManager {
   }
 
   @Override
-  public Item get(SessionContext context, String itemId) {
+  public Item get(SessionContext context, Id itemId) {
     validateItemExistence(context, itemId);
     return getStateAdaptor(context).getItem(context, itemId);
   }
 
   @Override
-  public String create(SessionContext context, Info itemInfo) {
-    String itemId = new String(CommonMethods.nextUUID());
+  public Id create(SessionContext context, Info itemInfo) {
+    Id itemId = new Id(UUID.randomUUID());
     getCollaborationAdaptor(context).createItem(context, itemId, itemInfo);
     getStateAdaptor(context).createItem(context, itemId, itemInfo);
     return itemId;
   }
 
   @Override
-  public void save(SessionContext context, String itemId, Info itemInfo) {
+  public void save(SessionContext context, Id itemId, Info itemInfo) {
     validateItemExistence(context, itemId);
     getCollaborationAdaptor(context).saveItem(context, itemId, itemInfo);
     getStateAdaptor(context).saveItem(context, itemId, itemInfo);
   }
 
   @Override
-  public void delete(SessionContext context, String itemId) {
+  public void delete(SessionContext context, Id itemId) {
     validateItemExistence(context, itemId);
     getCollaborationAdaptor(context).deleteItem(context, itemId);
     getStateAdaptor(context).deleteItem(context, itemId);
   }
 
-  private void validateItemExistence(SessionContext context, String itemId) {
+  private void validateItemExistence(SessionContext context, Id itemId) {
     if (!getStateAdaptor(context).isItemExist(context, itemId)) {
       throw new RuntimeException(String.format(Messages.ITEM_NOT_EXIST, itemId));
     }

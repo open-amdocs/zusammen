@@ -17,10 +17,21 @@
 package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
+import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersionData;
+import org.amdocs.tsuzammen.commons.datatypes.item.Element;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 
-public interface ItemVersionContentAdaptor {
-  void save(SessionContext context, String itemId, String versionId,
-            ItemVersionData versionData, String message);
+public interface ElementAdaptor {
+
+  // create / update
+  void update(SessionContext context, ElementContext elementContext, Element element,
+              String message);
+
+  void delete(SessionContext context, ElementContext elementContext, Id elementId,
+              String message);
+
+  Element get(SessionContext context, ElementContext elementContext, Id elementId,
+              SearchCriteria searchCriteria);
 }

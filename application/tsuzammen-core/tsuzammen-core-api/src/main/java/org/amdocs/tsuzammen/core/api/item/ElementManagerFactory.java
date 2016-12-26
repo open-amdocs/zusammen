@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 Amdocs Software Systems Limited
+ * Copyright © 2016 Amdocs Software Systems Limited 
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.outbound.api.item;
+package org.amdocs.tsuzammen.core.api.item;
 
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.utils.facade.api.AbstractComponentFactory;
 import org.amdocs.tsuzammen.utils.facade.api.AbstractFactory;
 
-public abstract class ItemVersionContentStateAdaptorFactory extends
-    AbstractComponentFactory<ItemVersionContentStateAdaptor> {
+public abstract class ElementManagerFactory
+    extends AbstractComponentFactory<ElementManager> {
 
-  public static ItemVersionContentStateAdaptorFactory getInstance() {
-    return AbstractFactory.getInstance(ItemVersionContentStateAdaptorFactory.class);
+  public static ElementManagerFactory getInstance() {
+    return AbstractFactory.getInstance(ElementManagerFactory.class);
   }
 
-  public abstract ItemVersionContentStateAdaptor createInterface(SessionContext context);
+  public abstract ElementManager createInterface(SessionContext context);
 }

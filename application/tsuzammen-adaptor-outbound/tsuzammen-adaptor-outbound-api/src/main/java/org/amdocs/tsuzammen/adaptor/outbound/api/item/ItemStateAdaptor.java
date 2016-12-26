@@ -16,6 +16,7 @@
 
 package org.amdocs.tsuzammen.adaptor.outbound.api.item;
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.Item;
@@ -26,13 +27,13 @@ public interface ItemStateAdaptor {
 
   Collection<Item> listItems(SessionContext context);
 
-  boolean isItemExist(SessionContext context, String itemId);
+  boolean isItemExist(SessionContext context, Id itemId);
 
-  Item getItem(SessionContext context, String itemId);
+  Item getItem(SessionContext context, Id itemId);
 
-  void createItem(SessionContext context, String itemId, Info itemInfo);
+  void createItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void saveItem(SessionContext context, String itemId, Info itemInfo);
+  void saveItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void deleteItem(SessionContext context, String itemId);
+  void deleteItem(SessionContext context, Id itemId);
 }

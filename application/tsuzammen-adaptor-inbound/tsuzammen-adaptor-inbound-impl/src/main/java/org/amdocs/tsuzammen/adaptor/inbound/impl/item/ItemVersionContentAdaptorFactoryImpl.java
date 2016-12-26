@@ -16,16 +16,16 @@
 
 package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
-import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionContentAdaptor;
-import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionContentAdaptorFactory;
+import org.amdocs.tsuzammen.adaptor.inbound.api.item.ElementAdaptor;
+import org.amdocs.tsuzammen.adaptor.inbound.api.item.ElementAdaptorFactory;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 
 
-public class ItemVersionContentAdaptorFactoryImpl extends ItemVersionContentAdaptorFactory {
-  private static final ItemVersionContentAdaptor INSTANCE = new ItemVersionContentAdaptorImpl();
+public class ItemVersionContentAdaptorFactoryImpl extends ElementAdaptorFactory {
+  private static final ElementAdaptor INSTANCE = new ElementAdaptorImpl();
 
   @Override
-  public ItemVersionContentAdaptor createInterface(SessionContext context) {
+  public ElementAdaptor createInterface(SessionContext context) {
     return INSTANCE;
   }
 }

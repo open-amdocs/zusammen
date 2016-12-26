@@ -17,6 +17,7 @@
 package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionAdaptor;
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.UserInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
@@ -29,40 +30,40 @@ import java.util.Collection;
 public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
 
   @Override
-  public Collection<ItemVersion> list(SessionContext context, String itemId) {
+  public Collection<ItemVersion> list(SessionContext context, Id itemId) {
     return getItemVersionManager(context).list(context, itemId);
   }
 
   @Override
-  public ItemVersion get(SessionContext context, String itemId, String versionId) {
+  public ItemVersion get(SessionContext context, Id itemId, Id versionId) {
     return getItemVersionManager(context).get(context, itemId, versionId);
   }
 
   @Override
-  public String create(SessionContext context, String itemId, String baseVersionId,
+  public Id create(SessionContext context, Id itemId, Id baseVersionId,
                        Info versionInfo) {
 
     return getItemVersionManager(context).create(context, itemId, baseVersionId, versionInfo);
   }
 
   @Override
-  public void save(SessionContext context, String itemId, String versionId,
+  public void save(SessionContext context, Id itemId, Id versionId,
                    Info versionInfo) {
     getItemVersionManager(context).save(context, itemId, versionId, versionInfo);
   }
 
   @Override
-  public void delete(SessionContext context, String itemId, String versionId) {
+  public void delete(SessionContext context, Id itemId, Id versionId) {
     getItemVersionManager(context).delete(context, itemId, versionId);
   }
 
   @Override
-  public void publish(SessionContext context, String itemId, String versionId, String message) {
+  public void publish(SessionContext context, Id itemId, Id versionId, String message) {
     getItemVersionManager(context).publish(context, itemId, versionId, message);
   }
 
   @Override
-  public void sync(SessionContext context, String itemId, String versionId,
+  public void sync(SessionContext context, Id itemId, Id versionId,
                    boolean overrideInd) {
     getItemVersionManager(context).sync(context, itemId, versionId);
   }

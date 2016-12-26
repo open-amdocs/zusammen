@@ -17,6 +17,7 @@
 package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.Item;
@@ -27,11 +28,11 @@ public interface ItemAdaptor {
 
   Collection<Item> list(SessionContext context);
 
-  Item get(SessionContext context, String itemId);
+  Item get(SessionContext context, Id itemId);
 
-  String create(SessionContext context, Info itemInfo);
+  Id create(SessionContext context, Info itemInfo);
 
-  void save(SessionContext context, String itemId, Info itemInfo);
+  void save(SessionContext context, Id itemId, Info itemInfo);
 
-  void delete(SessionContext context, String itemId);
+  void delete(SessionContext context, Id itemId);
 }

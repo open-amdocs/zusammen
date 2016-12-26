@@ -17,6 +17,7 @@
 package org.amdocs.tsuzammen.adaptor.outbound.api.workspace;
 
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
@@ -25,11 +26,11 @@ import java.util.Collection;
 
 public interface WorkspaceStateAdaptor {
 
-  void createWorkspace(SessionContext context, String workspaceId, Info workspaceInfo);
+  void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 
-  void saveWorkspace(SessionContext context, String workspaceId, Info workspaceInfo);
+  void saveWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 
-  void deleteWorkspace(SessionContext context, String workspaceId);
+  void deleteWorkspace(SessionContext context, Id workspaceId);
 
   Collection<WorkspaceInfo> listWorkspaces(SessionContext context);
 }

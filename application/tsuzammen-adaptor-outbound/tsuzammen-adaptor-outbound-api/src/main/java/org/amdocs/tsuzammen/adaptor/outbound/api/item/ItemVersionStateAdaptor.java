@@ -16,6 +16,7 @@
 
 package org.amdocs.tsuzammen.adaptor.outbound.api.item;
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
@@ -23,21 +24,20 @@ import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
 import java.util.Collection;
 
 public interface ItemVersionStateAdaptor {
-  Collection<ItemVersion> listItemVersions(SessionContext context, String itemId);
+  Collection<ItemVersion> listItemVersions(SessionContext context, Id itemId);
 
-  boolean isItemVersionExist(SessionContext context, String itemId, String versionId);
+  boolean isItemVersionExist(SessionContext context, Id itemId, Id versionId);
 
-  ItemVersion getItemVersion(SessionContext context, String itemId, String versionId);
+  ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void createItemVersion(SessionContext context, String itemId, String baseVersionId,
-                         String versionId,
-                         Info versionInfo);
+  void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
+                         Id versionId, Info versionInfo);
 
-  void saveItemVersion(SessionContext context, String itemId, String versionId, Info versionInfo);
+  void saveItemVersion(SessionContext context, Id itemId, Id versionId, Info versionInfo);
 
-  void deleteItemVersion(SessionContext context, String itemId, String versionId);
+  void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void publishItemVersion(SessionContext context, String itemId, String versionId);
+  void publishItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void syncItemVersion(SessionContext context, String itemId, String versionId);
+  void syncItemVersion(SessionContext context, Id itemId, Id versionId);
 }

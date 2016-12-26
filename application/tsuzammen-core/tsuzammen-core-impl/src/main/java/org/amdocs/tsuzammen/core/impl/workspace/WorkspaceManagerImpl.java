@@ -20,6 +20,7 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.workspace.WorkspaceStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.workspace.WorkspaceStateAdaptorFactory;
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.ItemVersionKey;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
@@ -28,24 +29,25 @@ import org.amdocs.tsuzammen.core.api.workspace.WorkspaceManager;
 import org.amdocs.tsuzammen.utils.common.CommonMethods;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public class WorkspaceManagerImpl implements WorkspaceManager {
 
 
   @Override
-  public String create(SessionContext context, Info workspaceInfo) {
-    String workspaceId = new String(CommonMethods.nextUUID());
+  public Id create(SessionContext context, Info workspaceInfo) {
+    Id workspaceId = new Id();
     getStateAdaptor(context).createWorkspace(context, workspaceId, workspaceInfo);
     return workspaceId;
   }
 
   @Override
-  public void save(SessionContext context, String workspaceId, Info workspaceInfo) {
+  public void save(SessionContext context, Id workspaceId, Info workspaceInfo) {
     getStateAdaptor(context).saveWorkspace(context, workspaceId, workspaceInfo);
   }
 
   @Override
-  public void delete(SessionContext context, String workspaceId) {
+  public void delete(SessionContext context, Id workspaceId) {
     getStateAdaptor(context).deleteWorkspace(context, workspaceId);
   }
 
@@ -55,7 +57,7 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
   }
 
   @Override
-  public void addItem(SessionContext context, String workspaceId, String itemId, String versionId) {
+  public void addItem(SessionContext context, Id workspaceId, Id itemId, Id versionId) {
 
     //get item from collaborative store
     //save item in state store
@@ -64,13 +66,13 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
   }
 
   @Override
-  public void removeItem(SessionContext context, String workspaceId, String itemId,
-                         String versionId) {
+  public void removeItem(SessionContext context, Id workspaceId, Id itemId,
+                         Id versionId) {
 
   }
 
   @Override
-  public Collection<ItemVersionKey> listItems(SessionContext context, String workspaceId) {
+  public Collection<ItemVersionKey> listItems(SessionContext context, Id workspaceId) {
     return null;
   }
 

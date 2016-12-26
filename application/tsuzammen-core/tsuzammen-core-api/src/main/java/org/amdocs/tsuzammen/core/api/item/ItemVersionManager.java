@@ -17,6 +17,7 @@
 package org.amdocs.tsuzammen.core.api.item;
 
 
+import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
@@ -25,19 +26,19 @@ import java.util.Collection;
 
 public interface ItemVersionManager {
 
-  Collection<ItemVersion> list(SessionContext context, String itemId);
+  Collection<ItemVersion> list(SessionContext context, Id itemId);
 
-  ItemVersion get(SessionContext context, String itemId, String versionId);
+  ItemVersion get(SessionContext context, Id itemId, Id versionId);
 
-  String create(SessionContext context, String itemId, String baseVersionId, Info versionInfo);
+  Id create(SessionContext context, Id itemId, Id baseVersionId, Info versionInfo);
 
-  void save(SessionContext context, String itemId, String versionId, Info versionInfo);
+  void save(SessionContext context, Id itemId, Id versionId, Info versionInfo);
 
-  void delete(SessionContext context, String itemId, String versionId);
+  void delete(SessionContext context, Id itemId, Id versionId);
 
-  void publish(SessionContext context, String itemId, String versionId, String message);
+  void publish(SessionContext context, Id itemId, Id versionId, String message);
 
-  void sync(SessionContext context, String itemId, String versionId);
+  void sync(SessionContext context, Id itemId, Id versionId);
 
-  void revert(SessionContext context, String itemId, String versionId, String targetRevisionId);
+  void revert(SessionContext context, Id itemId, Id versionId, String targetRevisionId);
 }
