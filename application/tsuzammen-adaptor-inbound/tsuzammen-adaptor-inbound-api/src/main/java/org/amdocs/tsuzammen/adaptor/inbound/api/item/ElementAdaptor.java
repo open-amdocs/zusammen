@@ -18,20 +18,22 @@ package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
 
 import org.amdocs.tsuzammen.commons.datatypes.Id;
+import org.amdocs.tsuzammen.commons.datatypes.Response;
 import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementResponse;
 
 public interface ElementAdaptor {
 
   // create / update
-  void update(SessionContext context, ElementContext elementContext, Element element,
-              String message);
+  ElementResponse update(SessionContext context, ElementContext elementContext, Element element,
+                         String message);
 
-  void delete(SessionContext context, ElementContext elementContext, Id elementId,
-              String message);
+  Response delete(SessionContext context, ElementContext elementContext, Id elementId,
+                  String message);
 
-  Element get(SessionContext context, ElementContext elementContext, Id elementId,
-              SearchCriteria searchCriteria);
+  ElementResponse get(SessionContext context, ElementContext elementContext, Id elementId,
+                      SearchCriteria searchCriteria);
 }

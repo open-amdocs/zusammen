@@ -19,16 +19,15 @@ package org.amdocs.tsuzammen.core.api.item;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
-import org.amdocs.tsuzammen.commons.datatypes.item.Content;
 import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementResponse;
 
 public interface ElementManager {
 
-  Element get(SessionContext context, ElementContext elementContext, Id elementId,
+  ElementResponse get(SessionContext context, ElementContext elementContext, Id elementId,
               SearchCriteria searchCriteria);
 
-  void save(SessionContext context, ElementContext elementContext, Element element,
-            String message);
+  ElementResponse save(SessionContext context, ElementContext elementContext, Element element,
+                       String message);
 }

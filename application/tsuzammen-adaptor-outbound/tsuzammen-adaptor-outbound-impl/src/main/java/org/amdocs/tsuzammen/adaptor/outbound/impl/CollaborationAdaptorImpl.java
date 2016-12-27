@@ -22,6 +22,7 @@ import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
 import org.amdocs.tsuzammen.commons.datatypes.impl.item.EntityData;
+import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.sdk.CollaborationStore;
@@ -109,27 +110,27 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public void createEntity(SessionContext context, ElementContext elementContext,
-                           URI namespace, CoreEntity entity) {
-    getCollaborationStore(context)
+  public void createElement(SessionContext context, ElementContext elementContext, URI namespace,
+                            Element element) {
+/*    getCollaborationStore(context)
         .createEntity(context, elementContext.getItemId(), elementContext.getVersionId(), namespace,
-            new EntityData<>(entity));
+            new EntityData<>(element));*/
   }
 
   @Override
-  public void saveEntity(SessionContext context, ElementContext elementContext,
-                         URI namespace, CoreEntity entity) {
-    getCollaborationStore(context)
+  public void saveElement(SessionContext context, ElementContext elementContext, URI namespace,
+                          Element element) {
+/*    getCollaborationStore(context)
         .saveEntity(context, elementContext.getItemId(), elementContext.getVersionId(), namespace,
-            new EntityData<>(entity));
+            new EntityData<>(element));*/
   }
 
   @Override
-  public void deleteEntity(SessionContext context, ElementContext elementContext,
-                           URI namespace, String entityId) {
+  public void deleteElement(SessionContext context, ElementContext elementContext, URI namespace,
+                            Id elementId) {
     getCollaborationStore(context)
         .deleteEntity(context, elementContext.getItemId(), elementContext.getVersionId(), namespace,
-            entityId);
+            elementId);
   }
 
   @Override

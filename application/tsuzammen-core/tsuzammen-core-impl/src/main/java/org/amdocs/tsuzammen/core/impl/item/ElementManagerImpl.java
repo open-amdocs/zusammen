@@ -29,6 +29,7 @@ import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementResponse;
 import org.amdocs.tsuzammen.core.api.item.ElementManager;
 
 import java.net.URI;
@@ -39,15 +40,27 @@ public class ElementManagerImpl implements ElementManager {
   private static final URI emptyNamespace = createNamespace("");
 
   @Override
-  public Element get(SessionContext context, ElementContext elementContext,
-                     Id elementId,
-                     SearchCriteria searchCriteria) {
+  public ElementResponse get(SessionContext context, ElementContext elementContext,
+                             Id elementId,
+                             SearchCriteria searchCriteria) {
     return null;
   }
 
   @Override
-  public void save(SessionContext context, ElementContext elementContext, Element element,
-                   String message) {
+  public ElementResponse save(SessionContext context, ElementContext elementContext,
+                              Element element,
+                              String message) {
+    if (element.getElementId() == null) {
+      create(context, elementContext, emptyNamespace, element);
+    }
+    return null;
+  }
+
+  private ElementResponse create(SessionContext context, ElementContext elementContext,
+                                 URI namespace, Element element) {
+    element.setElementId(new Id());
+    getCollaborationAdaptor(context).createElement(context, elementContext, namespace, element);
+    return null;
   }
 
 

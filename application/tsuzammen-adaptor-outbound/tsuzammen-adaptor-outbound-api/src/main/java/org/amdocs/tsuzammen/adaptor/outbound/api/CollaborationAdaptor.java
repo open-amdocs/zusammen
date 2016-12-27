@@ -19,7 +19,7 @@ package org.amdocs.tsuzammen.adaptor.outbound.api;
 
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
+import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 
@@ -56,15 +56,14 @@ public interface CollaborationAdaptor {
 
   Collection listItemVersionOverRevisions(SessionContext context, Id itemId, Id versionId);
 
-  void createEntity(SessionContext context, ElementContext elementContext,
-                    URI namespace, CoreEntity entity);
+  void createElement(SessionContext context, ElementContext elementContext, URI namespace,
+                    Element element);
 
-  void saveEntity(SessionContext context, ElementContext elementContext,
-                  URI namespace, CoreEntity entity);
+  void saveElement(SessionContext context, ElementContext elementContext, URI namespace,
+                  Element element);
 
-  void deleteEntity(SessionContext context, ElementContext elementContext,
-                    URI namespace, String entityId);
+  void deleteElement(SessionContext context, ElementContext elementContext, URI namespace,
+                    Id elementId);
 
-  void commitEntities(SessionContext context, ElementContext elementContext,
-                      String message);
+  void commitEntities(SessionContext context, ElementContext elementContext, String message);
 }

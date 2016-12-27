@@ -48,11 +48,8 @@ public interface CollaborationStore {
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
                              ItemVersion itemVersion);
 
-  Collection<EntityData> getContentEntities(SessionContext context, Id itemId, Id versionId,
-                                            URI namespace); //namespace end = content name
-
   EntityData getEntity(SessionContext context, Id itemId, Id versionId,
-                       URI namespace, String entityId);
+                       URI namespace, Id entityId);
 
   void createEntity(SessionContext context, Id itemId, Id versionId,
                     URI namespace, EntityData entityData);
@@ -60,11 +57,8 @@ public interface CollaborationStore {
   void saveEntity(SessionContext context, Id itemId, Id versionId,
                   URI namespace, EntityData entityData);
 
-  void deleteContentEntities(SessionContext context, Id itemId, Id versionId,
-                             URI namespace);
-
   void deleteEntity(SessionContext context, Id itemId, Id versionId,
-                    URI namespace, String entityId);
+                    URI namespace, Id entityId);
 
   void commitEntities(SessionContext context, Id itemId, Id versionId,
                       String message);

@@ -20,6 +20,7 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
+import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 
@@ -95,20 +96,20 @@ public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public void createEntity(SessionContext context, ElementContext elementContext,
-                           URI namespace, CoreEntity entity) {
+  public void createElement(SessionContext context, ElementContext elementContext, URI namespace,
+                            Element element) {
 
   }
 
   @Override
-  public void saveEntity(SessionContext context, ElementContext elementContext,
-                         URI namespace, CoreEntity entity) {
+  public void saveElement(SessionContext context, ElementContext elementContext, URI namespace,
+                          Element element) {
 
   }
 
   @Override
-  public void deleteEntity(SessionContext context, ElementContext elementContext,
-                           URI namespace, String entityId) {
+  public void deleteElement(SessionContext context, ElementContext elementContext, URI namespace,
+                            Id elementId) {
 
   }
 
