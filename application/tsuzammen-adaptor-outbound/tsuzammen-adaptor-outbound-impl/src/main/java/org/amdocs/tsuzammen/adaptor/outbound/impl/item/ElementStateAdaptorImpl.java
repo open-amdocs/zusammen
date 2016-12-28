@@ -31,14 +31,14 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   public ElementNamespace getNamespace(SessionContext context, ElementContext elementContext,
                                        Id elementId) {
     return OutboundAdaptorUtils.getStateStore(context)
-        .getEntityNamespace(context, elementContext.getItemId(), elementContext.getVersionId(),
+        .getElementNamespace(context, elementContext.getItemId(), elementContext.getVersionId(),
             elementId);
   }
 
   @Override
   public boolean isExist(SessionContext context, ElementContext elementContext, Id elementId) {
     return OutboundAdaptorUtils.getStateStore(context)
-        .isEntityExist(context, elementContext.getItemId(), elementContext.getVersionId(),
+        .isElementExist(context, elementContext.getItemId(), elementContext.getVersionId(),
             elementId);
   }
 
@@ -47,7 +47,8 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
                      Id elementId) {
     /*
     return OutboundAdaptorUtils.getStateStore(context)
-        .getEntity(context, elementContext.getItemId(), elementContext.getVersionId(), elementId);*/
+        .getElement(context, elementContext.getItemId(),
+        elementContext.getVersionId(), elementId);*/
     return null;
   }
 
@@ -56,7 +57,7 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
                      ElementNamespace elementNamespace,
                      Element element) {
     OutboundAdaptorUtils.getStateStore(context)
-        .createEntity(context, elementContext.getItemId(), elementContext.getVersionId(),
+        .createElement(context, elementContext.getItemId(), elementContext.getVersionId(),
             elementNamespace,
             new ElementInfo(element));
   }
@@ -65,7 +66,7 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   public void save(SessionContext context, ElementContext elementContext,
                    Element element) {
     OutboundAdaptorUtils.getStateStore(context)
-        .saveEntity(context, elementContext.getItemId(), elementContext.getVersionId(),
+        .saveElement(context, elementContext.getItemId(), elementContext.getVersionId(),
             new ElementInfo(element));
   }
 

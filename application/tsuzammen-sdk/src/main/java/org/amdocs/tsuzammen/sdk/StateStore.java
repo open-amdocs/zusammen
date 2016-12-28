@@ -55,20 +55,20 @@ public interface StateStore {
 
   void syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  ElementNamespace getEntityNamespace(SessionContext context, Id itemId, Id versionId,
-                                      Id elementId);
+  ElementNamespace getElementNamespace(SessionContext context, Id itemId, Id versionId,
+                                       Id elementId);
 
-  boolean isEntityExist(SessionContext context, Id itemId, Id versionId, Id elementId);
+  boolean isElementExist(SessionContext context, Id itemId, Id versionId, Id elementId);
 
 
-  ElementInfo getEntity(SessionContext context, Id itemId, Id versionId, Id elementId);
+  ElementInfo getElement(SessionContext context, Id itemId, Id versionId, Id elementId);
 
-  void createEntity(SessionContext context, Id itemId, Id versionId,
-                    ElementNamespace elementNamespace, ElementInfo element);
+  void createElement(SessionContext context, Id itemId, Id versionId,
+                     ElementNamespace elementNamespace, ElementInfo element);
 
-  void saveEntity(SessionContext context, Id itemId, Id versionId, ElementInfo element);
+  void saveElement(SessionContext context, Id itemId, Id versionId, ElementInfo element);
 
-  void deleteEntity(SessionContext context, Id itemId, Id versionId, Id elementId);
+  void deleteElement(SessionContext context, Id itemId, Id versionId, Id elementId);
 
   void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 
