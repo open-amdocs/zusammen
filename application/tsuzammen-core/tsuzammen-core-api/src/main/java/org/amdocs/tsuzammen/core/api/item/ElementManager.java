@@ -23,11 +23,20 @@ import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementResponse;
 
+import java.util.Collection;
+
 public interface ElementManager {
 
-  ElementResponse get(SessionContext context, ElementContext elementContext, Id elementId,
-              SearchCriteria searchCriteria);
+  // todo remove default impl and return a collection of an object containing elementId + Info
+  default Collection<Element> list(SessionContext context, ElementContext elementContext
+                                   /*, Id elementId*/) {
+    //if elementId = null -> return root elements
+    return null;
+  }
 
-  ElementResponse save(SessionContext context, ElementContext elementContext, Element element,
-                       String message);
+  ElementResponse get(SessionContext context, ElementContext elementContext, Id elementId,
+                      SearchCriteria searchCriteria);
+
+  ElementResponse update(SessionContext context, ElementContext elementContext, Element element,
+                         String message);
 }

@@ -17,14 +17,13 @@
 package org.amdocs.tsuzammen.sdk;
 
 
+import org.amdocs.tsuzammen.commons.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
+import org.amdocs.tsuzammen.commons.datatypes.Namespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.EntityData;
+import org.amdocs.tsuzammen.commons.datatypes.impl.item.ElementData;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
-
-import java.net.URI;
-import java.util.Collection;
 
 public interface CollaborationStore {
 
@@ -48,17 +47,17 @@ public interface CollaborationStore {
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
                              ItemVersion itemVersion);
 
-  EntityData getEntity(SessionContext context, Id itemId, Id versionId,
-                       URI namespace, Id entityId);
+  ElementData getEntity(SessionContext context, Id itemId, Id versionId,
+                        CollaborationNamespace namespace, Id entityId);
 
-  void createEntity(SessionContext context, Id itemId, Id versionId,
-                    URI namespace, EntityData entityData);
+  CollaborationNamespace createEntity(SessionContext context, Id itemId, Id versionId,
+                                      Namespace parentNamespace, ElementData entityData);
 
   void saveEntity(SessionContext context, Id itemId, Id versionId,
-                  URI namespace, EntityData entityData);
+                  CollaborationNamespace namespace, ElementData entityData);
 
   void deleteEntity(SessionContext context, Id itemId, Id versionId,
-                    URI namespace, Id entityId);
+                    CollaborationNamespace namespace, Id entityId);
 
   void commitEntities(SessionContext context, Id itemId, Id versionId,
                       String message);

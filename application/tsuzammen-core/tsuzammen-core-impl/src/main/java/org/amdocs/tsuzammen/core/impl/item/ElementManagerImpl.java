@@ -24,13 +24,17 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
+import org.amdocs.tsuzammen.commons.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
+import org.amdocs.tsuzammen.commons.datatypes.Namespace;
 import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementResponse;
 import org.amdocs.tsuzammen.core.api.item.ElementManager;
+import org.amdocs.tsuzammen.core.impl.Messages;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -47,20 +51,60 @@ public class ElementManagerImpl implements ElementManager {
   }
 
   @Override
-  public ElementResponse save(SessionContext context, ElementContext elementContext,
-                              Element element,
-                              String message) {
-    if (element.getElementId() == null) {
-      create(context, elementContext, emptyNamespace, element);
-    }
+  public ElementResponse update(SessionContext context, ElementContext elementContext,
+                                Element element, String message) {
+
+    // TODO error handling
+    validateItemVersionExistence(context, elementContext.getItemId(),
+        elementContext.getVersionId());
+
+    updateRecursively(context, elementContext, new Namespace(), element);
     return null;
   }
 
-  private ElementResponse create(SessionContext context, ElementContext elementContext,
-                                 URI namespace, Element element) {
+  private void updateRecursively(SessionContext context, ElementContext elementContext,
+                                 Namespace parentNamespace, Element element) {
+    if (element.getElementId() == null) {
+      createRecursively(context, elementContext, parentNamespace, element);
+    } else {
+      ElementNamespace elementNamespace =
+          getStateAdaptor(context).getNamespace(context, elementContext, element.getElementId());
+      if (elementNamespace == null) {
+        //error - no such element
+      }
+
+      save(context, elementContext, elementNamespace.getCollaborationNamespace(), element);
+
+      element.getSubElements().forEach(subElement ->
+          updateRecursively(context, elementContext, elementNamespace.getNamespace(), subElement));
+    }
+  }
+
+  private void createRecursively(SessionContext context, ElementContext elementContext,
+                                 Namespace parentNamespace, Element element) {
     element.setElementId(new Id());
-    getCollaborationAdaptor(context).createElement(context, elementContext, namespace, element);
-    return null;
+    Namespace namespace = create(context, elementContext, parentNamespace, element);
+
+    element.getSubElements()
+        .forEach(subElement -> createRecursively(context, elementContext, namespace, subElement));
+  }
+
+  private Namespace create(SessionContext context, ElementContext elementContext,
+                           Namespace parentNamespace, Element element) {
+    CollaborationNamespace collaborationNamespace = getCollaborationAdaptor(context)
+        .createElement(context, elementContext, parentNamespace, element);
+    Namespace namespace = new Namespace(parentNamespace, element.getElementId());
+    ElementNamespace elementNamespace = new ElementNamespace(namespace, collaborationNamespace);
+    getStateAdaptor(context).create(context, elementContext, elementNamespace, element);
+
+    return namespace;
+  }
+
+  private void save(SessionContext context, ElementContext elementContext,
+                    CollaborationNamespace collaborationNamespace, Element element) {
+    getCollaborationAdaptor(context)
+        .saveElement(context, elementContext, collaborationNamespace, element);
+    getStateAdaptor(context).save(context, elementContext, element);
   }
 
 
@@ -69,6 +113,17 @@ public class ElementManagerImpl implements ElementManager {
       return new URI(namespace);
     } catch (URISyntaxException ex) {
       throw new RuntimeException(ex);
+    }
+  }
+
+  private void validateItemVersionExistence(SessionContext context, Id itemId, Id versionId) {
+    String space = context.getUser().getUserName();
+    if (!getItemVersionStateAdaptor(context).isItemVersionExist(context, itemId, versionId)) {
+      String message = getItemStateAdaptor(context).isItemExist(context, itemId)
+          ? String
+          .format(Messages.ITEM_VERSION_NOT_EXIST, itemId.toString(), versionId.toString(), space)
+          : String.format(Messages.ITEM_NOT_EXIST, itemId);
+      throw new RuntimeException(message);
     }
   }
 

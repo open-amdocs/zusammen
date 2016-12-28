@@ -34,7 +34,7 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   public ElementResponse update(SessionContext context, ElementContext elementContext,
                                 Element element,
                                 String message) {
-    return getElementManager(context).save(context, elementContext, element, message);
+    return getElementManager(context).update(context, elementContext, element, message);
   }
 
   @Override

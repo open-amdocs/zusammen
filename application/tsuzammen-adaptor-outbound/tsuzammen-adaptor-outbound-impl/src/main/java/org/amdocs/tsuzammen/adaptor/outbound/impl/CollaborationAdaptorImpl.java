@@ -18,17 +18,17 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl;
 
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
+import org.amdocs.tsuzammen.commons.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
+import org.amdocs.tsuzammen.commons.datatypes.Namespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.EntityData;
+import org.amdocs.tsuzammen.commons.datatypes.impl.item.ElementData;
 import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.sdk.CollaborationStore;
 import org.amdocs.tsuzammen.sdk.CollaborationStoreFactory;
 
-import java.net.URI;
 import java.util.Collection;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
@@ -110,26 +110,30 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public void createElement(SessionContext context, ElementContext elementContext, URI namespace,
-                            Element element) {
-/*    getCollaborationStore(context)
-        .createEntity(context, elementContext.getItemId(), elementContext.getVersionId(), namespace,
-            new EntityData<>(element));*/
+  public CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
+                                              Namespace parentNamespace, Element element) {
+    return getCollaborationStore(context)
+        .createEntity(context, elementContext.getItemId(), elementContext.getVersionId(),
+            parentNamespace,
+            new ElementData(element));
   }
 
   @Override
-  public void saveElement(SessionContext context, ElementContext elementContext, URI namespace,
+  public void saveElement(SessionContext context, ElementContext elementContext,
+                          CollaborationNamespace collaborationNamespace,
                           Element element) {
-/*    getCollaborationStore(context)
-        .saveEntity(context, elementContext.getItemId(), elementContext.getVersionId(), namespace,
-            new EntityData<>(element));*/
+    getCollaborationStore(context)
+        .saveEntity(context, elementContext.getItemId(), elementContext.getVersionId(),
+            collaborationNamespace, new ElementData(element));
   }
 
   @Override
-  public void deleteElement(SessionContext context, ElementContext elementContext, URI namespace,
+  public void deleteElement(SessionContext context, ElementContext elementContext,
+                            CollaborationNamespace collaborationNamespace,
                             Id elementId) {
     getCollaborationStore(context)
-        .deleteEntity(context, elementContext.getItemId(), elementContext.getVersionId(), namespace,
+        .deleteEntity(context, elementContext.getItemId(), elementContext.getVersionId(),
+            collaborationNamespace,
             elementId);
   }
 

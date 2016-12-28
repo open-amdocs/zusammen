@@ -17,13 +17,14 @@
 package org.amdocs.tsuzammen.adaptor.outbound.api;
 
 
+import org.amdocs.tsuzammen.commons.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
+import org.amdocs.tsuzammen.commons.datatypes.Namespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 
-import java.net.URI;
 import java.util.Collection;
 
 public interface CollaborationAdaptor {
@@ -56,14 +57,14 @@ public interface CollaborationAdaptor {
 
   Collection listItemVersionOverRevisions(SessionContext context, Id itemId, Id versionId);
 
-  void createElement(SessionContext context, ElementContext elementContext, URI namespace,
-                    Element element);
+  CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
+                                       Namespace parentNamespace, Element element);
 
-  void saveElement(SessionContext context, ElementContext elementContext, URI namespace,
-                  Element element);
+  void saveElement(SessionContext context, ElementContext elementContext,
+                   CollaborationNamespace collaborationNamespace, Element element);
 
-  void deleteElement(SessionContext context, ElementContext elementContext, URI namespace,
-                    Id elementId);
+  void deleteElement(SessionContext context, ElementContext elementContext,
+                     CollaborationNamespace collaborationNamespace, Id elementId);
 
   void commitEntities(SessionContext context, ElementContext elementContext, String message);
 }

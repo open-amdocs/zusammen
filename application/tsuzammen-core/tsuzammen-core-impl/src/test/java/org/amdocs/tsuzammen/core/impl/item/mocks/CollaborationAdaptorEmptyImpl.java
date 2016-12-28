@@ -17,14 +17,14 @@
 package org.amdocs.tsuzammen.core.impl.item.mocks;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
+import org.amdocs.tsuzammen.commons.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
+import org.amdocs.tsuzammen.commons.datatypes.Namespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
 import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 
-import java.net.URI;
 import java.util.Collection;
 
 public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
@@ -96,19 +96,22 @@ public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public void createElement(SessionContext context, ElementContext elementContext, URI namespace,
-                            Element element) {
-
+  public CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
+                                              Namespace parentNamespace,
+                                              Element element) {
+    return null;
   }
 
   @Override
-  public void saveElement(SessionContext context, ElementContext elementContext, URI namespace,
+  public void saveElement(SessionContext context, ElementContext elementContext,
+                          CollaborationNamespace collaborationNamespace,
                           Element element) {
 
   }
 
   @Override
-  public void deleteElement(SessionContext context, ElementContext elementContext, URI namespace,
+  public void deleteElement(SessionContext context, ElementContext elementContext,
+                            CollaborationNamespace collaborationNamespace,
                             Id elementId) {
 
   }

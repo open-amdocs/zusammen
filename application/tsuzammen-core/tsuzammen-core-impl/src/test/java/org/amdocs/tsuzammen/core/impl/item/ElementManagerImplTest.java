@@ -77,7 +77,7 @@ public class ElementManagerImplTest {
     rootEntity.getContents().put("rootContent2", rootContent2);
 
     SessionContext context = TestUtils.createSessionContext(USER, "test");
-    entityManager.save(context, "item1", rootEntity, "save item version data!");
+    entityManager.update(context, "item1", rootEntity, "update item version data!");
 *//*
     Assert.assertNotNull(e11.getId());
     Assert.assertNotNull(e3.getId());
@@ -96,7 +96,7 @@ public class ElementManagerImplTest {
     URI rootContent2Uri = new URI("rootContent2");
 
     verify(stateAdaptor).create(context, "item1", "version1", e11);
-    verify(stateAdaptor).save(context, "item1", "version1", e12);
+    verify(stateAdaptor).update(context, "item1", "version1", e12);
     verify(stateAdaptor).create(context, "item1", "version1", e3);
     verify(stateAdaptor).create(context, "item1", "version1", e21);
     verify(stateAdaptor).create(context, "item1", "version1", e22);

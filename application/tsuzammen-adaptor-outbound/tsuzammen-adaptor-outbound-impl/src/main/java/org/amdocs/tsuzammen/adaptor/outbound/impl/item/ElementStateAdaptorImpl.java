@@ -20,16 +20,16 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.impl.OutboundAdaptorUtils;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.EntityInfo;
+import org.amdocs.tsuzammen.commons.datatypes.impl.item.ElementInfo;
+import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
-
-import java.net.URI;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
 
 public class ElementStateAdaptorImpl implements ElementStateAdaptor {
 
   @Override
-  public URI getNamespace(SessionContext context, ElementContext elementContext, Id elementId) {
+  public ElementNamespace getNamespace(SessionContext context, ElementContext elementContext,
+                                       Id elementId) {
     return OutboundAdaptorUtils.getStateStore(context)
         .getEntityNamespace(context, elementContext.getItemId(), elementContext.getVersionId(),
             elementId);
@@ -43,26 +43,30 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public CoreEntity get(SessionContext context, ElementContext elementContext,
-                        Id elementId) {
-    return new CoreEntity(OutboundAdaptorUtils.getStateStore(context)
-        .getEntity(context, elementContext.getItemId(), elementContext.getVersionId(), elementId));
+  public Element get(SessionContext context, ElementContext elementContext,
+                     Id elementId) {
+    /*
+    return OutboundAdaptorUtils.getStateStore(context)
+        .getEntity(context, elementContext.getItemId(), elementContext.getVersionId(), elementId);*/
+    return null;
   }
 
   @Override
   public void create(SessionContext context, ElementContext elementContext,
-                     CoreEntity entity) {
+                     ElementNamespace elementNamespace,
+                     Element element) {
     OutboundAdaptorUtils.getStateStore(context)
         .createEntity(context, elementContext.getItemId(), elementContext.getVersionId(),
-            new EntityInfo(entity));
+            elementNamespace,
+            new ElementInfo(element));
   }
 
   @Override
   public void save(SessionContext context, ElementContext elementContext,
-                   CoreEntity entity) {
+                   Element element) {
     OutboundAdaptorUtils.getStateStore(context)
         .saveEntity(context, elementContext.getItemId(), elementContext.getVersionId(),
-            new EntityInfo(entity));
+            new ElementInfo(element));
   }
 
 }

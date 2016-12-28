@@ -19,16 +19,15 @@ package org.amdocs.tsuzammen.core.impl.item.mocks;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
+import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
-
-import java.net.URI;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
 
 public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
 
   @Override
-  public URI getNamespace(SessionContext context, ElementContext elementContext,
-                          Id elementId) {
+  public ElementNamespace getNamespace(SessionContext context, ElementContext elementContext,
+                                       Id elementId) {
     return null;
   }
 
@@ -38,17 +37,18 @@ public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public CoreEntity get(SessionContext context, ElementContext elementContext, Id elementId) {
+  public Element get(SessionContext context, ElementContext elementContext, Id elementId) {
     return null;
   }
 
   @Override
-  public void create(SessionContext context, ElementContext elementContext, CoreEntity entity) {
+  public void create(SessionContext context, ElementContext elementContext,
+                     ElementNamespace elementNamespace, Element element) {
 
   }
 
   @Override
-  public void save(SessionContext context, ElementContext elementContext, CoreEntity entity) {
+  public void save(SessionContext context, ElementContext elementContext, Element element) {
 
   }
 }

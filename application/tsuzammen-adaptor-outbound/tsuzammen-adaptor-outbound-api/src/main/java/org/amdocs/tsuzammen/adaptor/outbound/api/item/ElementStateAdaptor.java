@@ -18,20 +18,21 @@ package org.amdocs.tsuzammen.adaptor.outbound.api.item;
 
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.CoreEntity;
+import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
-
-import java.net.URI;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
 
 public interface ElementStateAdaptor {
 
-  URI getNamespace(SessionContext context, ElementContext elementContext, Id elementId);
+  ElementNamespace getNamespace(SessionContext context, ElementContext elementContext,
+                                Id elementId);
 
   boolean isExist(SessionContext context, ElementContext elementContext, Id elementId);
 
-  CoreEntity get(SessionContext context, ElementContext elementContext, Id elementId);
+  Element get(SessionContext context, ElementContext elementContext, Id elementId);
 
-  void create(SessionContext context, ElementContext elementContext, CoreEntity element);
+  void create(SessionContext context, ElementContext elementContext,
+              ElementNamespace elementNamespace, Element element);
 
-  void save(SessionContext context, ElementContext elementContext, CoreEntity element);
+  void save(SessionContext context, ElementContext elementContext, Element element);
 }

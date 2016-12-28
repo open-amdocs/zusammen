@@ -19,13 +19,13 @@ package org.amdocs.tsuzammen.sdk;
 
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.EntityInfo;
+import org.amdocs.tsuzammen.commons.datatypes.impl.item.ElementInfo;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.Item;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
 
-import java.net.URI;
 import java.util.Collection;
 
 public interface StateStore {
@@ -55,25 +55,20 @@ public interface StateStore {
 
   void syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  URI getEntityNamespace(SessionContext context, Id itemId, Id versionId,
-                         Id entityId);
+  ElementNamespace getEntityNamespace(SessionContext context, Id itemId, Id versionId,
+                                      Id elementId);
 
-  boolean isEntityExist(SessionContext context, Id itemId, Id versionId,
-                        Id entityId);
+  boolean isEntityExist(SessionContext context, Id itemId, Id versionId, Id elementId);
 
 
-  EntityInfo getEntity(SessionContext context, Id itemId, Id versionId,
-                       Id entityId);
+  ElementInfo getEntity(SessionContext context, Id itemId, Id versionId, Id elementId);
 
   void createEntity(SessionContext context, Id itemId, Id versionId,
-                    EntityInfo entity);
+                    ElementNamespace elementNamespace, ElementInfo element);
 
-  void saveEntity(SessionContext context, Id itemId, Id versionId,
-                  EntityInfo entity);
+  void saveEntity(SessionContext context, Id itemId, Id versionId, ElementInfo element);
 
-  void deleteEntity(SessionContext context, Id itemId, Id versionId,
-                    Id entityId);
-
+  void deleteEntity(SessionContext context, Id itemId, Id versionId, Id elementId);
 
   void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 
