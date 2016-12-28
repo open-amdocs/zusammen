@@ -31,20 +31,17 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   public ElementNamespace getNamespace(SessionContext context, ElementContext elementContext,
                                        Id elementId) {
     return OutboundAdaptorUtils.getStateStore(context)
-        .getElementNamespace(context, elementContext.getItemId(), elementContext.getVersionId(),
-            elementId);
+        .getElementNamespace(context, elementContext, elementId);
   }
 
   @Override
   public boolean isExist(SessionContext context, ElementContext elementContext, Id elementId) {
     return OutboundAdaptorUtils.getStateStore(context)
-        .isElementExist(context, elementContext.getItemId(), elementContext.getVersionId(),
-            elementId);
+        .isElementExist(context, elementContext, elementId);
   }
 
   @Override
-  public Element get(SessionContext context, ElementContext elementContext,
-                     Id elementId) {
+  public Element get(SessionContext context, ElementContext elementContext, Id elementId) {
     /*
     return OutboundAdaptorUtils.getStateStore(context)
         .getElement(context, elementContext.getItemId(),
@@ -54,20 +51,14 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
 
   @Override
   public void create(SessionContext context, ElementContext elementContext,
-                     ElementNamespace elementNamespace,
-                     Element element) {
+                     ElementNamespace elementNamespace, Element element) {
     OutboundAdaptorUtils.getStateStore(context)
-        .createElement(context, elementContext.getItemId(), elementContext.getVersionId(),
-            elementNamespace,
-            new ElementInfo(element));
+        .createElement(context, elementContext, elementNamespace, new ElementInfo(element));
   }
 
   @Override
-  public void save(SessionContext context, ElementContext elementContext,
-                   Element element) {
+  public void save(SessionContext context, ElementContext elementContext, Element element) {
     OutboundAdaptorUtils.getStateStore(context)
-        .saveElement(context, elementContext.getItemId(), elementContext.getVersionId(),
-            new ElementInfo(element));
+        .saveElement(context, elementContext, new ElementInfo(element));
   }
-
 }

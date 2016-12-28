@@ -75,8 +75,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public void publishItemVersion(SessionContext context, Id itemId, Id versionId,
-                                 String message) {
+  public void publishItemVersion(SessionContext context, Id itemId, Id versionId, String message) {
     getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
   }
 
@@ -92,8 +91,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public Collection listItemVersionRevisions(SessionContext context, Id itemId,
-                                             Id versionId) {
+  public Collection listItemVersionRevisions(SessionContext context, Id itemId, Id versionId) {
     return null;
   }
 
@@ -104,8 +102,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public Collection listItemVersionOverRevisions(SessionContext context, Id itemId,
-                                                 Id versionId) {
+  public Collection listItemVersionOverRevisions(SessionContext context, Id itemId, Id versionId) {
     return null;
   }
 
@@ -113,36 +110,27 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   public CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
                                               Namespace parentNamespace, Element element) {
     return getCollaborationStore(context)
-        .createEntity(context, elementContext.getItemId(), elementContext.getVersionId(),
-            parentNamespace,
-            new ElementData(element));
+        .createElement(context, elementContext, parentNamespace, new ElementData(element));
   }
 
   @Override
   public void saveElement(SessionContext context, ElementContext elementContext,
-                          CollaborationNamespace collaborationNamespace,
-                          Element element) {
+                          CollaborationNamespace collaborationNamespace, Element element) {
     getCollaborationStore(context)
-        .saveEntity(context, elementContext.getItemId(), elementContext.getVersionId(),
-            collaborationNamespace, new ElementData(element));
+        .saveElement(context, elementContext, collaborationNamespace, new ElementData(element));
   }
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
-                            CollaborationNamespace collaborationNamespace,
-                            Id elementId) {
+                            CollaborationNamespace collaborationNamespace, Id elementId) {
     getCollaborationStore(context)
-        .deleteEntity(context, elementContext.getItemId(), elementContext.getVersionId(),
-            collaborationNamespace,
-            elementId);
+        .deleteElement(context, elementContext, collaborationNamespace, elementId);
   }
 
   @Override
   public void commitEntities(SessionContext context, ElementContext elementContext,
                              String message) {
-    getCollaborationStore(context)
-        .commitEntities(context, elementContext.getItemId(), elementContext.getVersionId(),
-            message);
+    getCollaborationStore(context).commitEntities(context, elementContext, message);
   }
 
   private CollaborationStore getCollaborationStore(SessionContext context) {

@@ -22,6 +22,7 @@ import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.Namespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.impl.item.ElementData;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
 
@@ -47,18 +48,18 @@ public interface CollaborationStore {
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
                              ItemVersion itemVersion);
 
-  ElementData getEntity(SessionContext context, Id itemId, Id versionId,
-                        CollaborationNamespace namespace, Id entityId);
+  ElementData getElement(SessionContext context, ElementContext elementContext,
+                         CollaborationNamespace namespace, Id elementId);
 
-  CollaborationNamespace createEntity(SessionContext context, Id itemId, Id versionId,
-                                      Namespace parentNamespace, ElementData entityData);
+  CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
+                                       Namespace parentNamespace, ElementData elementData);
 
-  void saveEntity(SessionContext context, Id itemId, Id versionId,
-                  CollaborationNamespace namespace, ElementData entityData);
+  void saveElement(SessionContext context, ElementContext elementContext,
+                   CollaborationNamespace namespace, ElementData elementData);
 
-  void deleteEntity(SessionContext context, Id itemId, Id versionId,
-                    CollaborationNamespace namespace, Id entityId);
+  void deleteElement(SessionContext context, ElementContext elementContext,
+                     CollaborationNamespace namespace, Id elementId);
 
-  void commitEntities(SessionContext context, Id itemId, Id versionId,
+  void commitEntities(SessionContext context, ElementContext elementContext,
                       String message);
 }

@@ -20,6 +20,7 @@ package org.amdocs.tsuzammen.sdk;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
 import org.amdocs.tsuzammen.commons.datatypes.impl.item.ElementInfo;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
 import org.amdocs.tsuzammen.commons.datatypes.item.Item;
@@ -55,20 +56,20 @@ public interface StateStore {
 
   void syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  ElementNamespace getElementNamespace(SessionContext context, Id itemId, Id versionId,
+  ElementNamespace getElementNamespace(SessionContext context, ElementContext elementContext,
                                        Id elementId);
 
-  boolean isElementExist(SessionContext context, Id itemId, Id versionId, Id elementId);
+  boolean isElementExist(SessionContext context, ElementContext elementContext, Id elementId);
 
 
-  ElementInfo getElement(SessionContext context, Id itemId, Id versionId, Id elementId);
+  ElementInfo getElement(SessionContext context, ElementContext elementContext, Id elementId);
 
-  void createElement(SessionContext context, Id itemId, Id versionId,
+  void createElement(SessionContext context, ElementContext elementContext,
                      ElementNamespace elementNamespace, ElementInfo element);
 
-  void saveElement(SessionContext context, Id itemId, Id versionId, ElementInfo element);
+  void saveElement(SessionContext context, ElementContext elementContext, ElementInfo element);
 
-  void deleteElement(SessionContext context, Id itemId, Id versionId, Id elementId);
+  void deleteElement(SessionContext context, ElementContext elementContext, Id elementId);
 
   void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 
