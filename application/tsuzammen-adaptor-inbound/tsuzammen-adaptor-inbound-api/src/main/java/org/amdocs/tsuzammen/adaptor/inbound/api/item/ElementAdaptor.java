@@ -17,23 +17,25 @@
 package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
 
+import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
-import org.amdocs.tsuzammen.commons.datatypes.Response;
 import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementResponse;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
 
 public interface ElementAdaptor {
 
-  // create / update
-  ElementResponse update(SessionContext context, ElementContext elementContext, Element element,
-                         String message);
+  Element get(SessionContext context, ElementContext elementContext, Id elementId,
+              SearchCriteria searchCriteria);
 
-  Response delete(SessionContext context, ElementContext elementContext, Id elementId,
-                  String message);
-
-  ElementResponse get(SessionContext context, ElementContext elementContext, Id elementId,
+  ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId,
                       SearchCriteria searchCriteria);
+
+  // create / update
+  Element update(SessionContext context, ElementContext elementContext, Element element,
+                 String message);
+
+  void delete(SessionContext context, ElementContext elementContext, Id elementId,
+              String message);
 }

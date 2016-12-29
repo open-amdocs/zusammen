@@ -37,9 +37,13 @@
         </dependency>
         <dependency>
             <groupId>org.amdocs.tsuzammen</groupId>
-            <artifactId>tsuzammen-core-impl</artifactId>
+            <artifactId>tsuzammen-core-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.tsuzammen</groupId>
+            <artifactId>tsuzammen-commons-utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

@@ -22,12 +22,12 @@ import org.amdocs.tsuzammen.commons.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.Namespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.ElementData;
-import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.sdk.CollaborationStore;
 import org.amdocs.tsuzammen.sdk.CollaborationStoreFactory;
+import org.amdocs.tsuzammen.sdk.types.ElementData;
 
 import java.util.Collection;
 
@@ -107,17 +107,24 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
+  public CoreElement getElement(SessionContext context, ElementContext elementContext,
+                                CollaborationNamespace namespace, Id elementId) {
+    return getCoreElement(
+        getCollaborationStore(context).getElement(context, elementContext, namespace, elementId));
+  }
+
+  @Override
   public CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
-                                              Namespace parentNamespace, Element element) {
+                                              Namespace parentNamespace, CoreElement element) {
     return getCollaborationStore(context)
-        .createElement(context, elementContext, parentNamespace, new ElementData(element));
+        .createElement(context, elementContext, parentNamespace, getElementData(element));
   }
 
   @Override
   public void saveElement(SessionContext context, ElementContext elementContext,
-                          CollaborationNamespace collaborationNamespace, Element element) {
+                          CollaborationNamespace collaborationNamespace, CoreElement element) {
     getCollaborationStore(context)
-        .saveElement(context, elementContext, collaborationNamespace, new ElementData(element));
+        .saveElement(context, elementContext, collaborationNamespace, getElementData(element));
   }
 
   @Override
@@ -131,6 +138,32 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   public void commitEntities(SessionContext context, ElementContext elementContext,
                              String message) {
     getCollaborationStore(context).commitEntities(context, elementContext, message);
+  }
+
+  private ElementData getElementData(CoreElement coreElement) {
+    ElementData elementData = new ElementData();
+    elementData.setElementImplClass(coreElement.getElementImplClass());
+    elementData.setId(coreElement.getElementId());
+    elementData.setInfo(coreElement.getInfo());
+    elementData.setRelations(coreElement.getRelations());
+
+    elementData.setData(coreElement.getData());
+    elementData.setSearchData(coreElement.getSearchData());
+    elementData.setVisualization(coreElement.getVisualization());
+    return elementData;
+  }
+
+  private CoreElement getCoreElement(ElementData elementData) {
+    CoreElement coreElement = new CoreElement();
+    coreElement.setElementImplClass(elementData.getElementImplClass());
+    coreElement.setElementId(elementData.getId());
+    coreElement.setInfo(elementData.getInfo());
+    coreElement.setRelations(elementData.getRelations());
+
+    coreElement.setData(elementData.getData());
+    coreElement.setSearchData(elementData.getSearchData());
+    coreElement.setVisualization(elementData.getVisualization());
+    return coreElement;
   }
 
   private CollaborationStore getCollaborationStore(SessionContext context) {

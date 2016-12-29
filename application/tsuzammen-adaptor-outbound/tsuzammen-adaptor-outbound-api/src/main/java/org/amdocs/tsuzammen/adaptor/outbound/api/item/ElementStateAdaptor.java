@@ -18,8 +18,8 @@ package org.amdocs.tsuzammen.adaptor.outbound.api.item;
 
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
 
 public interface ElementStateAdaptor {
@@ -29,10 +29,10 @@ public interface ElementStateAdaptor {
 
   boolean isExist(SessionContext context, ElementContext elementContext, Id elementId);
 
-  Element get(SessionContext context, ElementContext elementContext, Id elementId);
+  ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId);
 
   void create(SessionContext context, ElementContext elementContext,
-              ElementNamespace elementNamespace, Element element);
+              ElementNamespace elementNamespace, ElementInfo element);
 
-  void save(SessionContext context, ElementContext elementContext, Element element);
+  void save(SessionContext context, ElementContext elementContext, ElementInfo element);
 }

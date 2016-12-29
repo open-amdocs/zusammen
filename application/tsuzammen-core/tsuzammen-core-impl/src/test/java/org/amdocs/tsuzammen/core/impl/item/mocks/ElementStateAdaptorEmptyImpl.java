@@ -19,8 +19,8 @@ package org.amdocs.tsuzammen.core.impl.item.mocks;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
 
 public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
@@ -37,18 +37,18 @@ public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public Element get(SessionContext context, ElementContext elementContext, Id elementId) {
+  public ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId) {
     return null;
   }
 
   @Override
   public void create(SessionContext context, ElementContext elementContext,
-                     ElementNamespace elementNamespace, Element element) {
+                     ElementNamespace elementNamespace, ElementInfo element) {
 
   }
 
   @Override
-  public void save(SessionContext context, ElementContext elementContext, Element element) {
+  public void save(SessionContext context, ElementContext elementContext, ElementInfo element) {
 
   }
 }

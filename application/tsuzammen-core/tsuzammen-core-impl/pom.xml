@@ -36,9 +36,8 @@
         </dependency>
         <dependency>
             <groupId>org.amdocs.tsuzammen</groupId>
-            <artifactId>tsuzammen-adaptor-outbound-impl</artifactId>
+            <artifactId>tsuzammen-adaptor-outbound-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.amdocs.tsuzammen</groupId>

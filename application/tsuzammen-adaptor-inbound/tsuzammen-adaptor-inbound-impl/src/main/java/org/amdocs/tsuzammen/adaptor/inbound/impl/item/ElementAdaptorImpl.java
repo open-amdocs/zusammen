@@ -17,37 +17,92 @@
 package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ElementAdaptor;
+import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
-import org.amdocs.tsuzammen.commons.datatypes.Response;
 import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementResponse;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.core.api.item.ElementManager;
 import org.amdocs.tsuzammen.core.api.item.ElementManagerFactory;
+import org.amdocs.tsuzammen.core.api.types.CoreElement;
+import org.amdocs.tsuzammen.utils.common.CommonMethods;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ElementAdaptorImpl implements ElementAdaptor {
 
 
   @Override
-  public ElementResponse update(SessionContext context, ElementContext elementContext,
-                                Element element,
-                                String message) {
-    return getElementManager(context).update(context, elementContext, element, message);
+  public Element get(SessionContext context, ElementContext elementContext, Id elementId,
+                     SearchCriteria searchCriteria) {
+    return getElement(getElementManager(context).get(context, elementContext, elementId,
+        searchCriteria));
   }
 
   @Override
-  public Response delete(SessionContext context, ElementContext elementContext, Id elementId,
-                         String message) {
-    return null;
-  }
-
-  @Override
-  public ElementResponse get(SessionContext context, ElementContext elementContext, Id elementId,
+  public ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId,
                              SearchCriteria searchCriteria) {
-    return getElementManager(context)
-        .get(context, elementContext, elementId, searchCriteria);
+    return getElementManager(context).getInfo(context, elementContext, elementId, searchCriteria);
+  }
+
+  @Override
+  public Element update(SessionContext context, ElementContext elementContext,
+                        Element element, String message) {
+    return getElement(
+        getElementManager(context).update(context, elementContext, getCoreElement(element),
+            message));
+  }
+
+  @Override
+  public void delete(SessionContext context, ElementContext elementContext, Id elementId,
+                     String message) {
+  }
+
+  private Element getElement(CoreElement coreElement) {
+    Element element = (Element) CommonMethods.newInstance(coreElement.getElementImplClass());
+    element.setElementId(coreElement.getElementId());
+    element.setInfo(coreElement.getInfo());
+    element.setRelations(coreElement.getRelations());
+
+    element.setData(coreElement.getData());
+    element.setSearchData(coreElement.getSearchData());
+    element.setVisualization(coreElement.getVisualization());
+
+    element.setSubElements(getElements(coreElement.getSubElements()));
+    return element;
+  }
+
+  private Map<Id, Element> getElements(Map<Id, CoreElement> coreElements) {
+    return coreElements == null
+        ? null
+        : coreElements.entrySet().stream().collect(Collectors.toMap(
+            coreElementEntry -> coreElementEntry.getKey(),
+            coreElementEntry -> getElement(coreElementEntry.getValue())));
+  }
+
+  private CoreElement getCoreElement(Element element) {
+    CoreElement coreElement = new CoreElement();
+    coreElement.setElementId(element.getElementId());
+    coreElement.setInfo(element.getInfo());
+    coreElement.setRelations(element.getRelations());
+
+    coreElement.setData(element.getData());
+    coreElement.setSearchData(element.getSearchData());
+    coreElement.setVisualization(element.getVisualization());
+
+    coreElement.setSubElements(getCoreElements(element.getSubElements()));
+
+    return coreElement;
+  }
+
+  private Map<Id, CoreElement> getCoreElements(Map<Id, Element> elements) {
+    return elements == null
+        ? null
+        : elements.entrySet().stream().collect(Collectors.toMap(
+            elementEntry -> elementEntry.getKey(),
+            elementEntry -> getCoreElement(elementEntry.getValue())));
   }
 
   private ElementManager getElementManager(SessionContext context) {

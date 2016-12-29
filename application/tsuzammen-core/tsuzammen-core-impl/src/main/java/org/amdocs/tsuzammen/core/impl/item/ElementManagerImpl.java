@@ -29,11 +29,11 @@ import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.Namespace;
 import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementResponse;
 import org.amdocs.tsuzammen.core.api.item.ElementManager;
+import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.core.impl.Messages;
 
 import java.net.URI;
@@ -44,15 +44,20 @@ public class ElementManagerImpl implements ElementManager {
   private static final URI emptyNamespace = createNamespace("");
 
   @Override
-  public ElementResponse get(SessionContext context, ElementContext elementContext,
-                             Id elementId,
-                             SearchCriteria searchCriteria) {
+  public CoreElement get(SessionContext context, ElementContext elementContext,
+                         Id elementId, SearchCriteria searchCriteria) {
     return null;
   }
 
   @Override
-  public ElementResponse update(SessionContext context, ElementContext elementContext,
-                                Element element, String message) {
+  public ElementInfo getInfo(SessionContext context, ElementContext elementContext,
+                             Id elementId, SearchCriteria searchCriteria) {
+    return getStateAdaptor(context).get(context, elementContext, elementId);
+  }
+
+  @Override
+  public CoreElement update(SessionContext context, ElementContext elementContext,
+                            CoreElement element, String message) {
 
     // TODO error handling
     validateItemVersionExistence(context, elementContext.getItemId(),
@@ -63,7 +68,7 @@ public class ElementManagerImpl implements ElementManager {
   }
 
   private void updateRecursively(SessionContext context, ElementContext elementContext,
-                                 Namespace parentNamespace, Element element) {
+                                 Namespace parentNamespace, CoreElement element) {
     if (element.getElementId() == null) {
       createRecursively(context, elementContext, parentNamespace, element);
     } else {
@@ -75,36 +80,46 @@ public class ElementManagerImpl implements ElementManager {
 
       save(context, elementContext, elementNamespace.getCollaborationNamespace(), element);
 
-      element.getSubElements().forEach(subElement ->
-          updateRecursively(context, elementContext, elementNamespace.getNamespace(), subElement));
+      element.getSubElements().entrySet().forEach(subElementEntry ->
+          updateRecursively(context, elementContext, elementNamespace.getNamespace(),
+              subElementEntry.getValue()));
     }
   }
 
   private void createRecursively(SessionContext context, ElementContext elementContext,
-                                 Namespace parentNamespace, Element element) {
+                                 Namespace parentNamespace, CoreElement element) {
     element.setElementId(new Id());
     Namespace namespace = create(context, elementContext, parentNamespace, element);
 
-    element.getSubElements()
-        .forEach(subElement -> createRecursively(context, elementContext, namespace, subElement));
+    element.getSubElements().entrySet().forEach(subElementEntry ->
+        createRecursively(context, elementContext, namespace, subElementEntry.getValue()));
   }
 
   private Namespace create(SessionContext context, ElementContext elementContext,
-                           Namespace parentNamespace, Element element) {
+                           Namespace parentNamespace, CoreElement element) {
     CollaborationNamespace collaborationNamespace = getCollaborationAdaptor(context)
         .createElement(context, elementContext, parentNamespace, element);
     Namespace namespace = new Namespace(parentNamespace, element.getElementId());
     ElementNamespace elementNamespace = new ElementNamespace(namespace, collaborationNamespace);
-    getStateAdaptor(context).create(context, elementContext, elementNamespace, element);
+    getStateAdaptor(context).create(context, elementContext, elementNamespace,
+        getElementInfo(element));
 
     return namespace;
   }
 
   private void save(SessionContext context, ElementContext elementContext,
-                    CollaborationNamespace collaborationNamespace, Element element) {
+                    CollaborationNamespace collaborationNamespace, CoreElement element) {
     getCollaborationAdaptor(context)
         .saveElement(context, elementContext, collaborationNamespace, element);
-    getStateAdaptor(context).save(context, elementContext, element);
+    getStateAdaptor(context).save(context, elementContext, getElementInfo(element));
+  }
+
+  private ElementInfo getElementInfo(CoreElement coreElement) {
+    ElementInfo elementInfo = new ElementInfo();
+    elementInfo.setId(coreElement.getElementId());
+    elementInfo.setInfo(coreElement.getInfo());
+    elementInfo.setRelations(coreElement.getRelations());
+    return elementInfo;
   }
 
 

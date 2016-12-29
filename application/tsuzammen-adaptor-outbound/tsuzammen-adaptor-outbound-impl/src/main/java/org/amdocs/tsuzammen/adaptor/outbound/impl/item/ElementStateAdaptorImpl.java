@@ -20,9 +20,8 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.impl.OutboundAdaptorUtils;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.impl.item.ElementInfo;
-import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
 
 public class ElementStateAdaptorImpl implements ElementStateAdaptor {
@@ -41,7 +40,7 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public Element get(SessionContext context, ElementContext elementContext, Id elementId) {
+  public ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId) {
     /*
     return OutboundAdaptorUtils.getStateStore(context)
         .getElement(context, elementContext.getItemId(),
@@ -51,14 +50,14 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
 
   @Override
   public void create(SessionContext context, ElementContext elementContext,
-                     ElementNamespace elementNamespace, Element element) {
+                     ElementNamespace elementNamespace, ElementInfo element) {
     OutboundAdaptorUtils.getStateStore(context)
-        .createElement(context, elementContext, elementNamespace, new ElementInfo(element));
+        .createElement(context, elementContext, elementNamespace, element);
   }
 
   @Override
-  public void save(SessionContext context, ElementContext elementContext, Element element) {
+  public void save(SessionContext context, ElementContext elementContext, ElementInfo element) {
     OutboundAdaptorUtils.getStateStore(context)
-        .saveElement(context, elementContext, new ElementInfo(element));
+        .saveElement(context, elementContext, element);
   }
 }

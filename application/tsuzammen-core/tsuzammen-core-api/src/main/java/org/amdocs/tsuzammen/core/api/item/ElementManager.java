@@ -19,24 +19,18 @@ package org.amdocs.tsuzammen.core.api.item;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementResponse;
-
-import java.util.Collection;
+import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
+import org.amdocs.tsuzammen.core.api.types.CoreElement;
 
 public interface ElementManager {
 
-  // todo remove default impl and return a collection of an object containing elementId + Info
-  default Collection<Element> list(SessionContext context, ElementContext elementContext
-                                   /*, Id elementId*/) {
-    //if elementId = null -> return root elements
-    return null;
-  }
+  CoreElement get(SessionContext context, ElementContext elementContext, Id elementId,
+                  SearchCriteria searchCriteria);
 
-  ElementResponse get(SessionContext context, ElementContext elementContext, Id elementId,
+  ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId,
                       SearchCriteria searchCriteria);
 
-  ElementResponse update(SessionContext context, ElementContext elementContext, Element element,
-                         String message);
+  CoreElement update(SessionContext context, ElementContext elementContext, CoreElement element,
+                     String message);
 }

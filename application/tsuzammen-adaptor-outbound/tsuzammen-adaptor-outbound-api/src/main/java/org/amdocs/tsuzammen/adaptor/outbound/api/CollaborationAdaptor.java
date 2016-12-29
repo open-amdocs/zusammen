@@ -21,9 +21,9 @@ import org.amdocs.tsuzammen.commons.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.commons.datatypes.Id;
 import org.amdocs.tsuzammen.commons.datatypes.Namespace;
 import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Element;
 import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.core.api.types.CoreElement;
 
 import java.util.Collection;
 
@@ -57,11 +57,14 @@ public interface CollaborationAdaptor {
 
   Collection listItemVersionOverRevisions(SessionContext context, Id itemId, Id versionId);
 
+  CoreElement getElement(SessionContext context, ElementContext elementContext,
+                         CollaborationNamespace namespace, Id elementId);
+
   CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
-                                       Namespace parentNamespace, Element element);
+                                       Namespace parentNamespace, CoreElement element);
 
   void saveElement(SessionContext context, ElementContext elementContext,
-                   CollaborationNamespace collaborationNamespace, Element element);
+                   CollaborationNamespace collaborationNamespace, CoreElement element);
 
   void deleteElement(SessionContext context, ElementContext elementContext,
                      CollaborationNamespace collaborationNamespace, Id elementId);
