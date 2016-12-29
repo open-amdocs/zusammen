@@ -137,7 +137,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   @Override
   public void commitEntities(SessionContext context, ElementContext elementContext,
                              String message) {
-    getCollaborationStore(context).commitEntities(context, elementContext, message);
+    //getCollaborationStore(context).commitEntities(context, elementContext, message);
   }
 
   private ElementData getElementData(CoreElement coreElement) {

@@ -60,6 +60,5 @@ public interface CollaborationStore {
   void deleteElement(SessionContext context, ElementContext elementContext,
                      CollaborationNamespace namespace, Id elementId);
 
-  void commitEntities(SessionContext context, ElementContext elementContext,
-                      String message);
+
 }
