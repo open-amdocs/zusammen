@@ -16,11 +16,11 @@
 
 package org.amdocs.tsuzammen.adaptor.inbound.api.workspace;
 
-import org.amdocs.tsuzammen.commons.datatypes.Id;
-import org.amdocs.tsuzammen.commons.datatypes.ItemVersionKey;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
+import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.ItemVersionKey;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.item.Info;
+import org.amdocs.tsuzammen.datatypes.workspace.WorkspaceInfo;
 
 import java.util.Collection;
 

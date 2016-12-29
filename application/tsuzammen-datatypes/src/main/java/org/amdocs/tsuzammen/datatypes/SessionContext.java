@@ -14,26 +14,25 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes.item;
+package org.amdocs.tsuzammen.datatypes;
 
-public class Item {
-  private String id;
-  private Info info;
+public class SessionContext {
+  private UserInfo user;
+  private String tenant;
 
-  public String getId() {
-    return id;
+  public UserInfo getUser() {
+    return user;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setUser(UserInfo user) {
+    this.user = user;
   }
 
-  public Info getInfo() {
-    return info;
+  public String getTenant() {
+    return tenant;
   }
 
-  public void setInfo(Info info) {
-    this.info = info;
+  public void setTenant(String tenant) {
+    this.tenant = tenant;
   }
-
 }

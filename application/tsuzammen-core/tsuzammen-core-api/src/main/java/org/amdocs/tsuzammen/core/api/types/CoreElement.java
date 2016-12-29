@@ -16,9 +16,9 @@
 
 package org.amdocs.tsuzammen.core.api.types;
 
-import org.amdocs.tsuzammen.commons.datatypes.Id;
-import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.Relation;
+import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.item.Info;
+import org.amdocs.tsuzammen.datatypes.item.Relation;
 import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;

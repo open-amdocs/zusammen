@@ -17,11 +17,11 @@
 package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionAdaptor;
-import org.amdocs.tsuzammen.commons.datatypes.Id;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.UserInfo;
-import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
+import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.UserInfo;
+import org.amdocs.tsuzammen.datatypes.item.Info;
+import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionManager;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionManagerFactory;
 

@@ -16,7 +16,7 @@
 
 package org.amdocs.tsuzammen.core.impl.item;
 
-import org.amdocs.tsuzammen.commons.datatypes.UserInfo;
+import org.amdocs.tsuzammen.datatypes.UserInfo;
 import org.amdocs.tsuzammen.core.impl.item.mocks.CollaborationAdaptorEmptyImpl;
 import org.amdocs.tsuzammen.core.impl.item.mocks.ElementStateAdaptorEmptyImpl;
 import org.amdocs.tsuzammen.core.impl.item.mocks.ItemStateAdaptorEmptyImpl;

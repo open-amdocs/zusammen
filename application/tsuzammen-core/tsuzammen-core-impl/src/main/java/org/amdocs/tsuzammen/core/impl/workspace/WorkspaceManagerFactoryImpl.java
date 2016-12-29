@@ -16,7 +16,7 @@
 
 package org.amdocs.tsuzammen.core.impl.workspace;
 
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.core.api.workspace.WorkspaceManager;
 import org.amdocs.tsuzammen.core.api.workspace.WorkspaceManagerFactory;
 

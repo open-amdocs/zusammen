@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes;
+package org.amdocs.tsuzammen.datatypes.workspace;
 
-public class SessionContext {
-  private UserInfo user;
-  private String tenant;
+import org.amdocs.tsuzammen.datatypes.ItemVersionKey;
 
-  public UserInfo getUser() {
-    return user;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Workspace {
+  private List<ItemVersionKey> items = new ArrayList<>();
+
+  public List<ItemVersionKey> getItems() {
+    return items;
   }
 
-  public void setUser(UserInfo user) {
-    this.user = user;
+  public void setItems(List<ItemVersionKey> items) {
+    this.items = items;
   }
 
-  public String getTenant() {
-    return tenant;
-  }
 
-  public void setTenant(String tenant) {
-    this.tenant = tenant;
-  }
 }

@@ -18,11 +18,11 @@ package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
-import org.amdocs.tsuzammen.commons.datatypes.Id;
-import org.amdocs.tsuzammen.commons.datatypes.SearchCriteria;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
+import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.SearchCriteria;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 
 public interface ElementAdaptor {
 

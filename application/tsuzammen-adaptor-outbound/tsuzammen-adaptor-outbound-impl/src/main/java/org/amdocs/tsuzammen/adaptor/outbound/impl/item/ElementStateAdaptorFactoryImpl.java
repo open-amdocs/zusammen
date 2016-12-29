@@ -18,7 +18,7 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptorFactory;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
 
 public class ElementStateAdaptorFactoryImpl extends ElementStateAdaptorFactory {
   private static final ElementStateAdaptor INSTANCE = new ElementStateAdaptorImpl();

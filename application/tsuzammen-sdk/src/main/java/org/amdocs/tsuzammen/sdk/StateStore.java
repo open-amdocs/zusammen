@@ -17,15 +17,15 @@
 package org.amdocs.tsuzammen.sdk;
 
 
-import org.amdocs.tsuzammen.commons.datatypes.Id;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
-import org.amdocs.tsuzammen.commons.datatypes.item.Info;
-import org.amdocs.tsuzammen.commons.datatypes.item.Item;
-import org.amdocs.tsuzammen.commons.datatypes.item.ItemVersion;
-import org.amdocs.tsuzammen.commons.datatypes.workspace.WorkspaceInfo;
+import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
+import org.amdocs.tsuzammen.datatypes.item.ElementNamespace;
+import org.amdocs.tsuzammen.datatypes.item.Info;
+import org.amdocs.tsuzammen.datatypes.item.Item;
+import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
+import org.amdocs.tsuzammen.datatypes.workspace.WorkspaceInfo;
 
 import java.util.Collection;
 

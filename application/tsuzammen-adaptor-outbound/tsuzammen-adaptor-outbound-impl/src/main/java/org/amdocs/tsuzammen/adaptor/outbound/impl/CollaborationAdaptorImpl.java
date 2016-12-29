@@ -18,12 +18,12 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl;
 
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
-import org.amdocs.tsuzammen.commons.datatypes.CollaborationNamespace;
-import org.amdocs.tsuzammen.commons.datatypes.Id;
-import org.amdocs.tsuzammen.commons.datatypes.Namespace;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.Info;
+import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
+import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.Namespace;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.sdk.CollaborationStore;
 import org.amdocs.tsuzammen.sdk.CollaborationStoreFactory;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes;
+package org.amdocs.tsuzammen.datatypes;
 
 import java.util.UUID;
 

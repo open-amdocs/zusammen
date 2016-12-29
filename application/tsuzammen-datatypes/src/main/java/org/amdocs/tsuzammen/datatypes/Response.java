@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes.workspace;
+package org.amdocs.tsuzammen.datatypes;
 
-import org.amdocs.tsuzammen.commons.datatypes.ItemVersionKey;
+public class Response {
+  private boolean success;
+  private Error error;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Workspace {
-  private List<ItemVersionKey> items = new ArrayList<>();
-
-  public List<ItemVersionKey> getItems() {
-    return items;
+  public boolean isSuccess() {
+    return success;
   }
 
-  public void setItems(List<ItemVersionKey> items) {
-    this.items = items;
+  public void setSuccess(boolean success) {
+    this.success = success;
   }
 
+  public Error getError() {
+    return error;
+  }
 
+  public void setError(Error error) {
+    this.error = error;
+  }
 }

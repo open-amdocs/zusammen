@@ -14,27 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes.item;
+package org.amdocs.tsuzammen.datatypes;
 
-import org.amdocs.tsuzammen.commons.datatypes.Id;
-
-public class ElementContext {
-  private Id itemId;
-  private Id versionId;
-
-  public Id getItemId() {
-    return itemId;
-  }
-
-  public void setItemId(Id itemId) {
-    this.itemId = itemId;
-  }
-
-  public Id getVersionId() {
-    return versionId;
-  }
-
-  public void setVersionId(Id versionId) {
-    this.versionId = versionId;
-  }
+public class SearchCriteria {
 }

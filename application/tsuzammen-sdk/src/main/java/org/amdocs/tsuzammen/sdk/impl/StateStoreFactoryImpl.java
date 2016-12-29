@@ -19,7 +19,7 @@ package org.amdocs.tsuzammen.sdk.impl;
 import org.amdocs.tsuzammen.commons.configuration.ConfigurationManager;
 import org.amdocs.tsuzammen.commons.configuration.ConfigurationManagerFactory;
 import org.amdocs.tsuzammen.commons.configuration.datatypes.PluginInfo;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.sdk.StateStore;
 import org.amdocs.tsuzammen.sdk.StateStoreFactory;
 import org.amdocs.tsuzammen.sdk.utils.SdkConstants;

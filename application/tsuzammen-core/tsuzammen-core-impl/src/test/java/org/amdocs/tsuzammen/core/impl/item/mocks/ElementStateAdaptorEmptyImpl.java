@@ -17,11 +17,11 @@
 package org.amdocs.tsuzammen.core.impl.item.mocks;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
-import org.amdocs.tsuzammen.commons.datatypes.Id;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementContext;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementNamespace;
+import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
+import org.amdocs.tsuzammen.datatypes.item.ElementNamespace;
 
 public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
 

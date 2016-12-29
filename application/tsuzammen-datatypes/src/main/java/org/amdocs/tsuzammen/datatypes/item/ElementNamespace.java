@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes.item;
+package org.amdocs.tsuzammen.datatypes.item;
 
-import org.amdocs.tsuzammen.commons.datatypes.CollaborationNamespace;
-import org.amdocs.tsuzammen.commons.datatypes.Namespace;
+import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
+import org.amdocs.tsuzammen.datatypes.Namespace;
 
 public class ElementNamespace {
 

@@ -14,23 +14,38 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes;
+package org.amdocs.tsuzammen.datatypes.item;
 
-public class CollaborationNamespace {
-  private String value;
+import java.util.List;
 
-  public CollaborationNamespace() {
+public class ItemVersionInfo {
+  private String baseId;
+  private Info info;
+  private List<Relation> relations;
+
+  public String getBaseId() {
+    return baseId;
   }
 
-  public CollaborationNamespace(String value) {
-    this.value = value;
+  public void setBaseId(String baseId) {
+    this.baseId = baseId;
   }
 
-  public String getValue() {
-    return value;
+  public Info getInfo() {
+    return info;
   }
 
-  public void setValue(String value) {
-    this.value = value;
+  public void setInfo(Info info) {
+    this.info = info;
+  }
+
+
+  public List<Relation> getRelations() {
+    return relations;
+  }
+
+  public void setRelations(
+      List<Relation> relations) {
+    this.relations = relations;
   }
 }

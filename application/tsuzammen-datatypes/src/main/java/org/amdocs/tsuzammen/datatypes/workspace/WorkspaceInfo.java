@@ -14,14 +14,27 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes.item;
+package org.amdocs.tsuzammen.datatypes.workspace;
 
-import java.io.InputStream;
+import org.amdocs.tsuzammen.datatypes.item.Info;
 
-public interface ElementWriter {
-  void setData(InputStream data);
+public class WorkspaceInfo {
+  private String id;
+  private Info info;
 
-  void setSearchData(InputStream searchData);
+  public String getId() {
+    return id;
+  }
 
-  void setVisualization(InputStream visualization);
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public Info getInfo() {
+    return info;
+  }
+
+  public void setInfo(Info info) {
+    this.info = info;
+  }
 }

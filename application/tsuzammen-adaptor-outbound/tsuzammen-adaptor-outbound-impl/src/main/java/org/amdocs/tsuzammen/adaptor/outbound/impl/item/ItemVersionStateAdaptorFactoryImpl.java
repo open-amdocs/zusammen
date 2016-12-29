@@ -18,7 +18,7 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
 
 public class ItemVersionStateAdaptorFactoryImpl extends ItemVersionStateAdaptorFactory {
   private static final ItemVersionStateAdaptor INSTANCE = new ItemVersionStateAdaptorImpl();

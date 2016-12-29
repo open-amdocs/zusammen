@@ -14,34 +14,14 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes.item;
+package org.amdocs.tsuzammen.datatypes.item;
 
-public class RelationEdge {
-  private String itemId;
-  private String versionId;
-  private String entityId;
+import java.io.InputStream;
 
-  public String getItemId() {
-    return itemId;
-  }
+public interface ElementWriter {
+  void setData(InputStream data);
 
-  public void setItemId(String itemId) {
-    this.itemId = itemId;
-  }
+  void setSearchData(InputStream searchData);
 
-  public String getVersionId() {
-    return versionId;
-  }
-
-  public void setVersionId(String versionId) {
-    this.versionId = versionId;
-  }
-
-  public String getEntityId() {
-    return entityId;
-  }
-
-  public void setEntityId(String entityId) {
-    this.entityId = entityId;
-  }
+  void setVisualization(InputStream visualization);
 }

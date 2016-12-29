@@ -2,7 +2,7 @@ package org.amdocs.tsuzammen.adaptor.inbound.impl.workspace;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.workspace.WorkspaceAdaptor;
 import org.amdocs.tsuzammen.adaptor.inbound.api.workspace.WorkspaceAdaptorFactory;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
 
 
 public class WorkspaceAdaptorFactoryImpl extends WorkspaceAdaptorFactory {

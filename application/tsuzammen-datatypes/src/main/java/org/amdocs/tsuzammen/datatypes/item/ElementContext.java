@@ -14,24 +14,27 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes;
+package org.amdocs.tsuzammen.datatypes.item;
 
-public class Namespace {
-  private String value;
+import org.amdocs.tsuzammen.datatypes.Id;
 
-  public Namespace() {
-    value = "";
+public class ElementContext {
+  private Id itemId;
+  private Id versionId;
+
+  public Id getItemId() {
+    return itemId;
   }
 
-  public Namespace(Namespace parentNamespace, Id entityId) {
-    this.value = parentNamespace.getValue() + "/" + entityId.toString();
+  public void setItemId(Id itemId) {
+    this.itemId = itemId;
   }
 
-  public String getValue() {
-    return value;
+  public Id getVersionId() {
+    return versionId;
   }
 
-  public void setValue(String value) {
-    this.value = value;
+  public void setVersionId(Id versionId) {
+    this.versionId = versionId;
   }
 }

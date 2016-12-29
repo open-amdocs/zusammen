@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes.item;
+package org.amdocs.tsuzammen.datatypes.item;
 
-import org.amdocs.tsuzammen.commons.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.Id;
 
 import java.util.Collection;
 import java.util.Map;

@@ -18,7 +18,7 @@ package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionAdaptor;
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionAdaptorFactory;
-import org.amdocs.tsuzammen.commons.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
 
 
 public class ItemVersionAdaptorFactoryImpl extends ItemVersionAdaptorFactory {

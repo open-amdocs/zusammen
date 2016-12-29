@@ -14,38 +14,24 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.commons.datatypes.item;
+package org.amdocs.tsuzammen.datatypes;
 
-import java.util.List;
+public class Namespace {
+  private String value;
 
-public class ItemVersionInfo {
-  private String baseId;
-  private Info info;
-  private List<Relation> relations;
-
-  public String getBaseId() {
-    return baseId;
+  public Namespace() {
+    value = "";
   }
 
-  public void setBaseId(String baseId) {
-    this.baseId = baseId;
+  public Namespace(Namespace parentNamespace, Id entityId) {
+    this.value = parentNamespace.getValue() + "/" + entityId.toString();
   }
 
-  public Info getInfo() {
-    return info;
+  public String getValue() {
+    return value;
   }
 
-  public void setInfo(Info info) {
-    this.info = info;
-  }
-
-
-  public List<Relation> getRelations() {
-    return relations;
-  }
-
-  public void setRelations(
-      List<Relation> relations) {
-    this.relations = relations;
+  public void setValue(String value) {
+    this.value = value;
   }
 }

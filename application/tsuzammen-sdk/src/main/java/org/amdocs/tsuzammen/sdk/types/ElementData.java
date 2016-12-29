@@ -16,23 +16,22 @@
 
 package org.amdocs.tsuzammen.sdk.types;
 
-import org.amdocs.tsuzammen.commons.datatypes.item.Element;
-import org.amdocs.tsuzammen.commons.datatypes.item.ElementInfo;
+import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
 
 public class ElementData extends ElementInfo {
-  private Class<? extends Element> elementImplClass;
+  private Class elementImplClass;
   private byte[] data;
   private byte[] searchData;
   private byte[] visualization;
 
-  public Class<? extends Element> getElementImplClass() {
+  public Class getElementImplClass() {
     return elementImplClass;
   }
 
-  public void setElementImplClass(Class<? extends Element> elementImplClass) {
+  public void setElementImplClass(Class elementImplClass) {
     this.elementImplClass = elementImplClass;
   }
 
