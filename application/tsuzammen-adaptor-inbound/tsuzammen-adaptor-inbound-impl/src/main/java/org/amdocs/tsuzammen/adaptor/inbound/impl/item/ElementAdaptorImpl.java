@@ -18,14 +18,14 @@ package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ElementAdaptor;
 import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
+import org.amdocs.tsuzammen.core.api.item.ElementManager;
+import org.amdocs.tsuzammen.core.api.item.ElementManagerFactory;
+import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.core.api.item.ElementManager;
-import org.amdocs.tsuzammen.core.api.item.ElementManagerFactory;
-import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.utils.common.CommonMethods;
 
 import java.util.Map;
@@ -37,8 +37,8 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   @Override
   public Element get(SessionContext context, ElementContext elementContext, Id elementId,
                      SearchCriteria searchCriteria) {
-    return getElement(getElementManager(context).get(context, elementContext, elementId,
-        searchCriteria));
+    return getElement(
+        getElementManager(context).get(context, elementContext, elementId, searchCriteria));
   }
 
   @Override

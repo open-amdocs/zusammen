@@ -26,7 +26,7 @@ public class ElementInfo {
   private Id parentId; //core uses for save
   private Info info;
   private Collection<Relation> relations;
-  private Map<Id, ElementInfo> subElementIds; //core uses for get
+  private Map<Id, ElementInfo> subElements; //core uses for get
 
   public Id getId() {
     return id;
@@ -60,11 +60,11 @@ public class ElementInfo {
     this.relations = relations;
   }
 
-  public Map<Id, ElementInfo> getSubElementIds() {
-    return subElementIds;
+  public Map<Id, ElementInfo> getSubElements() {
+    return subElements;
   }
 
-  public void setSubElementIds(Map<Id, ElementInfo> subElementIds) {
-    this.subElementIds = subElementIds;
+  public void setSubElements(Map<Id, ElementInfo> subElements) {
+    this.subElements = subElements;
   }
 }

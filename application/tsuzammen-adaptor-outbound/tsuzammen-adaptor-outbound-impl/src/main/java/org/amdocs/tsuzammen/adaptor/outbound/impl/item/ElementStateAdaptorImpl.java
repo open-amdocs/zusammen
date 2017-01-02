@@ -41,11 +41,8 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
 
   @Override
   public ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId) {
-    /*
     return OutboundAdaptorUtils.getStateStore(context)
-        .getElement(context, elementContext.getItemId(),
-        elementContext.getVersionId(), elementId);*/
-    return null;
+        .getElement(context, elementContext, elementId);
   }
 
   @Override

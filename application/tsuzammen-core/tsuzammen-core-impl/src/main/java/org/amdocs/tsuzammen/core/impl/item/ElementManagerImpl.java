@@ -24,6 +24,9 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
+import org.amdocs.tsuzammen.core.api.item.ElementManager;
+import org.amdocs.tsuzammen.core.api.types.CoreElement;
+import org.amdocs.tsuzammen.core.impl.Messages;
 import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
@@ -32,16 +35,8 @@ import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.datatypes.item.ElementNamespace;
-import org.amdocs.tsuzammen.core.api.item.ElementManager;
-import org.amdocs.tsuzammen.core.api.types.CoreElement;
-import org.amdocs.tsuzammen.core.impl.Messages;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class ElementManagerImpl implements ElementManager {
-
-  private static final URI emptyNamespace = createNamespace("");
 
   @Override
   public CoreElement get(SessionContext context, ElementContext elementContext,
@@ -120,15 +115,6 @@ public class ElementManagerImpl implements ElementManager {
     elementInfo.setInfo(coreElement.getInfo());
     elementInfo.setRelations(coreElement.getRelations());
     return elementInfo;
-  }
-
-
-  private static URI createNamespace(String namespace) {
-    try {
-      return new URI(namespace);
-    } catch (URISyntaxException ex) {
-      throw new RuntimeException(ex);
-    }
   }
 
   private void validateItemVersionExistence(SessionContext context, Id itemId, Id versionId) {
