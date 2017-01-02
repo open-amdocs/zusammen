@@ -23,58 +23,58 @@ import java.io.InputStream;
 
 public class Conflict {
 
-  private byte[] source;
-  private byte[] target;
+  private byte[] local;
+  private byte[] remote;
 
-  private byte[] sourceConflict;
-  private byte[] targetConflict;
+  private byte[] localConflict;
+  private byte[] remoteConflict;
 
-  public InputStream getSource(){
-    return new ByteArrayInputStream(this.source);
+  public InputStream getLocal(){
+    return new ByteArrayInputStream(this.local);
   }
 
-  public InputStream getTarget(){
-    return new ByteArrayInputStream(this.target);
+  public InputStream getRemote(){
+    return new ByteArrayInputStream(this.remote);
   }
 
-  public InputStream getSourceConflict(){
-    return new ByteArrayInputStream(this.sourceConflict);
+  public InputStream getLocalConflict(){
+    return new ByteArrayInputStream(this.localConflict);
   }
 
-  public InputStream getTargetConflict(){
-    return new ByteArrayInputStream(this.targetConflict);
+  public InputStream getRemoteConflict(){
+    return new ByteArrayInputStream(this.remoteConflict);
   }
 
-  public void setSource(InputStream source) {
-    this.source = FileUtils.toByteArray(source);
+  public void setLocal(InputStream local) {
+    this.local = FileUtils.toByteArray(local);
   }
 
-  public void setSource(byte[] source) {
-    this.source = source;
+  public void setLocal(byte[] local) {
+    this.local = local;
   }
 
-  public void setTarget(InputStream target) {
-    this.target = FileUtils.toByteArray(target);
+  public void setRemote(InputStream remote) {
+    this.remote = FileUtils.toByteArray(remote);
   }
 
-  public void setTarget(byte[] target) {
-    this.target = target;
+  public void setRemote(byte[] remote) {
+    this.remote = remote;
   }
 
-  public void setSourceConflict(InputStream sourceConflict) {
-    this.sourceConflict = FileUtils.toByteArray(sourceConflict);
+  public void setLocalConflict(InputStream localConflict) {
+    this.localConflict = FileUtils.toByteArray(localConflict);
   }
 
-  public void setSourceConflict(byte[] sourceConflict) {
-    this.sourceConflict = sourceConflict;
+  public void setLocalConflict(byte[] localConflict) {
+    this.localConflict = localConflict;
   }
 
-  public void setTargetConflict(InputStream targetConflict) {
-    this.targetConflict = FileUtils.toByteArray(targetConflict);
+  public void setRemoteConflict(InputStream remoteConflict) {
+    this.remoteConflict = FileUtils.toByteArray(remoteConflict);
   }
 
-  public void setTargetConflict(byte[] targetConflict) {
-    this.targetConflict = targetConflict;
+  public void setRemoteConflict(byte[] remoteConflict) {
+    this.remoteConflict = remoteConflict;
   }
 
 }
