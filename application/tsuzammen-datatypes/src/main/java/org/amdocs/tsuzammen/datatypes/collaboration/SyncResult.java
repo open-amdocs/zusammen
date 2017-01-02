@@ -16,77 +16,35 @@
 
 package org.amdocs.tsuzammen.datatypes.collaboration;
 
-import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class SyncResult {
   private boolean resultStatus=true;
 
-  private byte[] source;
-  private byte[] target;
-
-  private byte[] sourceConflict;
-  private byte[] targetConflict;
-
-
+  private Collection<Conflict> conflicts = new ArrayList<>();
 
   public boolean isSuccesses(){
       return this.resultStatus;
     }
 
-  public InputStream getSource(){
-    return new ByteArrayInputStream(this.source);
-  }
-
-  public InputStream getTarget(){
-    return new ByteArrayInputStream(this.target);
-  }
-
-  public InputStream getSourceConflict(){
-    return new ByteArrayInputStream(this.sourceConflict);
-  }
-
-  public InputStream getTargetConflict(){
-    return new ByteArrayInputStream(this.targetConflict);
-  }
-
-  public void setSource(InputStream source) {
-    this.source = FileUtils.toByteArray(source);
-  }
-
-  public void setSource(byte[] source) {
-    this.source = source;
-  }
-
-  public void setTarget(InputStream target) {
-    this.target = FileUtils.toByteArray(target);
-  }
-
-  public void setTarget(byte[] target) {
-    this.target = target;
-  }
-
-  public void setSourceConflict(InputStream sourceConflict) {
-    this.sourceConflict = FileUtils.toByteArray(sourceConflict);
-  }
-
-  public void setSourceConflict(byte[] sourceConflict) {
-    this.sourceConflict = sourceConflict;
-  }
-
-  public void setTargetConflict(InputStream targetConflict) {
-    this.targetConflict = FileUtils.toByteArray(targetConflict);
-  }
-
-  public void setTargetConflict(byte[] targetConflict) {
-    this.targetConflict = targetConflict;
-  }
 
   public void setResultStatus(boolean status){
     this.resultStatus = status;
   }
 
+  public Collection<Conflict> getConflicts() {
+    return conflicts;
+  }
 
+  public void setConflicts(
+      Collection<Conflict> conflicts) {
+    this.conflicts = conflicts;
+  }
+
+  public void addConflict(Conflict conflict){
+    conflicts.add(conflict);
+  }
 }
+
+

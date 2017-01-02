@@ -21,6 +21,8 @@ import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.collaboration.PublishResult;
+import org.amdocs.tsuzammen.datatypes.collaboration.SyncResult;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
@@ -41,9 +43,9 @@ public interface CollaborationStore {
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
+  PublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
 
-  void syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  SyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
                              ItemVersion itemVersion);
