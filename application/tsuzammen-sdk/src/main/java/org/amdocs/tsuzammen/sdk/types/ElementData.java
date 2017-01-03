@@ -16,16 +16,49 @@
 
 package org.amdocs.tsuzammen.sdk.types;
 
+import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
+import org.amdocs.tsuzammen.datatypes.item.Info;
+import org.amdocs.tsuzammen.datatypes.item.Relation;
 import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.Map;
 
-public class ElementData extends ElementInfo {
+public class ElementData {
+  private Id id;
+  private Info info;
+  private Collection<Relation> relations;
   private Class elementImplClass;
   private byte[] data;
   private byte[] searchData;
   private byte[] visualization;
+  private Map<Id, Class> subElements;
+
+  public Id getId() {
+    return id;
+  }
+
+  public void setId(Id id) {
+    this.id = id;
+  }
+
+  public Info getInfo() {
+    return info;
+  }
+
+  public void setInfo(Info info) {
+    this.info = info;
+  }
+
+  public Collection<Relation> getRelations() {
+    return relations;
+  }
+
+  public void setRelations(Collection<Relation> relations) {
+    this.relations = relations;
+  }
 
   public Class getElementImplClass() {
     return elementImplClass;
@@ -57,5 +90,13 @@ public class ElementData extends ElementInfo {
 
   public void setVisualization(InputStream visualization) {
     this.visualization = FileUtils.toByteArray(visualization);
+  }
+
+  public Map<Id, Class> getSubElements() {
+    return subElements;
+  }
+
+  public void setSubElements(Map<Id, Class> subElements) {
+    this.subElements = subElements;
   }
 }

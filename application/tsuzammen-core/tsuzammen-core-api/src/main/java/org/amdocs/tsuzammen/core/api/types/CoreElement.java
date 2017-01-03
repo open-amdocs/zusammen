@@ -33,7 +33,7 @@ public class CoreElement {
   private byte[] data;
   private byte[] searchData;
   private byte[] visualization;
-  private Map<Id, CoreElement> subElements;
+  private Collection<CoreElement> subElements;
 
   public Class getElementImplClass() {
     return elementImplClass;
@@ -91,11 +91,11 @@ public class CoreElement {
     this.visualization = FileUtils.toByteArray(visualization);
   }
 
-  public Map<Id, CoreElement> getSubElements() {
+  public Collection<CoreElement> getSubElements() {
     return subElements;
   }
 
-  public void setSubElements(Map<Id, CoreElement> subElements) {
+  public void setSubElements(Collection<CoreElement> subElements) {
     this.subElements = subElements;
   }
 }

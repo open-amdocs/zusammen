@@ -21,7 +21,7 @@ import org.amdocs.tsuzammen.adaptor.inbound.api.item.ElementAdaptorFactory;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 
 
-public class ItemVersionContentAdaptorFactoryImpl extends ElementAdaptorFactory {
+public class ElementAdaptorFactoryImpl extends ElementAdaptorFactory {
   private static final ElementAdaptor INSTANCE = new ElementAdaptorImpl();
 
   @Override

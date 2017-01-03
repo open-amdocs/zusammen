@@ -49,7 +49,7 @@ public interface Element {
 
   InputStream getVisualization();
 
-  Map<Id, Element> getSubElements();
+  Collection<Element> getSubElements();
 
-  void setSubElements(Map<Id, Element> subElements);
+  void setSubElements(Collection<Element> subElements);
 }

@@ -28,7 +28,7 @@ import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.utils.common.CommonMethods;
 
-import java.util.Map;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class ElementAdaptorImpl implements ElementAdaptor {
@@ -74,12 +74,11 @@ public class ElementAdaptorImpl implements ElementAdaptor {
     return element;
   }
 
-  private Map<Id, Element> getElements(Map<Id, CoreElement> coreElements) {
+  private Collection<Element> getElements(Collection<CoreElement> coreElements) {
     return coreElements == null
         ? null
-        : coreElements.entrySet().stream().collect(Collectors.toMap(
-            coreElementEntry -> coreElementEntry.getKey(),
-            coreElementEntry -> getElement(coreElementEntry.getValue())));
+        : coreElements.stream().map(coreElement ->
+            getElement(coreElement)).collect(Collectors.toList());
   }
 
   private CoreElement getCoreElement(Element element) {
@@ -97,12 +96,10 @@ public class ElementAdaptorImpl implements ElementAdaptor {
     return coreElement;
   }
 
-  private Map<Id, CoreElement> getCoreElements(Map<Id, Element> elements) {
+  private Collection<CoreElement> getCoreElements(Collection<Element> elements) {
     return elements == null
         ? null
-        : elements.entrySet().stream().collect(Collectors.toMap(
-            elementEntry -> elementEntry.getKey(),
-            elementEntry -> getCoreElement(elementEntry.getValue())));
+        : elements.stream().map(element -> getCoreElement(element)).collect(Collectors.toList());
   }
 
   private ElementManager getElementManager(SessionContext context) {

@@ -57,8 +57,7 @@ public interface CollaborationStore {
   void saveElement(SessionContext context, ElementContext elementContext,
                    CollaborationNamespace namespace, ElementData elementData);
 
+
   void deleteElement(SessionContext context, ElementContext elementContext,
                      CollaborationNamespace namespace, Id elementId);
-
-
 }

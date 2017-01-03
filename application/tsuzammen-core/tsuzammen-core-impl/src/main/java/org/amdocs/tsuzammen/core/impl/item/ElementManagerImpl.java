@@ -58,14 +58,14 @@ public class ElementManagerImpl implements ElementManager {
     validateItemVersionExistence(context, elementContext.getItemId(),
         elementContext.getVersionId());
 
-    updateRecursively(context, elementContext, new Namespace(), element);
+    updateRecursively(context, elementContext, new Namespace(), null, element);
     return null;
   }
 
   private void updateRecursively(SessionContext context, ElementContext elementContext,
-                                 Namespace parentNamespace, CoreElement element) {
+                                 Namespace parentNamespace, Id parentId, CoreElement element) {
     if (element.getElementId() == null) {
-      createRecursively(context, elementContext, parentNamespace, element);
+      createRecursively(context, elementContext, parentNamespace, parentId, element);
     } else {
       ElementNamespace elementNamespace =
           getStateAdaptor(context).getNamespace(context, elementContext, element.getElementId());
@@ -73,45 +73,48 @@ public class ElementManagerImpl implements ElementManager {
         //error - no such element
       }
 
-      save(context, elementContext, elementNamespace.getCollaborationNamespace(), element);
+      save(context, elementContext, elementNamespace.getCollaborationNamespace(), parentId,
+          element);
 
-      element.getSubElements().entrySet().forEach(subElementEntry ->
+      element.getSubElements().forEach(subElement ->
           updateRecursively(context, elementContext, elementNamespace.getNamespace(),
-              subElementEntry.getValue()));
+              element.getElementId(), subElement));
     }
   }
 
   private void createRecursively(SessionContext context, ElementContext elementContext,
-                                 Namespace parentNamespace, CoreElement element) {
+                                 Namespace parentNamespace, Id parentId, CoreElement element) {
     element.setElementId(new Id());
-    Namespace namespace = create(context, elementContext, parentNamespace, element);
+    Namespace namespace = create(context, elementContext, parentNamespace, parentId, element);
 
-    element.getSubElements().entrySet().forEach(subElementEntry ->
-        createRecursively(context, elementContext, namespace, subElementEntry.getValue()));
+    element.getSubElements().forEach(subElement ->
+        createRecursively(context, elementContext, namespace, element.getElementId(), subElement));
   }
 
   private Namespace create(SessionContext context, ElementContext elementContext,
-                           Namespace parentNamespace, CoreElement element) {
+                           Namespace parentNamespace, Id parentId, CoreElement element) {
     CollaborationNamespace collaborationNamespace = getCollaborationAdaptor(context)
         .createElement(context, elementContext, parentNamespace, element);
     Namespace namespace = new Namespace(parentNamespace, element.getElementId());
     ElementNamespace elementNamespace = new ElementNamespace(namespace, collaborationNamespace);
     getStateAdaptor(context).create(context, elementContext, elementNamespace,
-        getElementInfo(element));
+        getElementInfo(element, parentId));
 
     return namespace;
   }
 
   private void save(SessionContext context, ElementContext elementContext,
-                    CollaborationNamespace collaborationNamespace, CoreElement element) {
+                    CollaborationNamespace collaborationNamespace, Id parentId,
+                    CoreElement element) {
     getCollaborationAdaptor(context)
         .saveElement(context, elementContext, collaborationNamespace, element);
-    getStateAdaptor(context).save(context, elementContext, getElementInfo(element));
+    getStateAdaptor(context).save(context, elementContext, getElementInfo(element, parentId));
   }
 
-  private ElementInfo getElementInfo(CoreElement coreElement) {
+  private ElementInfo getElementInfo(CoreElement coreElement, Id parentId) {
     ElementInfo elementInfo = new ElementInfo();
     elementInfo.setId(coreElement.getElementId());
+    elementInfo.setParentId(parentId);
     elementInfo.setInfo(coreElement.getInfo());
     elementInfo.setRelations(coreElement.getRelations());
     return elementInfo;

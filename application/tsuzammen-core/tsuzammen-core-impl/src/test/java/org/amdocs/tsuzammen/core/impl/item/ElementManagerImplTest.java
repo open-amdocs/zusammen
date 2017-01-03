@@ -28,7 +28,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class ElementManagerImplTest {
-  public static final UserInfo USER = new UserInfo("ItemVersionContentManagerImpl_user");
+  public static final UserInfo USER = new UserInfo("ElementManagerImpl_user");
 
   private ElementManagerImpl entityManager = spy(new ElementManagerImpl());
 

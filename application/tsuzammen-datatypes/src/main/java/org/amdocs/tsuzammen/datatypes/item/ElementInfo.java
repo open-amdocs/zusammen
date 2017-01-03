@@ -19,14 +19,13 @@ package org.amdocs.tsuzammen.datatypes.item;
 import org.amdocs.tsuzammen.datatypes.Id;
 
 import java.util.Collection;
-import java.util.Map;
 
 public class ElementInfo {
   private Id id;
   private Id parentId; //core uses for save
   private Info info;
   private Collection<Relation> relations;
-  private Map<Id, ElementInfo> subElements; //core uses for get
+  private Collection<ElementInfo> subElements; //core uses for get
 
   public Id getId() {
     return id;
@@ -60,11 +59,11 @@ public class ElementInfo {
     this.relations = relations;
   }
 
-  public Map<Id, ElementInfo> getSubElements() {
+  public Collection<ElementInfo> getSubElements() {
     return subElements;
   }
 
-  public void setSubElements(Map<Id, ElementInfo> subElements) {
+  public void setSubElements(Collection<ElementInfo> subElements) {
     this.subElements = subElements;
   }
 }
