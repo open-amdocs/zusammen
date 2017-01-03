@@ -20,29 +20,27 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class SyncResult {
-  private boolean resultStatus=true;
 
-  private Collection<Conflict> conflicts = new ArrayList<>();
+
+  private Collection<FileConflicts> conflicts = new ArrayList<>();
 
   public boolean isSuccesses(){
-      return this.resultStatus;
+      return conflicts==null || conflicts.size()==0;
     }
 
 
-  public void setResultStatus(boolean status){
-    this.resultStatus = status;
-  }
 
-  public Collection<Conflict> getConflicts() {
+
+  public Collection<FileConflicts> getConflicts() {
     return conflicts;
   }
 
   public void setConflicts(
-      Collection<Conflict> conflicts) {
+      Collection<FileConflicts> conflicts) {
     this.conflicts = conflicts;
   }
 
-  public void addConflict(Conflict conflict){
+  public void addConflict(FileConflicts conflict){
     conflicts.add(conflict);
   }
 }

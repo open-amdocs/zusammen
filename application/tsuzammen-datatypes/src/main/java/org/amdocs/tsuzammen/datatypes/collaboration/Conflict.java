@@ -21,21 +21,11 @@ import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-public class Conflict {
 
-  private byte[] local;
-  private byte[] remote;
+public class Conflict {
 
   private byte[] localConflict;
   private byte[] remoteConflict;
-
-  public InputStream getLocal(){
-    return new ByteArrayInputStream(this.local);
-  }
-
-  public InputStream getRemote(){
-    return new ByteArrayInputStream(this.remote);
-  }
 
   public InputStream getLocalConflict(){
     return new ByteArrayInputStream(this.localConflict);
@@ -43,22 +33,6 @@ public class Conflict {
 
   public InputStream getRemoteConflict(){
     return new ByteArrayInputStream(this.remoteConflict);
-  }
-
-  public void setLocal(InputStream local) {
-    this.local = FileUtils.toByteArray(local);
-  }
-
-  public void setLocal(byte[] local) {
-    this.local = local;
-  }
-
-  public void setRemote(InputStream remote) {
-    this.remote = FileUtils.toByteArray(remote);
-  }
-
-  public void setRemote(byte[] remote) {
-    this.remote = remote;
   }
 
   public void setLocalConflict(InputStream localConflict) {
