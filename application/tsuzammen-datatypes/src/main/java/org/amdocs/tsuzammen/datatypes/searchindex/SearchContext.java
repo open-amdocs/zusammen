@@ -14,10 +14,37 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.sdk.utils;
+package org.amdocs.tsuzammen.datatypes.searchindex;
 
-public class SdkConstants {
-  public static final String TSUZAMMEN_COLLABORATIVE_STORE = "tsuzammen_collaborative_store";
-  public static final String TSUZAMMEN_STATE_STORE = "tsuzammen_state_store";
-  public static final String TSUZAMMEN_SEARCH_INDEX = "tsuzammen_search_index";
+import org.amdocs.tsuzammen.datatypes.Id;
+
+public class SearchContext {
+
+  private Id itemId;
+  private Id versionId;
+  private String spaceName;
+
+  public Id getItemId() {
+    return itemId;
+  }
+
+  public void setItemId(Id itemId) {
+    this.itemId = itemId;
+  }
+
+  public Id getVersionId() {
+    return versionId;
+  }
+
+  public void setVersionId(Id versionId) {
+    this.versionId = versionId;
+  }
+
+  public String getSpaceName() {
+    return spaceName;
+  }
+
+  public void setSpaceName(String spaceName) {
+    this.spaceName = spaceName;
+  }
 }

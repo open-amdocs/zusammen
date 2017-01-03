@@ -1,4 +1,5 @@
 {
   "org.amdocs.tsuzammen.sdk.CollaborationStoreFactory": "org.amdocs.tsuzammen.sdk.impl.CollaborationStoreFactoryImpl",
-  "org.amdocs.tsuzammen.sdk.StateStoreFactory": "org.amdocs.tsuzammen.sdk.impl.StateStoreFactoryImpl"
+  "org.amdocs.tsuzammen.sdk.StateStoreFactory": "org.amdocs.tsuzammen.sdk.impl.StateStoreFactoryImpl",
+  "org.amdocs.tsuzammen.sdk.SearchIndexFactory": "org.amdocs.tsuzammen.sdk.impl.SearchIndexFactoryImpl"
 }

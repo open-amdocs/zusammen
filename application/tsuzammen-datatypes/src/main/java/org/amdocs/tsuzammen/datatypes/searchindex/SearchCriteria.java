@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.sdk.utils;
+package org.amdocs.tsuzammen.datatypes.searchindex;
 
-public class SdkConstants {
-  public static final String TSUZAMMEN_COLLABORATIVE_STORE = "tsuzammen_collaborative_store";
-  public static final String TSUZAMMEN_STATE_STORE = "tsuzammen_state_store";
-  public static final String TSUZAMMEN_SEARCH_INDEX = "tsuzammen_search_index";
+public interface SearchCriteria {
 }
