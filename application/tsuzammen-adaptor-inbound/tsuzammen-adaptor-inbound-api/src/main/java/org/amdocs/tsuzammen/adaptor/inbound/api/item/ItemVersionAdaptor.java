@@ -19,6 +19,7 @@ package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.collaboration.SyncResult;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
 
@@ -39,5 +40,5 @@ public interface ItemVersionAdaptor {
 
   void publish(SessionContext context, Id itemId, Id versionId, String message);
 
-  void sync(SessionContext context, Id itemId, Id versionId, boolean overrideInd);
+  SyncResult sync(SessionContext context, Id itemId, Id versionId, boolean overrideInd);
 }
