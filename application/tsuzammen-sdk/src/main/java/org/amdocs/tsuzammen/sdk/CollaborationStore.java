@@ -21,8 +21,9 @@ import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
 import org.amdocs.tsuzammen.datatypes.collaboration.PublishResult;
-import org.amdocs.tsuzammen.datatypes.collaboration.SyncResult;
+import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
@@ -45,7 +46,7 @@ public interface CollaborationStore {
 
   PublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
 
-  SyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  SyncResponse syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
                              ItemVersion itemVersion);
@@ -63,4 +64,5 @@ public interface CollaborationStore {
                      CollaborationNamespace namespace, Id elementId);
 
 
+  MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 }

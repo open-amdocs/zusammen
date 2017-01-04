@@ -29,6 +29,10 @@ public class Id {
     this.value = value;
   }
 
+  public Id(String value) {
+    this.value = UUID.fromString(value);
+  }
+
   public UUID getValue() {
     return value;
   }

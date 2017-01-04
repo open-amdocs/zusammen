@@ -21,7 +21,8 @@ import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
-import org.amdocs.tsuzammen.datatypes.collaboration.SyncResult;
+import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
+import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
@@ -46,7 +47,7 @@ public interface CollaborationAdaptor {
 
   void publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
 
-  SyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  SyncResponse syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
   void revertItemVersion(SessionContext context, Id itemId, Id versionId,
                          String targetRevisionId);
@@ -71,4 +72,6 @@ public interface CollaborationAdaptor {
                      CollaborationNamespace collaborationNamespace, Id elementId);
 
   void commitEntities(SessionContext context, ElementContext elementContext, String message);
+
+  MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 }

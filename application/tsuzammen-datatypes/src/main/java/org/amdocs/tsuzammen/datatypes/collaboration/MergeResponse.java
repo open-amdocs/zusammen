@@ -19,7 +19,7 @@ package org.amdocs.tsuzammen.datatypes.collaboration;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class SyncResult {
+public class MergeResponse {
 
 
   private Collection<FileConflicts> conflicts = new ArrayList<>();
