@@ -23,13 +23,10 @@ public class SyncResponse {
 
 
   private Collection<FileConflicts> conflicts = new ArrayList<>();
-
+  private Collection<FileSyncInfo> fileSyncInfoCollection = new ArrayList<>();
   public boolean isSuccesses(){
       return conflicts==null || conflicts.size()==0;
     }
-
-
-
 
   public Collection<FileConflicts> getConflicts() {
     return conflicts;
@@ -42,6 +39,19 @@ public class SyncResponse {
 
   public void addConflict(FileConflicts conflict){
     conflicts.add(conflict);
+  }
+
+  public void addSyncFileResult(FileSyncInfo fileSyncInfo){
+    fileSyncInfoCollection.add(fileSyncInfo);
+  }
+
+  public Collection<FileSyncInfo> getFileSyncInfoCollection() {
+    return fileSyncInfoCollection;
+  }
+
+  public void setFileSyncInfoCollection(
+      Collection<FileSyncInfo> fileSyncInfoCollection) {
+    this.fileSyncInfoCollection = fileSyncInfoCollection;
   }
 }
 
