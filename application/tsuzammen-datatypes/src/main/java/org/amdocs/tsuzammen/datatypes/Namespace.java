@@ -18,6 +18,8 @@ package org.amdocs.tsuzammen.datatypes;
 
 public class Namespace {
   private String value;
+  public static String NAMESPACE_DELIMITER = "/";
+
 
   public Namespace() {
     value = "";
@@ -25,7 +27,7 @@ public class Namespace {
 
   public Namespace(Namespace parentNamespace, Id entityId) {
 
-    this.value = parentNamespace.getValue() + "/" + entityId.toString();
+    this.value = parentNamespace.getValue() + NAMESPACE_DELIMITER + entityId.toString();
   }
 
   public String getValue() {

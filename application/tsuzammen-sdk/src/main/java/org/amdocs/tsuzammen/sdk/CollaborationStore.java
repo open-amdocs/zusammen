@@ -54,7 +54,7 @@ public interface CollaborationStore {
                          Namespace namespace, Id elementId);
 
   void createElement(SessionContext context, ElementContext elementContext,
-                     Namespace parentNamespace, ElementData elementData);
+                     Namespace namespace, ElementData elementData);
 
   void saveElement(SessionContext context, ElementContext elementContext,
                    Namespace namespace, ElementData elementData);
