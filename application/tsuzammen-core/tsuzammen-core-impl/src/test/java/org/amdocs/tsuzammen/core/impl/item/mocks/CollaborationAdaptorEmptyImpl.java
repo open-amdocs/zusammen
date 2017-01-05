@@ -17,6 +17,7 @@
 package org.amdocs.tsuzammen.core.impl.item.mocks;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
+import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
@@ -24,9 +25,6 @@ import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
 import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
-import org.amdocs.tsuzammen.core.api.types.CoreElement;
-
-import java.util.Collection;
 
 public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
   @Override
@@ -74,30 +72,6 @@ public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public void revertItemVersion(SessionContext context, Id itemId, Id versionId,
-                                String targetRevisionId) {
-
-  }
-
-  @Override
-  public Collection listItemVersionRevisions(SessionContext context, Id itemId,
-                                             Id versionId) {
-    return null;
-  }
-
-  @Override
-  public Collection listItemVersionMissingRevisions(SessionContext context, Id itemId,
-                                                    Id versionId) {
-    return null;
-  }
-
-  @Override
-  public Collection listItemVersionOverRevisions(SessionContext context, Id itemId,
-                                                 Id versionId) {
-    return null;
-  }
-
-  @Override
   public CoreElement getElement(SessionContext context, ElementContext elementContext,
                                 Namespace namespace, Id elementId) {
     return null;
@@ -117,7 +91,7 @@ public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
-                            Namespace namespace, Id elementId) {
+                            Namespace namespace, CoreElement element) {
 
   }
 

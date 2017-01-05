@@ -55,7 +55,7 @@ public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public void delete(SessionContext context, ElementContext elementContext, Id elementId) {
+  public void delete(SessionContext context, ElementContext elementContext, ElementInfo element) {
 
   }
 }

@@ -28,6 +28,7 @@ import java.util.Map;
 
 public class ElementData {
   private Id id;
+  private Id parentId;
   private Info info;
   private Collection<Relation> relations;
   private Class elementImplClass;
@@ -42,6 +43,14 @@ public class ElementData {
 
   public void setId(Id id) {
     this.id = id;
+  }
+
+  public Id getParentId() {
+    return parentId;
+  }
+
+  public void setParentId(Id parentId) {
+    this.parentId = parentId;
   }
 
   public Info getInfo() {

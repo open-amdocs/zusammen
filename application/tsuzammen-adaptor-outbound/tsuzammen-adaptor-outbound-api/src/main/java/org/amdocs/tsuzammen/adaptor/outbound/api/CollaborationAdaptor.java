@@ -48,15 +48,8 @@ public interface CollaborationAdaptor {
 
   SyncResponse syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void revertItemVersion(SessionContext context, Id itemId, Id versionId,
-                         String targetRevisionId);
-
-  Collection listItemVersionRevisions(SessionContext context, Id itemId, Id versionId);
-
-  Collection listItemVersionMissingRevisions(SessionContext context, Id itemId,
-                                             Id versionId);
-
-  Collection listItemVersionOverRevisions(SessionContext context, Id itemId, Id versionId);
+  MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+                                 Id sourceVersionId);
 
   CoreElement getElement(SessionContext context, ElementContext elementContext,
                          Namespace namespace, Id elementId);
@@ -68,9 +61,7 @@ public interface CollaborationAdaptor {
                    Namespace namespace, CoreElement element);
 
   void deleteElement(SessionContext context, ElementContext elementContext,
-                     Namespace namespace, Id elementId);
+                     Namespace namespace, CoreElement element);
 
   void commitEntities(SessionContext context, ElementContext elementContext, String message);
-
-  MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 }

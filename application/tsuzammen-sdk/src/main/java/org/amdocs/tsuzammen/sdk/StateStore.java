@@ -70,7 +70,7 @@ public interface StateStore {
 
   void saveElement(SessionContext context, ElementContext elementContext, ElementInfo element);
 
-  void deleteElement(SessionContext context, ElementContext elementContext, Id elementId);
+  void deleteElement(SessionContext context, ElementContext elementContext, ElementInfo element);
 
   void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 

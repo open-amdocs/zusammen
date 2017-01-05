@@ -118,9 +118,9 @@ public class ElementManagerImpl implements ElementManager {
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
 
     getCollaborationAdaptor(context)
-        .deleteElement(context, elementContext, namespace, element.getId());
+        .deleteElement(context, elementContext, namespace, element);
 
-    getStateAdaptor(context).delete(context, elementContext, element.getId());
+    getStateAdaptor(context).delete(context, elementContext, getElementInfo(element));
 
     return namespace;
   }

@@ -104,7 +104,7 @@ public class ElementManagerImplTest {
     verify(collaborationAdaptor)
         .saveElement(context, elementContext, getNamespace(rootNs, a1.getId()), a1);
     verify(collaborationAdaptor)
-        .deleteElement(context, elementContext, getNamespace(rootNs, a3.getId()), a3.getId());
+        .deleteElement(context, elementContext, getNamespace(rootNs, a3.getId()), a3);
     verify(collaborationAdaptor)
         .createElement(context, elementContext, getNamespace(rootNs, a4.getId()), a4);
 
@@ -125,11 +125,11 @@ public class ElementManagerImplTest {
     elementManager.save(context, elementContext, root, "save delete root!");
 
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptor).deleteElement(context, elementContext, rootNs, root.getId());
+    verify(collaborationAdaptor).deleteElement(context, elementContext, rootNs, root);
 
     verify(stateAdaptor).getNamespace(context, elementContext, root.getId());
     verify(stateAdaptor).getNamespace(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor).delete(context, elementContext, root.getId());
+    verify(stateAdaptor).delete(anyObject(), anyObject(), anyObject());
   }
 
   @Test
@@ -169,7 +169,7 @@ public class ElementManagerImplTest {
 
     verify(collaborationAdaptor).saveElement(context, elementContext, a1Ns, a1);
     verify(collaborationAdaptor)
-        .deleteElement(context, elementContext, getNamespace(a1Ns, b11.getId()), b11.getId());
+        .deleteElement(context, elementContext, getNamespace(a1Ns, b11.getId()), b11);
     verify(collaborationAdaptor).saveElement(context, elementContext, c121Ns, c121);
     verify(collaborationAdaptor)
         .createElement(context, elementContext, getNamespace(c121Ns, d1211.getId()), d1211);
@@ -183,7 +183,7 @@ public class ElementManagerImplTest {
     verify(stateAdaptor).getNamespace(anyObject(), anyObject(), anyObject());
     verify(stateAdaptor, times(4)).create(anyObject(), anyObject(), anyObject(), anyObject());
     verify(stateAdaptor, times(2)).save(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor).delete(context, elementContext, b11.getId());
+    verify(stateAdaptor).delete(anyObject(), anyObject(), anyObject());
   }
 
   private void traverse(CoreElement element, Consumer<CoreElement> elementConsumer) {

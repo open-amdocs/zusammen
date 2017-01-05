@@ -60,7 +60,7 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public void delete(SessionContext context, ElementContext elementContext, Id elementId) {
-    OutboundAdaptorUtils.getStateStore(context).deleteElement(context, elementContext, elementId);
+  public void delete(SessionContext context, ElementContext elementContext, ElementInfo element) {
+    OutboundAdaptorUtils.getStateStore(context).deleteElement(context, elementContext, element);
   }
 }

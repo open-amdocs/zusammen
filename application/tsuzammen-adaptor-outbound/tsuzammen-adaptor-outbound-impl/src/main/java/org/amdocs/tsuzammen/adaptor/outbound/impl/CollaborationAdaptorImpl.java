@@ -89,29 +89,8 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   @Override
   public MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId,
                                         Id sourceVersionId) {
-    return getCollaborationStore(context).mergeItemVersion(context, itemId, versionId,sourceVersionId);
-  }
-
-  @Override
-  public void revertItemVersion(SessionContext context, Id itemId, Id versionId,
-                                String targetRevisionId) {
-
-  }
-
-  @Override
-  public Collection listItemVersionRevisions(SessionContext context, Id itemId, Id versionId) {
-    return null;
-  }
-
-  @Override
-  public Collection listItemVersionMissingRevisions(SessionContext context, Id itemId,
-                                                    Id versionId) {
-    return null;
-  }
-
-  @Override
-  public Collection listItemVersionOverRevisions(SessionContext context, Id itemId, Id versionId) {
-    return null;
+    return getCollaborationStore(context)
+        .mergeItemVersion(context, itemId, versionId, sourceVersionId);
   }
 
   @Override
@@ -137,9 +116,9 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
-                            Namespace namespace, Id elementId) {
+                            Namespace namespace, CoreElement element) {
     getCollaborationStore(context)
-        .deleteElement(context, elementContext, namespace, elementId);
+        .deleteElement(context, elementContext, namespace, getElementData(element));
   }
 
   @Override
@@ -148,12 +127,11 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     //getCollaborationStore(context).commitEntities(context, elementContext, message);
   }
 
-
-
   private ElementData getElementData(CoreElement coreElement) {
     ElementData elementData = new ElementData();
     elementData.setElementImplClass(coreElement.getElementImplClass());
     elementData.setId(coreElement.getId());
+    elementData.setParentId(coreElement.getParentId());
     elementData.setInfo(coreElement.getInfo());
     elementData.setRelations(coreElement.getRelations());
 

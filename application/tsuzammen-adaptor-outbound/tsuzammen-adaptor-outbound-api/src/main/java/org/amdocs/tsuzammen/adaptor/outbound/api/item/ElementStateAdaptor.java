@@ -38,5 +38,5 @@ public interface ElementStateAdaptor {
 
   void save(SessionContext context, ElementContext elementContext, ElementInfo element);
 
-  void delete(SessionContext context, ElementContext elementContext, Id elementId);
+  void delete(SessionContext context, ElementContext elementContext, ElementInfo element);
 }

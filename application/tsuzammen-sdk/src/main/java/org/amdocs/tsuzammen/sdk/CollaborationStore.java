@@ -30,7 +30,6 @@ import org.amdocs.tsuzammen.sdk.types.ElementData;
 
 public interface CollaborationStore {
 
-
   void createItem(SessionContext context, Id itemId, Info itemInfo);
 
   void deleteItem(SessionContext context, Id itemId);
@@ -50,6 +49,9 @@ public interface CollaborationStore {
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
                              ItemVersion itemVersion);
 
+  MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+                                 Id sourceVersionId);
+
   ElementData getElement(SessionContext context, ElementContext elementContext,
                          Namespace namespace, Id elementId);
 
@@ -60,8 +62,5 @@ public interface CollaborationStore {
                    Namespace namespace, ElementData elementData);
 
   void deleteElement(SessionContext context, ElementContext elementContext,
-                     Namespace namespace, Id elementId);
-
-  MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                 Id sourceVersionId);
+                     Namespace namespace, ElementData elementData);
 }
