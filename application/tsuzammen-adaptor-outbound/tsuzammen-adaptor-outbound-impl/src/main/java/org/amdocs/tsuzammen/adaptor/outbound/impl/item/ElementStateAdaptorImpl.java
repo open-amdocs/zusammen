@@ -18,17 +18,18 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.impl.OutboundAdaptorUtils;
+import org.amdocs.tsuzammen.datatypes.FetchCriteria;
 import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.datatypes.item.ElementNamespace;
 
 public class ElementStateAdaptorImpl implements ElementStateAdaptor {
 
   @Override
-  public ElementNamespace getNamespace(SessionContext context, ElementContext elementContext,
-                                       Id elementId) {
+  public Namespace getNamespace(SessionContext context, ElementContext elementContext,
+                                Id elementId) {
     return OutboundAdaptorUtils.getStateStore(context)
         .getElementNamespace(context, elementContext, elementId);
   }
@@ -40,21 +41,26 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId) {
+  public ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId,
+                         FetchCriteria fetchCriteria) {
     return OutboundAdaptorUtils.getStateStore(context)
-        .getElement(context, elementContext, elementId);
+        .getElement(context, elementContext, elementId, fetchCriteria);
   }
 
   @Override
   public void create(SessionContext context, ElementContext elementContext,
-                     ElementNamespace elementNamespace, ElementInfo element) {
+                     Namespace namespace, ElementInfo element) {
     OutboundAdaptorUtils.getStateStore(context)
-        .createElement(context, elementContext, elementNamespace, element);
+        .createElement(context, elementContext, namespace, element);
   }
 
   @Override
   public void save(SessionContext context, ElementContext elementContext, ElementInfo element) {
-    OutboundAdaptorUtils.getStateStore(context)
-        .saveElement(context, elementContext, element);
+    OutboundAdaptorUtils.getStateStore(context).saveElement(context, elementContext, element);
+  }
+
+  @Override
+  public void delete(SessionContext context, ElementContext elementContext, Id elementId) {
+    OutboundAdaptorUtils.getStateStore(context).deleteElement(context, elementContext, elementId);
   }
 }

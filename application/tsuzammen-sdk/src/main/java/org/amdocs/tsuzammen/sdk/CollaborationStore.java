@@ -17,7 +17,6 @@
 package org.amdocs.tsuzammen.sdk;
 
 
-import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
@@ -49,15 +48,15 @@ public interface CollaborationStore {
                              ItemVersion itemVersion);
 
   ElementData getElement(SessionContext context, ElementContext elementContext,
-                         CollaborationNamespace namespace, Id elementId);
+                         Namespace namespace, Id elementId);
 
-  CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
-                                       Namespace parentNamespace, ElementData elementData);
+  void createElement(SessionContext context, ElementContext elementContext,
+                                       Namespace namespace, ElementData elementData);
 
   void saveElement(SessionContext context, ElementContext elementContext,
-                   CollaborationNamespace namespace, ElementData elementData);
+                   Namespace namespace, ElementData elementData);
 
 
   void deleteElement(SessionContext context, ElementContext elementContext,
-                     CollaborationNamespace namespace, Id elementId);
+                     Namespace namespace, Id elementId);
 }

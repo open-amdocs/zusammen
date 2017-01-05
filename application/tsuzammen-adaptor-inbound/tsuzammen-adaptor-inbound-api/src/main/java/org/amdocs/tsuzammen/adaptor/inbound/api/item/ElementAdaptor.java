@@ -18,8 +18,8 @@ package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
+import org.amdocs.tsuzammen.datatypes.FetchCriteria;
 import org.amdocs.tsuzammen.datatypes.Id;
-import org.amdocs.tsuzammen.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
@@ -27,15 +27,11 @@ import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 public interface ElementAdaptor {
 
   Element get(SessionContext context, ElementContext elementContext, Id elementId,
-              SearchCriteria searchCriteria);
+              FetchCriteria fetchCriteria);
 
   ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId,
-                      SearchCriteria searchCriteria);
+                      FetchCriteria fetchCriteria);
 
-  // create / update
-  Element update(SessionContext context, ElementContext elementContext, Element element,
-                 String message);
-
-  void delete(SessionContext context, ElementContext elementContext, Id elementId,
-              String message);
+  void save(SessionContext context, ElementContext elementContext, Element element,
+            String message);
 }

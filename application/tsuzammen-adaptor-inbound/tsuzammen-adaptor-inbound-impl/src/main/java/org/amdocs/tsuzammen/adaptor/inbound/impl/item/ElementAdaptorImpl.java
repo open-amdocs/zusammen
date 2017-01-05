@@ -21,8 +21,8 @@ import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
 import org.amdocs.tsuzammen.core.api.item.ElementManager;
 import org.amdocs.tsuzammen.core.api.item.ElementManagerFactory;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
+import org.amdocs.tsuzammen.datatypes.FetchCriteria;
 import org.amdocs.tsuzammen.datatypes.Id;
-import org.amdocs.tsuzammen.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
@@ -36,33 +36,27 @@ public class ElementAdaptorImpl implements ElementAdaptor {
 
   @Override
   public Element get(SessionContext context, ElementContext elementContext, Id elementId,
-                     SearchCriteria searchCriteria) {
+                     FetchCriteria fetchCriteria) {
     return getElement(
-        getElementManager(context).get(context, elementContext, elementId, searchCriteria));
+        getElementManager(context).get(context, elementContext, elementId, fetchCriteria));
   }
 
   @Override
   public ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId,
-                             SearchCriteria searchCriteria) {
-    return getElementManager(context).getInfo(context, elementContext, elementId, searchCriteria);
+                             FetchCriteria fetchCriteria) {
+    return getElementManager(context).getInfo(context, elementContext, elementId, fetchCriteria);
   }
 
   @Override
-  public Element update(SessionContext context, ElementContext elementContext,
-                        Element element, String message) {
-    return getElement(
-        getElementManager(context).update(context, elementContext, getCoreElement(element),
-            message));
-  }
-
-  @Override
-  public void delete(SessionContext context, ElementContext elementContext, Id elementId,
-                     String message) {
+  public void save(SessionContext context, ElementContext elementContext,
+                   Element element, String message) {
+    getElementManager(context).save(context, elementContext, getCoreElement(element), message);
   }
 
   private Element getElement(CoreElement coreElement) {
     Element element = (Element) CommonMethods.newInstance(coreElement.getElementImplClass());
-    element.setElementId(coreElement.getElementId());
+
+    element.setElementId(coreElement.getId());
     element.setInfo(coreElement.getInfo());
     element.setRelations(coreElement.getRelations());
 
@@ -83,7 +77,10 @@ public class ElementAdaptorImpl implements ElementAdaptor {
 
   private CoreElement getCoreElement(Element element) {
     CoreElement coreElement = new CoreElement();
-    coreElement.setElementId(element.getElementId());
+    coreElement.setElementImplClass(element.getClass());
+    coreElement.setAction(element.getAction());
+
+    coreElement.setId(element.getElementId());
     coreElement.setInfo(element.getInfo());
     coreElement.setRelations(element.getRelations());
 

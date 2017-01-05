@@ -27,94 +27,120 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFac
 import org.amdocs.tsuzammen.core.api.item.ElementManager;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.core.impl.Messages;
-import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
+import org.amdocs.tsuzammen.datatypes.FetchCriteria;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
-import org.amdocs.tsuzammen.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.datatypes.item.ElementNamespace;
 
 public class ElementManagerImpl implements ElementManager {
 
   @Override
   public CoreElement get(SessionContext context, ElementContext elementContext,
-                         Id elementId, SearchCriteria searchCriteria) {
+                         Id elementId, FetchCriteria fetchCriteria) {
     return null;
   }
 
   @Override
   public ElementInfo getInfo(SessionContext context, ElementContext elementContext,
-                             Id elementId, SearchCriteria searchCriteria) {
-    return getStateAdaptor(context).get(context, elementContext, elementId);
+                             Id elementId, FetchCriteria fetchCriteria) {
+    return getStateAdaptor(context).get(context, elementContext, elementId, fetchCriteria);
   }
 
   @Override
-  public CoreElement update(SessionContext context, ElementContext elementContext,
-                            CoreElement element, String message) {
-
+  public void save(SessionContext context, ElementContext elementContext,
+                   CoreElement element, String message) {
     // TODO error handling
     validateItemVersionExistence(context, elementContext.getItemId(),
         elementContext.getVersionId());
 
-    updateRecursively(context, elementContext, new Namespace(), null, element);
-    return null;
+    Namespace parentNamespace =
+        element.getAction() == ElementAction.CREATE ? new Namespace() : null;
+    traverse(context, elementContext, parentNamespace, element);
   }
 
-  private void updateRecursively(SessionContext context, ElementContext elementContext,
-                                 Namespace parentNamespace, Id parentId, CoreElement element) {
-    if (element.getElementId() == null) {
-      createRecursively(context, elementContext, parentNamespace, parentId, element);
-    } else {
-      ElementNamespace elementNamespace =
-          getStateAdaptor(context).getNamespace(context, elementContext, element.getElementId());
-      if (elementNamespace == null) {
-        //error - no such element
-      }
-
-      save(context, elementContext, elementNamespace.getCollaborationNamespace(), parentId,
-          element);
-
-      element.getSubElements().forEach(subElement ->
-          updateRecursively(context, elementContext, elementNamespace.getNamespace(),
-              element.getElementId(), subElement));
+  private void traverse(SessionContext context, ElementContext elementContext,
+                        Namespace parentNamespace, CoreElement element) {
+    Namespace namespace;
+    switch (element.getAction()) {
+      case CREATE:
+        namespace = create(context, elementContext, parentNamespace, element);
+        break;
+      case UPDATE:
+        namespace = update(context, elementContext, parentNamespace, element);
+        break;
+      case DELETE:
+        namespace = delete(context, elementContext, parentNamespace, element);
+        break;
+      case IGNORE:
+        namespace = ignore(context, elementContext, parentNamespace, element);
+        break;
+      default:
+        throw new RuntimeException(
+            String.format("Action %s is not supported", element.getAction()));
     }
-  }
-
-  private void createRecursively(SessionContext context, ElementContext elementContext,
-                                 Namespace parentNamespace, Id parentId, CoreElement element) {
-    element.setElementId(new Id());
-    Namespace namespace = create(context, elementContext, parentNamespace, parentId, element);
 
     element.getSubElements().forEach(subElement ->
-        createRecursively(context, elementContext, namespace, element.getElementId(), subElement));
+        traverse(context, elementContext, namespace, subElement));
   }
 
   private Namespace create(SessionContext context, ElementContext elementContext,
-                           Namespace parentNamespace, Id parentId, CoreElement element) {
-    CollaborationNamespace collaborationNamespace = getCollaborationAdaptor(context)
-        .createElement(context, elementContext, parentNamespace, element);
-    Namespace namespace = new Namespace(parentNamespace, element.getElementId());
-    ElementNamespace elementNamespace = new ElementNamespace(namespace, collaborationNamespace);
-    getStateAdaptor(context).create(context, elementContext, elementNamespace,
-        getElementInfo(element, parentId));
+                           Namespace parentNamespace,
+                           CoreElement element) {
+    element.setId(new Id());
+    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
+
+    getCollaborationAdaptor(context)
+        .createElement(context, elementContext, namespace, element);
+
+    getStateAdaptor(context)
+        .create(context, elementContext, namespace, getElementInfo(element));
 
     return namespace;
   }
 
-  private void save(SessionContext context, ElementContext elementContext,
-                    CollaborationNamespace collaborationNamespace, Id parentId,
-                    CoreElement element) {
+  private Namespace update(SessionContext context, ElementContext elementContext,
+                           Namespace parentNamespace, CoreElement element) {
+    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
+
     getCollaborationAdaptor(context)
-        .saveElement(context, elementContext, collaborationNamespace, element);
-    getStateAdaptor(context).save(context, elementContext, getElementInfo(element, parentId));
+        .saveElement(context, elementContext, namespace, element);
+
+    getStateAdaptor(context).save(context, elementContext, getElementInfo(element));
+
+    return namespace;
   }
 
-  private ElementInfo getElementInfo(CoreElement coreElement, Id parentId) {
+  private Namespace delete(SessionContext context, ElementContext elementContext,
+                           Namespace parentNamespace, CoreElement element) {
+    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
+
+    getCollaborationAdaptor(context)
+        .deleteElement(context, elementContext, namespace, element.getId());
+
+    getStateAdaptor(context).delete(context, elementContext, element.getId());
+
+    return namespace;
+  }
+
+  private Namespace ignore(SessionContext context, ElementContext elementContext,
+                           Namespace parentNamespace, CoreElement element) {
+    return getNamespace(context, elementContext, parentNamespace, element.getId());
+  }
+
+  private Namespace getNamespace(SessionContext context, ElementContext elementContext,
+                                 Namespace parentNamespace, Id elementId) {
+    return parentNamespace == null
+        ? getStateAdaptor(context).getNamespace(context, elementContext, elementId)
+        : new Namespace(parentNamespace, elementId);
+  }
+
+  private ElementInfo getElementInfo(CoreElement coreElement) {
     ElementInfo elementInfo = new ElementInfo();
-    elementInfo.setId(coreElement.getElementId());
-    elementInfo.setParentId(parentId);
+    elementInfo.setId(coreElement.getId());
+    elementInfo.setParentId(coreElement.getParentId());
     elementInfo.setInfo(coreElement.getInfo());
     elementInfo.setRelations(coreElement.getRelations());
     return elementInfo;

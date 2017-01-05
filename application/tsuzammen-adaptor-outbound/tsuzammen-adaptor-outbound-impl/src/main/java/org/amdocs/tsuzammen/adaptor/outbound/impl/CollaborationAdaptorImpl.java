@@ -19,7 +19,6 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
-import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
@@ -109,30 +108,30 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   @Override
   public CoreElement getElement(SessionContext context, ElementContext elementContext,
-                                CollaborationNamespace namespace, Id elementId) {
+                                Namespace namespace, Id elementId) {
     return getCoreElement(
         getCollaborationStore(context).getElement(context, elementContext, namespace, elementId));
   }
 
   @Override
-  public CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
-                                              Namespace parentNamespace, CoreElement element) {
-    return getCollaborationStore(context)
-        .createElement(context, elementContext, parentNamespace, getElementData(element));
+  public void createElement(SessionContext context, ElementContext elementContext,
+                            Namespace namespace, CoreElement element) {
+    getCollaborationStore(context)
+        .createElement(context, elementContext, namespace, getElementData(element));
   }
 
   @Override
   public void saveElement(SessionContext context, ElementContext elementContext,
-                          CollaborationNamespace collaborationNamespace, CoreElement element) {
+                          Namespace namespace, CoreElement element) {
     getCollaborationStore(context)
-        .saveElement(context, elementContext, collaborationNamespace, getElementData(element));
+        .saveElement(context, elementContext, namespace, getElementData(element));
   }
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
-                            CollaborationNamespace collaborationNamespace, Id elementId) {
+                            Namespace namespace, Id elementId) {
     getCollaborationStore(context)
-        .deleteElement(context, elementContext, collaborationNamespace, elementId);
+        .deleteElement(context, elementContext, namespace, elementId);
   }
 
   @Override
@@ -144,7 +143,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   private ElementData getElementData(CoreElement coreElement) {
     ElementData elementData = new ElementData();
     elementData.setElementImplClass(coreElement.getElementImplClass());
-    elementData.setId(coreElement.getElementId());
+    elementData.setId(coreElement.getId());
     elementData.setInfo(coreElement.getInfo());
     elementData.setRelations(coreElement.getRelations());
 
@@ -174,7 +173,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   private CoreElement getCoreElement(Id elementId, Class elementImplClass) {
     CoreElement coreElement = new CoreElement();
     coreElement.setElementImplClass(elementImplClass);
-    coreElement.setElementId(elementId);
+    coreElement.setId(elementId);
     return coreElement;
   }
 

@@ -16,5 +16,7 @@
 
 package org.amdocs.tsuzammen.datatypes;
 
-public class SearchCriteria {
+public enum Space {
+  PUBLIC,
+  PRIVATE
 }

@@ -16,21 +16,21 @@
 
 package org.amdocs.tsuzammen.core.api.item;
 
+import org.amdocs.tsuzammen.core.api.types.CoreElement;
+import org.amdocs.tsuzammen.datatypes.FetchCriteria;
 import org.amdocs.tsuzammen.datatypes.Id;
-import org.amdocs.tsuzammen.datatypes.SearchCriteria;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.core.api.types.CoreElement;
 
 public interface ElementManager {
 
   CoreElement get(SessionContext context, ElementContext elementContext, Id elementId,
-                  SearchCriteria searchCriteria);
+                  FetchCriteria fetchCriteria);
 
   ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId,
-                      SearchCriteria searchCriteria);
+                      FetchCriteria fetchCriteria);
 
-  CoreElement update(SessionContext context, ElementContext elementContext, CoreElement element,
-                     String message);
+  void save(SessionContext context, ElementContext elementContext, CoreElement element,
+            String message);
 }

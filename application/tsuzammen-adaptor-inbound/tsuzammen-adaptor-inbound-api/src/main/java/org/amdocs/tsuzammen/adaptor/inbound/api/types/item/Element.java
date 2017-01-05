@@ -17,14 +17,19 @@
 package org.amdocs.tsuzammen.adaptor.inbound.api.types.item;
 
 import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
 
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Map;
 
 public interface Element {
+
+  ElementAction getAction();
+
+  void setAction(ElementAction action);
+
   Id getElementId();
 
   void setElementId(Id elementId);

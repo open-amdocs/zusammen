@@ -23,6 +23,7 @@ import org.amdocs.tsuzammen.datatypes.item.Info;
 public class TestUtils {
   public static Info createInfo(String value) {
     Info info = new Info();
+    info.setName(value);
     info.addProperty("Name", "name_" + value);
     info.addProperty("Desc", "desc_" + value);
     return info;

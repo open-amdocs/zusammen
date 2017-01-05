@@ -17,11 +17,12 @@
 package org.amdocs.tsuzammen.sdk;
 
 
+import org.amdocs.tsuzammen.datatypes.FetchCriteria;
 import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.datatypes.item.ElementNamespace;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Item;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
@@ -56,15 +57,16 @@ public interface StateStore {
 
   void syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  ElementNamespace getElementNamespace(SessionContext context, ElementContext elementContext,
-                                       Id elementId);
+  Namespace getElementNamespace(SessionContext context, ElementContext elementContext,
+                                Id elementId);
 
   boolean isElementExist(SessionContext context, ElementContext elementContext, Id elementId);
 
-  ElementInfo getElement(SessionContext context, ElementContext elementContext, Id elementId);
+  ElementInfo getElement(SessionContext context, ElementContext elementContext, Id elementId,
+                         FetchCriteria fetchCriteria);
 
   void createElement(SessionContext context, ElementContext elementContext,
-                     ElementNamespace elementNamespace, ElementInfo element);
+                     Namespace elementNamespace, ElementInfo element);
 
   void saveElement(SessionContext context, ElementContext elementContext, ElementInfo element);
 

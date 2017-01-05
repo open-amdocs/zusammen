@@ -17,18 +17,19 @@
 package org.amdocs.tsuzammen.core.impl.item.mocks;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
+import org.amdocs.tsuzammen.datatypes.FetchCriteria;
 import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.datatypes.item.ElementNamespace;
 
 public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
 
   @Override
-  public ElementNamespace getNamespace(SessionContext context, ElementContext elementContext,
-                                       Id elementId) {
-    return null;
+  public Namespace getNamespace(SessionContext context, ElementContext elementContext,
+                                Id elementId) {
+    return new Namespace(new Namespace(), elementId);
   }
 
   @Override
@@ -37,18 +38,24 @@ public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId) {
+  public ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId,
+                         FetchCriteria fetchCriteria) {
     return null;
   }
 
   @Override
   public void create(SessionContext context, ElementContext elementContext,
-                     ElementNamespace elementNamespace, ElementInfo element) {
+                     Namespace namespace, ElementInfo element) {
 
   }
 
   @Override
   public void save(SessionContext context, ElementContext elementContext, ElementInfo element) {
+
+  }
+
+  @Override
+  public void delete(SessionContext context, ElementContext elementContext, Id elementId) {
 
   }
 }

@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.datatypes;
+package org.amdocs.tsuzammen.adaptor.inbound.api.types.item;
 
-public class CollaborationNamespace {
-  private String value;
+import java.io.InputStream;
 
-  public CollaborationNamespace() {
-  }
+public interface ElementWriter {
+  void setData(InputStream data);
 
-  public CollaborationNamespace(String value) {
-    this.value = value;
-  }
+  void setSearchData(InputStream searchData);
 
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
-  }
+  void setVisualization(InputStream visualization);
 }

@@ -24,6 +24,7 @@ public class Namespace {
   }
 
   public Namespace(Namespace parentNamespace, Id entityId) {
+
     this.value = parentNamespace.getValue() + "/" + entityId.toString();
   }
 
@@ -33,5 +34,28 @@ public class Namespace {
 
   public void setValue(String value) {
     this.value = value;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+
+    Namespace namespace = (Namespace) obj;
+
+    if (value != null ? !value.equals(namespace.value) : namespace.value != null) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return value != null ? value.hashCode() : 0;
   }
 }

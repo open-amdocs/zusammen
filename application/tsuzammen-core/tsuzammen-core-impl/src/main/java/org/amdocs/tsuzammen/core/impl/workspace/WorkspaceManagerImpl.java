@@ -20,12 +20,12 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.workspace.WorkspaceStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.workspace.WorkspaceStateAdaptorFactory;
+import org.amdocs.tsuzammen.core.api.workspace.WorkspaceManager;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.ItemVersionKey;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.workspace.WorkspaceInfo;
-import org.amdocs.tsuzammen.core.api.workspace.WorkspaceManager;
 
 import java.util.Collection;
 
@@ -58,7 +58,7 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
   public void addItem(SessionContext context, Id workspaceId, Id itemId, Id versionId) {
 
     //get item from collaborative store
-    //update item in state store
+    //save item in state store
     //add item to workspace in the state store
 
   }

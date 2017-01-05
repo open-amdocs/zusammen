@@ -17,7 +17,6 @@
 package org.amdocs.tsuzammen.core.impl.item.mocks;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
-import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
@@ -97,30 +96,28 @@ public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
 
   @Override
   public CoreElement getElement(SessionContext context, ElementContext elementContext,
-                                CollaborationNamespace namespace, Id elementId) {
+                                Namespace namespace, Id elementId) {
     return null;
   }
 
   @Override
-  public CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
-                                              Namespace parentNamespace,
-                                              CoreElement element) {
-    return null;
+  public void createElement(SessionContext context, ElementContext elementContext,
+                            Namespace namespace, CoreElement element) {
+
   }
 
   @Override
   public void saveElement(SessionContext context, ElementContext elementContext,
-                          CollaborationNamespace collaborationNamespace,
-                          CoreElement element) {
+                          Namespace namespace, CoreElement element) {
 
   }
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
-                            CollaborationNamespace collaborationNamespace,
-                            Id elementId) {
+                            Namespace namespace, Id elementId) {
 
   }
+
 
   @Override
   public void commitEntities(SessionContext context, ElementContext elementContext,

@@ -14,15 +14,8 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.datatypes.item;
+package org.amdocs.tsuzammen.datatypes;
 
-import java.io.InputStream;
-
-public interface ElementReader {
-
-  InputStream getData();
-
-  InputStream getSearchData();
-
-  InputStream getVisualization();
+public class FetchCriteria {
+  private Space space;
 }

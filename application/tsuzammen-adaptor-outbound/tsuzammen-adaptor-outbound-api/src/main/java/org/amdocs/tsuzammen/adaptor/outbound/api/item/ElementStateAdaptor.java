@@ -16,23 +16,27 @@
 
 package org.amdocs.tsuzammen.adaptor.outbound.api.item;
 
+import org.amdocs.tsuzammen.datatypes.FetchCriteria;
 import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.datatypes.item.ElementNamespace;
 
 public interface ElementStateAdaptor {
 
-  ElementNamespace getNamespace(SessionContext context, ElementContext elementContext,
-                                Id elementId);
+  Namespace getNamespace(SessionContext context, ElementContext elementContext,
+                         Id elementId);
 
   boolean isExist(SessionContext context, ElementContext elementContext, Id elementId);
 
-  ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId);
+  ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId,
+                  FetchCriteria fetchCriteria);
 
   void create(SessionContext context, ElementContext elementContext,
-              ElementNamespace elementNamespace, ElementInfo element);
+              Namespace namespace, ElementInfo element);
 
   void save(SessionContext context, ElementContext elementContext, ElementInfo element);
+
+  void delete(SessionContext context, ElementContext elementContext, Id elementId);
 }

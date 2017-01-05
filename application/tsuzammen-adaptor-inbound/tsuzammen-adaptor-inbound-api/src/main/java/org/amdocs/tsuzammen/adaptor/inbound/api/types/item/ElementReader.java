@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.datatypes.item;
+package org.amdocs.tsuzammen.adaptor.inbound.api.types.item;
 
 import java.io.InputStream;
 
-public interface ElementWriter {
-  void setData(InputStream data);
+public interface ElementReader {
 
-  void setSearchData(InputStream searchData);
+  InputStream getData();
 
-  void setVisualization(InputStream visualization);
+  InputStream getSearchData();
+
+  InputStream getVisualization();
 }
