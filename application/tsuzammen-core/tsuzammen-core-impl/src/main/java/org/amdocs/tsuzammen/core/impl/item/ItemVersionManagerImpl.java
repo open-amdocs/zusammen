@@ -25,6 +25,8 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
+import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionManager;
@@ -80,16 +82,28 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public void sync(SessionContext context, Id itemId, Id versionId) {
+  public SyncResponse sync(SessionContext context, Id itemId, Id versionId) {
     validateItemVersionExistence(context, itemId, versionId);
-    getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
+    SyncResponse syncResult = getCollaborationAdaptor(context).syncItemVersion(context, itemId,
+        versionId);
     getStateAdaptor(context).syncItemVersion(context, itemId, versionId);
+    return syncResult;
+  }
+
+  @Override
+  public MergeResponse merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId) {
+    validateItemVersionExistence(context, itemId, versionId);
+    MergeResponse mergeResult = getCollaborationAdaptor(context).mergeItemVersion(context, itemId,
+        versionId,sourceVersionId);
+    return mergeResult;
   }
 
   @Override
   public void revert(SessionContext context, Id itemId, Id versionId,
                      String targetRevisionId) {
   }
+
+
 
   private void validateItemVersionExistence(SessionContext context, Id itemId,
                                             Id versionId) {

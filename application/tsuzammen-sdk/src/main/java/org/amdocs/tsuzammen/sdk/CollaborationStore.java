@@ -17,9 +17,13 @@
 package org.amdocs.tsuzammen.sdk;
 
 
+import org.amdocs.tsuzammen.datatypes.CollaborationNamespace;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
+import org.amdocs.tsuzammen.datatypes.collaboration.PublishResult;
+import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
@@ -40,23 +44,24 @@ public interface CollaborationStore {
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
+  PublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
 
-  void syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  SyncResponse syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
                              ItemVersion itemVersion);
 
   ElementData getElement(SessionContext context, ElementContext elementContext,
-                         Namespace namespace, Id elementId);
+                         CollaborationNamespace namespace, Id elementId);
 
-  void createElement(SessionContext context, ElementContext elementContext,
-                                       Namespace namespace, ElementData elementData);
+  CollaborationNamespace createElement(SessionContext context, ElementContext elementContext,
+                                       Namespace parentNamespace, ElementData elementData);
 
   void saveElement(SessionContext context, ElementContext elementContext,
-                   Namespace namespace, ElementData elementData);
-
+                   CollaborationNamespace namespace, ElementData elementData);
 
   void deleteElement(SessionContext context, ElementContext elementContext,
-                     Namespace namespace, Id elementId);
+                     CollaborationNamespace namespace, Id elementId);
+
+  MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 }

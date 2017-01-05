@@ -14,10 +14,25 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.sdk.utils;
+package org.amdocs.tsuzammen.datatypes.collaboration;
 
-public class SdkConstants {
-  public static final String TSUZAMMEN_COLLABORATIVE_STORE = "tsuzammen_collaborative_store";
-  public static final String TSUZAMMEN_STATE_STORE = "tsuzammen_state_store";
-  public static final String TSUZAMMEN_SEARCH_INDEX = "tsuzammen_search_index";
+import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
+public class PublishResult {
+  private boolean resultStatus=true;
+
+
+  public boolean isSuccesses(){
+      return this.resultStatus;
+    }
+
+
+  public void setResultStatus(boolean status){
+    this.resultStatus = status;
+  }
+
+
 }

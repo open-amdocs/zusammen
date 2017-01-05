@@ -20,6 +20,8 @@ import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionAdaptor;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.UserInfo;
+import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
+import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionManager;
@@ -63,9 +65,13 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   }
 
   @Override
-  public void sync(SessionContext context, Id itemId, Id versionId,
-                   boolean overrideInd) {
-    getItemVersionManager(context).sync(context, itemId, versionId);
+  public SyncResponse sync(SessionContext context, Id itemId, Id versionId) {
+    return getItemVersionManager(context).sync(context, itemId, versionId);
+  }
+
+  @Override
+  public MergeResponse merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId) {
+    return getItemVersionManager(context).merge(context, itemId, versionId,sourceVersionId);
   }
 
   private SessionContext createSessionContext(UserInfo user) {

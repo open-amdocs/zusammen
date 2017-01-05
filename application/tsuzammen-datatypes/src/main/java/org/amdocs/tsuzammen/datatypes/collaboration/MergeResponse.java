@@ -14,10 +14,35 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.sdk.utils;
+package org.amdocs.tsuzammen.datatypes.collaboration;
 
-public class SdkConstants {
-  public static final String TSUZAMMEN_COLLABORATIVE_STORE = "tsuzammen_collaborative_store";
-  public static final String TSUZAMMEN_STATE_STORE = "tsuzammen_state_store";
-  public static final String TSUZAMMEN_SEARCH_INDEX = "tsuzammen_search_index";
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class MergeResponse {
+
+
+  private Collection<FileConflicts> conflicts = new ArrayList<>();
+
+  public boolean isSuccesses(){
+      return conflicts==null || conflicts.size()==0;
+    }
+
+
+
+
+  public Collection<FileConflicts> getConflicts() {
+    return conflicts;
+  }
+
+  public void setConflicts(
+      Collection<FileConflicts> conflicts) {
+    this.conflicts = conflicts;
+  }
+
+  public void addConflict(FileConflicts conflict){
+    conflicts.add(conflict);
+  }
 }
+
+

@@ -19,6 +19,8 @@ package org.amdocs.tsuzammen.core.api.item;
 
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
+import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
 
@@ -38,7 +40,9 @@ public interface ItemVersionManager {
 
   void publish(SessionContext context, Id itemId, Id versionId, String message);
 
-  void sync(SessionContext context, Id itemId, Id versionId);
+  SyncResponse sync(SessionContext context, Id itemId, Id versionId);
 
   void revert(SessionContext context, Id itemId, Id versionId, String targetRevisionId);
+
+  MergeResponse merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 }
