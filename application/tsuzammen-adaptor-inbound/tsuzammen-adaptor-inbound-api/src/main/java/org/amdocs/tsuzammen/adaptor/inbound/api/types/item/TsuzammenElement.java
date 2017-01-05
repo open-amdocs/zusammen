@@ -17,14 +17,24 @@
 package org.amdocs.tsuzammen.adaptor.inbound.api.types.item;
 
 import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
 
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Map;
 
 public class TsuzammenElement implements Element {
+  @Override
+  public ElementAction getAction() {
+    return null;
+  }
+
+  @Override
+  public void setAction(ElementAction action) {
+
+  }
+
   @Override
   public Id getElementId() {
     return null;
@@ -86,12 +96,12 @@ public class TsuzammenElement implements Element {
   }
 
   @Override
-  public Map<Id, Element> getSubElements() {
+  public Collection<Element> getSubElements() {
     return null;
   }
 
   @Override
-  public void setSubElements(Map<Id, Element> subElements) {
+  public void setSubElements(Collection<Element> subElements) {
 
   }
 }

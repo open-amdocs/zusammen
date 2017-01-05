@@ -19,19 +19,10 @@ package org.amdocs.tsuzammen.sdk;
 
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
-import org.amdocs.tsuzammen.datatypes.item.ElementContext;
-import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.datatypes.item.ElementNamespace;
-import org.amdocs.tsuzammen.datatypes.item.Info;
-import org.amdocs.tsuzammen.datatypes.item.Item;
-import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchContext;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchResult;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
-import org.amdocs.tsuzammen.datatypes.workspace.WorkspaceInfo;
-
-import java.util.Collection;
 
 public interface SearchIndex {
 
