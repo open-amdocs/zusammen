@@ -16,23 +16,10 @@
 
 package org.amdocs.tsuzammen.datatypes.collaboration;
 
-public class FileSyncInfo {
-  private String fileName;
-  private ChangeType action;
-
-  public String getFileName() {
-    return fileName;
-  }
-
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
-  }
-
-  public ChangeType getAction() {
-    return action;
-  }
-
-  public void setAction(ChangeType action) {
-    this.action = action;
-  }
+public enum ChangeType {
+  ADD,
+  MODIFY,
+  DELETE,
+  RENAME,
+  COPY;
 }
