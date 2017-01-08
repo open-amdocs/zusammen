@@ -27,12 +27,12 @@ public class ElementInfo {
   private Collection<Relation> relations;
   private Collection<ElementInfo> subElements; //core uses for get
 
-  public Id getId() {
-    return id;
+  public ElementInfo(Id id) {
+    this.id = id;
   }
 
-  public void setId(Id id) {
-    this.id = id;
+  public Id getId() {
+    return id;
   }
 
   public Info getInfo() {

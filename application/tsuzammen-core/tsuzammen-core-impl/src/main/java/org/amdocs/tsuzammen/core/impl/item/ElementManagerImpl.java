@@ -138,8 +138,7 @@ public class ElementManagerImpl implements ElementManager {
   }
 
   private ElementInfo getElementInfo(CoreElement coreElement) {
-    ElementInfo elementInfo = new ElementInfo();
-    elementInfo.setId(coreElement.getId());
+    ElementInfo elementInfo = new ElementInfo(coreElement.getId());
     elementInfo.setParentId(coreElement.getParentId());
     elementInfo.setInfo(coreElement.getInfo());
     elementInfo.setRelations(coreElement.getRelations());
