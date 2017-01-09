@@ -108,4 +108,8 @@ public class ElementData {
   public void setSubElements(Map<Id, Class> subElements) {
     this.subElements = subElements;
   }
+
+  public void putSubElement(Id key,Class type){
+    this.subElements.put(key,type);
+  }
 }

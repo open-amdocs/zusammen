@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.datatypes.collaboration;
-
-import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
+package org.amdocs.tsuzammen.sdk.types;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class SyncResponse {
+public class SyncResult {
 
-/*
   private Collection<ElementConflicts> elementConflicts = new ArrayList<>();
-  private Collection<ChangedElementInfo> changedElementInfos = new ArrayList<>();
+  private Collection<ChangedElementData> changedElementDataCollection = new ArrayList<>();
 
-  public boolean isSuccesses(){
-      return elementConflicts==null || elementConflicts.size()==0;
-    }
+  public void addElementConflicts(ElementConflicts elementConflicts){
+    this.elementConflicts.add(elementConflicts);
+  }
 
   public Collection<ElementConflicts> getElementConflicts() {
     return elementConflicts;
@@ -40,22 +37,16 @@ public class SyncResponse {
     this.elementConflicts = elementConflicts;
   }
 
-  public void addConflict(ElementConflicts elementConflict){
-    this.elementConflicts.add(elementConflict);
+  public void addChangedElementInfo(ChangedElementData changedElementData){
+    this.changedElementDataCollection.add(changedElementData);
   }
 
-  public Collection<ChangedElementInfo> getChangedElementInfos() {
-    return changedElementInfos;
+  public Collection<ChangedElementData> getChangedElementDataCollection() {
+    return changedElementDataCollection;
   }
 
-  public void setChangedElementInfos(
-      Collection<ElementInfo> changedElementInfos) {
-    changedElementInfos = changedElementInfos;
+  public void setChangedElementDataCollection(
+      Collection<ChangedElementData> changedElementDataCollection) {
+    this.changedElementDataCollection = changedElementDataCollection;
   }
-
-  public void addChangedElementInfo(     ChangedElementInfo changedElementInfo) {
-    this.changedElementInfos.add(changedElementInfo);
-  }*/
 }
-
-

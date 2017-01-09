@@ -29,6 +29,7 @@ import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.sdk.CollaborationStore;
 import org.amdocs.tsuzammen.sdk.CollaborationStoreFactory;
 import org.amdocs.tsuzammen.sdk.types.ElementData;
+import org.amdocs.tsuzammen.sdk.types.SyncResult;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -83,14 +84,16 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   @Override
   public SyncResponse syncItemVersion(SessionContext context, Id itemId, Id versionId) {
-    return getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
+    getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
+    return null;
   }
 
   @Override
   public MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                        Id sourceVersionId) {
-    return getCollaborationStore(context)
-        .mergeItemVersion(context, itemId, versionId, sourceVersionId);
+                                     Id sourceVersionId) {
+    //return getCollaborationStore(context)
+     //   .mergeItemVersion(context, itemId, versionId, sourceVersionId);
+    return null;
   }
 
   @Override
