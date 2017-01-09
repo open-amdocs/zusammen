@@ -27,6 +27,7 @@ import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.sdk.types.ElementData;
+import org.amdocs.tsuzammen.sdk.types.SyncResult;
 
 public interface CollaborationStore {
 
@@ -44,12 +45,12 @@ public interface CollaborationStore {
 
   PublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
 
-  SyncResponse syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  SyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
                              ItemVersion itemVersion);
 
-  MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+  SyncResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
                                  Id sourceVersionId);
 
   ElementData getElement(SessionContext context, ElementContext elementContext,

@@ -14,35 +14,10 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.datatypes.collaboration;
+package org.amdocs.tsuzammen.datatypes.item;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-public class MergeResponse {
-
-
-  /*private Collection<FileConflicts> conflicts = new ArrayList<>();
-
-  public boolean isSuccesses(){
-      return conflicts==null || conflicts.size()==0;
-    }
-
-*/
-
-/*
-  public Collection<FileConflicts> getConflicts() {
-    return conflicts;
-  }
-
-  public void setConflicts(
-      Collection<FileConflicts> conflicts) {
-    this.conflicts = conflicts;
-  }
-
-  public void addConflict(FileConflicts conflict){
-    conflicts.add(conflict);
-  }*/
+public enum RelationDirection {
+  ONE_TO_TWO,
+  TWO_TO_ONE,
+  BIDIRECTIONAL
 }
-
-

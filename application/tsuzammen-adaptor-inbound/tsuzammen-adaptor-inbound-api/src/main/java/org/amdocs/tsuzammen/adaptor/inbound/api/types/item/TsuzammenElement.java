@@ -20,88 +20,100 @@ import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
+import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
 import java.util.Collection;
 
 public class TsuzammenElement implements Element {
+
+
+  private ElementAction action;
+  private Id elementId;
+  private Info info;
+  private Collection<Relation> relations;
+  private byte[] data;
+  private byte[] searchData;
+  private byte[] visualization;
+  private Collection<Element> subElements;
+
   @Override
   public ElementAction getAction() {
-    return null;
+    return this.action;
   }
 
   @Override
   public void setAction(ElementAction action) {
-
+    this.action = action;
   }
 
   @Override
   public Id getElementId() {
-    return null;
+    return this.elementId;
   }
 
   @Override
   public void setElementId(Id elementId) {
-
+    this.elementId = elementId;
   }
 
   @Override
   public Info getInfo() {
-    return null;
+    return this.info;
   }
 
   @Override
   public void setInfo(Info info) {
-
+    this.info = info;
   }
 
   @Override
   public Collection<Relation> getRelations() {
-    return null;
+    return this.relations;
   }
 
   @Override
   public void setRelations(Collection<Relation> relations) {
-
+    this.relations = relations;
   }
 
   @Override
   public void setData(InputStream data) {
-
+    this.data = FileUtils.toByteArray(data);
   }
 
   @Override
   public void setSearchData(InputStream searchData) {
-
+    this.searchData = FileUtils.toByteArray(searchData);
   }
 
   @Override
   public void setVisualization(InputStream visualization) {
-
+    this.visualization = FileUtils.toByteArray(visualization);
   }
 
   @Override
   public InputStream getData() {
-    return null;
+    return FileUtils.toInputStream(this.data);
   }
 
   @Override
   public InputStream getSearchData() {
-    return null;
+    return FileUtils.toInputStream(this.searchData);
   }
 
   @Override
   public InputStream getVisualization() {
-    return null;
+    return FileUtils.toInputStream(this.visualization);
   }
 
   @Override
   public Collection<Element> getSubElements() {
-    return null;
+    return this.subElements;
   }
 
   @Override
   public void setSubElements(Collection<Element> subElements) {
-
+      this.subElements = subElements;
   }
 }

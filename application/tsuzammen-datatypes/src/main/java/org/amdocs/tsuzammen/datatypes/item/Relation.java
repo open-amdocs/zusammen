@@ -21,9 +21,10 @@ import java.util.Map;
 public class Relation {
   private String id;
   private String type;
-  private Map<String, String> tags;
-  private RelationEdge source;
-  private RelationEdge target;
+  private Info info;
+  private RelationEdge endPoint1;
+  private RelationEdge endPoint2;
+  private RelationDirection direction;
 
   public String getId() {
     return id;
@@ -41,27 +42,35 @@ public class Relation {
     this.type = type;
   }
 
-  public Map<String, String> getTags() {
-    return tags;
+  public Info getInfo() {
+    return info;
   }
 
-  public void setTags(Map<String, String> tags) {
-    this.tags = tags;
+  public void setInfo(Info info) {
+    this.info = info;
   }
 
-  public RelationEdge getSource() {
-    return source;
+  public RelationEdge getEndPoint1() {
+    return endPoint1;
   }
 
-  public void setSource(RelationEdge source) {
-    this.source = source;
+  public void setEndPoint1(RelationEdge endPoint1) {
+    this.endPoint1 = endPoint1;
   }
 
-  public RelationEdge getTarget() {
-    return target;
+  public RelationEdge getEndPoint2() {
+    return endPoint2;
   }
 
-  public void setTarget(RelationEdge target) {
-    this.target = target;
+  public void setEndPoint2(RelationEdge endPoint2) {
+    this.endPoint2 = endPoint2;
+  }
+
+  public RelationDirection getDirection() {
+    return direction;
+  }
+
+  public void setDirection(RelationDirection direction) {
+    this.direction = direction;
   }
 }

@@ -18,6 +18,7 @@ package org.amdocs.tsuzammen.datatypes.item;
 
 import org.amdocs.tsuzammen.datatypes.Id;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class ElementInfo {
@@ -25,7 +26,7 @@ public class ElementInfo {
   private Id parentId; //core uses for save
   private Info info;
   private Collection<Relation> relations;
-  private Collection<ElementInfo> subElements; //core uses for get
+  private Collection<ElementInfo> subElements = new ArrayList<>(); //core uses for get
 
   public ElementInfo(Id id) {
     this.id = id;
@@ -65,5 +66,9 @@ public class ElementInfo {
 
   public void setSubElements(Collection<ElementInfo> subElements) {
     this.subElements = subElements;
+  }
+
+  public void addSubelement(ElementInfo elementInfo){
+    this.subElements.add(elementInfo);
   }
 }
