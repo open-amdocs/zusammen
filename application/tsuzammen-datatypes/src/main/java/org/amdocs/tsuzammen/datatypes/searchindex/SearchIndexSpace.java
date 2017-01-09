@@ -16,35 +16,9 @@
 
 package org.amdocs.tsuzammen.datatypes.searchindex;
 
-import org.amdocs.tsuzammen.datatypes.Id;
+public enum SearchIndexSpace {
+  PUBLIC,
+  PRIVATE,
+  BOTH
 
-public class SearchContext {
-
-  private Id itemId;
-  private Id versionId;
-  private String spaceName;
-
-  public Id getItemId() {
-    return itemId;
-  }
-
-  public void setItemId(Id itemId) {
-    this.itemId = itemId;
-  }
-
-  public Id getVersionId() {
-    return versionId;
-  }
-
-  public void setVersionId(Id versionId) {
-    this.versionId = versionId;
-  }
-
-  public String getSpaceName() {
-    return spaceName;
-  }
-
-  public void setSpaceName(String spaceName) {
-    this.spaceName = spaceName;
-  }
 }

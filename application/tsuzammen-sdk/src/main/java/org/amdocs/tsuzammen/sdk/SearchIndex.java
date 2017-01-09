@@ -19,23 +19,23 @@ package org.amdocs.tsuzammen.sdk;
 
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
-import org.amdocs.tsuzammen.datatypes.searchindex.SearchContext;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchIndexContext;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchResult;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
 
 public interface SearchIndex {
 
-  void create(SessionContext sessionContext, SearchContext searchContext,
+  void create(SessionContext sessionContext, SearchIndexContext searchIndexContext,
               SearchableData searchableData, Id searchableDataId);
 
-  void update(SessionContext sessionContext, SearchContext searchContext,
+  void update(SessionContext sessionContext, SearchIndexContext searchIndexContext,
               SearchableData searchableData, Id searchableDataId);
 
-  SearchResult search(SessionContext sessionContext, SearchContext searchContext,
+  SearchResult search(SessionContext sessionContext, SearchIndexContext searchIndexContext,
                       SearchCriteria searchCriteria);
 
-  void delete(SessionContext sessionContext, SearchContext searchContext,
+  void delete(SessionContext sessionContext, SearchIndexContext searchIndexContext,
               SearchCriteria searchCriteria, Id searchableDataId);
 
 
