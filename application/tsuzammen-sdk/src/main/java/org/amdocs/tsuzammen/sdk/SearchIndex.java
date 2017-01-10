@@ -36,7 +36,7 @@ public interface SearchIndex {
                       SearchCriteria searchCriteria);
 
   void delete(SessionContext sessionContext, SearchIndexContext searchIndexContext,
-              SearchCriteria searchCriteria, Id searchableDataId);
+              SearchableData searchableData, Id searchableDataId);
 
 
 }
