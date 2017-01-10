@@ -21,8 +21,7 @@ import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
-import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
-import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
+import org.amdocs.tsuzammen.core.api.types.CoreSyncResult;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 
@@ -66,7 +65,7 @@ public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public SyncResponse syncItemVersion(SessionContext context, Id itemId, Id versionId) {
+  public CoreSyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId) {
 
     return null;
   }
@@ -103,8 +102,8 @@ public class CollaborationAdaptorEmptyImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                        Id sourceVersionId) {
+  public CoreSyncResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+                                         Id sourceVersionId) {
     return null;
   }
 }

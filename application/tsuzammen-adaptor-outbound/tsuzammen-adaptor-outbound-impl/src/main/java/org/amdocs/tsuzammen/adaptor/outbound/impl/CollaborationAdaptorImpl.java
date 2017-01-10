@@ -18,21 +18,19 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl;
 
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.impl.convertor.ConverterCoreElementElementData;
+import org.amdocs.tsuzammen.adaptor.outbound.impl.convertor.ConverterCoreSyncResultCollaborationSyncResult;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
-import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
-import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
+import org.amdocs.tsuzammen.core.api.types.CoreSyncResult;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.sdk.CollaborationStore;
 import org.amdocs.tsuzammen.sdk.CollaborationStoreFactory;
 import org.amdocs.tsuzammen.sdk.types.ElementData;
-import org.amdocs.tsuzammen.sdk.types.SyncResult;
-
-import java.util.Collection;
-import java.util.stream.Collectors;
+import org.amdocs.tsuzammen.sdk.types.CollaborationSyncResult;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
@@ -65,13 +63,6 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     getCollaborationStore(context).saveItemVersion(context, itemId, versionId, versionInfo);
   }
 
-  /*@Override
-  public void saveItemVersion(SessionContext context, Id itemId, Id versionId,
-                              ItemVersion itemVersion, String message) {
-    getCollaborationStore(context)
-        .saveItemVersion(context, itemId, versionId, itemVersion, message);
-  }*/
-
   @Override
   public void deleteItemVersion(SessionContext context, Id itemId, Id versionId) {
     getCollaborationStore(context).deleteItemVersion(context, itemId, versionId);
@@ -83,23 +74,26 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public SyncResponse syncItemVersion(SessionContext context, Id itemId, Id versionId) {
-    getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
-    return null;
+  public CoreSyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId) {
+    CollaborationSyncResult
+        collaborationSyncResult = getCollaborationStore(context).syncItemVersion(context, itemId,
+        versionId);
+    return ConverterCoreSyncResultCollaborationSyncResult.getCoreSyncResult(collaborationSyncResult);
   }
 
   @Override
-  public MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                     Id sourceVersionId) {
-    //return getCollaborationStore(context)
-     //   .mergeItemVersion(context, itemId, versionId, sourceVersionId);
-    return null;
+  public CoreSyncResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+                                         Id sourceVersionId) {
+    CollaborationSyncResult collaborationSyncResult = getCollaborationStore(context)
+        .mergeItemVersion(context, itemId, versionId, sourceVersionId);
+    return ConverterCoreSyncResultCollaborationSyncResult.getCoreSyncResult
+        (collaborationSyncResult);
   }
 
   @Override
   public CoreElement getElement(SessionContext context, ElementContext elementContext,
                                 Namespace namespace, Id elementId) {
-    return getCoreElement(
+    return ConverterCoreElementElementData.getCoreElement(
         getCollaborationStore(context).getElement(context, elementContext, namespace, elementId));
   }
 
@@ -144,29 +138,6 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     return elementData;
   }
 
-  private CoreElement getCoreElement(ElementData elementData) {
-    CoreElement coreElement =
-        getCoreElement(elementData.getId(), elementData.getElementImplClass());
-    coreElement.setInfo(elementData.getInfo());
-    coreElement.setRelations(elementData.getRelations());
-
-    coreElement.setData(elementData.getData());
-    coreElement.setSearchData(elementData.getSearchData());
-    coreElement.setVisualization(elementData.getVisualization());
-
-    coreElement.setSubElements(elementData.getSubElements().entrySet().stream()
-        .map(subElementEntry ->
-            getCoreElement(subElementEntry.getKey(), subElementEntry.getValue()))
-        .collect(Collectors.toList()));
-    return coreElement;
-  }
-
-  private CoreElement getCoreElement(Id elementId, Class elementImplClass) {
-    CoreElement coreElement = new CoreElement();
-    coreElement.setElementImplClass(elementImplClass);
-    coreElement.setId(elementId);
-    return coreElement;
-  }
 
   private CollaborationStore getCollaborationStore(SessionContext context) {
     return CollaborationStoreFactory.getInstance().createInterface(context);
