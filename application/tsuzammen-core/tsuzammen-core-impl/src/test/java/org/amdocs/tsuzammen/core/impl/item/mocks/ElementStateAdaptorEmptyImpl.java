@@ -24,7 +24,15 @@ import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 
+import java.util.Collection;
+
 public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
+
+  @Override
+  public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
+                                      Id elementId) {
+    return null;
+  }
 
   @Override
   public Namespace getNamespace(SessionContext context, ElementContext elementContext,

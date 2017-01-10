@@ -16,21 +16,21 @@
 
 package org.amdocs.tsuzammen.datatypes.item;
 
-import java.util.Map;
+import org.amdocs.tsuzammen.datatypes.Id;
 
 public class Relation {
-  private String id;
+  private Id id;
   private String type;
   private Info info;
-  private RelationEdge endPoint1;
-  private RelationEdge endPoint2;
+  private RelationEdge edge1;
+  private RelationEdge edge2;
   private RelationDirection direction;
 
-  public String getId() {
+  public Id getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Id id) {
     this.id = id;
   }
 
@@ -50,20 +50,20 @@ public class Relation {
     this.info = info;
   }
 
-  public RelationEdge getEndPoint1() {
-    return endPoint1;
+  public RelationEdge getEdge1() {
+    return edge1;
   }
 
-  public void setEndPoint1(RelationEdge endPoint1) {
-    this.endPoint1 = endPoint1;
+  public void setEdge1(RelationEdge edge1) {
+    this.edge1 = edge1;
   }
 
-  public RelationEdge getEndPoint2() {
-    return endPoint2;
+  public RelationEdge getEdge2() {
+    return edge2;
   }
 
-  public void setEndPoint2(RelationEdge endPoint2) {
-    this.endPoint2 = endPoint2;
+  public void setEdge2(RelationEdge edge2) {
+    this.edge2 = edge2;
   }
 
   public RelationDirection getDirection() {

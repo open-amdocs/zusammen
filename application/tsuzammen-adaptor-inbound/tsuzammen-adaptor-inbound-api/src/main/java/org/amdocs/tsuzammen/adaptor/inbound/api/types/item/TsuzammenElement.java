@@ -24,10 +24,9 @@ import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Collections;
 
 public class TsuzammenElement implements Element {
-
-
   private ElementAction action;
   private Id elementId;
   private Info info;
@@ -35,7 +34,7 @@ public class TsuzammenElement implements Element {
   private byte[] data;
   private byte[] searchData;
   private byte[] visualization;
-  private Collection<Element> subElements;
+  private Collection<Element> subElements = Collections.EMPTY_LIST;
 
   @Override
   public ElementAction getAction() {
@@ -114,6 +113,6 @@ public class TsuzammenElement implements Element {
 
   @Override
   public void setSubElements(Collection<Element> subElements) {
-      this.subElements = subElements;
+    this.subElements = subElements;
   }
 }

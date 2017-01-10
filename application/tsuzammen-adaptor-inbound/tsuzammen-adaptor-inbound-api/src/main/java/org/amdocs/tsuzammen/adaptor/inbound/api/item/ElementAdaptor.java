@@ -24,13 +24,17 @@ import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 
+import java.util.Collection;
+
 public interface ElementAdaptor {
 
-  Element get(SessionContext context, ElementContext elementContext, Id elementId,
-              FetchCriteria fetchCriteria);
+  Collection<ElementInfo> list(SessionContext context, ElementContext elementContext, Id elementId);
 
   ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId,
                       FetchCriteria fetchCriteria);
+
+  Element get(SessionContext context, ElementContext elementContext, Id elementId,
+              FetchCriteria fetchCriteria);
 
   void save(SessionContext context, ElementContext elementContext, Element element,
             String message);

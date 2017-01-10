@@ -27,20 +27,17 @@ import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
-import org.amdocs.tsuzammen.utils.common.CommonMethods;
-import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class ElementAdaptorImpl implements ElementAdaptor {
 
-
   @Override
-  public Element get(SessionContext context, ElementContext elementContext, Id elementId,
-                     FetchCriteria fetchCriteria) {
-    return ConverterCoreElementElement.getElement(
-        getElementManager(context).get(context, elementContext, elementId, fetchCriteria));
+  public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
+                                      Id elementId) {
+    return getElementManager(context).list(context, elementContext, elementId);
   }
 
   @Override
@@ -50,12 +47,17 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   }
 
   @Override
+  public Element get(SessionContext context, ElementContext elementContext, Id elementId,
+                     FetchCriteria fetchCriteria) {
+    return ConverterCoreElementElement.getElement(
+        getElementManager(context).get(context, elementContext, elementId, fetchCriteria));
+  }
+
+  @Override
   public void save(SessionContext context, ElementContext elementContext,
                    Element element, String message) {
     getElementManager(context).save(context, elementContext, getCoreElement(element), message);
   }
-
-
 
 
   private CoreElement getCoreElement(Element element) {
@@ -78,7 +80,7 @@ public class ElementAdaptorImpl implements ElementAdaptor {
 
   private Collection<CoreElement> getCoreElements(Collection<Element> elements) {
     return elements == null
-        ? null
+        ? new ArrayList<>()
         : elements.stream().map(element -> getCoreElement(element)).collect(Collectors.toList());
   }
 

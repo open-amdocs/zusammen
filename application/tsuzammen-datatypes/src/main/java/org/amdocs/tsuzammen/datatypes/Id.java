@@ -19,6 +19,7 @@ package org.amdocs.tsuzammen.datatypes;
 import java.util.UUID;
 
 public class Id {
+  public static final Id ZERO = new Id("00000000-0000-0000-0000-000000000000");
   private UUID value;
 
   public Id() {

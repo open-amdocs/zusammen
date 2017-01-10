@@ -35,18 +35,26 @@ import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 
+import java.util.Collection;
+
 public class ElementManagerImpl implements ElementManager {
 
   @Override
-  public CoreElement get(SessionContext context, ElementContext elementContext,
-                         Id elementId, FetchCriteria fetchCriteria) {
-    return null;
+  public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
+                                      Id elementId) {
+    return getStateAdaptor(context).list(context, elementContext, elementId);
   }
 
   @Override
   public ElementInfo getInfo(SessionContext context, ElementContext elementContext,
                              Id elementId, FetchCriteria fetchCriteria) {
     return getStateAdaptor(context).get(context, elementContext, elementId, fetchCriteria);
+  }
+
+  @Override
+  public CoreElement get(SessionContext context, ElementContext elementContext,
+                         Id elementId, FetchCriteria fetchCriteria) {
+    return null;
   }
 
   @Override

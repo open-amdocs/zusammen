@@ -16,32 +16,34 @@
 
 package org.amdocs.tsuzammen.datatypes.item;
 
-public class RelationEdge {
-  private String itemId;
-  private String versionId;
-  private String entityId;
+import org.amdocs.tsuzammen.datatypes.Id;
 
-  public String getItemId() {
+public class RelationEdge {
+  private Id itemId;
+  private Id versionId;
+  private Id elementId;
+
+  public Id getItemId() {
     return itemId;
   }
 
-  public void setItemId(String itemId) {
+  public void setItemId(Id itemId) {
     this.itemId = itemId;
   }
 
-  public String getVersionId() {
+  public Id getVersionId() {
     return versionId;
   }
 
-  public void setVersionId(String versionId) {
+  public void setVersionId(Id versionId) {
     this.versionId = versionId;
   }
 
-  public String getEntityId() {
-    return entityId;
+  public Id getElementId() {
+    return elementId;
   }
 
-  public void setEntityId(String entityId) {
-    this.entityId = entityId;
+  public void setElementId(Id elementId) {
+    this.elementId = elementId;
   }
 }

@@ -57,6 +57,9 @@ public interface StateStore {
 
   void syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
+  Collection<ElementInfo> listElements(SessionContext context, ElementContext elementContext,
+                                       Id elementId);
+
   Namespace getElementNamespace(SessionContext context, ElementContext elementContext,
                                 Id elementId);
 
