@@ -17,11 +17,12 @@
 package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionAdaptor;
+import org.amdocs.tsuzammen.adaptor.inbound.impl.convertor.ConverterSyncResultCoreSynResult;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.UserInfo;
-import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
-import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
+import org.amdocs.tsuzammen.core.api.types.CoreSyncResult;
+import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.SyncResult;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.core.api.item.ItemVersionManager;
@@ -65,13 +66,17 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   }
 
   @Override
-  public SyncResponse sync(SessionContext context, Id itemId, Id versionId) {
-    return getItemVersionManager(context).sync(context, itemId, versionId);
+  public SyncResult sync(SessionContext context, Id itemId, Id versionId) {
+    CoreSyncResult coreSyncResult = getItemVersionManager(context).sync(context, itemId, versionId);
+    SyncResult syncResult = ConverterSyncResultCoreSynResult.getSyncResult(coreSyncResult);
+    return syncResult;
   }
 
   @Override
-  public MergeResponse merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId) {
-    return getItemVersionManager(context).merge(context, itemId, versionId,sourceVersionId);
+  public SyncResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId) {
+    CoreSyncResult coreSyncResult = getItemVersionManager(context).merge(context, itemId, versionId,
+        sourceVersionId);
+    return null;
   }
 
   private SessionContext createSessionContext(UserInfo user) {

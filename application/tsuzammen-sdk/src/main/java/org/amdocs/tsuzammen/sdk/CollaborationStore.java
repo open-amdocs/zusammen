@@ -20,14 +20,12 @@ package org.amdocs.tsuzammen.sdk;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
-import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
 import org.amdocs.tsuzammen.datatypes.collaboration.PublishResult;
-import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
 import org.amdocs.tsuzammen.sdk.types.ElementData;
-import org.amdocs.tsuzammen.sdk.types.SyncResult;
+import org.amdocs.tsuzammen.sdk.types.CollaborationSyncResult;
 
 public interface CollaborationStore {
 
@@ -45,13 +43,13 @@ public interface CollaborationStore {
 
   PublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
 
-  SyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  CollaborationSyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
                              ItemVersion itemVersion);
 
-  SyncResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                 Id sourceVersionId);
+  CollaborationSyncResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+                                           Id sourceVersionId);
 
   ElementData getElement(SessionContext context, ElementContext elementContext,
                          Namespace namespace, Id elementId);

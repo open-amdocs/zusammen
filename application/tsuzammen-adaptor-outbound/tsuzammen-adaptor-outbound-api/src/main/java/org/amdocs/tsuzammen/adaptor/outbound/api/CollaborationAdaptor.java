@@ -21,12 +21,9 @@ import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
-import org.amdocs.tsuzammen.datatypes.collaboration.MergeResponse;
-import org.amdocs.tsuzammen.datatypes.collaboration.SyncResponse;
+import org.amdocs.tsuzammen.core.api.types.CoreSyncResult;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
-
-import java.util.Collection;
 
 public interface CollaborationAdaptor {
 
@@ -46,10 +43,10 @@ public interface CollaborationAdaptor {
 
   void publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
 
-  SyncResponse syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  CoreSyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  MergeResponse mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                 Id sourceVersionId);
+  CoreSyncResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+                                  Id sourceVersionId);
 
   CoreElement getElement(SessionContext context, ElementContext elementContext,
                          Namespace namespace, Id elementId);

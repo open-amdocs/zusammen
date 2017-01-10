@@ -18,6 +18,7 @@ package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ElementAdaptor;
 import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
+import org.amdocs.tsuzammen.adaptor.inbound.impl.convertor.ConverterCoreElementElement;
 import org.amdocs.tsuzammen.core.api.item.ElementManager;
 import org.amdocs.tsuzammen.core.api.item.ElementManagerFactory;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
@@ -38,7 +39,7 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   @Override
   public Element get(SessionContext context, ElementContext elementContext, Id elementId,
                      FetchCriteria fetchCriteria) {
-    return getElement(
+    return ConverterCoreElementElement.getElement(
         getElementManager(context).get(context, elementContext, elementId, fetchCriteria));
   }
 
@@ -54,27 +55,8 @@ public class ElementAdaptorImpl implements ElementAdaptor {
     getElementManager(context).save(context, elementContext, getCoreElement(element), message);
   }
 
-  private Element getElement(CoreElement coreElement) {
-    Element element = (Element) CommonMethods.newInstance(coreElement.getElementImplClass());
 
-    element.setElementId(coreElement.getId());
-    element.setInfo(coreElement.getInfo());
-    element.setRelations(coreElement.getRelations());
 
-    element.setData(coreElement.getData());
-    element.setSearchData(coreElement.getSearchData());
-    element.setVisualization(coreElement.getVisualization());
-
-    element.setSubElements(getElements(coreElement.getSubElements()));
-    return element;
-  }
-
-  private Collection<Element> getElements(Collection<CoreElement> coreElements) {
-    return coreElements == null
-        ? null
-        : coreElements.stream().map(coreElement ->
-            getElement(coreElement)).collect(Collectors.toList());
-  }
 
   private CoreElement getCoreElement(Element element) {
     CoreElement coreElement = new CoreElement();

@@ -18,7 +18,7 @@ package org.amdocs.tsuzammen.sdk.types;
 
 import org.amdocs.tsuzammen.datatypes.collaboration.ChangeType;
 
-public class ChangedElementData {
+public class CollaborationChangedElementData {
   private ElementData elementData;
   private ChangeType changeType;
 

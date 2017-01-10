@@ -14,25 +14,27 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.sdk.types;
+package org.amdocs.tsuzammen.adaptor.inbound.api.types.item;
 
-public class ElementConflicts {
-  private ElementData localElementData;
-  private ElementData remoteElementData;
+import org.amdocs.tsuzammen.datatypes.collaboration.ChangeType;
 
-  public ElementData getLocalElementData() {
-    return localElementData;
+public class ChangedElement {
+  private ChangeType changeType;
+  private Element element;
+
+  public void setChangeType(ChangeType changeType) {
+    this.changeType = changeType;
   }
 
-  public void setLocalElementData(ElementData localElementData) {
-    this.localElementData = localElementData;
+  public void setCoreElement(Element coreElement) {
+    this.element = coreElement;
   }
 
-  public ElementData getRemoteElementData() {
-    return remoteElementData;
+  public ChangeType getChangeType() {
+    return changeType;
   }
 
-  public void setRemoteElementData(ElementData remoteElementData) {
-    this.remoteElementData = remoteElementData;
+  public Element getCoreElement() {
+    return element;
   }
 }
