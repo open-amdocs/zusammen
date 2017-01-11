@@ -27,8 +27,8 @@ public class ElementContext {
   public ElementContext(){}
 
   public ElementContext(String itemId,String versionId){
-    this.itemId = new Id(UUID.fromString(itemId));
-    this.versionId = new Id(UUID.fromString(versionId));
+    this.itemId = new Id(itemId);
+    this.versionId = new Id(versionId);
   }
 
   public Id getItemId() {

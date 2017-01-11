@@ -17,9 +17,12 @@
 package org.amdocs.tsuzammen.sdk.types;
 
 import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.Namespace;
+import org.amdocs.tsuzammen.datatypes.Space;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
 import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
@@ -28,14 +31,46 @@ import java.util.Map;
 
 public class ElementData {
   private Id id;
+  private Id itemId;
+  private Id versionId;
+  private Namespace namespace;
+  private Space space;
   private Id parentId;
   private Info info;
   private Collection<Relation> relations;
   private Class elementImplClass;
   private byte[] data;
-  private byte[] searchData;
+  private SearchableData searchableData;
   private byte[] visualization;
   private Map<Id, Class> subElements;
+
+  public ElementData(Id itemId,Id versionId,Namespace namespace,Class elementImplClass){
+    this.itemId = itemId;
+    this.versionId = versionId;
+    this.namespace = namespace;
+    this.elementImplClass = elementImplClass;
+  }
+
+
+  public Id getItemId() {
+    return itemId;
+  }
+
+  public Id getVersionId() {
+    return versionId;
+  }
+
+  public Namespace getNamespace() {
+    return namespace;
+  }
+
+  public Space getSpace() {
+    return space;
+  }
+
+  public void setSpace(Space space){
+    this.space = space;
+  }
 
   public Id getId() {
     return id;
@@ -73,9 +108,9 @@ public class ElementData {
     return elementImplClass;
   }
 
-  public void setElementImplClass(Class elementImplClass) {
+  /*public void setElementImplClass(Class elementImplClass) {
     this.elementImplClass = elementImplClass;
-  }
+  }*/
 
   public InputStream getData() {
     return FileUtils.toInputStream(data);
@@ -85,12 +120,12 @@ public class ElementData {
     this.data = FileUtils.toByteArray(data);
   }
 
-  public InputStream getSearchData() {
-    return FileUtils.toInputStream(searchData);
+  public SearchableData getSearchableData() {
+    return searchableData;
   }
 
-  public void setSearchData(InputStream searchData) {
-    this.searchData = FileUtils.toByteArray(searchData);
+  public void setSearchableData(SearchableData searchableData) {
+    this.searchableData = searchableData;
   }
 
   public InputStream getVisualization() {

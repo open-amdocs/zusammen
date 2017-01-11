@@ -18,6 +18,8 @@ package org.amdocs.tsuzammen.core.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory;
+import org.amdocs.tsuzammen.adaptor.outbound.api.SearchIndexAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.SearchIndexAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
@@ -31,9 +33,12 @@ import org.amdocs.tsuzammen.datatypes.FetchCriteria;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.Space;
 import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchCriteria;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchResult;
 
 import java.util.Collection;
 
@@ -67,6 +72,11 @@ public class ElementManagerImpl implements ElementManager {
     Namespace parentNamespace =
         element.getAction() == ElementAction.CREATE ? new Namespace() : null;
     traverse(context, elementContext, parentNamespace, element);
+  }
+
+  @Override
+  public SearchResult search(SessionContext context, SearchCriteria searchCriteria) {
+    return getSearchIndexAdaptor(context).search(context, searchCriteria);
   }
 
   private void traverse(SessionContext context, ElementContext elementContext,
@@ -105,11 +115,9 @@ public class ElementManagerImpl implements ElementManager {
 
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
 
-    getCollaborationAdaptor(context)
-        .createElement(context, elementContext, namespace, element);
-
-    getStateAdaptor(context)
-        .create(context, elementContext, namespace, getElementInfo(element));
+    getCollaborationAdaptor(context).createElement(context, elementContext, namespace, element);
+    getStateAdaptor(context).create(context, elementContext, namespace, getElementInfo(element));
+    getSearchIndexAdaptor(context).createElement(context, elementContext, element, Space.PRIVATE);
 
     return namespace;
   }
@@ -118,10 +126,9 @@ public class ElementManagerImpl implements ElementManager {
                            Namespace parentNamespace, CoreElement element) {
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
 
-    getCollaborationAdaptor(context)
-        .saveElement(context, elementContext, namespace, element);
-
+    getCollaborationAdaptor(context).saveElement(context, elementContext, namespace, element);
     getStateAdaptor(context).save(context, elementContext, getElementInfo(element));
+    getSearchIndexAdaptor(context).updateElement(context, elementContext, element, Space.PRIVATE);
 
     return namespace;
   }
@@ -130,10 +137,9 @@ public class ElementManagerImpl implements ElementManager {
                            Namespace parentNamespace, CoreElement element) {
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
 
-    getCollaborationAdaptor(context)
-        .deleteElement(context, elementContext, namespace, element);
-
+    getCollaborationAdaptor(context).deleteElement(context, elementContext, namespace, element);
     getStateAdaptor(context).delete(context, elementContext, getElementInfo(element));
+    getSearchIndexAdaptor(context).deleteElement(context, elementContext, element, Space.PRIVATE);
 
     return namespace;
   }
@@ -175,6 +181,10 @@ public class ElementManagerImpl implements ElementManager {
 
   protected ElementStateAdaptor getStateAdaptor(SessionContext context) {
     return ElementStateAdaptorFactory.getInstance().createInterface(context);
+  }
+
+  protected SearchIndexAdaptor getSearchIndexAdaptor(SessionContext context) {
+    return SearchIndexAdaptorFactory.getInstance().createInterface(context);
   }
 
   protected ItemVersionStateAdaptor getItemVersionStateAdaptor(SessionContext context) {

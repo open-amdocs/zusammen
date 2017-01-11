@@ -21,15 +21,14 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
+import org.amdocs.tsuzammen.core.api.item.ItemManager;
+import org.amdocs.tsuzammen.core.impl.Messages;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Item;
-import org.amdocs.tsuzammen.core.api.item.ItemManager;
-import org.amdocs.tsuzammen.core.impl.Messages;
 
 import java.util.Collection;
-import java.util.UUID;
 
 public class ItemManagerImpl implements ItemManager {
 
@@ -47,7 +46,7 @@ public class ItemManagerImpl implements ItemManager {
 
   @Override
   public Id create(SessionContext context, Info itemInfo) {
-    Id itemId = new Id(UUID.randomUUID());
+    Id itemId = new Id();
     getCollaborationAdaptor(context).createItem(context, itemId, itemInfo);
     getStateAdaptor(context).createItem(context, itemId, itemInfo);
     return itemId;

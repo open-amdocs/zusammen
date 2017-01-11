@@ -19,33 +19,30 @@ package org.amdocs.tsuzammen.datatypes;
 import java.util.UUID;
 
 public class Id {
-  public static final Id ZERO = new Id("00000000-0000-0000-0000-000000000000");
-  private UUID value;
+  public static final Id ZERO = new Id("00000000000000000000000000000000");
+  private String value;
 
   public Id() {
-    value = UUID.randomUUID();
-  }
-
-  public Id(UUID value) {
-    this.value = value;
+    value = UUID.randomUUID().toString().replace("-","");
   }
 
   public Id(String value) {
-    this.value = UUID.fromString(value);
+    this.value = value;
   }
 
-  public UUID getValue() {
+
+  public String getValue() {
     return value;
   }
 
   // only for json transformation (in REST for example)
-  public void setValue(UUID value) {
+  public void setValue(String value) {
     this.value = value;
   }
 
   @Override
   public String toString() {
-    return value == null ? "" : value.toString();
+    return value == null ? "" : value;
   }
 
   @Override

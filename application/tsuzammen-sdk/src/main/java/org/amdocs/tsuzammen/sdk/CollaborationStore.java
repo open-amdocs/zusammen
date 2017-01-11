@@ -45,8 +45,7 @@ public interface CollaborationStore {
 
   CollaborationSyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId,
-                             ItemVersion itemVersion);
+
 
   CollaborationSyncResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
                                            Id sourceVersionId);
@@ -54,12 +53,9 @@ public interface CollaborationStore {
   ElementData getElement(SessionContext context, ElementContext elementContext,
                          Namespace namespace, Id elementId);
 
-  void createElement(SessionContext context, ElementContext elementContext,
-                     Namespace namespace, ElementData elementData);
+  void createElement(SessionContext context, ElementData elementData);
 
-  void saveElement(SessionContext context, ElementContext elementContext,
-                   Namespace namespace, ElementData elementData);
+  void saveElement(SessionContext context, ElementData elementData);
 
-  void deleteElement(SessionContext context, ElementContext elementContext,
-                     Namespace namespace, ElementData elementData);
+  void deleteElement(SessionContext context, ElementData elementData);
 }

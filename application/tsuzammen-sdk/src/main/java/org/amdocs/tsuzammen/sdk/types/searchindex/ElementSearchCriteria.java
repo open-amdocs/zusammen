@@ -14,23 +14,28 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.sdk;
+package org.amdocs.tsuzammen.sdk.types.searchindex;
 
-
-import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchCriteria;
-import org.amdocs.tsuzammen.datatypes.searchindex.SearchResult;
-import org.amdocs.tsuzammen.sdk.types.searchindex.ElementSearchableData;
 
-public interface SearchIndex {
+public class ElementSearchCriteria {
+  private SearchCriteria searchCriteria;
+  private Id elementId;
 
-  void createElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
+  public SearchCriteria getSearchCriteria() {
+    return searchCriteria;
+  }
 
-  void updateElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
+  public void setSearchCriteria(SearchCriteria searchCriteria) {
+    this.searchCriteria = searchCriteria;
+  }
 
-  void deleteElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
+  public Id getElementId() {
+    return elementId;
+  }
 
-  SearchResult search(SessionContext sessionContext, SearchCriteria searchCriteria);
-
-
+  public void setElementId(Id elementId) {
+    this.elementId = elementId;
+  }
 }

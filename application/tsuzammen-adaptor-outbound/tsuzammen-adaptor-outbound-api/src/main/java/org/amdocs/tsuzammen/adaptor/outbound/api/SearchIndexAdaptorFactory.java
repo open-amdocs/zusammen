@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.sdk;
-
+package org.amdocs.tsuzammen.adaptor.outbound.api;
 
 import org.amdocs.tsuzammen.datatypes.SessionContext;
-import org.amdocs.tsuzammen.datatypes.searchindex.SearchCriteria;
-import org.amdocs.tsuzammen.datatypes.searchindex.SearchResult;
-import org.amdocs.tsuzammen.sdk.types.searchindex.ElementSearchableData;
+import org.amdocs.tsuzammen.utils.facade.api.AbstractComponentFactory;
+import org.amdocs.tsuzammen.utils.facade.api.AbstractFactory;
 
-public interface SearchIndex {
+public abstract class SearchIndexAdaptorFactory
+    extends AbstractComponentFactory<SearchIndexAdaptor> {
 
-  void createElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
+  public static SearchIndexAdaptorFactory getInstance() {
+    return AbstractFactory.getInstance(SearchIndexAdaptorFactory.class);
+  }
 
-  void updateElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
-
-  void deleteElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
-
-  SearchResult search(SessionContext sessionContext, SearchCriteria searchCriteria);
-
-
+  public abstract SearchIndexAdaptor createInterface(SessionContext context);
 }

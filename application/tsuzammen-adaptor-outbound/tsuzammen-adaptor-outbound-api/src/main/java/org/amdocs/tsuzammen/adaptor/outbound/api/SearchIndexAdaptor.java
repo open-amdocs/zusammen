@@ -14,23 +14,29 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.sdk;
+package org.amdocs.tsuzammen.adaptor.outbound.api;
 
 
+import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
+import org.amdocs.tsuzammen.datatypes.Space;
+import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchResult;
-import org.amdocs.tsuzammen.sdk.types.searchindex.ElementSearchableData;
 
-public interface SearchIndex {
+public interface SearchIndexAdaptor {
 
-  void createElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
 
-  void updateElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
+  void createElement(SessionContext context, ElementContext elementContext, CoreElement element,
+                     Space space);
 
-  void deleteElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
+  void updateElement(SessionContext context, ElementContext elementContext, CoreElement element,
+                     Space space);
 
-  SearchResult search(SessionContext sessionContext, SearchCriteria searchCriteria);
+  void deleteElement(SessionContext context, ElementContext elementContext, CoreElement element,
+                     Space space);
+
+  SearchResult search(SessionContext context, SearchCriteria searchCriteria);
 
 
 }

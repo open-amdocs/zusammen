@@ -31,7 +31,7 @@ public class ConverterCoreElementElementData {
     coreElement.setRelations(elementData.getRelations());
 
     coreElement.setData(elementData.getData());
-    coreElement.setSearchData(elementData.getSearchData());
+    coreElement.setSearchableData(elementData.getSearchableData());
     coreElement.setVisualization(elementData.getVisualization());
 
     coreElement.setSubElements(elementData.getSubElements().entrySet().stream()
