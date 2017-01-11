@@ -56,16 +56,18 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   @Override
   public void save(SessionContext context, ElementContext elementContext,
                    Element element, String message) {
-    getElementManager(context).save(context, elementContext, getCoreElement(element), message);
+    getElementManager(context)
+        .save(context, elementContext, getCoreElement(element, null), message);
   }
 
 
-  private CoreElement getCoreElement(Element element) {
+  private CoreElement getCoreElement(Element element, Id parentId) {
     CoreElement coreElement = new CoreElement();
     coreElement.setElementImplClass(element.getClass());
     coreElement.setAction(element.getAction());
 
     coreElement.setId(element.getElementId());
+    coreElement.setParentId(parentId);
     coreElement.setInfo(element.getInfo());
     coreElement.setRelations(element.getRelations());
 
@@ -73,15 +75,16 @@ public class ElementAdaptorImpl implements ElementAdaptor {
     coreElement.setSearchData(element.getSearchData());
     coreElement.setVisualization(element.getVisualization());
 
-    coreElement.setSubElements(getCoreElements(element.getSubElements()));
+    coreElement.setSubElements(getCoreElements(element.getSubElements(), element.getElementId()));
 
     return coreElement;
   }
 
-  private Collection<CoreElement> getCoreElements(Collection<Element> elements) {
+  private Collection<CoreElement> getCoreElements(Collection<Element> elements, Id parentId) {
     return elements == null
         ? new ArrayList<>()
-        : elements.stream().map(element -> getCoreElement(element)).collect(Collectors.toList());
+        : elements.stream().map(element -> getCoreElement(element, parentId))
+            .collect(Collectors.toList());
   }
 
   private ElementManager getElementManager(SessionContext context) {

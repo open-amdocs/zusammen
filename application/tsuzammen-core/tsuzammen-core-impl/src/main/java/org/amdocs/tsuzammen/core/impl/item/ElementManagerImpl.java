@@ -98,6 +98,11 @@ public class ElementManagerImpl implements ElementManager {
                            Namespace parentNamespace,
                            CoreElement element) {
     element.setId(new Id());
+    // todo consider refactoring the set of the element id as the parentId of the sub elements.
+    // This create action should act only on the current elemnt and should not access any other
+    // elements in the hierarchy.
+    element.getSubElements().forEach(subElement -> subElement.setParentId(element.getId()));
+
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
 
     getCollaborationAdaptor(context)
