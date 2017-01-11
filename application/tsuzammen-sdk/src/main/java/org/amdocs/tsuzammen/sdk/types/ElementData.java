@@ -17,6 +17,9 @@
 package org.amdocs.tsuzammen.sdk.types;
 
 import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.Namespace;
+import org.amdocs.tsuzammen.datatypes.Space;
+import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
@@ -28,6 +31,10 @@ import java.util.Map;
 
 public class ElementData {
   private Id id;
+  private Id itemId;
+  private Id versionId;
+  private Namespace namespace;
+  private Space space;
   private Id parentId;
   private Info info;
   private Collection<Relation> relations;
@@ -36,6 +43,34 @@ public class ElementData {
   private SearchableData searchableData;
   private byte[] visualization;
   private Map<Id, Class> subElements;
+
+  public ElementData(Id itemId,Id versionId,Namespace namespace,Class elementImplClass){
+    this.itemId = itemId;
+    this.versionId = versionId;
+    this.namespace = namespace;
+    this.elementImplClass = elementImplClass;
+  }
+
+
+  public Id getItemId() {
+    return itemId;
+  }
+
+  public Id getVersionId() {
+    return versionId;
+  }
+
+  public Namespace getNamespace() {
+    return namespace;
+  }
+
+  public Space getSpace() {
+    return space;
+  }
+
+  public void setSpace(Space space){
+    this.space = space;
+  }
 
   public Id getId() {
     return id;
@@ -73,9 +108,9 @@ public class ElementData {
     return elementImplClass;
   }
 
-  public void setElementImplClass(Class elementImplClass) {
+  /*public void setElementImplClass(Class elementImplClass) {
     this.elementImplClass = elementImplClass;
-  }
+  }*/
 
   public InputStream getData() {
     return FileUtils.toInputStream(data);

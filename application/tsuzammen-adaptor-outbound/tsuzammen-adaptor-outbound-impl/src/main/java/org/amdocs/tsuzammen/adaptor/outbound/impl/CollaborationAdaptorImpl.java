@@ -101,21 +101,21 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   public void createElement(SessionContext context, ElementContext elementContext,
                             Namespace namespace, CoreElement element) {
     getCollaborationStore(context)
-        .createElement(context, elementContext, namespace, getElementData(element));
+        .createElement(context, getElementData(element, elementContext, namespace));
   }
 
   @Override
   public void saveElement(SessionContext context, ElementContext elementContext,
                           Namespace namespace, CoreElement element) {
     getCollaborationStore(context)
-        .saveElement(context, elementContext, namespace, getElementData(element));
+        .saveElement(context,  getElementData(element, elementContext, namespace));
   }
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
                             Namespace namespace, CoreElement element) {
     getCollaborationStore(context)
-        .deleteElement(context, elementContext, namespace, getElementData(element));
+        .deleteElement(context,  getElementData(element, elementContext, namespace));
   }
 
   @Override
@@ -124,9 +124,11 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     //getCollaborationStore(context).commitEntities(context, elementContext, message);
   }
 
-  private ElementData getElementData(CoreElement coreElement) {
-    ElementData elementData = new ElementData();
-    elementData.setElementImplClass(coreElement.getElementImplClass());
+  private ElementData getElementData(CoreElement coreElement, ElementContext elementContext,
+                                     Namespace namespace) {
+    ElementData elementData = new ElementData(elementContext.getItemId(),elementContext
+        .getVersionId(),namespace,coreElement.getElementImplClass());
+    //elementData.setElementImplClass(coreElement.getElementImplClass());
     elementData.setId(coreElement.getId());
     elementData.setParentId(coreElement.getParentId());
     elementData.setInfo(coreElement.getInfo());
