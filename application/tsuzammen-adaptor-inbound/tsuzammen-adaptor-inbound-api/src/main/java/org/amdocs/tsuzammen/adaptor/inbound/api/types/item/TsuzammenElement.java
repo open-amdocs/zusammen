@@ -20,7 +20,6 @@ import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
-import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
 import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
@@ -33,7 +32,7 @@ public class TsuzammenElement implements Element {
   private Info info;
   private Collection<Relation> relations;
   private byte[] data;
-  private SearchableData searchableData;
+  private byte[] searchableData;
   private byte[] visualization;
   private Collection<Element> subElements = Collections.EMPTY_LIST;
 
@@ -43,18 +42,8 @@ public class TsuzammenElement implements Element {
   }
 
   @Override
-  public void setAction(ElementAction action) {
-    this.action = action;
-  }
-
-  @Override
   public Id getElementId() {
     return this.elementId;
-  }
-
-  @Override
-  public void setElementId(Id elementId) {
-    this.elementId = elementId;
   }
 
   @Override
@@ -63,33 +52,8 @@ public class TsuzammenElement implements Element {
   }
 
   @Override
-  public void setInfo(Info info) {
-    this.info = info;
-  }
-
-  @Override
   public Collection<Relation> getRelations() {
     return this.relations;
-  }
-
-  @Override
-  public void setRelations(Collection<Relation> relations) {
-    this.relations = relations;
-  }
-
-  @Override
-  public void setData(InputStream data) {
-    this.data = FileUtils.toByteArray(data);
-  }
-
-  @Override
-  public void setSearchableData(SearchableData searchableData) {
-    this.searchableData = searchableData ;
-  }
-
-  @Override
-  public void setVisualization(InputStream visualization) {
-    this.visualization = FileUtils.toByteArray(visualization);
   }
 
   @Override
@@ -98,8 +62,8 @@ public class TsuzammenElement implements Element {
   }
 
   @Override
-  public SearchableData getSearchableData() {
-    return searchableData;
+  public InputStream getSearchableData() {
+    return FileUtils.toInputStream(searchableData);
   }
 
   @Override
@@ -107,13 +71,43 @@ public class TsuzammenElement implements Element {
     return FileUtils.toInputStream(this.visualization);
   }
 
+
   @Override
   public Collection<Element> getSubElements() {
     return this.subElements;
   }
 
-  @Override
+
+  public void setInfo(Info info) {
+    this.info = info;
+  }
+
+
+  public void setElementId(Id elementId) {
+    this.elementId = elementId;
+  }
+
+  public void setData(InputStream data) {
+    this.data = FileUtils.toByteArray(data);
+  }
+
+  public void setRelations(Collection<Relation> relations) {
+    this.relations = relations;
+  }
+
+  public void setSearchableData(InputStream searchableData) {
+    this.searchableData = FileUtils.toByteArray(searchableData );
+  }
+
+  public void setVisualization(InputStream visualization) {
+    this.visualization = FileUtils.toByteArray(visualization);
+  }
+
   public void setSubElements(Collection<Element> subElements) {
     this.subElements = subElements;
+  }
+
+  public void setAction(ElementAction action) {
+    this.action = action;
   }
 }

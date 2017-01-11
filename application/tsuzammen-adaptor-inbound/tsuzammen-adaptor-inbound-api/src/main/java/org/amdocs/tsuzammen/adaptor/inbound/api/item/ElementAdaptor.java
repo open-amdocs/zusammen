@@ -16,7 +16,6 @@
 
 package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
-
 import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
 import org.amdocs.tsuzammen.datatypes.FetchCriteria;
 import org.amdocs.tsuzammen.datatypes.Id;
