@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.datatypes.searchindex;
+package org.amdocs.tsuzammen.sdk.types.searchindex;
+
 
 import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.Space;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
 
-public class SearchIndexContext {
-
+public class ElementSearchableData {
+  private SearchableData searchableData;
+  private Id elementId;
   private Id itemId;
   private Id versionId;
-  private SearchIndexSpace space;
+  private Space space;
 
   public Id getItemId() {
     return itemId;
@@ -40,11 +44,27 @@ public class SearchIndexContext {
     this.versionId = versionId;
   }
 
-  public SearchIndexSpace getSpace() {
+  public Space getSpace() {
     return space;
   }
 
-  public void setSpace(SearchIndexSpace space) {
+  public void setSpace(Space space) {
     this.space = space;
+  }
+
+  public SearchableData getSearchableData() {
+    return searchableData;
+  }
+
+  public void setSearchableData(SearchableData searchableData) {
+    this.searchableData = searchableData;
+  }
+
+  public Id getElementId() {
+    return elementId;
+  }
+
+  public void setElementId(Id elementId) {
+    this.elementId = elementId;
   }
 }

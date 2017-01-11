@@ -27,6 +27,8 @@ import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchCriteria;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchResult;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,6 +62,11 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   }
 
 
+  @Override
+  public SearchResult search(SessionContext context, SearchCriteria searchCriteria) {
+    return getElementManager(context).search(context, searchCriteria);
+  }
+
   private CoreElement getCoreElement(Element element) {
     CoreElement coreElement = new CoreElement();
     coreElement.setElementImplClass(element.getClass());
@@ -70,7 +77,7 @@ public class ElementAdaptorImpl implements ElementAdaptor {
     coreElement.setRelations(element.getRelations());
 
     coreElement.setData(element.getData());
-    coreElement.setSearchData(element.getSearchData());
+    coreElement.setSearchableData(element.getSearchableData());
     coreElement.setVisualization(element.getVisualization());
 
     coreElement.setSubElements(getCoreElements(element.getSubElements()));

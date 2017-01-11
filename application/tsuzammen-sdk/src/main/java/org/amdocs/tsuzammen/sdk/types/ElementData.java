@@ -17,9 +17,9 @@
 package org.amdocs.tsuzammen.sdk.types;
 
 import org.amdocs.tsuzammen.datatypes.Id;
-import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
 import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
@@ -33,7 +33,7 @@ public class ElementData {
   private Collection<Relation> relations;
   private Class elementImplClass;
   private byte[] data;
-  private byte[] searchData;
+  private SearchableData searchableData;
   private byte[] visualization;
   private Map<Id, Class> subElements;
 
@@ -85,12 +85,12 @@ public class ElementData {
     this.data = FileUtils.toByteArray(data);
   }
 
-  public InputStream getSearchData() {
-    return FileUtils.toInputStream(searchData);
+  public SearchableData getSearchableData() {
+    return searchableData;
   }
 
-  public void setSearchData(InputStream searchData) {
-    this.searchData = FileUtils.toByteArray(searchData);
+  public void setSearchableData(SearchableData searchableData) {
+    this.searchableData = searchableData;
   }
 
   public InputStream getVisualization() {

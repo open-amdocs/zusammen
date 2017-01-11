@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.datatypes.searchindex;
+package org.amdocs.tsuzammen.adaptor.outbound.impl;
 
-public enum SearchIndexSpace {
-  PUBLIC,
-  PRIVATE,
-  BOTH
+import org.amdocs.tsuzammen.adaptor.outbound.api.SearchIndexAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.SearchIndexAdaptorFactory;
+import org.amdocs.tsuzammen.datatypes.SessionContext;
 
+public class SearchIndexAdaptorFactoryImpl extends SearchIndexAdaptorFactory {
+  private static final SearchIndexAdaptor INSTANCE = new SearchIndexAdaptorImpl();
+
+  @Override
+  public SearchIndexAdaptor createInterface(SessionContext context) {
+    return INSTANCE;
+  }
 }

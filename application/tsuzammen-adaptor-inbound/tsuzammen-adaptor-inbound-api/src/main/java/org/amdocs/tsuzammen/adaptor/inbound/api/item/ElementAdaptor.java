@@ -23,6 +23,8 @@ import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchCriteria;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchResult;
 
 import java.util.Collection;
 
@@ -38,4 +40,7 @@ public interface ElementAdaptor {
 
   void save(SessionContext context, ElementContext elementContext, Element element,
             String message);
+
+  SearchResult search(SessionContext context, SearchCriteria searchCriteria);
+
 }

@@ -20,6 +20,7 @@ import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
 
 import java.io.InputStream;
 import java.util.Collection;
@@ -44,13 +45,13 @@ public interface Element {
 
   void setData(InputStream data);
 
-  void setSearchData(InputStream searchData);
+  void setSearchableData(SearchableData searchableData);
 
   void setVisualization(InputStream visualization);
 
   InputStream getData();
 
-  InputStream getSearchData();
+  SearchableData getSearchableData();
 
   InputStream getVisualization();
 

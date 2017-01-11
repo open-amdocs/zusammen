@@ -20,6 +20,7 @@ import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
 import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
@@ -34,7 +35,7 @@ public class CoreElement {
   private Info info;
   private Collection<Relation> relations = Collections.EMPTY_LIST;
   private byte[] data;
-  private byte[] searchData;
+  private SearchableData searchableData;
   private byte[] visualization;
   private Collection<CoreElement> subElements = Collections.EMPTY_LIST;
 
@@ -94,12 +95,12 @@ public class CoreElement {
     this.data = FileUtils.toByteArray(data);
   }
 
-  public InputStream getSearchData() {
-    return FileUtils.toInputStream(searchData);
+  public SearchableData getSearchableData() {
+    return searchableData;
   }
 
-  public void setSearchData(InputStream searchData) {
-    this.searchData = FileUtils.toByteArray(searchData);
+  public void setSearchableData(SearchableData searchableData) {
+    this.searchableData = searchableData;
   }
 
   public InputStream getVisualization() {

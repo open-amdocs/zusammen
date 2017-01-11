@@ -20,6 +20,7 @@ import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
+import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
 import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
@@ -32,7 +33,7 @@ public class TsuzammenElement implements Element {
   private Info info;
   private Collection<Relation> relations;
   private byte[] data;
-  private byte[] searchData;
+  private SearchableData searchableData;
   private byte[] visualization;
   private Collection<Element> subElements = Collections.EMPTY_LIST;
 
@@ -82,8 +83,8 @@ public class TsuzammenElement implements Element {
   }
 
   @Override
-  public void setSearchData(InputStream searchData) {
-    this.searchData = FileUtils.toByteArray(searchData);
+  public void setSearchableData(SearchableData searchableData) {
+    this.searchableData = searchableData ;
   }
 
   @Override
@@ -97,8 +98,8 @@ public class TsuzammenElement implements Element {
   }
 
   @Override
-  public InputStream getSearchData() {
-    return FileUtils.toInputStream(this.searchData);
+  public SearchableData getSearchableData() {
+    return searchableData;
   }
 
   @Override

@@ -133,7 +133,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     elementData.setRelations(coreElement.getRelations());
 
     elementData.setData(coreElement.getData());
-    elementData.setSearchData(coreElement.getSearchData());
+    elementData.setSearchableData(coreElement.getSearchableData());
     elementData.setVisualization(coreElement.getVisualization());
     return elementData;
   }

@@ -18,5 +18,6 @@ package org.amdocs.tsuzammen.datatypes;
 
 public enum Space {
   PUBLIC,
-  PRIVATE
+  PRIVATE,
+  BOTH
 }
