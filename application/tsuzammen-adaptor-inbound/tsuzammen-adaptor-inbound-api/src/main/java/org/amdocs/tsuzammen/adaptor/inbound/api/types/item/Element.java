@@ -29,33 +29,18 @@ public interface Element {
 
   ElementAction getAction();
 
-  void setAction(ElementAction action);
-
   Id getElementId();
-
-  void setElementId(Id elementId);
 
   Info getInfo();
 
-  void setInfo(Info info);
-
   Collection<Relation> getRelations();
-
-  void setRelations(Collection<Relation> relations);
-
-  void setData(InputStream data);
-
-  void setSearchableData(SearchableData searchableData);
-
-  void setVisualization(InputStream visualization);
 
   InputStream getData();
 
-  SearchableData getSearchableData();
+  InputStream getSearchableData();
 
   InputStream getVisualization();
 
   Collection<Element> getSubElements();
 
-  void setSubElements(Collection<Element> subElements);
 }

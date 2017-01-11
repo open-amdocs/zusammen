@@ -20,9 +20,12 @@ package org.amdocs.tsuzammen.sdk.types.searchindex;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Space;
 import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
+import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
+
+import java.io.InputStream;
 
 public class ElementSearchableData {
-  private SearchableData searchableData;
+  private byte[] searchableData;
   private Id elementId;
   private Id itemId;
   private Id versionId;
@@ -52,12 +55,12 @@ public class ElementSearchableData {
     this.space = space;
   }
 
-  public SearchableData getSearchableData() {
-    return searchableData;
+  public InputStream getSearchableData() {
+    return FileUtils.toInputStream(searchableData);
   }
 
-  public void setSearchableData(SearchableData searchableData) {
-    this.searchableData = searchableData;
+  public void setSearchableData(InputStream searchableData) {
+    this.searchableData = FileUtils.toByteArray(searchableData);
   }
 
   public Id getElementId() {

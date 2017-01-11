@@ -28,24 +28,15 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class CoreElement {
-  private Class elementImplClass;
   private ElementAction action = ElementAction.IGNORE;
   private Id id;
   private Id parentId;
   private Info info;
   private Collection<Relation> relations = Collections.EMPTY_LIST;
   private byte[] data;
-  private SearchableData searchableData;
+  private byte[] searchableData;
   private byte[] visualization;
   private Collection<CoreElement> subElements = Collections.EMPTY_LIST;
-
-  public Class getElementImplClass() {
-    return elementImplClass;
-  }
-
-  public void setElementImplClass(Class elementImplClass) {
-    this.elementImplClass = elementImplClass;
-  }
 
   public ElementAction getAction() {
     return action;
@@ -95,12 +86,12 @@ public class CoreElement {
     this.data = FileUtils.toByteArray(data);
   }
 
-  public SearchableData getSearchableData() {
-    return searchableData;
+  public InputStream getSearchableData() {
+    return FileUtils.toInputStream(searchableData);
   }
 
-  public void setSearchableData(SearchableData searchableData) {
-    this.searchableData = searchableData;
+  public void setSearchableData(InputStream searchableData) {
+    this.searchableData = FileUtils.toByteArray(searchableData);
   }
 
   public InputStream getVisualization() {

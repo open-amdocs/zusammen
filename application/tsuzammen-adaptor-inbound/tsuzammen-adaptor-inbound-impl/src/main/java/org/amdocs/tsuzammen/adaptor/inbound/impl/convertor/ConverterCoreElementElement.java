@@ -17,6 +17,7 @@
 package org.amdocs.tsuzammen.adaptor.inbound.impl.convertor;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
+import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.TsuzammenElement;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
 
 
@@ -28,8 +29,8 @@ import java.util.stream.Collectors;
 public class ConverterCoreElementElement {
 
   public static Element getElement(CoreElement coreElement) {
-    Element element = (Element) CommonMethods.newInstance(coreElement.getElementImplClass());
 
+    TsuzammenElement element = new TsuzammenElement();
     element.setElementId(coreElement.getId());
     element.setInfo(coreElement.getInfo());
     element.setRelations(coreElement.getRelations());

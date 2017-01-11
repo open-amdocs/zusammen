@@ -26,7 +26,7 @@ public class ConverterCoreElementElementData {
 
   public static CoreElement getCoreElement(ElementData elementData) {
     CoreElement coreElement =
-        getCoreElement(elementData.getId(), elementData.getElementImplClass());
+        getCoreElement(elementData.getId());
     coreElement.setInfo(elementData.getInfo());
     coreElement.setRelations(elementData.getRelations());
 
@@ -34,16 +34,15 @@ public class ConverterCoreElementElementData {
     coreElement.setSearchableData(elementData.getSearchableData());
     coreElement.setVisualization(elementData.getVisualization());
 
-    coreElement.setSubElements(elementData.getSubElements().entrySet().stream()
+    coreElement.setSubElements(elementData.getSubElements().stream()
         .map(subElementEntry ->
-            getCoreElement(subElementEntry.getKey(), subElementEntry.getValue()))
+            getCoreElement(subElementEntry))
         .collect(Collectors.toList()));
     return coreElement;
   }
 
-  public static CoreElement getCoreElement(Id elementId, Class elementImplClass) {
+  public static CoreElement getCoreElement(Id elementId) {
     CoreElement coreElement = new CoreElement();
-    coreElement.setElementImplClass(elementImplClass);
     coreElement.setId(elementId);
     return coreElement;
   }

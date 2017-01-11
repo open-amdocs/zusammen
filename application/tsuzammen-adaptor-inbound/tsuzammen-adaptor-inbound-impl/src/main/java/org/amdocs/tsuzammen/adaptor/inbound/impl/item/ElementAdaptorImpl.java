@@ -70,7 +70,6 @@ public class ElementAdaptorImpl implements ElementAdaptor {
 
   private CoreElement getCoreElement(Element element, Id parentId) {
     CoreElement coreElement = new CoreElement();
-    coreElement.setElementImplClass(element.getClass());
     coreElement.setAction(element.getAction());
 
     coreElement.setId(element.getElementId());
