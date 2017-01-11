@@ -17,17 +17,26 @@
 package org.amdocs.tsuzammen.datatypes;
 
 public class Namespace {
-  private String value;
-  public static String NAMESPACE_DELIMITER = "/";
+  private static final String INVALID_CTOR_ARGS_ERR_MSG =
+      "Parent element namespace and element Id must be supplied";
+  private static final String INVALID_VALUE_ERR_MSG =
+      "Namespace string representaion must be supplied";
+  private static final String EMPTY_NAMESPACE_VALUE = "";
 
+  public static final String NAMESPACE_DELIMITER = "/";
+  public static final Namespace EMPTY_NAMESPACE = new Namespace();
+
+  private String value;
 
   public Namespace() {
-    value = "";
+    value = EMPTY_NAMESPACE_VALUE;
   }
 
-  public Namespace(Namespace parentNamespace, Id entityId) {
-
-    this.value = parentNamespace.getValue() + NAMESPACE_DELIMITER + entityId.toString();
+  public Namespace(Namespace parentNamespace, Id elementId) {
+    if (parentNamespace == null || elementId == null) {
+      throw new IllegalArgumentException(INVALID_CTOR_ARGS_ERR_MSG);
+    }
+    this.value = parentNamespace.getValue() + NAMESPACE_DELIMITER + elementId.toString();
   }
 
   public String getValue() {
@@ -35,6 +44,9 @@ public class Namespace {
   }
 
   public void setValue(String value) {
+    if (value == null) {
+      throw new IllegalArgumentException(INVALID_VALUE_ERR_MSG);
+    }
     this.value = value;
   }
 

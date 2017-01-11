@@ -37,13 +37,6 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public Namespace getNamespace(SessionContext context, ElementContext elementContext,
-                                Id elementId) {
-    return OutboundAdaptorUtils.getStateStore(context)
-        .getElementNamespace(context, elementContext, elementId);
-  }
-
-  @Override
   public boolean isExist(SessionContext context, ElementContext elementContext, Id elementId) {
     return OutboundAdaptorUtils.getStateStore(context)
         .isElementExist(context, elementContext, elementId);

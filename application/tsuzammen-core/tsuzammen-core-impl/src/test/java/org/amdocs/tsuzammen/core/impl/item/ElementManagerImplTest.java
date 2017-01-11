@@ -16,18 +16,22 @@
 
 package org.amdocs.tsuzammen.core.impl.item;
 
+import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.SearchIndexAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
 import org.amdocs.tsuzammen.core.impl.TestUtils;
-import org.amdocs.tsuzammen.core.impl.item.mocks.CollaborationAdaptorEmptyImpl;
-import org.amdocs.tsuzammen.core.impl.item.mocks.ElementStateAdaptorEmptyImpl;
-import org.amdocs.tsuzammen.core.impl.item.mocks.ItemStateAdaptorEmptyImpl;
-import org.amdocs.tsuzammen.core.impl.item.mocks.ItemVersionStateAdaptorEmptyImpl;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.UserInfo;
 import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -36,8 +40,8 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,22 +49,34 @@ import static org.mockito.Mockito.when;
 public class ElementManagerImplTest {
   public static final UserInfo USER = new UserInfo("ElementManagerImpl_user");
 
-  private ElementManagerImpl elementManager = spy(new ElementManagerImpl());
+  @Spy
+  private ElementManagerImpl elementManager;
 
-  private ElementStateAdaptorEmptyImpl stateAdaptor;
-  private CollaborationAdaptorEmptyImpl collaborationAdaptor;
+  @Mock
+  private ElementStateAdaptor stateAdaptorMock;
+  @Mock
+  private CollaborationAdaptor collaborationAdaptorMock;
+  @Mock
+  private SearchIndexAdaptor searchIndexAdaptorMock;
+  @Mock
+  private ItemStateAdaptor itemStateAdaptorMock;
+  @Mock
+  private ItemVersionStateAdaptor versionStateAdaptorMock;
 
   @BeforeMethod
-  public void init() {
-    stateAdaptor = spy(new ElementStateAdaptorEmptyImpl());
-    collaborationAdaptor = spy(new CollaborationAdaptorEmptyImpl());
+  public void setUp() throws Exception {
+    MockitoAnnotations.initMocks(this);
 
-    when(elementManager.getStateAdaptor(anyObject())).thenReturn(stateAdaptor);
     when(elementManager.getItemVersionStateAdaptor(anyObject()))
-        .thenReturn(new ItemVersionStateAdaptorEmptyImpl());
-    when(elementManager.getItemStateAdaptor(anyObject()))
-        .thenReturn(new ItemStateAdaptorEmptyImpl());
-    when(elementManager.getCollaborationAdaptor(anyObject())).thenReturn(collaborationAdaptor);
+        .thenReturn(versionStateAdaptorMock);
+    when(elementManager.getItemStateAdaptor(anyObject())).thenReturn(itemStateAdaptorMock);
+
+    when(elementManager.getStateAdaptor(anyObject())).thenReturn(stateAdaptorMock);
+    when(elementManager.getCollaborationAdaptor(anyObject())).thenReturn(collaborationAdaptorMock);
+    when(elementManager.getSearchIndexAdaptor(anyObject())).thenReturn(searchIndexAdaptorMock);
+
+    doReturn(true)
+        .when(versionStateAdaptorMock).isItemVersionExist(anyObject(), anyObject(), anyObject());
   }
 
   @Test
@@ -76,12 +92,12 @@ public class ElementManagerImplTest {
     traverse(root, this::validateIdExistense);
 
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptor).createElement(context, elementContext, rootNs, root);
-    verify(collaborationAdaptor)
+    verify(collaborationAdaptorMock).createElement(context, elementContext, rootNs, root);
+    verify(collaborationAdaptorMock)
         .createElement(context, elementContext, getNamespace(rootNs, a1.getId()), a1);
 
-    verify(stateAdaptor, never()).getNamespace(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor, times(2)).create(anyObject(), anyObject());
+    verify(stateAdaptorMock, never()).get(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock, times(2)).create(anyObject(), anyObject());
   }
 
   @Test
@@ -100,19 +116,19 @@ public class ElementManagerImplTest {
     traverse(root, this::validateIdExistense);
 
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptor).saveElement(context, elementContext, rootNs, root);
-    verify(collaborationAdaptor)
+    verify(collaborationAdaptorMock).saveElement(context, elementContext, rootNs, root);
+    verify(collaborationAdaptorMock)
         .saveElement(context, elementContext, getNamespace(rootNs, a1.getId()), a1);
-    verify(collaborationAdaptor)
+    verify(collaborationAdaptorMock)
         .deleteElement(context, elementContext, getNamespace(rootNs, a3.getId()), a3);
-    verify(collaborationAdaptor)
+    verify(collaborationAdaptorMock)
         .createElement(context, elementContext, getNamespace(rootNs, a4.getId()), a4);
 
-    verify(stateAdaptor).getNamespace(context, elementContext, root.getId());
-    verify(stateAdaptor).getNamespace(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor, times(2)).save(anyObject(), anyObject());
-    verify(stateAdaptor).create(anyObject(), anyObject());
-    verify(stateAdaptor).delete(anyObject(), anyObject());
+    verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
+    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock, times(2)).save(anyObject(), anyObject());
+    verify(stateAdaptorMock).create(anyObject(), anyObject());
+    verify(stateAdaptorMock).delete(anyObject(), anyObject());
   }
 
   @Test
@@ -125,11 +141,11 @@ public class ElementManagerImplTest {
     elementManager.save(context, elementContext, root, "save delete root!");
 
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptor).deleteElement(context, elementContext, rootNs, root);
+    verify(collaborationAdaptorMock).deleteElement(context, elementContext, rootNs, root);
 
-    verify(stateAdaptor).getNamespace(context, elementContext, root.getId());
-    verify(stateAdaptor).getNamespace(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor).delete(anyObject(), anyObject());
+    verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
+    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock).delete(anyObject(), anyObject());
   }
 
   @Test
@@ -167,23 +183,23 @@ public class ElementManagerImplTest {
     Namespace b12Ns = getNamespace(a1Ns, b12.getId());
     Namespace c121Ns = getNamespace(b12Ns, c121.getId());
 
-    verify(collaborationAdaptor).saveElement(context, elementContext, a1Ns, a1);
-    verify(collaborationAdaptor)
+    verify(collaborationAdaptorMock).saveElement(context, elementContext, a1Ns, a1);
+    verify(collaborationAdaptorMock)
         .deleteElement(context, elementContext, getNamespace(a1Ns, b11.getId()), b11);
-    verify(collaborationAdaptor).saveElement(context, elementContext, c121Ns, c121);
-    verify(collaborationAdaptor)
+    verify(collaborationAdaptorMock).saveElement(context, elementContext, c121Ns, c121);
+    verify(collaborationAdaptorMock)
         .createElement(context, elementContext, getNamespace(c121Ns, d1211.getId()), d1211);
-    verify(collaborationAdaptor).createElement(context, elementContext, a2Ns, a2);
-    verify(collaborationAdaptor)
+    verify(collaborationAdaptorMock).createElement(context, elementContext, a2Ns, a2);
+    verify(collaborationAdaptorMock)
         .createElement(context, elementContext, getNamespace(a2Ns, b21.getId()), b21);
-    verify(collaborationAdaptor)
+    verify(collaborationAdaptorMock)
         .createElement(context, elementContext, getNamespace(a2Ns, b22.getId()), b22);
 
-    verify(stateAdaptor).getNamespace(context, elementContext, root.getId());
-    verify(stateAdaptor).getNamespace(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor, times(4)).create(anyObject(), anyObject());
-    verify(stateAdaptor, times(2)).save(anyObject(), anyObject());
-    verify(stateAdaptor).delete(anyObject(), anyObject());
+    verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
+    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock, times(4)).create(anyObject(), anyObject());
+    verify(stateAdaptorMock, times(2)).save(anyObject(), anyObject());
+    verify(stateAdaptorMock).delete(anyObject(), anyObject());
   }
 
   private void traverse(CoreElement element, Consumer<CoreElement> elementConsumer) {

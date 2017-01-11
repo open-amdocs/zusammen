@@ -29,9 +29,6 @@ public interface ElementStateAdaptor {
 
   Collection<ElementInfo> list(SessionContext context, ElementContext elementContext, Id elementId);
 
-  Namespace getNamespace(SessionContext context, ElementContext elementContext,
-                         Id elementId);
-
   boolean isExist(SessionContext context, ElementContext elementContext, Id elementId);
 
   ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId,

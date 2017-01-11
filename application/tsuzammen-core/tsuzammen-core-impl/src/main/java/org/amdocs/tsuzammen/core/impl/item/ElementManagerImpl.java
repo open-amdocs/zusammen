@@ -43,6 +43,7 @@ import org.amdocs.tsuzammen.datatypes.searchindex.SearchResult;
 import java.util.Collection;
 
 public class ElementManagerImpl implements ElementManager {
+  private static final String UNSUPPORTED_ACTION_ERR_MSG = "Action %s is not supported";
 
   @Override
   public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
@@ -70,7 +71,7 @@ public class ElementManagerImpl implements ElementManager {
         elementContext.getVersionId());
 
     Namespace parentNamespace =
-        element.getAction() == ElementAction.CREATE ? new Namespace() : null;
+        element.getAction() == ElementAction.CREATE ? Namespace.EMPTY_NAMESPACE : null;
     traverse(context, elementContext, parentNamespace, element);
   }
 
@@ -97,7 +98,7 @@ public class ElementManagerImpl implements ElementManager {
         break;
       default:
         throw new RuntimeException(
-            String.format("Action %s is not supported", element.getAction()));
+            String.format(UNSUPPORTED_ACTION_ERR_MSG, element.getAction()));
     }
 
     element.getSubElements().forEach(subElement ->
@@ -113,7 +114,7 @@ public class ElementManagerImpl implements ElementManager {
     // elements in the hierarchy.
     element.getSubElements().forEach(subElement -> subElement.setParentId(element.getId()));
 
-    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
+    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element);
 
     getCollaborationAdaptor(context).createElement(context, elementContext, namespace, element);
     getStateAdaptor(context).create(context, getElementInfo(elementContext, namespace, element));
@@ -124,7 +125,7 @@ public class ElementManagerImpl implements ElementManager {
 
   private Namespace update(SessionContext context, ElementContext elementContext,
                            Namespace parentNamespace, CoreElement element) {
-    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
+    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element);
 
     getCollaborationAdaptor(context).saveElement(context, elementContext, namespace, element);
     getStateAdaptor(context).save(context, getElementInfo(elementContext, namespace, element));
@@ -135,7 +136,7 @@ public class ElementManagerImpl implements ElementManager {
 
   private Namespace delete(SessionContext context, ElementContext elementContext,
                            Namespace parentNamespace, CoreElement element) {
-    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
+    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element);
 
     getCollaborationAdaptor(context).deleteElement(context, elementContext, namespace, element);
     getStateAdaptor(context).delete(context, getElementInfo(elementContext, namespace, element));
@@ -146,14 +147,19 @@ public class ElementManagerImpl implements ElementManager {
 
   private Namespace ignore(SessionContext context, ElementContext elementContext,
                            Namespace parentNamespace, CoreElement element) {
-    return getNamespace(context, elementContext, parentNamespace, element.getId());
+    return getNamespace(context, elementContext, parentNamespace, element);
   }
 
   private Namespace getNamespace(SessionContext context, ElementContext elementContext,
-                                 Namespace parentNamespace, Id elementId) {
-    return parentNamespace == null
-        ? getStateAdaptor(context).getNamespace(context, elementContext, elementId)
-        : new Namespace(parentNamespace, elementId);
+                                 Namespace parentNamespace, CoreElement element) {
+    if (parentNamespace != null) {
+      return new Namespace(parentNamespace, element.getId());
+    }
+
+    ElementInfo elementInfo =
+        getStateAdaptor(context).get(context, elementContext, element.getId(), null);
+    element.setParentId(elementInfo.getParentId());
+    return elementInfo.getNamespace();
   }
 
   private ElementInfo getElementInfo(ElementContext elementContext, Namespace namespace,

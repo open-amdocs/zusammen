@@ -67,10 +67,6 @@ public class ElementInfo {
     return parentId;
   }
 
-  public void setParentId(Id parentId) {
-    this.parentId = parentId;
-  }
-
   public Collection<Relation> getRelations() {
     return relations;
   }
@@ -87,7 +83,7 @@ public class ElementInfo {
     this.subElements = subElements;
   }
 
-  public void addSubelement(ElementInfo elementInfo){
+  public void addSubelement(ElementInfo elementInfo) {
     this.subElements.add(elementInfo);
   }
 }

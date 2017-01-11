@@ -16,37 +16,40 @@
 
 package org.amdocs.tsuzammen.core.impl.item;
 
+import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
+import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
+import org.amdocs.tsuzammen.core.impl.TestUtils;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.UserInfo;
 import org.amdocs.tsuzammen.datatypes.item.Info;
-import org.amdocs.tsuzammen.core.impl.TestUtils;
-import org.amdocs.tsuzammen.core.impl.item.mocks.CollaborationAdaptorEmptyImpl;
-import org.amdocs.tsuzammen.core.impl.item.mocks.ItemVersionStateAdaptorEmptyImpl;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class ItemVersionManagerImplTest {
   public static final UserInfo USER = new UserInfo("ItemVersionManagerImplTest_user");
 
-  private ItemVersionManagerImpl itemVersionManagerImpl = spy(new ItemVersionManagerImpl());
+  @Spy
+  private ItemVersionManagerImpl itemVersionManagerImpl;
+  @Mock
+  private ItemVersionStateAdaptor stateAdaptorMock;
+  @Mock
+  private CollaborationAdaptor collaborationAdaptorMock;
 
-  private ItemVersionStateAdaptorEmptyImpl stateAdaptorEmpty =
-      spy(new ItemVersionStateAdaptorEmptyImpl());
-  private CollaborationAdaptorEmptyImpl collaborationAdaptorEmpty =
-      spy(new CollaborationAdaptorEmptyImpl());
+  @BeforeMethod
+  public void setUp() throws Exception {
+    MockitoAnnotations.initMocks(this);
 
-  @BeforeClass
-  public void init() {
+    when(itemVersionManagerImpl.getStateAdaptor(anyObject())).thenReturn(stateAdaptorMock);
     when(itemVersionManagerImpl.getCollaborationAdaptor(anyObject()))
-        .thenReturn(collaborationAdaptorEmpty);
-
-    when(itemVersionManagerImpl.getStateAdaptor(anyObject())).thenReturn(stateAdaptorEmpty);
+        .thenReturn(collaborationAdaptorMock);
   }
 
   @Test
