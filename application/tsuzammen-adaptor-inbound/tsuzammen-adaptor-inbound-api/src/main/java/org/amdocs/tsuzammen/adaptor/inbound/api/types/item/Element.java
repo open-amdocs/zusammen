@@ -20,7 +20,6 @@ import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.Relation;
-import org.amdocs.tsuzammen.datatypes.searchindex.SearchableData;
 
 import java.io.InputStream;
 import java.util.Collection;
