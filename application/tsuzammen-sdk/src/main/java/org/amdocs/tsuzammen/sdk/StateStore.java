@@ -60,20 +60,16 @@ public interface StateStore {
   Collection<ElementInfo> listElements(SessionContext context, ElementContext elementContext,
                                        Id elementId);
 
-  Namespace getElementNamespace(SessionContext context, ElementContext elementContext,
-                                Id elementId);
-
   boolean isElementExist(SessionContext context, ElementContext elementContext, Id elementId);
 
   ElementInfo getElement(SessionContext context, ElementContext elementContext, Id elementId,
                          FetchCriteria fetchCriteria);
 
-  void createElement(SessionContext context, ElementContext elementContext,
-                     Namespace elementNamespace, ElementInfo element);
+  void createElement(SessionContext context, ElementInfo element);
 
-  void saveElement(SessionContext context, ElementContext elementContext, ElementInfo element);
+  void saveElement(SessionContext context, ElementInfo element);
 
-  void deleteElement(SessionContext context, ElementContext elementContext, ElementInfo element);
+  void deleteElement(SessionContext context,ElementInfo element);
 
   void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 

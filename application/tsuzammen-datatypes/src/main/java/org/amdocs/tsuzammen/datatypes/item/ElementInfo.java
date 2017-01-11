@@ -17,19 +17,38 @@
 package org.amdocs.tsuzammen.datatypes.item;
 
 import org.amdocs.tsuzammen.datatypes.Id;
+import org.amdocs.tsuzammen.datatypes.Namespace;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class ElementInfo {
+  private Namespace namespace;
+  private Id itemId;
+  private Id versionId;
   private Id id;
   private Id parentId; //core uses for save
   private Info info;
   private Collection<Relation> relations;
   private Collection<ElementInfo> subElements = new ArrayList<>(); //core uses for get
 
-  public ElementInfo(Id id) {
+  public ElementInfo(Id itemId, Id versionId, Id id, Id parentId) {
+    this.itemId = itemId;
+    this.versionId = versionId;
     this.id = id;
+    this.parentId = parentId;
+  }
+
+  public Namespace getNamespace() {
+    return namespace;
+  }
+
+  public Id getItemId() {
+    return itemId;
+  }
+
+  public Id getVersionId() {
+    return versionId;
   }
 
   public Id getId() {

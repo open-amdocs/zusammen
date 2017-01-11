@@ -52,18 +52,18 @@ public class ElementStateAdaptorEmptyImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public void create(SessionContext context, ElementContext elementContext,
-                     Namespace namespace, ElementInfo element) {
+  public void create(SessionContext context,
+                     ElementInfo element) {
 
   }
 
   @Override
-  public void save(SessionContext context, ElementContext elementContext, ElementInfo element) {
+  public void save(SessionContext context, ElementInfo element) {
 
   }
 
   @Override
-  public void delete(SessionContext context, ElementContext elementContext, ElementInfo element) {
+  public void delete(SessionContext context, ElementInfo element) {
 
   }
 }

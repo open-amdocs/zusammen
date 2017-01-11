@@ -116,7 +116,7 @@ public class ElementManagerImpl implements ElementManager {
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
 
     getCollaborationAdaptor(context).createElement(context, elementContext, namespace, element);
-    getStateAdaptor(context).create(context, elementContext, namespace, getElementInfo(element));
+    getStateAdaptor(context).create(context, getElementInfo(elementContext, namespace, element));
     getSearchIndexAdaptor(context).createElement(context, elementContext, element, Space.PRIVATE);
 
     return namespace;
@@ -127,7 +127,7 @@ public class ElementManagerImpl implements ElementManager {
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
 
     getCollaborationAdaptor(context).saveElement(context, elementContext, namespace, element);
-    getStateAdaptor(context).save(context, elementContext, getElementInfo(element));
+    getStateAdaptor(context).save(context, getElementInfo(elementContext, namespace, element));
     getSearchIndexAdaptor(context).updateElement(context, elementContext, element, Space.PRIVATE);
 
     return namespace;
@@ -138,7 +138,7 @@ public class ElementManagerImpl implements ElementManager {
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element.getId());
 
     getCollaborationAdaptor(context).deleteElement(context, elementContext, namespace, element);
-    getStateAdaptor(context).delete(context, elementContext, getElementInfo(element));
+    getStateAdaptor(context).delete(context, getElementInfo(elementContext, namespace, element));
     getSearchIndexAdaptor(context).deleteElement(context, elementContext, element, Space.PRIVATE);
 
     return namespace;
@@ -156,9 +156,10 @@ public class ElementManagerImpl implements ElementManager {
         : new Namespace(parentNamespace, elementId);
   }
 
-  private ElementInfo getElementInfo(CoreElement coreElement) {
-    ElementInfo elementInfo = new ElementInfo(coreElement.getId());
-    elementInfo.setParentId(coreElement.getParentId());
+  private ElementInfo getElementInfo(ElementContext elementContext, Namespace namespace,
+                                     CoreElement coreElement) {
+    ElementInfo elementInfo = new ElementInfo(elementContext.getItemId(),
+        elementContext.getVersionId(), coreElement.getId(), coreElement.getParentId());
     elementInfo.setInfo(coreElement.getInfo());
     elementInfo.setRelations(coreElement.getRelations());
     return elementInfo;

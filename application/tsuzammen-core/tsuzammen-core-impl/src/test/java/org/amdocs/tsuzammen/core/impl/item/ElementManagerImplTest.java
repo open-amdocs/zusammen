@@ -81,7 +81,7 @@ public class ElementManagerImplTest {
         .createElement(context, elementContext, getNamespace(rootNs, a1.getId()), a1);
 
     verify(stateAdaptor, never()).getNamespace(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor, times(2)).create(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptor, times(2)).create(anyObject(), anyObject());
   }
 
   @Test
@@ -110,9 +110,9 @@ public class ElementManagerImplTest {
 
     verify(stateAdaptor).getNamespace(context, elementContext, root.getId());
     verify(stateAdaptor).getNamespace(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor, times(2)).save(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor).create(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor).delete(anyObject(), anyObject(), anyObject());
+    verify(stateAdaptor, times(2)).save(anyObject(), anyObject());
+    verify(stateAdaptor).create(anyObject(), anyObject());
+    verify(stateAdaptor).delete(anyObject(), anyObject());
   }
 
   @Test
@@ -129,7 +129,7 @@ public class ElementManagerImplTest {
 
     verify(stateAdaptor).getNamespace(context, elementContext, root.getId());
     verify(stateAdaptor).getNamespace(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor).delete(anyObject(), anyObject(), anyObject());
+    verify(stateAdaptor).delete(anyObject(), anyObject());
   }
 
   @Test
@@ -181,9 +181,9 @@ public class ElementManagerImplTest {
 
     verify(stateAdaptor).getNamespace(context, elementContext, root.getId());
     verify(stateAdaptor).getNamespace(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor, times(4)).create(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor, times(2)).save(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptor).delete(anyObject(), anyObject(), anyObject());
+    verify(stateAdaptor, times(4)).create(anyObject(), anyObject());
+    verify(stateAdaptor, times(2)).save(anyObject(), anyObject());
+    verify(stateAdaptor).delete(anyObject(), anyObject());
   }
 
   private void traverse(CoreElement element, Consumer<CoreElement> elementConsumer) {

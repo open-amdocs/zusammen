@@ -57,19 +57,17 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public void create(SessionContext context, ElementContext elementContext,
-                     Namespace namespace, ElementInfo element) {
-    OutboundAdaptorUtils.getStateStore(context)
-        .createElement(context, elementContext, namespace, element);
+  public void create(SessionContext context, ElementInfo element) {
+    OutboundAdaptorUtils.getStateStore(context).createElement(context, element);
   }
 
   @Override
-  public void save(SessionContext context, ElementContext elementContext, ElementInfo element) {
-    OutboundAdaptorUtils.getStateStore(context).saveElement(context, elementContext, element);
+  public void save(SessionContext context, ElementInfo element) {
+    OutboundAdaptorUtils.getStateStore(context).saveElement(context, element);
   }
 
   @Override
-  public void delete(SessionContext context, ElementContext elementContext, ElementInfo element) {
-    OutboundAdaptorUtils.getStateStore(context).deleteElement(context, elementContext, element);
+  public void delete(SessionContext context, ElementInfo element) {
+    OutboundAdaptorUtils.getStateStore(context).deleteElement(context, element);
   }
 }

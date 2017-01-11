@@ -37,10 +37,10 @@ public interface ElementStateAdaptor {
   ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId,
                   FetchCriteria fetchCriteria);
 
-  void create(SessionContext context, ElementContext elementContext,
-              Namespace namespace, ElementInfo element);
+  void create(SessionContext context,
+              ElementInfo element);
 
-  void save(SessionContext context, ElementContext elementContext, ElementInfo element);
+  void save(SessionContext context, ElementInfo element);
 
-  void delete(SessionContext context, ElementContext elementContext, ElementInfo element);
+  void delete(SessionContext context, ElementInfo element);
 }
