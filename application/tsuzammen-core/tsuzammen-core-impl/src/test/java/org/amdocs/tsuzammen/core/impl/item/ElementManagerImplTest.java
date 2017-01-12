@@ -29,6 +29,7 @@ import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.UserInfo;
 import org.amdocs.tsuzammen.datatypes.item.ElementAction;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
+import org.amdocs.tsuzammen.datatypes.item.ElementInfo;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
@@ -111,6 +112,7 @@ public class ElementManagerImplTest {
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     ElementContext elementContext = createElementContext();
 
+    configMockReturn(context, elementContext, root);
     elementManager.save(context, elementContext, root, "save update root!");
 
     traverse(root, this::validateIdExistense);
@@ -138,6 +140,7 @@ public class ElementManagerImplTest {
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     ElementContext elementContext = createElementContext();
 
+    configMockReturn(context, elementContext, root);
     elementManager.save(context, elementContext, root, "save delete root!");
 
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
@@ -167,10 +170,19 @@ public class ElementManagerImplTest {
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     ElementContext elementContext = createElementContext();
 
+    configMockReturn(context, elementContext, root);
     elementManager.save(context, elementContext, root, "save ignore root!");
 
     traverse(root, this::validateIdExistense);
     verifyAdaptorCalls(context, elementContext, root, a1, a2, b11, b12, b21, b22, c121, d1211);
+  }
+
+  private void configMockReturn(SessionContext context, ElementContext elementContext,
+                                CoreElement root) {
+    ElementInfo elementInfo = new ElementInfo(
+        elementContext.getItemId(), elementContext.getVersionId(), root.getId(), null);
+    elementInfo.setNamespace(new Namespace(Namespace.EMPTY_NAMESPACE, root.getId()));
+    doReturn(elementInfo).when(stateAdaptorMock).get(context, elementContext, root.getId(), null);
   }
 
   private void verifyAdaptorCalls(SessionContext context, ElementContext elementContext,

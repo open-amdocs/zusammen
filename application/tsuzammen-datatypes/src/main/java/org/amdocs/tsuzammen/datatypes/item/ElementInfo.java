@@ -43,6 +43,10 @@ public class ElementInfo {
     return namespace;
   }
 
+  public void setNamespace(Namespace namespace) {
+    this.namespace = namespace;
+  }
+
   public Id getItemId() {
     return itemId;
   }
