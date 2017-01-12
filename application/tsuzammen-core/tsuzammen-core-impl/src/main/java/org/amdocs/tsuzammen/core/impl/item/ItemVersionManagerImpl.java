@@ -23,6 +23,7 @@ import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
+import org.amdocs.tsuzammen.core.api.types.CorePublishResult;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.core.api.types.CoreSyncResult;
@@ -74,9 +75,12 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public void publish(SessionContext context, Id itemId, Id versionId, String message) {
+  public void publish(SessionContext context, Id itemId, Id versionId, String
+      message) {
     validateItemVersionExistence(context, itemId, versionId);
-    getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
+    CorePublishResult corePublishResult = getCollaborationAdaptor(context).publishItemVersion
+        (context, itemId,
+        versionId, message);
     getStateAdaptor(context).publishItemVersion(context, itemId, versionId);
   }
 

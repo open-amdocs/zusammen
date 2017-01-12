@@ -19,8 +19,10 @@ package org.amdocs.tsuzammen.adaptor.outbound.impl;
 
 import org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.tsuzammen.adaptor.outbound.impl.convertor.ConverterCoreElementElementData;
+import org.amdocs.tsuzammen.adaptor.outbound.impl.convertor.ConverterCorePublishResultCollaborationPublishResult;
 import org.amdocs.tsuzammen.adaptor.outbound.impl.convertor.ConverterCoreSyncResultCollaborationSyncResult;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
+import org.amdocs.tsuzammen.core.api.types.CorePublishResult;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
@@ -31,6 +33,7 @@ import org.amdocs.tsuzammen.sdk.CollaborationStore;
 import org.amdocs.tsuzammen.sdk.CollaborationStoreFactory;
 import org.amdocs.tsuzammen.sdk.types.ElementData;
 import org.amdocs.tsuzammen.sdk.types.CollaborationSyncResult;
+import org.amdocs.tsuzammen.sdk.types.searchindex.CollaborationPublishResult;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
@@ -69,8 +72,18 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public void publishItemVersion(SessionContext context, Id itemId, Id versionId, String message) {
-    getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
+  public CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId, String message) {
+    CollaborationPublishResult
+        collaborationPublishResult =  getCollaborationStore(context).publishItemVersion(context, itemId,
+        versionId, message);
+
+
+
+    return ConverterCorePublishResultCollaborationPublishResult.getCorePublishResult
+        (collaborationPublishResult);
+
+
+
   }
 
   @Override

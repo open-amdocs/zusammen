@@ -18,6 +18,7 @@ package org.amdocs.tsuzammen.adaptor.outbound.api;
 
 
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
+import org.amdocs.tsuzammen.core.api.types.CorePublishResult;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
@@ -41,7 +42,7 @@ public interface CollaborationAdaptor {
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
+  CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
 
   CoreSyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 

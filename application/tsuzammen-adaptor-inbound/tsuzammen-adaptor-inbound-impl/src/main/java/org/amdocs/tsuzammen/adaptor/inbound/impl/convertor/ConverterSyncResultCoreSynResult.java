@@ -32,8 +32,8 @@ public class ConverterSyncResultCoreSynResult {
     SyncResult syncResult = new SyncResult();
     syncResult.setElementConflicts(convertElementConflicts(coreSyncResult.
         getCoreElementConflicts()));
-    syncResult.setChangedElementCollection(convertChangedCoreElement(coreSyncResult
-        .getChangedCoreElementCollection()));
+    /*syncResult.setChangedElementCollection(convertChangedCoreElement(coreSyncResult
+        .getChangedCoreElementCollection()));*/
     return syncResult;
   }
 
