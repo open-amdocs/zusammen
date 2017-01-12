@@ -17,11 +17,9 @@
 package org.amdocs.zusammen.adaptor.inbound.impl.convertor;
 
 import org.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
-import org.amdocs.zusammen.adaptor.inbound.api.types.item.TsuzammenElement;
+import org.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 
-
-import org.amdocs.zusammen.utils.common.CommonMethods;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -30,7 +28,7 @@ public class ConverterCoreElementElement {
 
   public static Element getElement(CoreElement coreElement) {
 
-    TsuzammenElement element = new TsuzammenElement();
+    ZusammenElement element = new ZusammenElement();
     element.setElementId(coreElement.getId());
     element.setInfo(coreElement.getInfo());
     element.setRelations(coreElement.getRelations());
