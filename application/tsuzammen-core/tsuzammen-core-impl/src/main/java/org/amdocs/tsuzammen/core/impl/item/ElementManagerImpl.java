@@ -70,9 +70,14 @@ public class ElementManagerImpl implements ElementManager {
     validateItemVersionExistence(context, elementContext.getItemId(),
         elementContext.getVersionId());
 
-    Namespace parentNamespace =
-        element.getAction() == ElementAction.CREATE ? Namespace.EMPTY_NAMESPACE : null;
+    Namespace parentNamespace = isCreateRootElement(element)
+        ? Namespace.EMPTY_NAMESPACE
+        : null; // the namespace/parentId of the element itself will be retrieved later on
     traverse(context, elementContext, parentNamespace, element);
+  }
+
+  private boolean isCreateRootElement(CoreElement element) {
+    return element.getAction() == ElementAction.CREATE;
   }
 
   @Override
@@ -152,7 +157,7 @@ public class ElementManagerImpl implements ElementManager {
 
   private Namespace getNamespace(SessionContext context, ElementContext elementContext,
                                  Namespace parentNamespace, CoreElement element) {
-    if (parentNamespace != null) {
+    if (!isSaveRequestTopElement(parentNamespace)) {
       return new Namespace(parentNamespace, element.getId());
     }
 
@@ -160,6 +165,10 @@ public class ElementManagerImpl implements ElementManager {
         getStateAdaptor(context).get(context, elementContext, element.getId(), null);
     element.setParentId(elementInfo.getParentId());
     return elementInfo.getNamespace();
+  }
+
+  private boolean isSaveRequestTopElement(Namespace parentNamespace) {
+    return parentNamespace == null;
   }
 
   private ElementInfo getElementInfo(ElementContext elementContext, Namespace namespace,
