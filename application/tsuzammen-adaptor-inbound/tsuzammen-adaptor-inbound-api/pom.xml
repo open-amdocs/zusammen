@@ -22,23 +22,23 @@
     <parent>
         <groupId>org.amdocs.tsuzammen</groupId>
         <artifactId>tsuzammen-adaptor-inbound</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>tsuzammen-adaptor-inbound-api</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>org.amdocs.tsuzammen</groupId>
             <artifactId>tsuzammen-datatypes</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.amdocs.tsuzammen</groupId>
             <artifactId>tsuzammen-commons-utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 
