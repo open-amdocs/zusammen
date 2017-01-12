@@ -1,6 +1,0 @@
-{
-  "org.amdocs.tsuzammen.core.api.workspace.WorkspaceManagerFactory": "org.amdocs.tsuzammen.core.impl.workspace.WorkspaceManagerFactoryImpl",
-  "org.amdocs.tsuzammen.core.api.item.ItemManagerFactory": "org.amdocs.tsuzammen.core.impl.item.ItemManagerFactoryImpl",
-  "org.amdocs.tsuzammen.core.api.item.ItemVersionManagerFactory": "org.amdocs.tsuzammen.core.impl.item.ItemVersionManagerFactoryImpl",
-  "org.amdocs.tsuzammen.core.api.item.ElementManagerFactory": "org.amdocs.tsuzammen.core.impl.item.ElementManagerFactoryImpl"
-}

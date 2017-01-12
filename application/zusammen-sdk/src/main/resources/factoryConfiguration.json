@@ -1,0 +1,5 @@
+{
+  "org.amdocs.zusammen.sdk.CollaborationStoreFactory": "org.amdocs.zusammen.sdk.impl.CollaborationStoreFactoryImpl",
+  "org.amdocs.zusammen.sdk.StateStoreFactory": "org.amdocs.zusammen.sdk.impl.StateStoreFactoryImpl",
+  "org.amdocs.zusammen.sdk.SearchIndexFactory": "org.amdocs.zusammen.sdk.impl.SearchIndexFactoryImpl"
+}
