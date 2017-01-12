@@ -20,12 +20,11 @@ package org.amdocs.tsuzammen.sdk;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.Namespace;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
-import org.amdocs.tsuzammen.datatypes.collaboration.PublishResult;
 import org.amdocs.tsuzammen.datatypes.item.ElementContext;
 import org.amdocs.tsuzammen.datatypes.item.Info;
-import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
-import org.amdocs.tsuzammen.sdk.types.ElementData;
 import org.amdocs.tsuzammen.sdk.types.CollaborationSyncResult;
+import org.amdocs.tsuzammen.sdk.types.ElementData;
+import org.amdocs.tsuzammen.sdk.types.searchindex.CollaborationPublishResult;
 
 public interface CollaborationStore {
 
@@ -41,10 +40,10 @@ public interface CollaborationStore {
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  PublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
+  CollaborationPublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
+                                                String message);
 
   CollaborationSyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
-
 
 
   CollaborationSyncResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,

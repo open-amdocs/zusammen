@@ -22,6 +22,10 @@ public class SyncResult {
   private Collection<ElementConflict> elementConflicts;
   private Collection<ChangedElement> changedElementCollection;
 
+  public boolean isSuccesses(){
+    return elementConflicts == null || elementConflicts.size()==0;
+  }
+
   public void setElementConflicts(
       Collection<ElementConflict> elementConflicts) {
     this.elementConflicts = elementConflicts;

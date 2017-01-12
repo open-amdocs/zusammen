@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.datatypes.collaboration;
+package org.amdocs.tsuzammen.core.api.types;
 
-import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
+import java.util.Collection;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
-public class PublishResult {
-  private boolean resultStatus=true;
+public class CorePublishResult {
+  private Collection<ChangedCoreElement> changedCoreElementCollection;
 
 
-  public boolean isSuccesses(){
-      return this.resultStatus;
-    }
-
-
-  public void setResultStatus(boolean status){
-    this.resultStatus = status;
+  public void setChangedCoreElementCollection(
+      Collection<ChangedCoreElement> changedCoreElementCollection) {
+    this.changedCoreElementCollection = changedCoreElementCollection;
   }
 
-
+  public Collection<ChangedCoreElement> getChangedCoreElementCollection() {
+    return changedCoreElementCollection;
+  }
 }
+
+
