@@ -22,11 +22,11 @@
     <parent>
         <groupId>org.amdocs.tsuzammen</groupId>
         <artifactId>application</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>tsuzammen-adaptor-inbound</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>pom</packaging>
     <modules>
         <module>tsuzammen-adaptor-inbound-api</module>

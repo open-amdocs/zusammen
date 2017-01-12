@@ -22,32 +22,32 @@
     <parent>
         <groupId>org.amdocs.tsuzammen</groupId>
         <artifactId>application</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>tsuzammen-sdk</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>org.amdocs.tsuzammen</groupId>
             <artifactId>tsuzammen-datatypes</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.amdocs.tsuzammen</groupId>
             <artifactId>tsuzammen-commons-utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.amdocs.tsuzammen</groupId>
             <artifactId>tsuzammen-commons-configuration</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.amdocs.tsuzammen</groupId>
             <artifactId>tsuzammen-commons-utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 
