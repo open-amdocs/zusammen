@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 
-public class TsuzammenElement implements Element {
+public class ZusammenElement implements Element {
   private ElementAction action;
   private Id elementId;
   private Info info;
