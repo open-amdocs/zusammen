@@ -25,6 +25,7 @@ import org.amdocs.zusammen.utils.fileutils.FileUtils;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 public class CoreElement {
   private ElementAction action = ElementAction.IGNORE;
@@ -86,7 +87,11 @@ public class CoreElement {
   }
 
   public InputStream getSearchableData() {
-    return FileUtils.toInputStream(searchableData);
+    if (Objects.isNull(searchableData)) {
+      return null;
+    } else {
+      return FileUtils.toInputStream(searchableData);
+    }
   }
 
   public void setSearchableData(InputStream searchableData) {
