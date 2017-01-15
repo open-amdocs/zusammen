@@ -18,11 +18,11 @@ package org.amdocs.zusammen.adaptor.outbound.api;
 
 
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.core.api.types.CoreSyncResult;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 
@@ -42,12 +42,13 @@ public interface CollaborationAdaptor {
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId, String message);
+  CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
+                                       String message);
 
-  CoreSyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  CoreMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  CoreSyncResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                  Id sourceVersionId);
+  CoreMergeResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+                                   Id sourceVersionId);
 
   CoreElement getElement(SessionContext context, ElementContext elementContext,
                          Namespace namespace, Id elementId);
@@ -55,8 +56,8 @@ public interface CollaborationAdaptor {
   void createElement(SessionContext context, ElementContext elementContext,
                      Namespace namespace, CoreElement element);
 
-  void saveElement(SessionContext context, ElementContext elementContext,
-                   Namespace namespace, CoreElement element);
+  void updateElement(SessionContext context, ElementContext elementContext,
+                     Namespace namespace, CoreElement element);
 
   void deleteElement(SessionContext context, ElementContext elementContext,
                      Namespace namespace, CoreElement element);

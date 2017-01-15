@@ -60,14 +60,4 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
   public void deleteItemVersion(SessionContext context, Id itemId, Id versionId) {
 
   }
-
-  @Override
-  public void publishItemVersion(SessionContext context, Id itemId, Id versionId) {
-    OutboundAdaptorUtils.getStateStore(context).publishItemVersion(context, itemId, versionId);
-  }
-
-  @Override
-  public void syncItemVersion(SessionContext context, Id itemId, Id versionId) {
-    OutboundAdaptorUtils.getStateStore(context).syncItemVersion(context, itemId, versionId);
-  }
 }

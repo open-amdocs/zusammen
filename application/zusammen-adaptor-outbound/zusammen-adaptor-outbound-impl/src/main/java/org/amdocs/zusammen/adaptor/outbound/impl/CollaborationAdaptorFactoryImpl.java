@@ -16,9 +16,9 @@
 
 package org.amdocs.zusammen.adaptor.outbound.impl;
 
-import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptorFactory;
+import org.amdocs.zusammen.datatypes.SessionContext;
 
 public class CollaborationAdaptorFactoryImpl extends CollaborationAdaptorFactory {
   private static final CollaborationAdaptor INSTANCE = new CollaborationAdaptorImpl();

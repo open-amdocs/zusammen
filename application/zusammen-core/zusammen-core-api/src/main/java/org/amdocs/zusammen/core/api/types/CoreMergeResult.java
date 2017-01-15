@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 European Support Limited
+ * Copyright © 2016 Amdocs Software Systems Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,25 @@ package org.amdocs.zusammen.core.api.types;
 
 import java.util.Collection;
 
-public class CorePublishResult {
+public class CoreMergeResult {
+  private Collection<CoreElementConflict> conflicts;
   private Collection<CoreElement> changedElements;
+
+  public boolean isSuccess() {
+    return conflicts == null || conflicts.isEmpty();
+  }
+
+  public void setConflicts(Collection<CoreElementConflict> conflicts) {
+    this.conflicts = conflicts;
+  }
 
   public void setChangedElements(Collection<CoreElement> changedElements) {
     this.changedElements = changedElements;
+  }
+
+
+  public Collection<CoreElementConflict> getConflicts() {
+    return conflicts;
   }
 
   public Collection<CoreElement> getChangedElements() {

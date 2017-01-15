@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 European Support Limited
+ * Copyright © 2016 Amdocs Software Systems Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,35 +14,23 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.datatypes.collaboration;
+package org.amdocs.zusammen.adaptor.inbound.api.types.item;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-public class MergeResponse {
+public class MergeResult {
+  private Collection<ElementConflict> conflicts;
 
-
-  /*private Collection<FileConflicts> conflicts = new ArrayList<>();
-
-  public boolean isSuccesses(){
-      return conflicts==null || conflicts.size()==0;
-    }
-
-*/
-
-/*
-  public Collection<FileConflicts> getConflicts() {
-    return conflicts;
+  public boolean isSuccesses() {
+    return conflicts == null || conflicts.size() == 0;
   }
 
-  public void setConflicts(
-      Collection<FileConflicts> conflicts) {
+  public void setConflicts(Collection<ElementConflict> conflicts) {
     this.conflicts = conflicts;
   }
 
-  public void addConflict(FileConflicts conflict){
-    conflicts.add(conflict);
-  }*/
+  public Collection<ElementConflict> getConflicts() {
+    return conflicts;
+  }
+
 }
-
-

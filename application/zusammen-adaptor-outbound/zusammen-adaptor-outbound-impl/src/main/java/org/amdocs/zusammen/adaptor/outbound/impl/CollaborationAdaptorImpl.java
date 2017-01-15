@@ -18,22 +18,22 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 
 
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ConverterCoreElementElementData;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ConverterCorePublishResultCollaborationPublishResult;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ConverterCoreSyncResultCollaborationSyncResult;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CoreElementElementDataConvertor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementsMergeResultConvertor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.PublishResultConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.core.api.types.CoreSyncResult;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.sdk.CollaborationStore;
 import org.amdocs.zusammen.sdk.CollaborationStoreFactory;
 import org.amdocs.zusammen.sdk.types.ElementData;
-import org.amdocs.zusammen.sdk.types.CollaborationSyncResult;
-import org.amdocs.zusammen.sdk.types.searchindex.CollaborationPublishResult;
+import org.amdocs.zusammen.sdk.types.ElementsMergeResult;
+import org.amdocs.zusammen.sdk.types.ElementsPublishResult;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
@@ -72,41 +72,33 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId, String message) {
-    CollaborationPublishResult
-        collaborationPublishResult =  getCollaborationStore(context).publishItemVersion(context, itemId,
-        versionId, message);
+  public CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
+                                              String message) {
+    ElementsPublishResult collaborationPublishResult =
+        getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
 
-
-
-    return ConverterCorePublishResultCollaborationPublishResult.getCorePublishResult
-        (collaborationPublishResult);
-
-
-
+    return PublishResultConvertor.getCorePublishResult(collaborationPublishResult);
   }
 
   @Override
-  public CoreSyncResult syncItemVersion(SessionContext context, Id itemId, Id versionId) {
-    CollaborationSyncResult
-        collaborationSyncResult = getCollaborationStore(context).syncItemVersion(context, itemId,
-        versionId);
-    return ConverterCoreSyncResultCollaborationSyncResult.getCoreSyncResult(collaborationSyncResult);
+  public CoreMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId) {
+    ElementsMergeResult collaborationSyncResult =
+        getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
+    return ElementsMergeResultConvertor.getCoreSyncResult(collaborationSyncResult);
   }
 
   @Override
-  public CoreSyncResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                         Id sourceVersionId) {
-    CollaborationSyncResult collaborationSyncResult = getCollaborationStore(context)
+  public CoreMergeResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+                                          Id sourceVersionId) {
+    ElementsMergeResult collaborationSyncResult = getCollaborationStore(context)
         .mergeItemVersion(context, itemId, versionId, sourceVersionId);
-    return ConverterCoreSyncResultCollaborationSyncResult.getCoreSyncResult
-        (collaborationSyncResult);
+    return ElementsMergeResultConvertor.getCoreSyncResult(collaborationSyncResult);
   }
 
   @Override
   public CoreElement getElement(SessionContext context, ElementContext elementContext,
                                 Namespace namespace, Id elementId) {
-    return ConverterCoreElementElementData.getCoreElement(
+    return CoreElementElementDataConvertor.getCoreElement(
         getCollaborationStore(context).getElement(context, elementContext, namespace, elementId));
   }
 
@@ -118,17 +110,17 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public void saveElement(SessionContext context, ElementContext elementContext,
-                          Namespace namespace, CoreElement element) {
+  public void updateElement(SessionContext context, ElementContext elementContext,
+                            Namespace namespace, CoreElement element) {
     getCollaborationStore(context)
-        .saveElement(context,  getElementData(element, elementContext, namespace));
+        .updateElement(context, getElementData(element, elementContext, namespace));
   }
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
                             Namespace namespace, CoreElement element) {
     getCollaborationStore(context)
-        .deleteElement(context,  getElementData(element, elementContext, namespace));
+        .deleteElement(context, getElementData(element, elementContext, namespace));
   }
 
   @Override
@@ -139,8 +131,8 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   private ElementData getElementData(CoreElement coreElement, ElementContext elementContext,
                                      Namespace namespace) {
-    ElementData elementData = new ElementData(elementContext.getItemId(),elementContext
-        .getVersionId(),namespace);
+    ElementData elementData = new ElementData(elementContext.getItemId(), elementContext
+        .getVersionId(), namespace);
     elementData.setId(coreElement.getId());
     elementData.setParentId(coreElement.getParentId());
     elementData.setInfo(coreElement.getInfo());

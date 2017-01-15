@@ -88,7 +88,7 @@ public class ElementManagerImplTest {
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     ElementContext elementContext = createElementContext();
 
-    elementManager.save(context, elementContext, root, "save create root!");
+    elementManager.save(context, elementContext, root, "update create root!");
 
     traverse(root, this::validateIdExistense);
 
@@ -113,14 +113,14 @@ public class ElementManagerImplTest {
     ElementContext elementContext = createElementContext();
 
     configMockReturn(context, elementContext, root);
-    elementManager.save(context, elementContext, root, "save update root!");
+    elementManager.save(context, elementContext, root, "update update root!");
 
     traverse(root, this::validateIdExistense);
 
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptorMock).saveElement(context, elementContext, rootNs, root);
+    verify(collaborationAdaptorMock).updateElement(context, elementContext, rootNs, root);
     verify(collaborationAdaptorMock)
-        .saveElement(context, elementContext, getNamespace(rootNs, a1.getId()), a1);
+        .updateElement(context, elementContext, getNamespace(rootNs, a1.getId()), a1);
     verify(collaborationAdaptorMock)
         .deleteElement(context, elementContext, getNamespace(rootNs, a3.getId()), a3);
     verify(collaborationAdaptorMock)
@@ -128,7 +128,7 @@ public class ElementManagerImplTest {
 
     verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
     verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock, times(2)).save(anyObject(), anyObject());
+    verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject());
     verify(stateAdaptorMock).create(anyObject(), anyObject());
     verify(stateAdaptorMock).delete(anyObject(), anyObject());
   }
@@ -141,7 +141,7 @@ public class ElementManagerImplTest {
     ElementContext elementContext = createElementContext();
 
     configMockReturn(context, elementContext, root);
-    elementManager.save(context, elementContext, root, "save delete root!");
+    elementManager.save(context, elementContext, root, "update delete root!");
 
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
     verify(collaborationAdaptorMock).deleteElement(context, elementContext, rootNs, root);
@@ -171,7 +171,7 @@ public class ElementManagerImplTest {
     ElementContext elementContext = createElementContext();
 
     configMockReturn(context, elementContext, root);
-    elementManager.save(context, elementContext, root, "save ignore root!");
+    elementManager.save(context, elementContext, root, "update ignore root!");
 
     traverse(root, this::validateIdExistense);
     verifyAdaptorCalls(context, elementContext, root, a1, a2, b11, b12, b21, b22, c121, d1211);
@@ -195,10 +195,10 @@ public class ElementManagerImplTest {
     Namespace b12Ns = getNamespace(a1Ns, b12.getId());
     Namespace c121Ns = getNamespace(b12Ns, c121.getId());
 
-    verify(collaborationAdaptorMock).saveElement(context, elementContext, a1Ns, a1);
+    verify(collaborationAdaptorMock).updateElement(context, elementContext, a1Ns, a1);
     verify(collaborationAdaptorMock)
         .deleteElement(context, elementContext, getNamespace(a1Ns, b11.getId()), b11);
-    verify(collaborationAdaptorMock).saveElement(context, elementContext, c121Ns, c121);
+    verify(collaborationAdaptorMock).updateElement(context, elementContext, c121Ns, c121);
     verify(collaborationAdaptorMock)
         .createElement(context, elementContext, getNamespace(c121Ns, d1211.getId()), d1211);
     verify(collaborationAdaptorMock).createElement(context, elementContext, a2Ns, a2);
@@ -210,7 +210,7 @@ public class ElementManagerImplTest {
     verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
     verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
     verify(stateAdaptorMock, times(4)).create(anyObject(), anyObject());
-    verify(stateAdaptorMock, times(2)).save(anyObject(), anyObject());
+    verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject());
     verify(stateAdaptorMock).delete(anyObject(), anyObject());
   }
 

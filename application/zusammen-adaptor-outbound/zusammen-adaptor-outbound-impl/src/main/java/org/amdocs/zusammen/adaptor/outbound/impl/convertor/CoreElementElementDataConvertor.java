@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 European Support Limited
+ * Copyright © 2016 Amdocs Software Systems Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.amdocs.zusammen.sdk.types.ElementData;
 
 import java.util.stream.Collectors;
 
-public class ConverterCoreElementElementData {
+public class CoreElementElementDataConvertor {
 
   public static CoreElement getCoreElement(ElementData elementData) {
     CoreElement coreElement =

@@ -17,9 +17,9 @@
 package org.amdocs.zusammen.core.api.item;
 
 
+import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.core.api.types.CoreSyncResult;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 
@@ -39,9 +39,9 @@ public interface ItemVersionManager {
 
   void publish(SessionContext context, Id itemId, Id versionId, String message);
 
-  CoreSyncResult sync(SessionContext context, Id itemId, Id versionId);
+  CoreMergeResult sync(SessionContext context, Id itemId, Id versionId);
+
+  CoreMergeResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 
   void revert(SessionContext context, Id itemId, Id versionId, String targetRevisionId);
-
-  CoreSyncResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 }

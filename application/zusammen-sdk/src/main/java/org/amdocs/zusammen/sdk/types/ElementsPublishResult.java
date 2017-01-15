@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 European Support Limited
+ * Copyright © 2016 Amdocs Software Systems Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,23 +16,22 @@
 
 package org.amdocs.zusammen.sdk.types;
 
-public class CollaborationElementDataConflicts {
-  private ElementData localElementData;
-  private ElementData remoteElementData;
+import java.util.ArrayList;
+import java.util.Collection;
 
-  public ElementData getLocalElementData() {
-    return localElementData;
+public class ElementsPublishResult {
+
+  private Collection<ChangedElementData> changedElements = new ArrayList<>();
+
+  public void addChangedElement(ChangedElementData changedElement) {
+    this.changedElements.add(changedElement);
   }
 
-  public void setLocalElementData(ElementData localElementData) {
-    this.localElementData = localElementData;
+  public Collection<ChangedElementData> getChangedElements() {
+    return changedElements;
   }
 
-  public ElementData getRemoteElementData() {
-    return remoteElementData;
-  }
-
-  public void setRemoteElementData(ElementData remoteElementData) {
-    this.remoteElementData = remoteElementData;
+  public void setChangedElements(Collection<ChangedElementData> changedElements) {
+    this.changedElements = changedElements;
   }
 }

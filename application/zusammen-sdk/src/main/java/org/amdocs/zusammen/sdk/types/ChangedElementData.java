@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 European Support Limited
+ * Copyright © 2016 Amdocs Software Systems Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.amdocs.zusammen.sdk.types;
 
 import org.amdocs.zusammen.datatypes.collaboration.ChangeType;
 
-public class CollaborationChangedElementData {
+public class ChangedElementData {
   private ElementData elementData;
   private ChangeType changeType;
 

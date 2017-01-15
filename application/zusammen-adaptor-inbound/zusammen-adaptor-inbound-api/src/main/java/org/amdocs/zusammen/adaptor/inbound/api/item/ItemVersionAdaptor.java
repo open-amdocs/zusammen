@@ -16,10 +16,9 @@
 
 package org.amdocs.zusammen.adaptor.inbound.api.item;
 
-
+import org.amdocs.zusammen.adaptor.inbound.api.types.item.MergeResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.adaptor.inbound.api.types.item.SyncResult;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 
@@ -40,7 +39,7 @@ public interface ItemVersionAdaptor {
 
   void publish(SessionContext context, Id itemId, Id versionId, String message);
 
-  SyncResult sync(SessionContext context, Id itemId, Id versionId);
+  MergeResult sync(SessionContext context, Id itemId, Id versionId);
 
-  SyncResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
+  MergeResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 }

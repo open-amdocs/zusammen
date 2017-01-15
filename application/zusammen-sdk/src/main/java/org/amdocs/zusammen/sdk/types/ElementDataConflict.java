@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 European Support Limited
+ * Copyright © 2016 Amdocs Software Systems Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.datatypes.collaboration;
+package org.amdocs.zusammen.sdk.types;
 
-public class FileSyncInfo {
-  private String fileName;
-  private ChangeType action;
+public class ElementDataConflict {
+  private ElementData localElement;
+  private ElementData remoteElement;
 
-  public String getFileName() {
-    return fileName;
+  public ElementData getLocalElement() {
+    return localElement;
   }
 
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
+  public void setLocalElement(ElementData localElement) {
+    this.localElement = localElement;
   }
 
-  public ChangeType getAction() {
-    return action;
+  public ElementData getRemoteElement() {
+    return remoteElement;
   }
 
-  public void setAction(ChangeType action) {
-    this.action = action;
+  public void setRemoteElement(ElementData remoteElement) {
+    this.remoteElement = remoteElement;
   }
 }

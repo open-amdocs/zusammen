@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 European Support Limited
+ * Copyright © 2016 Amdocs Software Systems Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,12 @@ import org.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import org.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 
-
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class ConverterCoreElementElement {
+public class ElementConvertor {
 
   public static Element getElement(CoreElement coreElement) {
-
     ZusammenElement element = new ZusammenElement();
     element.setElementId(coreElement.getId());
     element.setInfo(coreElement.getInfo());
@@ -41,11 +39,10 @@ public class ConverterCoreElementElement {
     return element;
   }
 
-
   public static Collection<Element> getElements(Collection<CoreElement> coreElements) {
-      return coreElements == null
-          ? null
-          : coreElements.stream().map(coreElement ->
-              getElement(coreElement)).collect(Collectors.toList());
+    return coreElements == null
+        ? null
+        : coreElements.stream().map(coreElement ->
+            getElement(coreElement)).collect(Collectors.toList());
   }
 }

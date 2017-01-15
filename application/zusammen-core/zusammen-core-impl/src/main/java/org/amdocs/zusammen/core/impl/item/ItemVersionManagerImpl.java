@@ -19,18 +19,24 @@ package org.amdocs.zusammen.core.impl.item;
 
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptorFactory;
+import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptorFactory;
+import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptorFactory;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
+import org.amdocs.zusammen.core.api.item.ItemVersionManager;
+import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
+import org.amdocs.zusammen.core.impl.Messages;
+import org.amdocs.zusammen.core.impl.convertor.ElementInfoConvertor;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.core.api.types.CoreSyncResult;
+import org.amdocs.zusammen.datatypes.Space;
+import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
-import org.amdocs.zusammen.core.api.item.ItemVersionManager;
-import org.amdocs.zusammen.core.impl.Messages;
 
 import java.util.Collection;
 
@@ -49,7 +55,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   @Override
   public Id create(SessionContext context, Id itemId, Id baseVersionId,
-                       Info versionInfo) {
+                   Info versionInfo) {
     Id versionId = new Id();
     getCollaborationAdaptor(context)
         .createItemVersion(context, itemId, baseVersionId, versionId, versionInfo);
@@ -78,26 +84,35 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   public void publish(SessionContext context, Id itemId, Id versionId, String
       message) {
     validateItemVersionExistence(context, itemId, versionId);
-    CorePublishResult corePublishResult = getCollaborationAdaptor(context).publishItemVersion
-        (context, itemId,
-        versionId, message);
-    getStateAdaptor(context).publishItemVersion(context, itemId, versionId);
+    CorePublishResult publishResult =
+        getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
+    saveElements(context, itemId, versionId, publishResult.getChangedElements());
   }
 
   @Override
-  public CoreSyncResult sync(SessionContext context, Id itemId, Id versionId) {
+  public CoreMergeResult sync(SessionContext context, Id itemId, Id versionId) {
     validateItemVersionExistence(context, itemId, versionId);
-    CoreSyncResult syncResult = getCollaborationAdaptor(context).syncItemVersion(context, itemId,
-        versionId);
-    getStateAdaptor(context).syncItemVersion(context, itemId, versionId);
+    CoreMergeResult syncResult =
+        getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
+
+    if (syncResult.isSuccess()) {
+      saveElements(context, itemId, versionId, syncResult.getChangedElements());
+    }
+
     return syncResult;
   }
 
   @Override
-  public CoreSyncResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId) {
+  public CoreMergeResult merge(SessionContext context, Id itemId, Id versionId,
+                               Id sourceVersionId) {
     validateItemVersionExistence(context, itemId, versionId);
-    CoreSyncResult mergeResult = getCollaborationAdaptor(context).mergeItemVersion(context, itemId,
-        versionId,sourceVersionId);
+    CoreMergeResult mergeResult = getCollaborationAdaptor(context)
+        .mergeItemVersion(context, itemId, versionId, sourceVersionId);
+
+    if (mergeResult.isSuccess()) {
+      saveElements(context, itemId, versionId, mergeResult.getChangedElements());
+    }
+
     return mergeResult;
   }
 
@@ -106,7 +121,52 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
                      String targetRevisionId) {
   }
 
+  private void saveElements(SessionContext context, Id itemId, Id versionId,
+                            Collection<CoreElement> elements) {
+    ElementContext elementContext = new ElementContext(itemId, versionId);
+    elements.stream().forEach(element -> {
+      switch (element.getAction()) {
+        case CREATE:
+          createElement(context, elementContext, element);
+          break;
+        case UPDATE:
+          updateElement(context, elementContext, element);
+          break;
+        case DELETE:
+          deleteElement(context, elementContext, element);
+          break;
+        default:
+          throw new RuntimeException(String.format(Messages.UNSUPPORTED_ELEMENT_ACTION,
+              elementContext.getItemId(), elementContext.getVersionId(), element.getId(),
+              element.getAction()));
+      }
+    });
+  }
 
+  private void createElement(SessionContext context, ElementContext elementContext,
+                             CoreElement element) {
+    // todo namespace for create in state store
+    ElementStateAdaptorFactory.getInstance().createInterface(context)
+        .create(context, ElementInfoConvertor.getElementInfo(elementContext, element));
+    SearchIndexAdaptorFactory.getInstance().createInterface(context)
+        .createElement(context, elementContext, element, Space.PRIVATE);
+  }
+
+  private void updateElement(SessionContext context, ElementContext elementContext,
+                             CoreElement element) {
+    ElementStateAdaptorFactory.getInstance().createInterface(context)
+        .update(context, ElementInfoConvertor.getElementInfo(elementContext, element));
+    SearchIndexAdaptorFactory.getInstance().createInterface(context)
+        .updateElement(context, elementContext, element, Space.PRIVATE);
+  }
+
+  private void deleteElement(SessionContext context, ElementContext elementContext,
+                             CoreElement element) {
+    ElementStateAdaptorFactory.getInstance().createInterface(context)
+        .delete(context, ElementInfoConvertor.getElementInfo(elementContext, element));
+    SearchIndexAdaptorFactory.getInstance().createInterface(context)
+        .deleteElement(context, elementContext, element, Space.PRIVATE);
+  }
 
   private void validateItemVersionExistence(SessionContext context, Id itemId,
                                             Id versionId) {

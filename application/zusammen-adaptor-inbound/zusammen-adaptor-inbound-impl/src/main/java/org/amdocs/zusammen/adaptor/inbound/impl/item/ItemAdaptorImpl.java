@@ -17,12 +17,12 @@
 package org.amdocs.zusammen.adaptor.inbound.impl.item;
 
 import org.amdocs.zusammen.adaptor.inbound.api.item.ItemAdaptor;
+import org.amdocs.zusammen.core.api.item.ItemManager;
+import org.amdocs.zusammen.core.api.item.ItemManagerFactory;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
-import org.amdocs.zusammen.core.api.item.ItemManager;
-import org.amdocs.zusammen.core.api.item.ItemManagerFactory;
 
 import java.util.Collection;
 

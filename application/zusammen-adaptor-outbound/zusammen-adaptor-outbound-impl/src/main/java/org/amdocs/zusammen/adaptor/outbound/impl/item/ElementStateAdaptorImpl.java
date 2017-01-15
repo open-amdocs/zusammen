@@ -20,7 +20,6 @@ import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.OutboundAdaptorUtils;
 import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
-import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ElementInfo;
@@ -55,8 +54,8 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public void save(SessionContext context, ElementInfo element) {
-    OutboundAdaptorUtils.getStateStore(context).saveElement(context, element);
+  public void update(SessionContext context, ElementInfo element) {
+    OutboundAdaptorUtils.getStateStore(context).updateElement(context, element);
   }
 
   @Override
