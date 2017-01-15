@@ -16,25 +16,22 @@
 
 package org.amdocs.tsuzammen.sdk.types;
 
-import org.amdocs.tsuzammen.datatypes.collaboration.ChangeType;
+import java.util.ArrayList;
+import java.util.Collection;
 
-public class CollaborationChangedElementData {
-  private ElementData elementData;
-  private ChangeType changeType;
+public class ElementsPublishResult {
 
-  public ElementData getElementData() {
-    return elementData;
+  private Collection<ChangedElementData> changedElements = new ArrayList<>();
+
+  public void addChangedElement(ChangedElementData changedElement) {
+    this.changedElements.add(changedElement);
   }
 
-  public void setElementData(ElementData elementData) {
-    this.elementData = elementData;
+  public Collection<ChangedElementData> getChangedElements() {
+    return changedElements;
   }
 
-  public ChangeType getChangeType() {
-    return changeType;
-  }
-
-  public void setChangeType(ChangeType changeType) {
-    this.changeType = changeType;
+  public void setChangedElements(Collection<ChangedElementData> changedElements) {
+    this.changedElements = changedElements;
   }
 }

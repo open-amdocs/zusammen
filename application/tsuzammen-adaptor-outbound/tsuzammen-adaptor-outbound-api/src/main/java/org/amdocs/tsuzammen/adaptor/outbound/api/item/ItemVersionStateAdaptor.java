@@ -36,8 +36,4 @@ public interface ItemVersionStateAdaptor {
   void saveItemVersion(SessionContext context, Id itemId, Id versionId, Info versionInfo);
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
-
-  void publishItemVersion(SessionContext context, Id itemId, Id versionId);
-
-  void syncItemVersion(SessionContext context, Id itemId, Id versionId);
 }

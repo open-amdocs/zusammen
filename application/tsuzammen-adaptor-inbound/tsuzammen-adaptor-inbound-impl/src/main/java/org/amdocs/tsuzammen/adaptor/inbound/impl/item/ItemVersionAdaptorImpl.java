@@ -17,16 +17,16 @@
 package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ItemVersionAdaptor;
-import org.amdocs.tsuzammen.adaptor.inbound.impl.convertor.ConverterSyncResultCoreSynResult;
+import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.MergeResult;
+import org.amdocs.tsuzammen.adaptor.inbound.impl.convertor.MergeResultConvertor;
+import org.amdocs.tsuzammen.core.api.item.ItemVersionManager;
+import org.amdocs.tsuzammen.core.api.item.ItemVersionManagerFactory;
+import org.amdocs.tsuzammen.core.api.types.CoreMergeResult;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
 import org.amdocs.tsuzammen.datatypes.UserInfo;
-import org.amdocs.tsuzammen.core.api.types.CoreSyncResult;
-import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.SyncResult;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
-import org.amdocs.tsuzammen.core.api.item.ItemVersionManager;
-import org.amdocs.tsuzammen.core.api.item.ItemVersionManagerFactory;
 
 import java.util.Collection;
 
@@ -44,7 +44,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
 
   @Override
   public Id create(SessionContext context, Id itemId, Id baseVersionId,
-                       Info versionInfo) {
+                   Info versionInfo) {
 
     return getItemVersionManager(context).create(context, itemId, baseVersionId, versionInfo);
   }
@@ -66,17 +66,17 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   }
 
   @Override
-  public SyncResult sync(SessionContext context, Id itemId, Id versionId) {
-    CoreSyncResult coreSyncResult = getItemVersionManager(context).sync(context, itemId, versionId);
-    SyncResult syncResult = ConverterSyncResultCoreSynResult.getSyncResult(coreSyncResult);
-    return syncResult;
+  public MergeResult sync(SessionContext context, Id itemId, Id versionId) {
+    CoreMergeResult coreMergeResult =
+        getItemVersionManager(context).sync(context, itemId, versionId);
+    return MergeResultConvertor.getMergeResult(coreMergeResult);
   }
 
   @Override
-  public SyncResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId) {
-    CoreSyncResult coreSyncResult = getItemVersionManager(context).merge(context, itemId, versionId,
-        sourceVersionId);
-    return null;
+  public MergeResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId) {
+    CoreMergeResult coreMergeResult =
+        getItemVersionManager(context).merge(context, itemId, versionId, sourceVersionId);
+    return MergeResultConvertor.getMergeResult(coreMergeResult);
   }
 
   private SessionContext createSessionContext(UserInfo user) {

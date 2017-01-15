@@ -58,7 +58,7 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
   public void addItem(SessionContext context, Id workspaceId, Id itemId, Id versionId) {
 
     //get item from collaborative store
-    //save item in state store
+    //update item in state store
     //add item to workspace in the state store
 
   }

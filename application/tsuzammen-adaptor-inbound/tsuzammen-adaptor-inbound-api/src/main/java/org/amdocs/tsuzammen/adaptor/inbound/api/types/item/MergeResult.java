@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.datatypes.collaboration;
+package org.amdocs.tsuzammen.adaptor.inbound.api.types.item;
 
-public class FileSyncInfo {
-  private String fileName;
-  private ChangeType action;
+import java.util.Collection;
 
-  public String getFileName() {
-    return fileName;
+public class MergeResult {
+  private Collection<ElementConflict> conflicts;
+
+  public boolean isSuccesses() {
+    return conflicts == null || conflicts.size() == 0;
   }
 
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
+  public void setConflicts(Collection<ElementConflict> conflicts) {
+    this.conflicts = conflicts;
   }
 
-  public ChangeType getAction() {
-    return action;
+  public Collection<ElementConflict> getConflicts() {
+    return conflicts;
   }
 
-  public void setAction(ChangeType action) {
-    this.action = action;
-  }
 }

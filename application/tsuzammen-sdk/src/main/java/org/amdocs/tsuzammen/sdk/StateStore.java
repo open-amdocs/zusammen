@@ -53,10 +53,6 @@ public interface StateStore {
   void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
                          Id versionId, Info versionInfo);
 
-  void publishItemVersion(SessionContext context, Id itemId, Id versionId);
-
-  void syncItemVersion(SessionContext context, Id itemId, Id versionId);
-
   Collection<ElementInfo> listElements(SessionContext context, ElementContext elementContext,
                                        Id elementId);
 
@@ -67,7 +63,7 @@ public interface StateStore {
 
   void createElement(SessionContext context, ElementInfo element);
 
-  void saveElement(SessionContext context, ElementInfo element);
+  void updateElement(SessionContext context, ElementInfo element);
 
   void deleteElement(SessionContext context,ElementInfo element);
 

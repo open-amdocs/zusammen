@@ -37,7 +37,7 @@ public interface ElementStateAdaptor {
   void create(SessionContext context,
               ElementInfo element);
 
-  void save(SessionContext context, ElementInfo element);
+  void update(SessionContext context, ElementInfo element);
 
   void delete(SessionContext context, ElementInfo element);
 }

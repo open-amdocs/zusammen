@@ -16,25 +16,32 @@
 
 package org.amdocs.tsuzammen.core.api.types;
 
-import org.amdocs.tsuzammen.datatypes.collaboration.ChangeType;
+import java.util.Collection;
 
-public class ChangedCoreElement {
-  private ChangeType changeType;
-  private CoreElement coreElement;
+public class CoreMergeResult {
+  private Collection<CoreElementConflict> conflicts;
+  private Collection<CoreElement> changedElements;
 
-  public void setChangeType(ChangeType changeType) {
-    this.changeType = changeType;
+  public boolean isSuccess() {
+    return conflicts == null || conflicts.isEmpty();
   }
 
-  public void setCoreElement(CoreElement coreElement) {
-    this.coreElement = coreElement;
+  public void setConflicts(Collection<CoreElementConflict> conflicts) {
+    this.conflicts = conflicts;
   }
 
-  public ChangeType getChangeType() {
-    return changeType;
+  public void setChangedElements(Collection<CoreElement> changedElements) {
+    this.changedElements = changedElements;
   }
 
-  public CoreElement getCoreElement() {
-    return coreElement;
+
+  public Collection<CoreElementConflict> getConflicts() {
+    return conflicts;
+  }
+
+  public Collection<CoreElement> getChangedElements() {
+    return changedElements;
   }
 }
+
+

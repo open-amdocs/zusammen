@@ -17,22 +17,22 @@
 package org.amdocs.tsuzammen.core.api.types;
 
 public class CoreElementConflict {
-  private CoreElement localCoreElement;
-  private CoreElement remoteCoreElement;
+  private CoreElement localElement;
+  private CoreElement remoteElement;
 
-  public CoreElement getLocalCoreElement() {
-    return localCoreElement;
+  public CoreElement getLocalElement() {
+    return localElement;
   }
 
-  public void setLocalCoreElement(CoreElement localCoreElement) {
-    this.localCoreElement = localCoreElement;
+  public void setLocalElement(CoreElement localElement) {
+    this.localElement = localElement;
   }
 
-  public CoreElement getRemoteCoreElement() {
-    return remoteCoreElement;
+  public CoreElement getRemoteElement() {
+    return remoteElement;
   }
 
-  public void setRemoteCoreElement(CoreElement remoteCoreElement) {
-    this.remoteCoreElement = remoteCoreElement;
+  public void setRemoteElement(CoreElement remoteElement) {
+    this.remoteElement = remoteElement;
   }
 }

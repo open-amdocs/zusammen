@@ -16,23 +16,25 @@
 
 package org.amdocs.tsuzammen.sdk.types;
 
-public class CollaborationElementDataConflicts {
-  private ElementData localElementData;
-  private ElementData remoteElementData;
+import org.amdocs.tsuzammen.datatypes.collaboration.ChangeType;
 
-  public ElementData getLocalElementData() {
-    return localElementData;
+public class ChangedElementData {
+  private ElementData elementData;
+  private ChangeType changeType;
+
+  public ElementData getElementData() {
+    return elementData;
   }
 
-  public void setLocalElementData(ElementData localElementData) {
-    this.localElementData = localElementData;
+  public void setElementData(ElementData elementData) {
+    this.elementData = elementData;
   }
 
-  public ElementData getRemoteElementData() {
-    return remoteElementData;
+  public ChangeType getChangeType() {
+    return changeType;
   }
 
-  public void setRemoteElementData(ElementData remoteElementData) {
-    this.remoteElementData = remoteElementData;
+  public void setChangeType(ChangeType changeType) {
+    this.changeType = changeType;
   }
 }

@@ -17,9 +17,11 @@
 package org.amdocs.tsuzammen.core.impl;
 
 public class Messages {
+  public static final String UNSUPPORTED_ELEMENT_ACTION =
+      "Item Id %s, version Id %s, element Id %s, action %s is not supported";
   public static final String ITEM_NOT_EXIST = "Item with id %s does not exists.";
   public static final String ITEM_VERSION_NOT_EXIST =
       "Item Id %s, version Id %s does not exist in space %s";
-  public static final String ITEM_VERSION_ENTITY_NOT_EXIST =
-      "Item Id %s, version Id %s, entity Id %s does not exist in space %s";
+  public static final String ITEM_VERSION_ELEMENT_NOT_EXIST =
+      "Item Id %s, version Id %s, element Id %s does not exist in space %s";
 }

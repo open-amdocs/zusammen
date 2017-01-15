@@ -22,7 +22,7 @@ import org.amdocs.tsuzammen.sdk.types.ElementData;
 
 import java.util.stream.Collectors;
 
-public class ConverterCoreElementElementData {
+public class CoreElementElementDataConvertor {
 
   public static CoreElement getCoreElement(ElementData elementData) {
     CoreElement coreElement =

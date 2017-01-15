@@ -18,17 +18,20 @@ package org.amdocs.tsuzammen.datatypes.item;
 
 import org.amdocs.tsuzammen.datatypes.Id;
 
-import java.util.UUID;
-
 public class ElementContext {
   private Id itemId;
   private Id versionId;
 
-  public ElementContext(){}
+  public ElementContext() {
+  }
 
-  public ElementContext(String itemId,String versionId){
-    this.itemId = new Id(itemId);
-    this.versionId = new Id(versionId);
+  public ElementContext(String itemId, String versionId) {
+    this(new Id(itemId), new Id(versionId));
+  }
+
+  public ElementContext(Id itemId, Id versionId) {
+    this.itemId = itemId;
+    this.versionId = versionId;
   }
 
   public Id getItemId() {

@@ -18,7 +18,7 @@ package org.amdocs.tsuzammen.adaptor.inbound.impl.item;
 
 import org.amdocs.tsuzammen.adaptor.inbound.api.item.ElementAdaptor;
 import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
-import org.amdocs.tsuzammen.adaptor.inbound.impl.convertor.ConverterCoreElementElement;
+import org.amdocs.tsuzammen.adaptor.inbound.impl.convertor.ElementConvertor;
 import org.amdocs.tsuzammen.core.api.item.ElementManager;
 import org.amdocs.tsuzammen.core.api.item.ElementManagerFactory;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
@@ -51,7 +51,7 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   @Override
   public Element get(SessionContext context, ElementContext elementContext, Id elementId,
                      FetchCriteria fetchCriteria) {
-    return ConverterCoreElementElement.getElement(
+    return ElementConvertor.getElement(
         getElementManager(context).get(context, elementContext, elementId, fetchCriteria));
   }
 

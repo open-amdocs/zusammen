@@ -19,16 +19,14 @@ package org.amdocs.tsuzammen.core.api.types;
 import java.util.Collection;
 
 public class CorePublishResult {
-  private Collection<ChangedCoreElement> changedCoreElementCollection;
+  private Collection<CoreElement> changedElements;
 
-
-  public void setChangedCoreElementCollection(
-      Collection<ChangedCoreElement> changedCoreElementCollection) {
-    this.changedCoreElementCollection = changedCoreElementCollection;
+  public void setChangedElements(Collection<CoreElement> changedElements) {
+    this.changedElements = changedElements;
   }
 
-  public Collection<ChangedCoreElement> getChangedCoreElementCollection() {
-    return changedCoreElementCollection;
+  public Collection<CoreElement> getChangedElements() {
+    return changedElements;
   }
 }
 

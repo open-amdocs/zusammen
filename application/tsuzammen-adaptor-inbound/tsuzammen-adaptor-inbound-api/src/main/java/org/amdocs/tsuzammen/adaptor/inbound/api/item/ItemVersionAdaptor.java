@@ -17,9 +17,9 @@
 package org.amdocs.tsuzammen.adaptor.inbound.api.item;
 
 
+import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.MergeResult;
 import org.amdocs.tsuzammen.datatypes.Id;
 import org.amdocs.tsuzammen.datatypes.SessionContext;
-import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.SyncResult;
 import org.amdocs.tsuzammen.datatypes.item.Info;
 import org.amdocs.tsuzammen.datatypes.item.ItemVersion;
 
@@ -40,7 +40,7 @@ public interface ItemVersionAdaptor {
 
   void publish(SessionContext context, Id itemId, Id versionId, String message);
 
-  SyncResult sync(SessionContext context, Id itemId, Id versionId);
+  MergeResult sync(SessionContext context, Id itemId, Id versionId);
 
-  SyncResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
+  MergeResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 }

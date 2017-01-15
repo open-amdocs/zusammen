@@ -14,35 +14,25 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.datatypes.collaboration;
+package org.amdocs.tsuzammen.sdk.types;
 
-import java.util.ArrayList;
-import java.util.Collection;
+public class ElementDataConflict {
+  private ElementData localElement;
+  private ElementData remoteElement;
 
-public class MergeResponse {
-
-
-  /*private Collection<FileConflicts> conflicts = new ArrayList<>();
-
-  public boolean isSuccesses(){
-      return conflicts==null || conflicts.size()==0;
-    }
-
-*/
-
-/*
-  public Collection<FileConflicts> getConflicts() {
-    return conflicts;
+  public ElementData getLocalElement() {
+    return localElement;
   }
 
-  public void setConflicts(
-      Collection<FileConflicts> conflicts) {
-    this.conflicts = conflicts;
+  public void setLocalElement(ElementData localElement) {
+    this.localElement = localElement;
   }
 
-  public void addConflict(FileConflicts conflict){
-    conflicts.add(conflict);
-  }*/
+  public ElementData getRemoteElement() {
+    return remoteElement;
+  }
+
+  public void setRemoteElement(ElementData remoteElement) {
+    this.remoteElement = remoteElement;
+  }
 }
-
-

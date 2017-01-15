@@ -20,16 +20,12 @@ import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
 import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.TsuzammenElement;
 import org.amdocs.tsuzammen.core.api.types.CoreElement;
 
-
-import org.amdocs.tsuzammen.utils.common.CommonMethods;
-
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class ConverterCoreElementElement {
+public class ElementConvertor {
 
   public static Element getElement(CoreElement coreElement) {
-
     TsuzammenElement element = new TsuzammenElement();
     element.setElementId(coreElement.getId());
     element.setInfo(coreElement.getInfo());
@@ -43,11 +39,10 @@ public class ConverterCoreElementElement {
     return element;
   }
 
-
   public static Collection<Element> getElements(Collection<CoreElement> coreElements) {
-      return coreElements == null
-          ? null
-          : coreElements.stream().map(coreElement ->
-              getElement(coreElement)).collect(Collectors.toList());
+    return coreElements == null
+        ? null
+        : coreElements.stream().map(coreElement ->
+            getElement(coreElement)).collect(Collectors.toList());
   }
 }

@@ -43,8 +43,6 @@ import org.amdocs.tsuzammen.datatypes.searchindex.SearchResult;
 import java.util.Collection;
 
 public class ElementManagerImpl implements ElementManager {
-  private static final String UNSUPPORTED_ACTION_ERR_MSG = "Action %s is not supported";
-
   @Override
   public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
                                       Id elementId) {
@@ -102,8 +100,9 @@ public class ElementManagerImpl implements ElementManager {
         namespace = ignore(context, elementContext, parentNamespace, element);
         break;
       default:
-        throw new RuntimeException(
-            String.format(UNSUPPORTED_ACTION_ERR_MSG, element.getAction()));
+        throw new RuntimeException(String.format(Messages.UNSUPPORTED_ELEMENT_ACTION,
+            elementContext.getItemId(), elementContext.getVersionId(), element.getId(),
+            element.getAction()));
     }
 
     element.getSubElements().forEach(subElement ->
@@ -122,7 +121,8 @@ public class ElementManagerImpl implements ElementManager {
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element);
 
     getCollaborationAdaptor(context).createElement(context, elementContext, namespace, element);
-    getStateAdaptor(context).create(context, getElementInfo(elementContext, namespace, element));
+    getStateAdaptor(context).create(context, ElementInfoConvertor.getElementInfo(elementContext,
+        element));
     getSearchIndexAdaptor(context).createElement(context, elementContext, element, Space.PRIVATE);
 
     return namespace;
@@ -132,8 +132,9 @@ public class ElementManagerImpl implements ElementManager {
                            Namespace parentNamespace, CoreElement element) {
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element);
 
-    getCollaborationAdaptor(context).saveElement(context, elementContext, namespace, element);
-    getStateAdaptor(context).save(context, getElementInfo(elementContext, namespace, element));
+    getCollaborationAdaptor(context).updateElement(context, elementContext, namespace, element);
+    getStateAdaptor(context).update(context, ElementInfoConvertor.getElementInfo(elementContext,
+        element));
     getSearchIndexAdaptor(context).updateElement(context, elementContext, element, Space.PRIVATE);
 
     return namespace;
@@ -144,7 +145,8 @@ public class ElementManagerImpl implements ElementManager {
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element);
 
     getCollaborationAdaptor(context).deleteElement(context, elementContext, namespace, element);
-    getStateAdaptor(context).delete(context, getElementInfo(elementContext, namespace, element));
+    getStateAdaptor(context).delete(context, ElementInfoConvertor.getElementInfo(elementContext,
+        element));
     getSearchIndexAdaptor(context).deleteElement(context, elementContext, element, Space.PRIVATE);
 
     return namespace;
@@ -169,15 +171,6 @@ public class ElementManagerImpl implements ElementManager {
 
   private boolean isSaveRequestTopElement(Namespace parentNamespace) {
     return parentNamespace == null;
-  }
-
-  private ElementInfo getElementInfo(ElementContext elementContext, Namespace namespace,
-                                     CoreElement coreElement) {
-    ElementInfo elementInfo = new ElementInfo(elementContext.getItemId(),
-        elementContext.getVersionId(), coreElement.getId(), coreElement.getParentId());
-    elementInfo.setInfo(coreElement.getInfo());
-    elementInfo.setRelations(coreElement.getRelations());
-    return elementInfo;
   }
 
   private void validateItemVersionExistence(SessionContext context, Id itemId, Id versionId) {
