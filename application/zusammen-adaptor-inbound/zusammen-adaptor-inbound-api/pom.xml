@@ -21,18 +21,25 @@
 
     <parent>
         <groupId>org.amdocs.zusammen</groupId>
-        <artifactId>amdocs-zusammen</artifactId>
+        <artifactId>zusammen-adaptor-inbound</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>application</artifactId>
+    <artifactId>zusammen-adaptor-inbound-api</artifactId>
     <version>0.0.1</version>
-    <packaging>pom</packaging>
-    <modules>
-        <module>zusammen-datatypes</module>
-        <module>zusammen-adaptor-inbound</module>
-        <module>zusammen-core</module>
-        <module>zusammen-adaptor-outbound</module>
-        <module>zusammen-sdk</module>
-    </modules>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.amdocs.zusammen</groupId>
+            <artifactId>zusammen-datatypes</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.zusammen</groupId>
+            <artifactId>zusammen-commons-utils</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
+
 </project>

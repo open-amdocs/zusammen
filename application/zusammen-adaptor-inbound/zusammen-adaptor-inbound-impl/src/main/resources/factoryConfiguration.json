@@ -1,0 +1,6 @@
+{
+  "org.amdocs.zusammen.adaptor.inbound.api.item.ItemAdaptorFactory": "org.amdocs.zusammen.adaptor.inbound.impl.item.ItemAdaptorFactoryImpl",
+  "org.amdocs.zusammen.adaptor.inbound.api.item.ItemVersionAdaptorFactory": "org.amdocs.zusammen.adaptor.inbound.impl.item.ItemVersionAdaptorFactoryImpl",
+  "org.amdocs.zusammen.adaptor.inbound.api.item.ElementAdaptorFactory": "org.amdocs.zusammen.adaptor.inbound.impl.item.ElementAdaptorFactoryImpl",
+  "org.amdocs.zusammen.adaptor.inbound.api.workspace.WorkspaceAdaptorFactory": "org.amdocs.zusammen.adaptor.inbound.impl.workspace.WorkspaceAdaptorFactoryImpl"
+}
