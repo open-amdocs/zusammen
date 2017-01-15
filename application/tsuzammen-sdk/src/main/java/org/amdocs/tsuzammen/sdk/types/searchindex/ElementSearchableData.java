@@ -22,6 +22,7 @@ import org.amdocs.tsuzammen.datatypes.Space;
 import org.amdocs.tsuzammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
+import java.util.Objects;
 
 public class ElementSearchableData {
   private byte[] searchableData;
@@ -55,6 +56,9 @@ public class ElementSearchableData {
   }
 
   public InputStream getSearchableData() {
+    if(Objects.isNull(searchableData)){
+      return null;
+    }
     return FileUtils.toInputStream(searchableData);
   }
 
