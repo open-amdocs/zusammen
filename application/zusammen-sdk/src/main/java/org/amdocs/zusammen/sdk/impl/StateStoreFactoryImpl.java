@@ -34,7 +34,7 @@ public class StateStoreFactoryImpl extends StateStoreFactory {
       ConfigurationManager configurationManager =
           ConfigurationManagerFactory.getInstance().createInterface();
       PluginInfo pluginInfo =
-          configurationManager.getPluginInfo(SdkConstants.TSUZAMMEN_STATE_STORE);
+          configurationManager.getPluginInfo(SdkConstants.ZUSAMMEN_STATE_STORE);
       try {
         stateStore =
             CommonMethods.newInstance(pluginInfo.getImplementationClass(), StateStore.class);

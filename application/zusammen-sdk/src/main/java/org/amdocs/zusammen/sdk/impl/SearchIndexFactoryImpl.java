@@ -34,7 +34,7 @@ public class SearchIndexFactoryImpl extends SearchIndexFactory {
       ConfigurationManager configurationManager =
           ConfigurationManagerFactory.getInstance().createInterface();
       PluginInfo pluginInfo =
-          configurationManager.getPluginInfo(SdkConstants.TSUZAMMEN_SEARCH_INDEX);
+          configurationManager.getPluginInfo(SdkConstants.ZUSAMMEN_SEARCH_INDEX);
       try {
         searchIndex =
             CommonMethods.newInstance(pluginInfo.getImplementationClass(), SearchIndex.class);

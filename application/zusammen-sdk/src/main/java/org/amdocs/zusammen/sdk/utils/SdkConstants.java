@@ -17,7 +17,7 @@
 package org.amdocs.zusammen.sdk.utils;
 
 public class SdkConstants {
-  public static final String TSUZAMMEN_COLLABORATIVE_STORE = "tsuzammen_collaborative_store";
-  public static final String TSUZAMMEN_STATE_STORE = "tsuzammen_state_store";
-  public static final String TSUZAMMEN_SEARCH_INDEX = "tsuzammen_search_index";
+  public static final String ZUSAMMEN_COLLABORATIVE_STORE = "zusammen_collaborative_store";
+  public static final String ZUSAMMEN_STATE_STORE = "zusammen_state_store";
+  public static final String ZUSAMMEN_SEARCH_INDEX = "zusammen_search_index";
 }

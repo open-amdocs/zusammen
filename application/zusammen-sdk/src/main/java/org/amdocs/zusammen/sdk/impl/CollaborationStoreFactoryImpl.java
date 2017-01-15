@@ -34,7 +34,7 @@ public class CollaborationStoreFactoryImpl extends CollaborationStoreFactory {
       ConfigurationManager configurationManager =
           ConfigurationManagerFactory.getInstance().createInterface();
       PluginInfo pluginInfo = configurationManager.getPluginInfo(SdkConstants
-          .TSUZAMMEN_COLLABORATIVE_STORE);
+          .ZUSAMMEN_COLLABORATIVE_STORE);
       try {
         collaborationStore = CommonMethods
             .newInstance(pluginInfo.getImplementationClass(), CollaborationStore.class);
