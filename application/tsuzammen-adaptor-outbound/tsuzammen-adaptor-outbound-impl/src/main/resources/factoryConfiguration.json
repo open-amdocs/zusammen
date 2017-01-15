@@ -1,7 +1,0 @@
-{
-  "org.amdocs.tsuzammen.adaptor.outbound.api.CollaborationAdaptorFactory": "org.amdocs.tsuzammen.adaptor.outbound.impl.CollaborationAdaptorFactoryImpl",
-  "org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemStateAdaptorFactory": "org.amdocs.tsuzammen.adaptor.outbound.impl.item.ItemStateAdaptorFactoryImpl",
-  "org.amdocs.tsuzammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory": "org.amdocs.tsuzammen.adaptor.outbound.impl.item.ItemVersionStateAdaptorFactoryImpl",
-  "org.amdocs.tsuzammen.adaptor.outbound.api.item.ElementStateAdaptorFactory": "org.amdocs.tsuzammen.adaptor.outbound.impl.item.ElementStateAdaptorFactoryImpl",
-  "org.amdocs.tsuzammen.adaptor.outbound.api.workspace.WorkspaceStateAdaptorFactory": "org.amdocs.tsuzammen.adaptor.outbound.impl.workspace.WorkspaceStateAdaptorFactoryImpl"
-}

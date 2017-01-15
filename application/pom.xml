@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * Copyright © 2016 Amdocs Software Systems Limited
+ * Copyright © 2016 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,19 +20,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.amdocs.tsuzammen</groupId>
-        <artifactId>amdocs-tsuzammen</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>org.amdocs.zusammen</groupId>
+        <artifactId>amdocs-zusammen</artifactId>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>application</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>pom</packaging>
     <modules>
-        <module>tsuzammen-datatypes</module>
-        <module>tsuzammen-adaptor-inbound</module>
-        <module>tsuzammen-core</module>
-        <module>tsuzammen-adaptor-outbound</module>
-        <module>tsuzammen-sdk</module>
+        <module>zusammen-datatypes</module>
+        <module>zusammen-adaptor-inbound</module>
+        <module>zusammen-core</module>
+        <module>zusammen-adaptor-outbound</module>
+        <module>zusammen-sdk</module>
     </modules>
 </project>
