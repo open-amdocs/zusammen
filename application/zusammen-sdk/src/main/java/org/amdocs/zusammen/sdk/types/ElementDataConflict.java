@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.sdk.types;
+package org.amdocs.zusammen.sdk.types;
 
 public class ElementDataConflict {
   private ElementData localElement;

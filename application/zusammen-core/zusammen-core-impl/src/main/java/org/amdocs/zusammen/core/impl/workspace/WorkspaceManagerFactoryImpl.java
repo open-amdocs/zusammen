@@ -16,9 +16,9 @@
 
 package org.amdocs.zusammen.core.impl.workspace;
 
-import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.core.api.workspace.WorkspaceManager;
 import org.amdocs.zusammen.core.api.workspace.WorkspaceManagerFactory;
+import org.amdocs.zusammen.datatypes.SessionContext;
 
 public class WorkspaceManagerFactoryImpl extends WorkspaceManagerFactory {
 

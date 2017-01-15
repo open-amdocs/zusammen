@@ -30,6 +30,7 @@ import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.core.impl.Messages;
+import org.amdocs.zusammen.core.impl.convertor.ElementInfoConvertor;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
@@ -144,6 +145,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   private void createElement(SessionContext context, ElementContext elementContext,
                              CoreElement element) {
+    // todo namespace for create in state store
     ElementStateAdaptorFactory.getInstance().createInterface(context)
         .create(context, ElementInfoConvertor.getElementInfo(elementContext, element));
     SearchIndexAdaptorFactory.getInstance().createInterface(context)

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.sdk.types;
+package org.amdocs.zusammen.sdk.types;
 
-import org.amdocs.tsuzammen.datatypes.collaboration.ChangeType;
+import org.amdocs.zusammen.datatypes.collaboration.ChangeType;
 
 public class ChangedElementData {
   private ElementData elementData;

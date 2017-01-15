@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.inbound.api.types.item;
+package org.amdocs.zusammen.adaptor.inbound.api.types.item;
 
 import java.util.Collection;
 

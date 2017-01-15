@@ -20,8 +20,8 @@ import org.amdocs.zusammen.commons.configuration.ConfigurationManager;
 import org.amdocs.zusammen.commons.configuration.ConfigurationManagerFactory;
 import org.amdocs.zusammen.commons.configuration.datatypes.PluginInfo;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.sdk.SearchIndexFactory;
 import org.amdocs.zusammen.sdk.SearchIndex;
+import org.amdocs.zusammen.sdk.SearchIndexFactory;
 import org.amdocs.zusammen.sdk.utils.SdkConstants;
 import org.amdocs.zusammen.utils.common.CommonMethods;
 

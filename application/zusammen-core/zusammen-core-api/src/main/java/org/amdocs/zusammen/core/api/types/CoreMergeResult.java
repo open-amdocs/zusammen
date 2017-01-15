@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.core.api.types;
+package org.amdocs.zusammen.core.api.types;
 
 import java.util.Collection;
 

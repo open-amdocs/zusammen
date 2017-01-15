@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.outbound.impl.convertor;
+package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
-import org.amdocs.tsuzammen.core.api.types.CoreElement;
-import org.amdocs.tsuzammen.datatypes.Id;
-import org.amdocs.tsuzammen.sdk.types.ElementData;
+import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.datatypes.Id;
+import org.amdocs.zusammen.sdk.types.ElementData;
 
 import java.util.stream.Collectors;
 

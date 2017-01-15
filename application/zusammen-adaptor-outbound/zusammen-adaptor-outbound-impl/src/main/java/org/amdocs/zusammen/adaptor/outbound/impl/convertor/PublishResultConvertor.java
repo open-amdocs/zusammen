@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.outbound.impl.convertor;
+package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
-import org.amdocs.tsuzammen.core.api.types.CorePublishResult;
-import org.amdocs.tsuzammen.sdk.types.ElementsPublishResult;
+import org.amdocs.zusammen.core.api.types.CorePublishResult;
+import org.amdocs.zusammen.sdk.types.ElementsPublishResult;
 
 public class PublishResultConvertor {
 

@@ -18,15 +18,15 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 
 
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ConverterCoreElementElementData;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ConverterCorePublishResultCollaborationPublishResult;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ConverterCoreSyncResultCollaborationSyncResult;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CoreElementElementDataConvertor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementsMergeResultConvertor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.PublishResultConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.sdk.CollaborationStore;

@@ -18,7 +18,6 @@ package org.amdocs.zusammen.adaptor.outbound.api.item;
 
 import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
-import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ElementInfo;
@@ -34,8 +33,7 @@ public interface ElementStateAdaptor {
   ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId,
                   FetchCriteria fetchCriteria);
 
-  void create(SessionContext context,
-              ElementInfo element);
+  void create(SessionContext context, ElementInfo element);
 
   void update(SessionContext context, ElementInfo element);
 

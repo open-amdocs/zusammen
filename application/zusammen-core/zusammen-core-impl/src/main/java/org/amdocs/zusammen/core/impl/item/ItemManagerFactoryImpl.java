@@ -16,9 +16,9 @@
 
 package org.amdocs.zusammen.core.impl.item;
 
-import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.core.api.item.ItemManager;
 import org.amdocs.zusammen.core.api.item.ItemManagerFactory;
+import org.amdocs.zusammen.datatypes.SessionContext;
 
 public class ItemManagerFactoryImpl extends ItemManagerFactory {
 

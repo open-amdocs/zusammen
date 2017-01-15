@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.inbound.impl.convertor;
+package org.amdocs.zusammen.adaptor.inbound.impl.convertor;
 
-import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.Element;
-import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.TsuzammenElement;
-import org.amdocs.tsuzammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
+import org.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
+import org.amdocs.zusammen.core.api.types.CoreElement;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class ElementConvertor {
 
   public static Element getElement(CoreElement coreElement) {
-    TsuzammenElement element = new TsuzammenElement();
+    ZusammenElement element = new ZusammenElement();
     element.setElementId(coreElement.getId());
     element.setInfo(coreElement.getInfo());
     element.setRelations(coreElement.getRelations());

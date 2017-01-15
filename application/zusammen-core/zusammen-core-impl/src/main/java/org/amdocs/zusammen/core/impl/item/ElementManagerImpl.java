@@ -29,6 +29,7 @@ import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFact
 import org.amdocs.zusammen.core.api.item.ElementManager;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.impl.Messages;
+import org.amdocs.zusammen.core.impl.convertor.ElementInfoConvertor;
 import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
@@ -120,9 +121,11 @@ public class ElementManagerImpl implements ElementManager {
 
     Namespace namespace = getNamespace(context, elementContext, parentNamespace, element);
 
+    ElementInfo elementInfo = ElementInfoConvertor.getElementInfo(elementContext, element);
+    elementInfo.setNamespace(namespace);
+
     getCollaborationAdaptor(context).createElement(context, elementContext, namespace, element);
-    getStateAdaptor(context).create(context, ElementInfoConvertor.getElementInfo(elementContext,
-        element));
+    getStateAdaptor(context).create(context, elementInfo);
     getSearchIndexAdaptor(context).createElement(context, elementContext, element, Space.PRIVATE);
 
     return namespace;

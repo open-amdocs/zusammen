@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.inbound.impl.convertor;
+package org.amdocs.zusammen.adaptor.inbound.impl.convertor;
 
-import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.ElementConflict;
-import org.amdocs.tsuzammen.adaptor.inbound.api.types.item.MergeResult;
-import org.amdocs.tsuzammen.core.api.types.CoreElementConflict;
-import org.amdocs.tsuzammen.core.api.types.CoreMergeResult;
+import org.amdocs.zusammen.adaptor.inbound.api.types.item.ElementConflict;
+import org.amdocs.zusammen.adaptor.inbound.api.types.item.MergeResult;
+import org.amdocs.zusammen.core.api.types.CoreElementConflict;
+import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 
 import java.util.stream.Collectors;
 

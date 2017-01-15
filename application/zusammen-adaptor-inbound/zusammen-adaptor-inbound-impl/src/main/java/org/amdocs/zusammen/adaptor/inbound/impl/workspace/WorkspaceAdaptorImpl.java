@@ -17,13 +17,13 @@
 package org.amdocs.zusammen.adaptor.inbound.impl.workspace;
 
 import org.amdocs.zusammen.adaptor.inbound.api.workspace.WorkspaceAdaptor;
+import org.amdocs.zusammen.core.api.workspace.WorkspaceManager;
+import org.amdocs.zusammen.core.api.workspace.WorkspaceManagerFactory;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.ItemVersionKey;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.workspace.WorkspaceInfo;
-import org.amdocs.zusammen.core.api.workspace.WorkspaceManager;
-import org.amdocs.zusammen.core.api.workspace.WorkspaceManagerFactory;
 
 import java.util.Collection;
 

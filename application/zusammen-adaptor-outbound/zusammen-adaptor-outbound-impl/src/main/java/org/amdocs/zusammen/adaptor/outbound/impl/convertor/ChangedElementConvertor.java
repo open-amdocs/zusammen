@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 Amdocs Software Systems Limited
+ * Copyright © 2016 Amdocs Software Systems Limited 
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.amdocs.tsuzammen.adaptor.outbound.impl.convertor;
+package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
-import org.amdocs.tsuzammen.core.api.types.CoreElement;
-import org.amdocs.tsuzammen.datatypes.item.ElementAction;
-import org.amdocs.tsuzammen.sdk.types.ChangedElementData;
+import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.datatypes.item.ElementAction;
+import org.amdocs.zusammen.sdk.types.ChangedElementData;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
