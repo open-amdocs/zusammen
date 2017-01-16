@@ -87,11 +87,9 @@ public class CoreElement {
   }
 
   public InputStream getSearchableData() {
-    if (Objects.isNull(searchableData)) {
-      return null;
-    } else {
-      return FileUtils.toInputStream(searchableData);
-    }
+    return Objects.isNull(searchableData) || searchableData.length == 0
+        ? null
+        : FileUtils.toInputStream(searchableData);
   }
 
   public void setSearchableData(InputStream searchableData) {
