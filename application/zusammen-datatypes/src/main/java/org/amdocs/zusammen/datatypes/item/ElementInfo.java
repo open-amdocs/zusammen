@@ -18,11 +18,13 @@ package org.amdocs.zusammen.datatypes.item;
 
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
+import org.amdocs.zusammen.datatypes.Space;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class ElementInfo {
+  private Space space = Space.PRIVATE;
   private Namespace namespace;
   private Id itemId;
   private Id versionId;
@@ -37,6 +39,14 @@ public class ElementInfo {
     this.versionId = versionId;
     this.id = id;
     this.parentId = parentId;
+  }
+
+  public Space getSpace() {
+    return space;
+  }
+
+  public void setSpace(Space space) {
+    this.space = space;
   }
 
   public Namespace getNamespace() {

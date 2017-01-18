@@ -18,9 +18,13 @@ package org.amdocs.zusammen.adaptor.outbound.impl.item;
 
 import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.OutboundAdaptorUtils;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementInfoConvertor;
+import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
+import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
+import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ElementInfo;
 
@@ -49,17 +53,26 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public void create(SessionContext context, ElementInfo element) {
-    OutboundAdaptorUtils.getStateStore(context).createElement(context, element);
+  public void create(SessionContext context, ElementContext elementContext, Space space,
+                     Namespace namespace, CoreElement element) {
+    ElementInfo elementInfo = ElementInfoConvertor.getElementInfo(elementContext, space, element);
+    elementInfo.setNamespace(namespace);
+    OutboundAdaptorUtils.getStateStore(context).createElement(context, elementInfo);
   }
 
   @Override
-  public void update(SessionContext context, ElementInfo element) {
-    OutboundAdaptorUtils.getStateStore(context).updateElement(context, element);
+  public void update(SessionContext context, ElementContext elementContext, Space space,
+                     CoreElement element) {
+    OutboundAdaptorUtils.getStateStore(context)
+        .updateElement(context,
+            ElementInfoConvertor.getElementInfo(elementContext, space, element));
   }
 
   @Override
-  public void delete(SessionContext context, ElementInfo element) {
-    OutboundAdaptorUtils.getStateStore(context).deleteElement(context, element);
+  public void delete(SessionContext context, ElementContext elementContext, Space space,
+                     CoreElement element) {
+    OutboundAdaptorUtils.getStateStore(context)
+        .deleteElement(context,
+            ElementInfoConvertor.getElementInfo(elementContext, space, element));
   }
 }

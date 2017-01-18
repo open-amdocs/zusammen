@@ -18,7 +18,7 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 
 
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CoreElementElementDataConvertor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementDataConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementsMergeResultConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.PublishResultConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
@@ -98,7 +98,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   @Override
   public CoreElement getElement(SessionContext context, ElementContext elementContext,
                                 Namespace namespace, Id elementId) {
-    return CoreElementElementDataConvertor.getCoreElement(
+    return ElementDataConvertor.getCoreElement(
         getCollaborationStore(context).getElement(context, elementContext, namespace, elementId));
   }
 

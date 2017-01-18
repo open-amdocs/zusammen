@@ -26,6 +26,7 @@ import org.amdocs.zusammen.core.impl.TestUtils;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
+import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.ElementAction;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
@@ -98,7 +99,8 @@ public class ElementManagerImplTest {
         .createElement(context, elementContext, getNamespace(rootNs, a1.getId()), a1);
 
     verify(stateAdaptorMock, never()).get(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock, times(2)).create(anyObject(), anyObject());
+    verify(stateAdaptorMock, times(2)).create(anyObject(), anyObject(), anyObject(), anyObject(),
+        anyObject());
   }
 
   @Test
@@ -128,9 +130,9 @@ public class ElementManagerImplTest {
 
     verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
     verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject());
-    verify(stateAdaptorMock).create(anyObject(), anyObject());
-    verify(stateAdaptorMock).delete(anyObject(), anyObject());
+    verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock).create(anyObject(), anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock).delete(anyObject(), anyObject(), anyObject(), anyObject());
   }
 
   @Test
@@ -148,7 +150,7 @@ public class ElementManagerImplTest {
 
     verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
     verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock).delete(anyObject(), anyObject());
+    verify(stateAdaptorMock).delete(anyObject(), anyObject(), anyObject(), anyObject());
   }
 
   @Test
@@ -209,9 +211,10 @@ public class ElementManagerImplTest {
 
     verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
     verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock, times(4)).create(anyObject(), anyObject());
-    verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject());
-    verify(stateAdaptorMock).delete(anyObject(), anyObject());
+    verify(stateAdaptorMock, times(4)).create(anyObject(), anyObject(), anyObject(), anyObject(),
+        anyObject());
+    verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock).delete(anyObject(), anyObject(), anyObject(), anyObject());
   }
 
   private void traverse(CoreElement element, Consumer<CoreElement> elementConsumer) {

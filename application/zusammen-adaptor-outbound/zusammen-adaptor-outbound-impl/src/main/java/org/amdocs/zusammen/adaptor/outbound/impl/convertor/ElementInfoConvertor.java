@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.core.impl.convertor;
+package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ElementInfo;
 
 public class ElementInfoConvertor {
 
-  public static ElementInfo getElementInfo(ElementContext elementContext, CoreElement element) {
+  public static ElementInfo getElementInfo(ElementContext elementContext, Space space,
+                                           CoreElement element) {
     ElementInfo elementInfo = new ElementInfo(
         elementContext.getItemId(), elementContext.getVersionId(), element.getId(),
         element.getParentId());
+    elementInfo.setSpace(space);
     elementInfo.setInfo(element.getInfo());
     elementInfo.setRelations(element.getRelations());
     return elementInfo;

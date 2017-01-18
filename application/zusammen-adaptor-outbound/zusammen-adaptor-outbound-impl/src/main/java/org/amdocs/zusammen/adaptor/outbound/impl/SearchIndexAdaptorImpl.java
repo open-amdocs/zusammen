@@ -33,21 +33,21 @@ public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
 
   @Override
   public void createElement(SessionContext context, ElementContext elementContext,
-                            CoreElement element, Space space) {
+                            Space space, CoreElement element) {
     getSearchIndex(context)
         .createElement(context, getElementSearchableData(elementContext, element, space));
   }
 
   @Override
   public void updateElement(SessionContext context, ElementContext elementContext,
-                            CoreElement element, Space space) {
+                            Space space, CoreElement element) {
     getSearchIndex(context)
         .updateElement(context, getElementSearchableData(elementContext, element, space));
   }
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
-                            CoreElement element, Space space) {
+                            Space space, CoreElement element) {
     getSearchIndex(context)
         .deleteElement(context, getElementSearchableData(elementContext, element, space));
   }

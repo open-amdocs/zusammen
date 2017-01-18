@@ -36,8 +36,7 @@ public class ChangedElementConvertor {
   }
 
   public static CoreElement convertChangedCoreElement(ChangedElementData changedElement) {
-    CoreElement coreElement =
-        CoreElementElementDataConvertor.getCoreElement(changedElement.getElementData());
+    CoreElement coreElement = ElementDataConvertor.getCoreElement(changedElement.getElementData());
     switch (changedElement.getChangeType()) {
       case ADD:
         coreElement.setAction(ElementAction.CREATE);

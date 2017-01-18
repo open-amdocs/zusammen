@@ -48,9 +48,9 @@ public class ElementsMergeResultConvertor {
   private static CoreElementConflict convertConflict(ElementDataConflict conflict) {
     CoreElementConflict coreConflict = new CoreElementConflict();
     coreConflict.setLocalElement(
-        CoreElementElementDataConvertor.getCoreElement(conflict.getLocalElement()));
+        ElementDataConvertor.getCoreElement(conflict.getLocalElement()));
     coreConflict.setRemoteElement(
-        CoreElementElementDataConvertor.getCoreElement(conflict.getRemoteElement()));
+        ElementDataConvertor.getCoreElement(conflict.getRemoteElement()));
     return coreConflict;
   }
 }

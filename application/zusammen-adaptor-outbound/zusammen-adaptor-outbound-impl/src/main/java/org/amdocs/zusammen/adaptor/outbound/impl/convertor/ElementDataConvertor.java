@@ -22,11 +22,11 @@ import org.amdocs.zusammen.sdk.types.ElementData;
 
 import java.util.stream.Collectors;
 
-public class CoreElementElementDataConvertor {
+public class ElementDataConvertor {
 
   public static CoreElement getCoreElement(ElementData elementData) {
-    CoreElement coreElement =
-        getCoreElement(elementData.getId());
+    CoreElement coreElement = getCoreElement(elementData.getId());
+    coreElement.setParentId(elementData.getParentId());
     coreElement.setInfo(elementData.getInfo());
     coreElement.setRelations(elementData.getRelations());
 
@@ -35,8 +35,7 @@ public class CoreElementElementDataConvertor {
     coreElement.setVisualization(elementData.getVisualization());
 
     coreElement.setSubElements(elementData.getSubElements().stream()
-        .map(subElementEntry ->
-            getCoreElement(subElementEntry))
+        .map(subElementEntry -> getCoreElement(subElementEntry))
         .collect(Collectors.toList()));
     return coreElement;
   }

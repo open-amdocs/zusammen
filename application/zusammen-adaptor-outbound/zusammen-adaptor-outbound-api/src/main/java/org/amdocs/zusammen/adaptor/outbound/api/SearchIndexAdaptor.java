@@ -27,14 +27,14 @@ import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 public interface SearchIndexAdaptor {
 
 
-  void createElement(SessionContext context, ElementContext elementContext, CoreElement element,
-                     Space space);
+  void createElement(SessionContext context, ElementContext elementContext, Space space,
+                     CoreElement element);
 
-  void updateElement(SessionContext context, ElementContext elementContext, CoreElement element,
-                     Space space);
+  void updateElement(SessionContext context, ElementContext elementContext, Space space,
+                     CoreElement element);
 
-  void deleteElement(SessionContext context, ElementContext elementContext, CoreElement element,
-                     Space space);
+  void deleteElement(SessionContext context, ElementContext elementContext, Space space,
+                     CoreElement element);
 
   SearchResult search(SessionContext context, SearchCriteria searchCriteria);
 
