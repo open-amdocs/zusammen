@@ -53,14 +53,11 @@ public interface CollaborationAdaptor {
   CoreElement getElement(SessionContext context, ElementContext elementContext,
                          Namespace namespace, Id elementId);
 
-  void createElement(SessionContext context, ElementContext elementContext,
-                     Namespace namespace, CoreElement element);
+  void createElement(SessionContext context, ElementContext elementContext, CoreElement element);
 
-  void updateElement(SessionContext context, ElementContext elementContext,
-                     Namespace namespace, CoreElement element);
+  void updateElement(SessionContext context, ElementContext elementContext, CoreElement element);
 
-  void deleteElement(SessionContext context, ElementContext elementContext,
-                     Namespace namespace, CoreElement element);
+  void deleteElement(SessionContext context, ElementContext elementContext, CoreElement element);
 
   void commitEntities(SessionContext context, ElementContext elementContext, String message);
 }

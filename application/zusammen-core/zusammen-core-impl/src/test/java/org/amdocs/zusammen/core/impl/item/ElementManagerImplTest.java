@@ -26,7 +26,6 @@ import org.amdocs.zusammen.core.impl.TestUtils;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.ElementAction;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
@@ -94,12 +93,12 @@ public class ElementManagerImplTest {
     traverse(root, this::validateIdExistense);
 
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptorMock).createElement(context, elementContext, rootNs, root);
+    verify(collaborationAdaptorMock).createElement(context, elementContext, root);
     verify(collaborationAdaptorMock)
-        .createElement(context, elementContext, getNamespace(rootNs, a1.getId()), a1);
+        .createElement(context, elementContext, a1);
 
     verify(stateAdaptorMock, never()).get(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock, times(2)).create(anyObject(), anyObject(), anyObject(), anyObject(),
+    verify(stateAdaptorMock, times(2)).create(anyObject(), anyObject(), anyObject(),
         anyObject());
   }
 
@@ -120,18 +119,18 @@ public class ElementManagerImplTest {
     traverse(root, this::validateIdExistense);
 
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptorMock).updateElement(context, elementContext, rootNs, root);
+    verify(collaborationAdaptorMock).updateElement(context, elementContext, root);
     verify(collaborationAdaptorMock)
-        .updateElement(context, elementContext, getNamespace(rootNs, a1.getId()), a1);
+        .updateElement(context, elementContext, a1);
     verify(collaborationAdaptorMock)
-        .deleteElement(context, elementContext, getNamespace(rootNs, a3.getId()), a3);
+        .deleteElement(context, elementContext, a3);
     verify(collaborationAdaptorMock)
-        .createElement(context, elementContext, getNamespace(rootNs, a4.getId()), a4);
+        .createElement(context, elementContext, a4);
 
     verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
     verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
     verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock).create(anyObject(), anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock).create(anyObject(), anyObject(), anyObject(), anyObject());
     verify(stateAdaptorMock).delete(anyObject(), anyObject(), anyObject(), anyObject());
   }
 
@@ -146,7 +145,7 @@ public class ElementManagerImplTest {
     elementManager.save(context, elementContext, root, "update delete root!");
 
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptorMock).deleteElement(context, elementContext, rootNs, root);
+    verify(collaborationAdaptorMock).deleteElement(context, elementContext, root);
 
     verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
     verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
@@ -183,7 +182,7 @@ public class ElementManagerImplTest {
                                 CoreElement root) {
     ElementInfo elementInfo = new ElementInfo(
         elementContext.getItemId(), elementContext.getVersionId(), root.getId(), null);
-    elementInfo.setNamespace(new Namespace(Namespace.EMPTY_NAMESPACE, root.getId()));
+    elementInfo.setNamespace(new Namespace(Namespace.ROOT_NAMESPACE, root.getId()));
     doReturn(elementInfo).when(stateAdaptorMock).get(context, elementContext, root.getId(), null);
   }
 
@@ -197,21 +196,21 @@ public class ElementManagerImplTest {
     Namespace b12Ns = getNamespace(a1Ns, b12.getId());
     Namespace c121Ns = getNamespace(b12Ns, c121.getId());
 
-    verify(collaborationAdaptorMock).updateElement(context, elementContext, a1Ns, a1);
+    verify(collaborationAdaptorMock).updateElement(context, elementContext, a1);
     verify(collaborationAdaptorMock)
-        .deleteElement(context, elementContext, getNamespace(a1Ns, b11.getId()), b11);
-    verify(collaborationAdaptorMock).updateElement(context, elementContext, c121Ns, c121);
+        .deleteElement(context, elementContext, b11);
+    verify(collaborationAdaptorMock).updateElement(context, elementContext, c121);
     verify(collaborationAdaptorMock)
-        .createElement(context, elementContext, getNamespace(c121Ns, d1211.getId()), d1211);
-    verify(collaborationAdaptorMock).createElement(context, elementContext, a2Ns, a2);
+        .createElement(context, elementContext, d1211);
+    verify(collaborationAdaptorMock).createElement(context, elementContext, a2);
     verify(collaborationAdaptorMock)
-        .createElement(context, elementContext, getNamespace(a2Ns, b21.getId()), b21);
+        .createElement(context, elementContext, b21);
     verify(collaborationAdaptorMock)
-        .createElement(context, elementContext, getNamespace(a2Ns, b22.getId()), b22);
+        .createElement(context, elementContext, b22);
 
     verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
     verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock, times(4)).create(anyObject(), anyObject(), anyObject(), anyObject(),
+    verify(stateAdaptorMock, times(4)).create(anyObject(), anyObject(), anyObject(),
         anyObject());
     verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject(), anyObject(), anyObject());
     verify(stateAdaptorMock).delete(anyObject(), anyObject(), anyObject(), anyObject());

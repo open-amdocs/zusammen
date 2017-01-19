@@ -22,7 +22,6 @@ import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementInfoConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
-import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
@@ -54,9 +53,8 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
 
   @Override
   public void create(SessionContext context, ElementContext elementContext, Space space,
-                     Namespace namespace, CoreElement element) {
+                     CoreElement element) {
     ElementInfo elementInfo = ElementInfoConvertor.getElementInfo(elementContext, space, element);
-    elementInfo.setNamespace(namespace);
     OutboundAdaptorUtils.getStateStore(context).createElement(context, elementInfo);
   }
 

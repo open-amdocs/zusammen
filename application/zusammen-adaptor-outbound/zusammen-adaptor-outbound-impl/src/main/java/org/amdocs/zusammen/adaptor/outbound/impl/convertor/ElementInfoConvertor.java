@@ -29,6 +29,7 @@ public class ElementInfoConvertor {
         elementContext.getItemId(), elementContext.getVersionId(), element.getId(),
         element.getParentId());
     elementInfo.setSpace(space);
+    elementInfo.setNamespace(element.getNamespace());
     elementInfo.setInfo(element.getInfo());
     elementInfo.setRelations(element.getRelations());
     return elementInfo;

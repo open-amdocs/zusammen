@@ -31,7 +31,6 @@ import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.core.impl.Messages;
 import org.amdocs.zusammen.datatypes.Id;
-import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
@@ -146,9 +145,9 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   private void createElement(SessionContext context, ElementContext elementContext,
                              Space space, CoreElement element) {
     ElementStateAdaptorFactory.getInstance().createInterface(context)
-        .create(context, elementContext, space, /* todo fix this! --> */new Namespace(), element);
+        .create(context, elementContext, space, element);
     SearchIndexAdaptorFactory.getInstance().createInterface(context)
-        .createElement(context, elementContext, Space.PRIVATE, element);
+        .createElement(context, elementContext, space, element);
   }
 
   private void updateElement(SessionContext context, ElementContext elementContext,
@@ -156,7 +155,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     ElementStateAdaptorFactory.getInstance().createInterface(context)
         .update(context, elementContext, space, element);
     SearchIndexAdaptorFactory.getInstance().createInterface(context)
-        .updateElement(context, elementContext, Space.PRIVATE, element);
+        .updateElement(context, elementContext, space, element);
   }
 
   private void deleteElement(SessionContext context, ElementContext elementContext,
@@ -164,7 +163,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     ElementStateAdaptorFactory.getInstance().createInterface(context)
         .delete(context, elementContext, space, element);
     SearchIndexAdaptorFactory.getInstance().createInterface(context)
-        .deleteElement(context, elementContext, Space.PRIVATE, element);
+        .deleteElement(context, elementContext, space, element);
   }
 
   private void validateItemVersionExistence(SessionContext context, Id itemId,
@@ -173,7 +172,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     if (!getStateAdaptor(context).isItemVersionExist(context, itemId, versionId)) {
       String message = getItemStateAdaptor(context).isItemExist(context, itemId)
           ? String.format(Messages.ITEM_VERSION_NOT_EXIST, itemId, versionId, space)
-          : String.format(Messages.ITEM_NOT_EXIST, itemId);// TODO: 12/20/2016 space!
+          : String.format(Messages.ITEM_NOT_EXIST, itemId);
       throw new RuntimeException(message);
     }
   }

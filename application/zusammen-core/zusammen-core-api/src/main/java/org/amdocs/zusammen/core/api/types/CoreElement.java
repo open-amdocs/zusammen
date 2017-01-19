@@ -17,6 +17,7 @@
 package org.amdocs.zusammen.core.api.types;
 
 import org.amdocs.zusammen.datatypes.Id;
+import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.item.ElementAction;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Relation;
@@ -31,6 +32,7 @@ public class CoreElement {
   private ElementAction action = ElementAction.IGNORE;
   private Id id;
   private Id parentId;
+  private Namespace namespace;
   private Info info;
   private Collection<Relation> relations = Collections.EMPTY_LIST;
   private byte[] data;
@@ -60,6 +62,14 @@ public class CoreElement {
 
   public void setParentId(Id parentId) {
     this.parentId = parentId;
+  }
+
+  public Namespace getNamespace() {
+    return namespace;
+  }
+
+  public void setNamespace(Namespace namespace) {
+    this.namespace = namespace;
   }
 
   public Info getInfo() {

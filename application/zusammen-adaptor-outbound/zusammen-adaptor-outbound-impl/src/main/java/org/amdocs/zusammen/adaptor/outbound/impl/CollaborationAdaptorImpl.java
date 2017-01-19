@@ -104,23 +104,23 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   @Override
   public void createElement(SessionContext context, ElementContext elementContext,
-                            Namespace namespace, CoreElement element) {
+                            CoreElement element) {
     getCollaborationStore(context)
-        .createElement(context, getElementData(element, elementContext, namespace));
+        .createElement(context, getElementData(element, elementContext));
   }
 
   @Override
   public void updateElement(SessionContext context, ElementContext elementContext,
-                            Namespace namespace, CoreElement element) {
+                            CoreElement element) {
     getCollaborationStore(context)
-        .updateElement(context, getElementData(element, elementContext, namespace));
+        .updateElement(context, getElementData(element, elementContext));
   }
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
-                            Namespace namespace, CoreElement element) {
+                            CoreElement element) {
     getCollaborationStore(context)
-        .deleteElement(context, getElementData(element, elementContext, namespace));
+        .deleteElement(context, getElementData(element, elementContext));
   }
 
   @Override
@@ -129,10 +129,9 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     //getCollaborationStore(context).commitEntities(context, elementContext, message);
   }
 
-  private ElementData getElementData(CoreElement coreElement, ElementContext elementContext,
-                                     Namespace namespace) {
+  private ElementData getElementData(CoreElement coreElement, ElementContext elementContext) {
     ElementData elementData = new ElementData(elementContext.getItemId(), elementContext
-        .getVersionId(), namespace);
+        .getVersionId(), coreElement.getNamespace());
     elementData.setId(coreElement.getId());
     elementData.setParentId(coreElement.getParentId());
     elementData.setInfo(coreElement.getInfo());

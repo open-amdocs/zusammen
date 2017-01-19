@@ -21,15 +21,15 @@ public class Namespace {
       "Parent element namespace and element Id must be supplied";
   private static final String INVALID_VALUE_ERR_MSG =
       "Namespace string representaion must be supplied";
-  private static final String EMPTY_NAMESPACE_VALUE = "";
+  private static final String ROOT_NAMESPACE_VALUE = "";
 
   public static final String NAMESPACE_DELIMITER = "/";
-  public static final Namespace EMPTY_NAMESPACE = new Namespace();
+  public static final Namespace ROOT_NAMESPACE = new Namespace();
 
   private String value;
 
   public Namespace() {
-    value = EMPTY_NAMESPACE_VALUE;
+    value = ROOT_NAMESPACE_VALUE;
   }
 
   public Namespace(Namespace parentNamespace, Id elementId) {

@@ -68,14 +68,15 @@ public class ElementManagerImpl implements ElementManager {
     validateItemVersionExistence(context, elementContext.getItemId(),
         elementContext.getVersionId());
 
-    Namespace parentNamespace = isCreateRootElement(element)
-        ? Namespace.EMPTY_NAMESPACE
-        : null; // the namespace/parentId of the element itself will be retrieved later on
-    traverse(context, elementContext, parentNamespace, element);
-  }
+    if (element.getAction() == ElementAction.CREATE) {
+      setElementHierarchyPosition(element, Namespace.ROOT_NAMESPACE, null);
+    } else {
+      ElementInfo elementInfo =
+          getStateAdaptor(context).get(context, elementContext, element.getId(), null);
+      setElementHierarchyPosition(element, elementInfo.getNamespace(), elementInfo.getParentId());
+    }
 
-  private boolean isCreateRootElement(CoreElement element) {
-    return element.getAction() == ElementAction.CREATE;
+    saveRecursively(context, elementContext, element);
   }
 
   @Override
@@ -83,21 +84,24 @@ public class ElementManagerImpl implements ElementManager {
     return getSearchIndexAdaptor(context).search(context, searchCriteria);
   }
 
-  private void traverse(SessionContext context, ElementContext elementContext,
-                        Namespace parentNamespace, CoreElement element) {
-    Namespace namespace;
+  private void setElementHierarchyPosition(CoreElement element, Namespace namespace, Id parentId) {
+    element.setParentId(parentId);
+    element.setNamespace(namespace);
+  }
+
+  private void saveRecursively(SessionContext context, ElementContext elementContext,
+                               CoreElement element) {
     switch (element.getAction()) {
       case CREATE:
-        namespace = create(context, elementContext, parentNamespace, element);
+        create(context, elementContext, element);
         break;
       case UPDATE:
-        namespace = update(context, elementContext, parentNamespace, element);
+        update(context, elementContext, element);
         break;
       case DELETE:
-        namespace = delete(context, elementContext, parentNamespace, element);
+        delete(context, elementContext, element);
         break;
       case IGNORE:
-        namespace = ignore(context, elementContext, parentNamespace, element);
         break;
       default:
         throw new RuntimeException(String.format(Messages.UNSUPPORTED_ELEMENT_ACTION,
@@ -105,69 +109,48 @@ public class ElementManagerImpl implements ElementManager {
             element.getAction()));
     }
 
-    element.getSubElements().forEach(subElement ->
-        traverse(context, elementContext, namespace, subElement));
+    Namespace subElementsNamespace = new Namespace(element.getNamespace(), element.getId());
+    element.getSubElements().forEach(subElement -> {
+      setElementHierarchyPosition(subElement, subElementsNamespace, element.getId());
+      saveRecursively(context, elementContext, subElement);
+    });
   }
 
-  private Namespace create(SessionContext context, ElementContext elementContext,
-                           Namespace parentNamespace,
-                           CoreElement element) {
+  private void create(SessionContext context, ElementContext elementContext,
+                      CoreElement element) {
     element.setId(new Id());
-    // todo consider refactoring the set of the element id as the parentId of the sub elements.
-    // This create action should act only on the current elemnt and should not access any other
-    // elements in the hierarchy.
-    element.getSubElements().forEach(subElement -> subElement.setParentId(element.getId()));
-
-    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element);
-
-    getCollaborationAdaptor(context).createElement(context, elementContext, namespace, element);
-    getStateAdaptor(context).create(context, elementContext, Space.PRIVATE, namespace, element);
-    getSearchIndexAdaptor(context).createElement(context, elementContext, Space.PRIVATE, element);
-
-    return namespace;
+    getCollaborationAdaptor(context).createElement(context, elementContext, element);
+    createDescriptor(context, elementContext, Space.PRIVATE, element);
   }
 
-  private Namespace update(SessionContext context, ElementContext elementContext,
-                           Namespace parentNamespace, CoreElement element) {
-    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element);
-
-    getCollaborationAdaptor(context).updateElement(context, elementContext, namespace, element);
-    getStateAdaptor(context).update(context, elementContext, Space.PRIVATE, element);
-    getSearchIndexAdaptor(context).updateElement(context, elementContext, Space.PRIVATE, element);
-
-    return namespace;
+  private void createDescriptor(SessionContext context, ElementContext elementContext, Space space,
+                                CoreElement element) {
+    getStateAdaptor(context).create(context, elementContext, space, element);
+    getSearchIndexAdaptor(context).createElement(context, elementContext, space, element);
   }
 
-  private Namespace delete(SessionContext context, ElementContext elementContext,
-                           Namespace parentNamespace, CoreElement element) {
-    Namespace namespace = getNamespace(context, elementContext, parentNamespace, element);
-
-    getCollaborationAdaptor(context).deleteElement(context, elementContext, namespace, element);
-    getStateAdaptor(context).delete(context, elementContext, Space.PRIVATE, element);
-    getSearchIndexAdaptor(context).deleteElement(context, elementContext, Space.PRIVATE, element);
-
-    return namespace;
+  private void update(SessionContext context, ElementContext elementContext,
+                      CoreElement element) {
+    getCollaborationAdaptor(context).updateElement(context, elementContext, element);
+    updateDescriptor(context, elementContext, Space.PRIVATE, element);
   }
 
-  private Namespace ignore(SessionContext context, ElementContext elementContext,
-                           Namespace parentNamespace, CoreElement element) {
-    return getNamespace(context, elementContext, parentNamespace, element);
+  private void updateDescriptor(SessionContext context, ElementContext elementContext, Space space,
+                                CoreElement element) {
+    getStateAdaptor(context).update(context, elementContext, space, element);
+    getSearchIndexAdaptor(context).updateElement(context, elementContext, space, element);
   }
 
-  private Namespace getNamespace(SessionContext context, ElementContext elementContext,
-                                 Namespace parentNamespace, CoreElement element) {
-    if (!isSaveRequestTopElement(parentNamespace)) {
-      return new Namespace(parentNamespace, element.getId());
-    }
-
-    ElementInfo elementInfo =
-        getStateAdaptor(context).get(context, elementContext, element.getId(), null);
-    element.setParentId(elementInfo.getParentId());
-    return elementInfo.getNamespace();
+  private void delete(SessionContext context, ElementContext elementContext,
+                      CoreElement element) {
+    getCollaborationAdaptor(context).deleteElement(context, elementContext, element);
+    deleteDescriptor(context, elementContext, Space.PRIVATE, element);
   }
 
-  private boolean isSaveRequestTopElement(Namespace parentNamespace) {
-    return parentNamespace == null;
+  private void deleteDescriptor(SessionContext context, ElementContext elementContext, Space space,
+                                CoreElement element) {
+    getStateAdaptor(context).delete(context, elementContext, space, element);
+    getSearchIndexAdaptor(context).deleteElement(context, elementContext, space, element);
   }
 
   private void validateItemVersionExistence(SessionContext context, Id itemId, Id versionId) {

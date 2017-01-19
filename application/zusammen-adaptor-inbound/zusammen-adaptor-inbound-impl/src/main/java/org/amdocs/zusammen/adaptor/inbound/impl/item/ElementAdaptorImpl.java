@@ -59,7 +59,7 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   public void save(SessionContext context, ElementContext elementContext,
                    Element element, String message) {
     getElementManager(context)
-        .save(context, elementContext, getCoreElement(element, null), message);
+        .save(context, elementContext, getCoreElement(element), message);
   }
 
 
@@ -68,12 +68,11 @@ public class ElementAdaptorImpl implements ElementAdaptor {
     return getElementManager(context).search(context, searchCriteria);
   }
 
-  private CoreElement getCoreElement(Element element, Id parentId) {
+  private CoreElement getCoreElement(Element element) {
     CoreElement coreElement = new CoreElement();
     coreElement.setAction(element.getAction());
 
     coreElement.setId(element.getElementId());
-    coreElement.setParentId(parentId);
     coreElement.setInfo(element.getInfo());
     coreElement.setRelations(element.getRelations());
 
@@ -89,7 +88,7 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   private Collection<CoreElement> getCoreElements(Collection<Element> elements, Id parentId) {
     return elements == null
         ? new ArrayList<>()
-        : elements.stream().map(element -> getCoreElement(element, parentId))
+        : elements.stream().map(element -> getCoreElement(element))
             .collect(Collectors.toList());
   }
 

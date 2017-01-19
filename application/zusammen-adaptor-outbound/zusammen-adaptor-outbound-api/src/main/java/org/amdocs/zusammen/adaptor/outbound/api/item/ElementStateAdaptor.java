@@ -19,7 +19,6 @@ package org.amdocs.zusammen.adaptor.outbound.api.item;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
-import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
@@ -37,7 +36,7 @@ public interface ElementStateAdaptor {
                   FetchCriteria fetchCriteria);
 
   void create(SessionContext context, ElementContext elementContext, Space space,
-              Namespace namespace, CoreElement element);
+              CoreElement element);
 
   void update(SessionContext context, ElementContext elementContext, Space space,
               CoreElement element);
