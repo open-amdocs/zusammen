@@ -14,30 +14,34 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.adaptor.inbound.api.types.item;
+package org.amdocs.zusammen.core.api.types;
 
 import java.util.Collection;
 
-public class MergeResult {
-  private Collection<ElementConflict> conflicts;
-  private InfoConflict infoConflict;
-  public boolean isSuccesses() {
-    return (conflicts == null || conflicts.size() == 0) && infoConflict==null;
+public class CoreElementMergeResult {
+  private Collection<CoreElementConflict> conflicts;
+  private Collection<CoreElement> changedElements;
+
+  public boolean isSuccess() {
+    return conflicts == null || conflicts.isEmpty();
   }
 
-  public void setConflicts(Collection<ElementConflict> conflicts) {
+  public void setConflicts(Collection<CoreElementConflict> conflicts) {
     this.conflicts = conflicts;
   }
 
-  public Collection<ElementConflict> getConflicts() {
+  public void setChangedElements(Collection<CoreElement> changedElements) {
+    this.changedElements = changedElements;
+  }
+
+
+  public Collection<CoreElementConflict> getConflicts() {
     return conflicts;
   }
 
-  public InfoConflict getInfoConflict() {
-    return infoConflict;
-  }
-
-  public void setInfoConflict(InfoConflict infoConflict) {
-    this.infoConflict = infoConflict;
+  public Collection<CoreElement> getChangedElements() {
+    return changedElements;
   }
 }
+
+

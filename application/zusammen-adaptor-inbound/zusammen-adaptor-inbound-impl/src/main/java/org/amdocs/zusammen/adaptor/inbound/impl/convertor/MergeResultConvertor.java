@@ -17,8 +17,10 @@
 package org.amdocs.zusammen.adaptor.inbound.impl.convertor;
 
 import org.amdocs.zusammen.adaptor.inbound.api.types.item.ElementConflict;
+import org.amdocs.zusammen.adaptor.inbound.api.types.item.InfoConflict;
 import org.amdocs.zusammen.adaptor.inbound.api.types.item.MergeResult;
 import org.amdocs.zusammen.core.api.types.CoreElementConflict;
+import org.amdocs.zusammen.core.api.types.CoreItemVersionInfoConflict;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 
 import java.util.stream.Collectors;
@@ -26,10 +28,22 @@ import java.util.stream.Collectors;
 public class MergeResultConvertor {
   public static MergeResult getMergeResult(CoreMergeResult coreMergeResult) {
     MergeResult mergeResult = new MergeResult();
-    mergeResult.setConflicts(coreMergeResult.getConflicts().stream()
+    mergeResult.setConflicts(coreMergeResult.getCoreItemVersionConflict().getCoreElementConflicts().stream()
         .map(MergeResultConvertor::convertElementConflict)
         .collect(Collectors.toList()));
+    mergeResult.setInfoConflict(getInfoConflict(coreMergeResult.getCoreItemVersionConflict()
+        .getCoreItemVersionInfoConflict()));
     return mergeResult;
+  }
+
+  private static InfoConflict getInfoConflict(
+      CoreItemVersionInfoConflict coreItemVersionInfoConflict) {
+    InfoConflict infoConflict = new InfoConflict();
+    infoConflict.setLocalInfo(coreItemVersionInfoConflict.getLocalInfo());
+    infoConflict.setRemoteInfo(coreItemVersionInfoConflict.getRemoteInfo());
+
+    return infoConflict;
+
   }
 
   private static ElementConflict convertElementConflict(CoreElementConflict conflict) {

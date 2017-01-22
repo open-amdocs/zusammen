@@ -19,7 +19,7 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementDataConvertor;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementsMergeResultConvertor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ItemVersionMergeResultConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.PublishResultConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
@@ -32,8 +32,8 @@ import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.sdk.CollaborationStore;
 import org.amdocs.zusammen.sdk.CollaborationStoreFactory;
 import org.amdocs.zusammen.sdk.types.ElementData;
-import org.amdocs.zusammen.sdk.types.ElementsMergeResult;
-import org.amdocs.zusammen.sdk.types.ElementsPublishResult;
+import org.amdocs.zusammen.sdk.types.ItemVersionMergeResult;
+import org.amdocs.zusammen.sdk.types.ItemVersionPublishResult;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
@@ -74,25 +74,28 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   @Override
   public CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
                                               String message) {
-    ElementsPublishResult collaborationPublishResult =
-        getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
+    ItemVersionPublishResult itemVersionPublishResult = getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
 
-    return PublishResultConvertor.getCorePublishResult(collaborationPublishResult);
+    return PublishResultConvertor.getCorePublishResult(itemVersionPublishResult);
   }
 
   @Override
   public CoreMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId) {
-    ElementsMergeResult collaborationSyncResult =
-        getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
-    return ElementsMergeResultConvertor.getCoreSyncResult(collaborationSyncResult);
+
+    ItemVersionMergeResult itemVersionMergeResult = getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
+    //ElementsMergeResult collaborationSyncResult = itemVersionMergeResult.getElementsMergeResult();
+
+    return ItemVersionMergeResultConvertor.getCoreMergeResult(itemVersionMergeResult);
   }
 
   @Override
   public CoreMergeResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
                                           Id sourceVersionId) {
-    ElementsMergeResult collaborationSyncResult = getCollaborationStore(context)
+
+    ItemVersionMergeResult itemVersionMergeResult = getCollaborationStore(context)
         .mergeItemVersion(context, itemId, versionId, sourceVersionId);
-    return ElementsMergeResultConvertor.getCoreSyncResult(collaborationSyncResult);
+    //ElementsMergeResult collaborationSyncResult = itemVersionMergeResult.getElementsMergeResult();
+    return ItemVersionMergeResultConvertor.getCoreMergeResult(itemVersionMergeResult);
   }
 
   @Override

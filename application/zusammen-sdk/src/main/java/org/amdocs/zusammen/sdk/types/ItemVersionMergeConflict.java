@@ -19,35 +19,30 @@ package org.amdocs.zusammen.sdk.types;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ElementsMergeResult {
+public class ItemVersionMergeConflict {
   private Collection<ElementDataConflict> conflicts = new ArrayList<>();
-  private Collection<ChangedElementData> changedElements = new ArrayList<>();
+  private ItemVersionInfoConflict itemVersionInfoConflict;
 
-  public boolean isSuccess() {
-    return conflicts == null || conflicts.isEmpty();
-  }
-
-  public void addElementConflict(ElementDataConflict conflict) {
-    this.conflicts.add(conflict);
-  }
-
-  public Collection<ElementDataConflict> getConflicts() {
+  public Collection<ElementDataConflict> getElementConflicts() {
     return conflicts;
   }
 
-  public void setConflicts(Collection<ElementDataConflict> conflicts) {
+  public void setConflicts(
+      Collection<ElementDataConflict> conflicts) {
     this.conflicts = conflicts;
   }
 
-  public void addChangedElement(ChangedElementData changedElement) {
-    this.changedElements.add(changedElement);
+  public void addElementConflict(
+      ElementDataConflict conflict) {
+    this.conflicts.add(conflict);
   }
 
-  public Collection<ChangedElementData> getChangedElements() {
-    return changedElements;
+  public ItemVersionInfoConflict getItemVersionInfoConflict() {
+    return itemVersionInfoConflict;
   }
 
-  public void setChangedElements(Collection<ChangedElementData> changedElements) {
-    this.changedElements = changedElements;
+  public void setItemVersionInfoConflict(
+      ItemVersionInfoConflict itemVersionInfoConflict) {
+    this.itemVersionInfoConflict = itemVersionInfoConflict;
   }
 }

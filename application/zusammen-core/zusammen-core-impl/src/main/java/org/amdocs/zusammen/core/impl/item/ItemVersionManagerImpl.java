@@ -95,7 +95,8 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
 
     if (syncResult.isSuccess()) {
-      saveElements(context, itemId, versionId, Space.PRIVATE, syncResult.getChangedElements());
+      saveElements(context, itemId, versionId, Space.PRIVATE, syncResult
+          .getCoreItemVersionChangedData().getCoreElements());
     }
 
     return syncResult;
@@ -109,7 +110,8 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         .mergeItemVersion(context, itemId, versionId, sourceVersionId);
 
     if (mergeResult.isSuccess()) {
-      saveElements(context, itemId, versionId, Space.PRIVATE, mergeResult.getChangedElements());
+      saveElements(context, itemId, versionId, Space.PRIVATE, mergeResult
+          .getCoreItemVersionChangedData().getCoreElements());
     }
 
     return mergeResult;

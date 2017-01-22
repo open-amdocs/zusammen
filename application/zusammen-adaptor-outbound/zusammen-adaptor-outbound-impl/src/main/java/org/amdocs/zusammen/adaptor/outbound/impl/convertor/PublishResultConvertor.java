@@ -18,13 +18,16 @@ package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.sdk.types.ElementsPublishResult;
+import org.amdocs.zusammen.sdk.types.ItemVersionPublishResult;
 
 public class PublishResultConvertor {
 
-  public static CorePublishResult getCorePublishResult(ElementsPublishResult publishResult) {
+  public static CorePublishResult getCorePublishResult(ItemVersionPublishResult publishResult) {
     CorePublishResult corePublishResult = new CorePublishResult();
     corePublishResult.setChangedElements(
-        ChangedElementConvertor.convertChangedElements(publishResult.getChangedElements()));
+        ChangedElementConvertor.convertChangedElements(publishResult.getElementsPublishResult()
+            .getChangedElements()));
+    corePublishResult.setItemVersionInfo(publishResult.getItemVersionInfo());
     return corePublishResult;
   }
 }

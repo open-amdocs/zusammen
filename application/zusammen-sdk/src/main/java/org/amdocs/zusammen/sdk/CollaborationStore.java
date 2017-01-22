@@ -23,8 +23,8 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.sdk.types.ElementData;
-import org.amdocs.zusammen.sdk.types.ElementsMergeResult;
-import org.amdocs.zusammen.sdk.types.ElementsPublishResult;
+import org.amdocs.zusammen.sdk.types.ItemVersionMergeResult;
+import org.amdocs.zusammen.sdk.types.ItemVersionPublishResult;
 
 public interface CollaborationStore {
 
@@ -40,13 +40,13 @@ public interface CollaborationStore {
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  ElementsPublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
-                                           String message);
+  ItemVersionPublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
+                                                            String message);
 
-  ElementsMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  ItemVersionMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
 
-  ElementsMergeResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+  ItemVersionMergeResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
                                        Id sourceVersionId);
 
   ElementData getElement(SessionContext context, ElementContext elementContext,

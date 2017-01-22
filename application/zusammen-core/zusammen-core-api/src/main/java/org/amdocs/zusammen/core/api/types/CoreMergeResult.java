@@ -16,31 +16,31 @@
 
 package org.amdocs.zusammen.core.api.types;
 
-import java.util.Collection;
-
 public class CoreMergeResult {
-  private Collection<CoreElementConflict> conflicts;
-  private Collection<CoreElement> changedElements;
+
+  CoreItemVersionConflict coreItemVersionConflict;
+  CoreItemVersionChangedData coreItemVersionChangedData;
+
+  public CoreItemVersionConflict getCoreItemVersionConflict() {
+    return coreItemVersionConflict;
+  }
+
+  public void setCoreItemVersionConflict(
+      CoreItemVersionConflict coreItemVersionConflict) {
+    this.coreItemVersionConflict = coreItemVersionConflict;
+  }
+
+  public CoreItemVersionChangedData getCoreItemVersionChangedData() {
+    return coreItemVersionChangedData;
+  }
+
+  public void setCoreItemVersionChangedData(
+      CoreItemVersionChangedData coreItemVersionChangedData) {
+    this.coreItemVersionChangedData = coreItemVersionChangedData;
+  }
 
   public boolean isSuccess() {
-    return conflicts == null || conflicts.isEmpty();
-  }
-
-  public void setConflicts(Collection<CoreElementConflict> conflicts) {
-    this.conflicts = conflicts;
-  }
-
-  public void setChangedElements(Collection<CoreElement> changedElements) {
-    this.changedElements = changedElements;
-  }
-
-
-  public Collection<CoreElementConflict> getConflicts() {
-    return conflicts;
-  }
-
-  public Collection<CoreElement> getChangedElements() {
-    return changedElements;
+    return this.coreItemVersionConflict==null || coreItemVersionConflict.isSuccess();
   }
 }
 

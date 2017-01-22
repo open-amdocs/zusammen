@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.adaptor.inbound.api.types.item;
+package org.amdocs.zusammen.core.api.types;
+
+import org.amdocs.zusammen.datatypes.item.Info;
 
 import java.util.Collection;
 
-public class MergeResult {
-  private Collection<ElementConflict> conflicts;
-  private InfoConflict infoConflict;
-  public boolean isSuccesses() {
-    return (conflicts == null || conflicts.size() == 0) && infoConflict==null;
+public class CoreItemVersionChangedData {
+  Collection<CoreElement> coreElements;
+  Info itemVersionInfo;
+
+  public Collection<CoreElement> getCoreElements() {
+    return coreElements;
   }
 
-  public void setConflicts(Collection<ElementConflict> conflicts) {
-    this.conflicts = conflicts;
+  public void setCoreElements(
+      Collection<CoreElement> coreElements) {
+    this.coreElements = coreElements;
   }
 
-  public Collection<ElementConflict> getConflicts() {
-    return conflicts;
+  public Info getItemVersionInfo() {
+    return itemVersionInfo;
   }
 
-  public InfoConflict getInfoConflict() {
-    return infoConflict;
-  }
-
-  public void setInfoConflict(InfoConflict infoConflict) {
-    this.infoConflict = infoConflict;
+  public void setItemVersionInfo(Info itemVersionInfo) {
+    this.itemVersionInfo = itemVersionInfo;
   }
 }

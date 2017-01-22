@@ -18,6 +18,7 @@ package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.Id;
+import org.amdocs.zusammen.sdk.types.ChangedElementData;
 import org.amdocs.zusammen.sdk.types.ElementData;
 
 import java.util.stream.Collectors;
@@ -25,7 +26,9 @@ import java.util.stream.Collectors;
 public class ElementDataConvertor {
 
   public static CoreElement getCoreElement(ElementData elementData) {
+
     CoreElement coreElement = getCoreElement(elementData.getId());
+
     coreElement.setParentId(elementData.getParentId());
     coreElement.setInfo(elementData.getInfo());
     coreElement.setRelations(elementData.getRelations());
