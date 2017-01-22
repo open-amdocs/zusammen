@@ -25,6 +25,8 @@ import org.amdocs.zusammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class ElementData {
@@ -97,7 +99,9 @@ public class ElementData {
   }
 
   public InputStream getData() {
-    return FileUtils.toInputStream(data);
+    return Objects.isNull(this.data) || this.data.length == 0
+        ? null
+        : FileUtils.toInputStream(this.data);
   }
 
   public void setData(InputStream data) {
@@ -105,7 +109,10 @@ public class ElementData {
   }
 
   public InputStream getSearchableData() {
-    return FileUtils.toInputStream(searchableData);
+
+    return Objects.isNull(searchableData) || searchableData.length == 0
+        ? null
+        : FileUtils.toInputStream(searchableData);
   }
 
   public void setSearchableData(InputStream searchableData) {
@@ -113,7 +120,9 @@ public class ElementData {
   }
 
   public InputStream getVisualization() {
-    return FileUtils.toInputStream(visualization);
+    return Objects.isNull(this.visualization) || this.visualization.length == 0
+        ? null
+        : FileUtils.toInputStream(this.visualization);
   }
 
   public void setVisualization(InputStream visualization) {
