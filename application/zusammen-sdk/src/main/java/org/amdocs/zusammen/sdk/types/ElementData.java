@@ -25,7 +25,6 @@ import org.amdocs.zusammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 
 public class ElementData {
@@ -42,13 +41,12 @@ public class ElementData {
   private byte[] visualization;
   private Set<Id> subElements;
 
-  public ElementData(Id itemId, Id versionId, Namespace namespace) {
+  public ElementData(Id itemId, Id versionId, Namespace namespace, Id id) {
     this.itemId = itemId;
     this.versionId = versionId;
     this.namespace = namespace;
-
+    this.id = id;
   }
-
 
   public Id getItemId() {
     return itemId;
@@ -74,10 +72,6 @@ public class ElementData {
     return id;
   }
 
-  public void setId(Id id) {
-    this.id = id;
-  }
-
   public Id getParentId() {
     return parentId;
   }
@@ -101,8 +95,6 @@ public class ElementData {
   public void setRelations(Collection<Relation> relations) {
     this.relations = relations;
   }
-
-
 
   public InputStream getData() {
     return FileUtils.toInputStream(data);

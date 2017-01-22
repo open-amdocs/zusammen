@@ -131,8 +131,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   private ElementData getElementData(CoreElement coreElement, ElementContext elementContext) {
     ElementData elementData = new ElementData(elementContext.getItemId(), elementContext
-        .getVersionId(), coreElement.getNamespace());
-    elementData.setId(coreElement.getId());
+        .getVersionId(), coreElement.getNamespace(), coreElement.getId());
     elementData.setParentId(coreElement.getParentId());
     elementData.setInfo(coreElement.getInfo());
     elementData.setRelations(coreElement.getRelations());
