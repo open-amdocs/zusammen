@@ -17,9 +17,7 @@
 package org.amdocs.zusammen.sdk;
 
 
-import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
-import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ElementInfo;
@@ -58,8 +56,7 @@ public interface StateStore {
 
   boolean isElementExist(SessionContext context, ElementContext elementContext, Id elementId);
 
-  ElementInfo getElement(SessionContext context, ElementContext elementContext, Id elementId,
-                         FetchCriteria fetchCriteria);
+  ElementInfo getElement(SessionContext context, ElementContext elementContext, Id elementId);
 
   void createElement(SessionContext context, ElementInfo element);
 

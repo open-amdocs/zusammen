@@ -97,7 +97,7 @@ public class ElementManagerImplTest {
     verify(collaborationAdaptorMock)
         .createElement(context, elementContext, a1);
 
-    verify(stateAdaptorMock, never()).get(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock, never()).get(anyObject(), anyObject(), anyObject());
     verify(stateAdaptorMock, times(2)).create(anyObject(), anyObject(), anyObject(),
         anyObject());
   }
@@ -127,8 +127,8 @@ public class ElementManagerImplTest {
     verify(collaborationAdaptorMock)
         .createElement(context, elementContext, a4);
 
-    verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
-    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock).get(context, elementContext, root.getId());
+    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject());
     verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject(), anyObject(), anyObject());
     verify(stateAdaptorMock).create(anyObject(), anyObject(), anyObject(), anyObject());
     verify(stateAdaptorMock).delete(anyObject(), anyObject(), anyObject(), anyObject());
@@ -147,8 +147,8 @@ public class ElementManagerImplTest {
     Namespace rootNs = getNamespace(new Namespace(), root.getId());
     verify(collaborationAdaptorMock).deleteElement(context, elementContext, root);
 
-    verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
-    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock).get(context, elementContext, root.getId());
+    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject());
     verify(stateAdaptorMock).delete(anyObject(), anyObject(), anyObject(), anyObject());
   }
 
@@ -183,7 +183,7 @@ public class ElementManagerImplTest {
     ElementInfo elementInfo = new ElementInfo(
         elementContext.getItemId(), elementContext.getVersionId(), root.getId(), null);
     elementInfo.setNamespace(new Namespace(Namespace.ROOT_NAMESPACE, root.getId()));
-    doReturn(elementInfo).when(stateAdaptorMock).get(context, elementContext, root.getId(), null);
+    doReturn(elementInfo).when(stateAdaptorMock).get(context, elementContext, root.getId());
   }
 
   private void verifyAdaptorCalls(SessionContext context, ElementContext elementContext,
@@ -208,8 +208,8 @@ public class ElementManagerImplTest {
     verify(collaborationAdaptorMock)
         .createElement(context, elementContext, b22);
 
-    verify(stateAdaptorMock).get(context, elementContext, root.getId(), null);
-    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject(), anyObject());
+    verify(stateAdaptorMock).get(context, elementContext, root.getId());
+    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject());
     verify(stateAdaptorMock, times(4)).create(anyObject(), anyObject(), anyObject(),
         anyObject());
     verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject(), anyObject(), anyObject());

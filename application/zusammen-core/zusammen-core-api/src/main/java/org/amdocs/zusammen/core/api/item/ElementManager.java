@@ -17,7 +17,6 @@
 package org.amdocs.zusammen.core.api.item;
 
 import org.amdocs.zusammen.core.api.types.CoreElement;
-import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
@@ -31,11 +30,9 @@ public interface ElementManager {
 
   Collection<ElementInfo> list(SessionContext context, ElementContext elementContext, Id elementId);
 
-  ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId,
-                      FetchCriteria fetchCriteria);
+  ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId);
 
-  CoreElement get(SessionContext context, ElementContext elementContext, Id elementId,
-                  FetchCriteria fetchCriteria);
+  CoreElement get(SessionContext context, ElementContext elementContext, Id elementId);
 
   void save(SessionContext context, ElementContext elementContext, CoreElement element,
             String message);

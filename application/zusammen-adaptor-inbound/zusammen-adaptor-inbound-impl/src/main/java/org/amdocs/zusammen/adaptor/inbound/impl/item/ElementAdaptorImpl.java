@@ -22,7 +22,6 @@ import org.amdocs.zusammen.adaptor.inbound.impl.convertor.ElementConvertor;
 import org.amdocs.zusammen.core.api.item.ElementManager;
 import org.amdocs.zusammen.core.api.item.ElementManagerFactory;
 import org.amdocs.zusammen.core.api.types.CoreElement;
-import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
@@ -43,16 +42,14 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   }
 
   @Override
-  public ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId,
-                             FetchCriteria fetchCriteria) {
-    return getElementManager(context).getInfo(context, elementContext, elementId, fetchCriteria);
+  public ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId) {
+    return getElementManager(context).getInfo(context, elementContext, elementId);
   }
 
   @Override
-  public Element get(SessionContext context, ElementContext elementContext, Id elementId,
-                     FetchCriteria fetchCriteria) {
+  public Element get(SessionContext context, ElementContext elementContext, Id elementId) {
     return ElementConvertor.getElement(
-        getElementManager(context).get(context, elementContext, elementId, fetchCriteria));
+        getElementManager(context).get(context, elementContext, elementId));
   }
 
   @Override
@@ -61,7 +58,6 @@ public class ElementAdaptorImpl implements ElementAdaptor {
     getElementManager(context)
         .save(context, elementContext, getCoreElement(element), message);
   }
-
 
   @Override
   public SearchResult search(SessionContext context, SearchCriteria searchCriteria) {

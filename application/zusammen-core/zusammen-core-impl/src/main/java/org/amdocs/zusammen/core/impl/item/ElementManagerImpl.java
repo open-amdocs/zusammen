@@ -29,7 +29,6 @@ import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFact
 import org.amdocs.zusammen.core.api.item.ElementManager;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.impl.Messages;
-import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
@@ -51,14 +50,16 @@ public class ElementManagerImpl implements ElementManager {
 
   @Override
   public ElementInfo getInfo(SessionContext context, ElementContext elementContext,
-                             Id elementId, FetchCriteria fetchCriteria) {
-    return getStateAdaptor(context).get(context, elementContext, elementId, fetchCriteria);
+                             Id elementId) {
+    return getStateAdaptor(context).get(context, elementContext, elementId);
   }
 
   @Override
   public CoreElement get(SessionContext context, ElementContext elementContext,
-                         Id elementId, FetchCriteria fetchCriteria) {
-    return null;
+                         Id elementId) {
+    Namespace namespace = getInfo(context, elementContext, elementId).getNamespace();
+    return getCollaborationAdaptor(context)
+        .getElement(context, elementContext, namespace, elementId);
   }
 
   @Override
@@ -71,8 +72,7 @@ public class ElementManagerImpl implements ElementManager {
     if (element.getAction() == ElementAction.CREATE) {
       setElementHierarchyPosition(element, Namespace.ROOT_NAMESPACE, null);
     } else {
-      ElementInfo elementInfo =
-          getStateAdaptor(context).get(context, elementContext, element.getId(), null);
+      ElementInfo elementInfo = getInfo(context, elementContext, element.getId());
       setElementHierarchyPosition(element, elementInfo.getNamespace(), elementInfo.getParentId());
     }
 

@@ -17,7 +17,6 @@
 package org.amdocs.zusammen.adaptor.outbound.api.item;
 
 import org.amdocs.zusammen.core.api.types.CoreElement;
-import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
@@ -32,8 +31,7 @@ public interface ElementStateAdaptor {
 
   boolean isExist(SessionContext context, ElementContext elementContext, Id elementId);
 
-  ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId,
-                  FetchCriteria fetchCriteria);
+  ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId);
 
   void create(SessionContext context, ElementContext elementContext, Space space,
               CoreElement element);

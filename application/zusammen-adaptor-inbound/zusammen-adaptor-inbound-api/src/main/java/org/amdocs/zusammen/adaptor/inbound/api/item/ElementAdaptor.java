@@ -17,7 +17,6 @@
 package org.amdocs.zusammen.adaptor.inbound.api.item;
 
 import org.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
-import org.amdocs.zusammen.datatypes.FetchCriteria;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
@@ -31,11 +30,9 @@ public interface ElementAdaptor {
 
   Collection<ElementInfo> list(SessionContext context, ElementContext elementContext, Id elementId);
 
-  ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId,
-                      FetchCriteria fetchCriteria);
+  ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId);
 
-  Element get(SessionContext context, ElementContext elementContext, Id elementId,
-              FetchCriteria fetchCriteria);
+  Element get(SessionContext context, ElementContext elementContext, Id elementId);
 
   void save(SessionContext context, ElementContext elementContext, Element element,
             String message);
