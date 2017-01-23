@@ -17,7 +17,6 @@
 package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
-import org.amdocs.zusammen.sdk.types.ElementsPublishResult;
 import org.amdocs.zusammen.sdk.types.ItemVersionPublishResult;
 
 public class PublishResultConvertor {
@@ -27,7 +26,7 @@ public class PublishResultConvertor {
     corePublishResult.setChangedElements(
         ChangedElementConvertor.convertChangedElements(publishResult.getElementsPublishResult()
             .getChangedElements()));
-    corePublishResult.setItemVersionInfo(publishResult.getItemVersionInfo());
+    corePublishResult.setChangedInfo(publishResult.getItemVersionInfo());
     return corePublishResult;
   }
 }

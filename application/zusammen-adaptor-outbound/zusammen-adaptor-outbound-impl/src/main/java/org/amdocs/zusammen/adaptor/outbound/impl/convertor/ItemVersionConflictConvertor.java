@@ -24,10 +24,10 @@ public class ItemVersionConflictConvertor {
       ItemVersionMergeConflict itemVersionMergeConflict) {
     CoreItemVersionConflict coreItemVersionConflict = new CoreItemVersionConflict();
 
-    coreItemVersionConflict.setCoreItemVersionInfoConflict(ItemVersionInfoConflictConvertor
+    coreItemVersionConflict.setInfoConflict(ItemVersionInfoConflictConvertor
         .getCoreItemVersionInfoConflict(itemVersionMergeConflict.getItemVersionInfoConflict()));
 
-    coreItemVersionConflict.setCoreElementConflicts(ItemVersionElementConflictConvertor
+    coreItemVersionConflict.setElementConflicts(ItemVersionElementConflictConvertor
         .getCoreElementConflicts(itemVersionMergeConflict.getElementConflicts()));
     return coreItemVersionConflict;
   }

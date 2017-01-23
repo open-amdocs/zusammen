@@ -21,23 +21,22 @@ import org.amdocs.zusammen.datatypes.item.Info;
 import java.util.Collection;
 
 public class CoreItemVersionChangedData {
-  Collection<CoreElement> coreElements;
-  Info itemVersionInfo;
+  Collection<CoreElement> elements;
+  Info info;
 
-  public Collection<CoreElement> getCoreElements() {
-    return coreElements;
+  public Collection<CoreElement> getElements() {
+    return elements;
   }
 
-  public void setCoreElements(
-      Collection<CoreElement> coreElements) {
-    this.coreElements = coreElements;
+  public void setElements(Collection<CoreElement> elements) {
+    this.elements = elements;
   }
 
-  public Info getItemVersionInfo() {
-    return itemVersionInfo;
+  public Info getInfo() {
+    return info;
   }
 
-  public void setItemVersionInfo(Info itemVersionInfo) {
-    this.itemVersionInfo = itemVersionInfo;
+  public void setInfo(Info info) {
+    this.info = info;
   }
 }

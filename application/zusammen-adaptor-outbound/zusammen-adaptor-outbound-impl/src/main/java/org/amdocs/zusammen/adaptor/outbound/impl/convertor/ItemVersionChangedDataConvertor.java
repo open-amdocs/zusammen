@@ -28,12 +28,12 @@ public class ItemVersionChangedDataConvertor {
       ItemVersionChangedData itemVersionChangedData) {
     CoreItemVersionChangedData coreItemVersionChangedData = new CoreItemVersionChangedData();
 
-    coreItemVersionChangedData.setItemVersionInfo(itemVersionChangedData.getItemVersionInfo());
+    coreItemVersionChangedData.setInfo(itemVersionChangedData.getItemVersionInfo());
     Collection<CoreElement> coreElements = new ArrayList<>();
 
-    coreItemVersionChangedData.setCoreElements(ChangedElementConvertor.convertChangedElements
-        (itemVersionChangedData.getChangedElements()));
+    coreItemVersionChangedData.setElements(ChangedElementConvertor
+        .convertChangedElements(itemVersionChangedData.getChangedElements()));
 
     return coreItemVersionChangedData;
   }
-  }
+}

@@ -23,9 +23,9 @@ public class ItemVersionMergeResultConvertor {
   public static CoreMergeResult getCoreMergeResult(ItemVersionMergeResult itemVersionMergeResult) {
 
     CoreMergeResult coreMergeResult = new CoreMergeResult();
-    coreMergeResult.setCoreItemVersionConflict(ItemVersionConflictConvertor
+    coreMergeResult.setConflict(ItemVersionConflictConvertor
         .getCoreItemVersionConflict(itemVersionMergeResult.getItemVersionMergeConflict()));
-    coreMergeResult.setCoreItemVersionChangedData(ItemVersionChangedDataConvertor
+    coreMergeResult.setChangedData(ItemVersionChangedDataConvertor
         .getCoreItemVersionChangedData(itemVersionMergeResult.getItemVersionChangedData()));
 
     return coreMergeResult;

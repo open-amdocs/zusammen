@@ -85,6 +85,9 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     validateItemVersionExistence(context, itemId, versionId);
     CorePublishResult publishResult =
         getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
+
+    getStateAdaptor(context)
+        .saveItemVersion(context, itemId, versionId, publishResult.getChangedInfo());
     saveElements(context, itemId, versionId, Space.PUBLIC, publishResult.getChangedElements());
   }
 
@@ -96,7 +99,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
     if (syncResult.isSuccess()) {
       saveElements(context, itemId, versionId, Space.PRIVATE, syncResult
-          .getCoreItemVersionChangedData().getCoreElements());
+          .getChangedData().getElements());
     }
 
     return syncResult;
@@ -111,7 +114,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
     if (mergeResult.isSuccess()) {
       saveElements(context, itemId, versionId, Space.PRIVATE, mergeResult
-          .getCoreItemVersionChangedData().getCoreElements());
+          .getChangedData().getElements());
     }
 
     return mergeResult;

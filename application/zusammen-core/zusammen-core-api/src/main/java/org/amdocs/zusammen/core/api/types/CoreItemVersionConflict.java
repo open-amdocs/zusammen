@@ -19,29 +19,29 @@ package org.amdocs.zusammen.core.api.types;
 import java.util.Collection;
 
 public class CoreItemVersionConflict {
-  Collection<CoreElementConflict> coreElementConflicts;
-  CoreItemVersionInfoConflict coreItemVersionInfoConflict;
+  Collection<CoreElementConflict> elementConflicts;
+  CoreItemVersionInfoConflict infoConflict;
 
-  public Collection<CoreElementConflict> getCoreElementConflicts() {
-    return coreElementConflicts;
+  public Collection<CoreElementConflict> getElementConflicts() {
+    return elementConflicts;
   }
 
-  public void setCoreElementConflicts(
-      Collection<CoreElementConflict> coreElementConflicts) {
-    this.coreElementConflicts = coreElementConflicts;
+  public void setElementConflicts(
+      Collection<CoreElementConflict> elementConflicts) {
+    this.elementConflicts = elementConflicts;
   }
 
-  public CoreItemVersionInfoConflict getCoreItemVersionInfoConflict() {
-    return coreItemVersionInfoConflict;
+  public CoreItemVersionInfoConflict getInfoConflict() {
+    return infoConflict;
   }
 
-  public void setCoreItemVersionInfoConflict(
-      CoreItemVersionInfoConflict coreItemVersionInfoConflict) {
-    this.coreItemVersionInfoConflict = coreItemVersionInfoConflict;
+  public void setInfoConflict(
+      CoreItemVersionInfoConflict infoConflict) {
+    this.infoConflict = infoConflict;
   }
 
   public boolean isSuccess() {
-    return (this.coreElementConflicts == null || this.coreElementConflicts.size()==0) &&
-        this.coreItemVersionInfoConflict==null ;
+    return (this.elementConflicts == null || this.elementConflicts.size() == 0)
+        && this.infoConflict == null;
   }
 }

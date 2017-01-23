@@ -51,6 +51,10 @@ public interface StateStore {
   void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
                          Id versionId, Info versionInfo);
 
+  void updateItemVersion(SessionContext context, Id itemId, Id versionId, Info versionInfo);
+
+  void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
+
   Collection<ElementInfo> listElements(SessionContext context, ElementContext elementContext,
                                        Id elementId);
 

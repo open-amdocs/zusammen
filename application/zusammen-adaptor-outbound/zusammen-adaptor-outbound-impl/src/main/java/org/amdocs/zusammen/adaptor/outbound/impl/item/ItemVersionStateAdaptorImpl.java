@@ -53,11 +53,13 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
   @Override
   public void saveItemVersion(SessionContext context, Id itemId, Id versionId,
                               Info versionInfo) {
-
+    OutboundAdaptorUtils.getStateStore(context)
+        .updateItemVersion(context, itemId, versionId, versionInfo);
   }
 
   @Override
   public void deleteItemVersion(SessionContext context, Id itemId, Id versionId) {
-
+    OutboundAdaptorUtils.getStateStore(context)
+        .deleteItemVersion(context, itemId, versionId);
   }
 }

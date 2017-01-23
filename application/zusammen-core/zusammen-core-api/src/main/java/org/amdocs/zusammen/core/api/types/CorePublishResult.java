@@ -22,7 +22,8 @@ import java.util.Collection;
 
 public class CorePublishResult {
   private Collection<CoreElement> changedElements;
-  private Info itemVersionInfo;
+  private Info changedInfo;
+
   public void setChangedElements(Collection<CoreElement> changedElements) {
     this.changedElements = changedElements;
   }
@@ -31,12 +32,12 @@ public class CorePublishResult {
     return changedElements;
   }
 
-  public Info getItemVersionInfo() {
-    return itemVersionInfo;
+  public Info getChangedInfo() {
+    return changedInfo;
   }
 
-  public void setItemVersionInfo(Info itemVersionInfo) {
-    this.itemVersionInfo = itemVersionInfo;
+  public void setChangedInfo(Info changedInfo) {
+    this.changedInfo = changedInfo;
   }
 }
 
