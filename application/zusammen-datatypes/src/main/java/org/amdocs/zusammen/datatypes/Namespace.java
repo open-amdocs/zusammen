@@ -32,11 +32,14 @@ public class Namespace {
     value = ROOT_NAMESPACE_VALUE;
   }
 
-  public Namespace(Namespace parentNamespace, Id elementId) {
-    if (parentNamespace == null || elementId == null) {
+  public Namespace(Namespace namespace, Id elementId) {
+    if (namespace == null || elementId == null) {
       throw new IllegalArgumentException(INVALID_CTOR_ARGS_ERR_MSG);
     }
-    this.value = parentNamespace.getValue() + NAMESPACE_DELIMITER + elementId.toString();
+    this.value = (namespace == ROOT_NAMESPACE
+        ? namespace.getValue()
+        : namespace.getValue() + NAMESPACE_DELIMITER)
+        + elementId.toString();
   }
 
   public String getValue() {
