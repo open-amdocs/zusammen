@@ -26,6 +26,7 @@ import java.util.Collection;
 public class ItemVersionChangedDataConvertor {
   public static CoreItemVersionChangedData getCoreItemVersionChangedData(
       ItemVersionChangedData itemVersionChangedData) {
+    if(itemVersionChangedData == null) return null;
     CoreItemVersionChangedData coreItemVersionChangedData = new CoreItemVersionChangedData();
 
     coreItemVersionChangedData.setItemVersionInfo(itemVersionChangedData.getItemVersionInfo());

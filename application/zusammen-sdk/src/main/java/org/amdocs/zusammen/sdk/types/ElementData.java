@@ -24,7 +24,9 @@ import org.amdocs.zusammen.datatypes.item.Relation;
 import org.amdocs.zusammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -37,11 +39,11 @@ public class ElementData {
   private Space space;
   private Id parentId;
   private Info info;
-  private Collection<Relation> relations;
+  private Collection<Relation> relations = new ArrayList<>();
   private byte[] data;
   private byte[] searchableData;
   private byte[] visualization;
-  private Set<Id> subElements;
+  private Set<Id> subElements = new HashSet();
 
   public ElementData(Id itemId, Id versionId, Namespace namespace, Id id) {
     this.itemId = itemId;

@@ -28,11 +28,14 @@ import java.util.stream.Collectors;
 public class MergeResultConvertor {
   public static MergeResult getMergeResult(CoreMergeResult coreMergeResult) {
     MergeResult mergeResult = new MergeResult();
-    mergeResult.setConflicts(coreMergeResult.getCoreItemVersionConflict().getCoreElementConflicts().stream()
-        .map(MergeResultConvertor::convertElementConflict)
-        .collect(Collectors.toList()));
-    mergeResult.setInfoConflict(getInfoConflict(coreMergeResult.getCoreItemVersionConflict()
-        .getCoreItemVersionInfoConflict()));
+    if(!coreMergeResult.isSuccess()) {
+      mergeResult.setConflicts(
+          coreMergeResult.getCoreItemVersionConflict().getCoreElementConflicts().stream()
+              .map(MergeResultConvertor::convertElementConflict)
+              .collect(Collectors.toList()));
+      mergeResult.setInfoConflict(getInfoConflict(coreMergeResult.getCoreItemVersionConflict()
+          .getCoreItemVersionInfoConflict()));
+    }
     return mergeResult;
   }
 

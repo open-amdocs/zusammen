@@ -22,6 +22,7 @@ import org.amdocs.zusammen.sdk.types.ItemVersionMergeConflict;
 public class ItemVersionConflictConvertor {
   public static CoreItemVersionConflict getCoreItemVersionConflict(
       ItemVersionMergeConflict itemVersionMergeConflict) {
+    if(itemVersionMergeConflict==null) return null;
     CoreItemVersionConflict coreItemVersionConflict = new CoreItemVersionConflict();
 
     coreItemVersionConflict.setCoreItemVersionInfoConflict(ItemVersionInfoConflictConvertor

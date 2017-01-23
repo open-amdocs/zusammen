@@ -28,7 +28,7 @@ public class ElementDataConvertor {
   public static CoreElement getCoreElement(ElementData elementData) {
 
     CoreElement coreElement = getCoreElement(elementData.getId());
-
+    coreElement.setNamespace(elementData.getNamespace());
     coreElement.setParentId(elementData.getParentId());
     coreElement.setInfo(elementData.getInfo());
     coreElement.setRelations(elementData.getRelations());
