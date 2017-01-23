@@ -26,13 +26,16 @@ import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import java.util.stream.Collectors;
 
 public class MergeResultConvertor {
+
   public static MergeResult getMergeResult(CoreMergeResult coreMergeResult) {
     MergeResult mergeResult = new MergeResult();
-    mergeResult.setConflicts(coreMergeResult.getConflict().getElementConflicts().stream()
-        .map(MergeResultConvertor::convertElementConflict)
-        .collect(Collectors.toList()));
-    mergeResult.setInfoConflict(getInfoConflict(coreMergeResult.getConflict()
-        .getInfoConflict()));
+    if(!coreMergeResult.isSuccess()) {
+      mergeResult.setConflicts(coreMergeResult.getConflict().getElementConflicts().stream()
+          .map(MergeResultConvertor::convertElementConflict)
+          .collect(Collectors.toList()));
+      mergeResult.setInfoConflict(getInfoConflict(coreMergeResult.getConflict()
+          .getInfoConflict()));
+    }
     return mergeResult;
   }
 
