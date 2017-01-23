@@ -93,7 +93,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   @Override
   public CoreMergeResult sync(SessionContext context, Id itemId, Id versionId) {
-    validateItemVersionExistence(context, itemId, versionId);
+    //validateItemVersionExistence(context, itemId, versionId);
     CoreMergeResult syncResult =
         getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
 
