@@ -101,9 +101,7 @@ public class ElementData {
   }
 
   public InputStream getData() {
-    return Objects.isNull(this.data) || this.data.length == 0
-        ? null
-        : FileUtils.toInputStream(this.data);
+    return getInputStream(this.data);
   }
 
   public void setData(InputStream data) {
@@ -111,10 +109,7 @@ public class ElementData {
   }
 
   public InputStream getSearchableData() {
-
-    return Objects.isNull(searchableData) || searchableData.length == 0
-        ? null
-        : FileUtils.toInputStream(searchableData);
+    return getInputStream(searchableData);
   }
 
   public void setSearchableData(InputStream searchableData) {
@@ -122,9 +117,7 @@ public class ElementData {
   }
 
   public InputStream getVisualization() {
-    return Objects.isNull(this.visualization) || this.visualization.length == 0
-        ? null
-        : FileUtils.toInputStream(this.visualization);
+    return getInputStream(this.visualization);
   }
 
   public void setVisualization(InputStream visualization) {
@@ -141,5 +134,11 @@ public class ElementData {
 
   public void addSubElement(Id key) {
     this.subElements.add(key);
+  }
+
+  private InputStream getInputStream(byte[] bytes) {
+    return Objects.isNull(bytes) || bytes.length == 0
+        ? null
+        : FileUtils.toInputStream(bytes);
   }
 }

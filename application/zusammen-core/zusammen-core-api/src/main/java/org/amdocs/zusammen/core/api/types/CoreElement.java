@@ -89,7 +89,7 @@ public class CoreElement {
   }
 
   public InputStream getData() {
-    return FileUtils.toInputStream(data);
+    return getInputStream(data);
   }
 
   public void setData(InputStream data) {
@@ -97,9 +97,7 @@ public class CoreElement {
   }
 
   public InputStream getSearchableData() {
-    return Objects.isNull(searchableData) || searchableData.length == 0
-        ? null
-        : FileUtils.toInputStream(searchableData);
+    return getInputStream(searchableData);
   }
 
   public void setSearchableData(InputStream searchableData) {
@@ -107,7 +105,7 @@ public class CoreElement {
   }
 
   public InputStream getVisualization() {
-    return FileUtils.toInputStream(visualization);
+    return getInputStream(visualization);
   }
 
   public void setVisualization(InputStream visualization) {
@@ -120,5 +118,11 @@ public class CoreElement {
 
   public void setSubElements(Collection<CoreElement> subElements) {
     this.subElements = subElements;
+  }
+
+  private InputStream getInputStream(byte[] bytes) {
+    return Objects.isNull(bytes) || bytes.length == 0
+        ? null
+        : FileUtils.toInputStream(bytes);
   }
 }

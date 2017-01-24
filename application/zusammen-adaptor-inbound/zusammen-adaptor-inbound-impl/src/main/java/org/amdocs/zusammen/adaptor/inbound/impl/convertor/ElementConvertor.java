@@ -27,6 +27,7 @@ public class ElementConvertor {
 
   public static Element getElement(CoreElement coreElement) {
     ZusammenElement element = new ZusammenElement();
+    element.setAction(coreElement.getAction());
     element.setElementId(coreElement.getId());
     element.setInfo(coreElement.getInfo());
     element.setRelations(coreElement.getRelations());
