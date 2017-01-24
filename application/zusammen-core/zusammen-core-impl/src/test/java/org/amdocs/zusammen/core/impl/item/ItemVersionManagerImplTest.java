@@ -22,7 +22,7 @@ import org.amdocs.zusammen.core.impl.TestUtils;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.UserInfo;
-import org.amdocs.zusammen.datatypes.item.Info;
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
@@ -55,11 +55,12 @@ public class ItemVersionManagerImplTest {
   @Test
   public void testCreate() throws Exception {
     SessionContext context = TestUtils.createSessionContext(USER, "test");
-    Info versionInfo = TestUtils.createInfo("v1");
+    ItemVersionData data = new ItemVersionData();
+    data.setInfo(TestUtils.createInfo("v1"));
 
     Id itemId = new Id();
     Id versionId =
-        itemVersionManagerImpl.create(context, itemId, null, versionInfo);
+        itemVersionManagerImpl.create(context, itemId, null, data);
     Assert.assertNotNull(versionId);
   }
 

@@ -16,14 +16,18 @@
 
 package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
-import org.amdocs.zusammen.core.api.types.CoreItemVersionInfoConflict;
-import org.amdocs.zusammen.sdk.types.ItemVersionInfoConflict;
+import org.amdocs.zusammen.core.api.types.CoreMergeResult;
+import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
 
-public class ItemVersionInfoConvertor {
-  public static CoreItemVersionInfoConflict getCoreItemVersionConflict(ItemVersionInfoConflict itemVersionInfoConflict){
-    CoreItemVersionInfoConflict coreItemVersionInfoConflict = new CoreItemVersionInfoConflict();
-    coreItemVersionInfoConflict.setLocalInfo(itemVersionInfoConflict.getLocalInfo());
-    coreItemVersionInfoConflict.setRemoteInfo(itemVersionInfoConflict.getRemoteInfo());
-    return coreItemVersionInfoConflict;
+public class CollaborationMergeResultConvertor {
+  public static CoreMergeResult convert(CollaborationMergeResult collaborationMergeResult) {
+
+    CoreMergeResult coreMergeResult = new CoreMergeResult();
+    coreMergeResult.setChange(
+        CollaborationMergeChangeConvertor.convert(collaborationMergeResult.getChange()));
+    coreMergeResult.setConflict(
+        CollaborationMergeConflictConvertor.convert(collaborationMergeResult.getConflict()));
+
+    return coreMergeResult;
   }
 }

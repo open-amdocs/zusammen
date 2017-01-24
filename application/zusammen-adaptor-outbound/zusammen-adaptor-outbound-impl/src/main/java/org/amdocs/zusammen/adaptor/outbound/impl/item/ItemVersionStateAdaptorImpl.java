@@ -20,8 +20,9 @@ import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.OutboundAdaptorUtils;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.datatypes.item.Info;
+import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 
 import java.util.Collection;
 
@@ -45,21 +46,21 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
 
   @Override
   public void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
-                                Id versionId, Info versionInfo) {
+                                Id versionId, Space space, ItemVersionData data) {
     OutboundAdaptorUtils.getStateStore(context)
-        .createItemVersion(context, itemId, baseVersionId, versionId, versionInfo);
+        .createItemVersion(context, itemId, baseVersionId, versionId, space, data);
   }
 
   @Override
-  public void saveItemVersion(SessionContext context, Id itemId, Id versionId,
-                              Info versionInfo) {
+  public void updateItemVersion(SessionContext context, Id itemId, Id versionId,
+                                Space space, ItemVersionData data) {
     OutboundAdaptorUtils.getStateStore(context)
-        .updateItemVersion(context, itemId, versionId, versionInfo);
+        .updateItemVersion(context, itemId, versionId, space, data);
   }
 
   @Override
-  public void deleteItemVersion(SessionContext context, Id itemId, Id versionId) {
+  public void deleteItemVersion(SessionContext context, Id itemId, Id versionId, Space space) {
     OutboundAdaptorUtils.getStateStore(context)
-        .deleteItemVersion(context, itemId, versionId);
+        .deleteItemVersion(context, itemId, versionId, space);
   }
 }

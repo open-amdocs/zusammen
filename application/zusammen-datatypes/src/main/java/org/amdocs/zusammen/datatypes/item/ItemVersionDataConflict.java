@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Copyright © 2016 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,25 @@
 
 package org.amdocs.zusammen.datatypes.item;
 
-public enum ElementAction {
-  IGNORE,
-  CREATE,
-  UPDATE,
-  DELETE
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+
+public class ItemVersionDataConflict {
+  private ItemVersionData localData;
+  private ItemVersionData remoteData;
+
+  public void setLocalData(ItemVersionData localData) {
+    this.localData = localData;
+  }
+
+  public ItemVersionData getLocalData() {
+    return localData;
+  }
+
+  public void setRemoteData(ItemVersionData remoteData) {
+    this.remoteData = remoteData;
+  }
+
+  public ItemVersionData getRemoteData() {
+    return remoteData;
+  }
 }

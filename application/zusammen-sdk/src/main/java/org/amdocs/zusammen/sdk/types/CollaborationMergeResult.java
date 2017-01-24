@@ -16,26 +16,23 @@
 
 package org.amdocs.zusammen.sdk.types;
 
-import org.amdocs.zusammen.datatypes.item.Info;
+public class CollaborationMergeResult {
+  private CollaborationMergeChange change;
+  private CollaborationMergeConflict conflict;
 
-public class ItemVersionPublishResult {
-  private ElementsPublishResult elementsPublishResult;
-  private Info itemVersionInfo;
-
-  public ElementsPublishResult getElementsPublishResult() {
-    return elementsPublishResult;
+  public CollaborationMergeChange getChange() {
+    return change;
   }
 
-  public void setElementsPublishResult(
-      ElementsPublishResult elementsPublishResult) {
-    this.elementsPublishResult = elementsPublishResult;
+  public void setChange(CollaborationMergeChange change) {
+    this.change = change;
   }
 
-  public Info getItemVersionInfo() {
-    return itemVersionInfo;
+  public CollaborationMergeConflict getConflict() {
+    return conflict;
   }
 
-  public void setItemVersionInfo(Info itemVersionInfo) {
-    this.itemVersionInfo = itemVersionInfo;
+  public void setConflict(CollaborationMergeConflict conflict) {
+    this.conflict = conflict;
   }
 }

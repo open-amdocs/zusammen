@@ -27,15 +27,15 @@ import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
 import org.amdocs.zusammen.core.api.item.ItemVersionManager;
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreMergeChange;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
-import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.core.impl.Messages;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
-import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 
 import java.util.Collection;
 
@@ -54,40 +54,53 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   @Override
   public Id create(SessionContext context, Id itemId, Id baseVersionId,
-                   Info versionInfo) {
+                   ItemVersionData data) {
     Id versionId = new Id();
     getCollaborationAdaptor(context)
-        .createItemVersion(context, itemId, baseVersionId, versionId, versionInfo);
+        .createItemVersion(context, itemId, baseVersionId, versionId, data);
 
     getStateAdaptor(context)
-        .createItemVersion(context, itemId, baseVersionId, versionId, versionInfo);
+        .createItemVersion(context, itemId, baseVersionId, versionId, Space.PRIVATE, data);
 
     return versionId;
   }
 
   @Override
-  public void save(SessionContext context, Id itemId, Id versionId, Info versionInfo) {
+  public void update(SessionContext context, Id itemId, Id versionId, ItemVersionData data) {
     validateItemVersionExistence(context, itemId, versionId);
-    getCollaborationAdaptor(context).saveItemVersion(context, itemId, versionId, versionInfo);
-    getStateAdaptor(context).saveItemVersion(context, itemId, versionId, versionInfo);
+    getCollaborationAdaptor(context).updateItemVersion(context, itemId, versionId, data);
+    getStateAdaptor(context).updateItemVersion(context, itemId, versionId, Space.PRIVATE, data);
   }
 
   @Override
   public void delete(SessionContext context, Id itemId, Id versionId) {
     validateItemVersionExistence(context, itemId, versionId);
     getCollaborationAdaptor(context).deleteItemVersion(context, itemId, versionId);
-    getStateAdaptor(context).deleteItemVersion(context, itemId, versionId);
+    getStateAdaptor(context).deleteItemVersion(context, itemId, versionId, Space.PRIVATE);
   }
 
   @Override
   public void publish(SessionContext context, Id itemId, Id versionId, String
       message) {
     validateItemVersionExistence(context, itemId, versionId);
-    CorePublishResult publishResult =
+    CoreMergeChange publishResult =
         getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
 
-    getStateAdaptor(context)
-        .saveItemVersion(context, itemId, versionId, publishResult.getChangedInfo());
+    switch (publishResult.getVersionAction()) {
+      case CREATE:
+        getStateAdaptor(context)
+            .createItemVersion(context, itemId, publishResult.getChangedVersion().getBaseId(),
+                versionId, Space.PUBLIC, publishResult.getChangedVersion().getData());
+        break;
+      case UPDATE:
+        getStateAdaptor(context)
+            .updateItemVersion(context, itemId, versionId, Space.PUBLIC, publishResult
+                .getChangedVersion().getData());
+        break;
+      default:
+        throw new RuntimeException(String.format(Messages.UNSUPPORTED_VERSION_ACTION,
+            itemId, versionId, publishResult.getVersionAction()));
+    }
     saveElements(context, itemId, versionId, Space.PUBLIC, publishResult.getChangedElements());
   }
 
@@ -99,7 +112,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
     if (syncResult.isSuccess()) {
       saveElements(context, itemId, versionId, Space.PRIVATE, syncResult
-          .getChangedData().getElements());
+          .getChange().getChangedElements());
     }
 
     return syncResult;
@@ -114,7 +127,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
     if (mergeResult.isSuccess()) {
       saveElements(context, itemId, versionId, Space.PRIVATE, mergeResult
-          .getChangedData().getElements());
+          .getChange().getChangedElements());
     }
 
     return mergeResult;

@@ -16,29 +16,39 @@
 
 package org.amdocs.zusammen.sdk.types;
 
-import org.amdocs.zusammen.datatypes.item.Info;
+import org.amdocs.zusammen.datatypes.item.Action;
+import org.amdocs.zusammen.datatypes.item.ItemVersion;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ItemVersionChangedData {
+public class CollaborationMergeChange {
+  private ItemVersion changedVersion;
+  private Action versionAction;
   private Collection<ChangedElementData> changedElements = new ArrayList<>();
-  private Info itemVersionInfo;
+
+  public ItemVersion getChangedVersion() {
+    return changedVersion;
+  }
+
+  public void setChangedVersion(ItemVersion changedVersion) {
+    this.changedVersion = changedVersion;
+  }
+
+  public Action getVersionAction() {
+    return versionAction;
+  }
+
+  public void setVersionAction(Action versionAction) {
+    this.versionAction = versionAction;
+  }
 
   public Collection<ChangedElementData> getChangedElements() {
     return changedElements;
   }
 
-  public void setChangedElements(
-      Collection<ChangedElementData> changedElements) {
+  public void setChangedElements(Collection<ChangedElementData> changedElements) {
     this.changedElements = changedElements;
   }
 
-  public Info getItemVersionInfo() {
-    return itemVersionInfo;
-  }
-
-  public void setItemVersionInfo(Info itemVersionInfo) {
-    this.itemVersionInfo = itemVersionInfo;
-  }
 }

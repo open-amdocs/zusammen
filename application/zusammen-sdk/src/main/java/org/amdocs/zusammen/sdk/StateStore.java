@@ -19,11 +19,13 @@ package org.amdocs.zusammen.sdk;
 
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
+import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ElementInfo;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.workspace.WorkspaceInfo;
 
 import java.util.Collection;
@@ -49,11 +51,12 @@ public interface StateStore {
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId);
 
   void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
-                         Id versionId, Info versionInfo);
+                         Id versionId, Space space, ItemVersionData data);
 
-  void updateItemVersion(SessionContext context, Id itemId, Id versionId, Info versionInfo);
+  void updateItemVersion(SessionContext context, Id itemId, Id versionId, Space space,
+                         ItemVersionData data);
 
-  void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
+  void deleteItemVersion(SessionContext context, Id itemId, Id versionId, Space space);
 
   Collection<ElementInfo> listElements(SessionContext context, ElementContext elementContext,
                                        Id elementId);
@@ -66,7 +69,7 @@ public interface StateStore {
 
   void updateElement(SessionContext context, ElementInfo element);
 
-  void deleteElement(SessionContext context,ElementInfo element);
+  void deleteElement(SessionContext context, ElementInfo element);
 
   void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 

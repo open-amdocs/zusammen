@@ -105,7 +105,7 @@ public class ElementData {
   }
 
   public void setData(InputStream data) {
-    this.data = FileUtils.toByteArray(data);
+    this.data = getBytes(data);
   }
 
   public InputStream getSearchableData() {
@@ -113,7 +113,7 @@ public class ElementData {
   }
 
   public void setSearchableData(InputStream searchableData) {
-    this.searchableData = FileUtils.toByteArray(searchableData);
+    this.searchableData = getBytes(searchableData);
   }
 
   public InputStream getVisualization() {
@@ -121,7 +121,7 @@ public class ElementData {
   }
 
   public void setVisualization(InputStream visualization) {
-    this.visualization = FileUtils.toByteArray(visualization);
+    this.visualization = getBytes(visualization);
   }
 
   public Set<Id> getSubElements() {
@@ -137,8 +137,10 @@ public class ElementData {
   }
 
   private InputStream getInputStream(byte[] bytes) {
-    return Objects.isNull(bytes) || bytes.length == 0
-        ? null
-        : FileUtils.toInputStream(bytes);
+    return Objects.isNull(bytes) || bytes.length == 0 ? null : FileUtils.toInputStream(bytes);
+  }
+
+  private byte[] getBytes(InputStream inputStream) {
+    return inputStream == null ? null : FileUtils.toByteArray(inputStream);
   }
 }

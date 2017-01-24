@@ -18,8 +18,9 @@ package org.amdocs.zusammen.adaptor.outbound.api.item;
 
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.datatypes.item.Info;
+import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 
 import java.util.Collection;
 
@@ -30,10 +31,11 @@ public interface ItemVersionStateAdaptor {
 
   ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
-                         Id versionId, Info versionInfo);
+  void createItemVersion(SessionContext context, Id itemId, Id baseVersionId, Id versionId,
+                         Space space, ItemVersionData data);
 
-  void saveItemVersion(SessionContext context, Id itemId, Id versionId, Info versionInfo);
+  void updateItemVersion(SessionContext context, Id itemId, Id versionId, Space space,
+                         ItemVersionData data);
 
-  void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
+  void deleteItemVersion(SessionContext context, Id itemId, Id versionId, Space space);
 }

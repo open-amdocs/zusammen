@@ -18,13 +18,14 @@ package org.amdocs.zusammen.adaptor.outbound.api;
 
 
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreMergeChange;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
-import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 
 public interface CollaborationAdaptor {
 
@@ -35,15 +36,15 @@ public interface CollaborationAdaptor {
   void deleteItem(SessionContext context, Id itemId);
 
   void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
-                         Id versionId, Info info);
+                         Id versionId, ItemVersionData data);
 
-  void saveItemVersion(SessionContext context, Id itemId, Id versionId,
-                       Info versionInfo);
+  void updateItemVersion(SessionContext context, Id itemId, Id versionId,
+                         ItemVersionData data);
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
-                                       String message);
+  CoreMergeChange publishItemVersion(SessionContext context, Id itemId, Id versionId,
+                                     String message);
 
   CoreMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 

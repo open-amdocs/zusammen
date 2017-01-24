@@ -16,28 +16,27 @@
 
 package org.amdocs.zusammen.adaptor.inbound.api.types.item;
 
-import java.util.Collection;
-
 public class MergeResult {
-  private Collection<ElementConflict> conflicts;
-  private InfoConflict infoConflict;
-  public boolean isSuccesses() {
-    return (conflicts == null || conflicts.size() == 0) && infoConflict==null;
+  private MergeChange change;
+  private MergeConflict conflict;
+
+  public MergeChange getChange() {
+    return change;
   }
 
-  public void setConflicts(Collection<ElementConflict> conflicts) {
-    this.conflicts = conflicts;
+  public void setChange(MergeChange change) {
+    this.change = change;
   }
 
-  public Collection<ElementConflict> getConflicts() {
-    return conflicts;
+  public MergeConflict getConflict() {
+    return conflict;
   }
 
-  public InfoConflict getInfoConflict() {
-    return infoConflict;
+  public void setConflict(MergeConflict conflict) {
+    this.conflict = conflict;
   }
 
-  public void setInfoConflict(InfoConflict infoConflict) {
-    this.infoConflict = infoConflict;
+  public boolean isSuccess() {
+    return this.conflict == null || conflict.isSuccess();
   }
 }

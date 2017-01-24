@@ -40,7 +40,7 @@ public class ElementConvertor {
     return element;
   }
 
-  public static Collection<Element> getElements(Collection<CoreElement> coreElements) {
+  private static Collection<Element> getElements(Collection<CoreElement> coreElements) {
     return coreElements == null
         ? null
         : coreElements.stream().map(coreElement ->

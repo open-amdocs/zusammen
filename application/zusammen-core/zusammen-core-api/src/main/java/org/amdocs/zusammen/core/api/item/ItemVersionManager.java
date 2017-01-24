@@ -20,8 +20,8 @@ package org.amdocs.zusammen.core.api.item;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 
 import java.util.Collection;
 
@@ -31,9 +31,9 @@ public interface ItemVersionManager {
 
   ItemVersion get(SessionContext context, Id itemId, Id versionId);
 
-  Id create(SessionContext context, Id itemId, Id baseVersionId, Info versionInfo);
+  Id create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data);
 
-  void save(SessionContext context, Id itemId, Id versionId, Info versionInfo);
+  void update(SessionContext context, Id itemId, Id versionId, ItemVersionData data);
 
   void delete(SessionContext context, Id itemId, Id versionId);
 

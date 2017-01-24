@@ -17,7 +17,7 @@
 package org.amdocs.zusammen.adaptor.inbound.api.types.item;
 
 import org.amdocs.zusammen.datatypes.Id;
-import org.amdocs.zusammen.datatypes.item.ElementAction;
+import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Relation;
 import org.amdocs.zusammen.utils.fileutils.FileUtils;
@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class ZusammenElement implements Element {
-  private ElementAction action;
+  private Action action;
   private Id elementId;
   private Info info;
   private Collection<Relation> relations;
@@ -37,7 +37,7 @@ public class ZusammenElement implements Element {
   private Collection<Element> subElements = Collections.EMPTY_LIST;
 
   @Override
-  public ElementAction getAction() {
+  public Action getAction() {
     return this.action;
   }
 
@@ -107,7 +107,7 @@ public class ZusammenElement implements Element {
     this.subElements = subElements;
   }
 
-  public void setAction(ElementAction action) {
+  public void setAction(Action action) {
     this.action = action;
   }
 }

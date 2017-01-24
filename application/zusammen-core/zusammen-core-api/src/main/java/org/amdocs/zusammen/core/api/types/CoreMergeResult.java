@@ -17,25 +17,23 @@
 package org.amdocs.zusammen.core.api.types;
 
 public class CoreMergeResult {
+  private CoreMergeChange change;
+  private CoreMergeConflict conflict;
 
-  CoreItemVersionConflict conflict;
-  CoreItemVersionChangedData changedData;
+  public CoreMergeChange getChange() {
+    return change;
+  }
 
-  public CoreItemVersionConflict getConflict() {
+  public void setChange(CoreMergeChange change) {
+    this.change = change;
+  }
+
+  public CoreMergeConflict getConflict() {
     return conflict;
   }
 
-  public void setConflict(CoreItemVersionConflict conflict) {
+  public void setConflict(CoreMergeConflict conflict) {
     this.conflict = conflict;
-  }
-
-  public CoreItemVersionChangedData getChangedData() {
-    return changedData;
-  }
-
-  public void setChangedData(
-      CoreItemVersionChangedData changedData) {
-    this.changedData = changedData;
   }
 
   public boolean isSuccess() {

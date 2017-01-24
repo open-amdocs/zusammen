@@ -22,9 +22,10 @@ import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.sdk.types.CollaborationMergeChange;
+import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
 import org.amdocs.zusammen.sdk.types.ElementData;
-import org.amdocs.zusammen.sdk.types.ItemVersionMergeResult;
-import org.amdocs.zusammen.sdk.types.ItemVersionPublishResult;
 
 public interface CollaborationStore {
 
@@ -33,21 +34,21 @@ public interface CollaborationStore {
   void deleteItem(SessionContext context, Id itemId);
 
   void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
-                         Id versionId, Info versionInfo);
+                         Id versionId, ItemVersionData data);
 
   void saveItemVersion(SessionContext context, Id itemId, Id versionId,
-                       Info versionInfo);
+                       ItemVersionData data);
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  ItemVersionPublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
-                                                            String message);
+  CollaborationMergeChange publishItemVersion(SessionContext context, Id itemId, Id versionId,
+                                              String message);
 
-  ItemVersionMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  CollaborationMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
 
-  ItemVersionMergeResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                       Id sourceVersionId);
+  CollaborationMergeResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+                                            Id sourceVersionId);
 
   ElementData getElement(SessionContext context, ElementContext elementContext,
                          Namespace namespace, Id elementId);

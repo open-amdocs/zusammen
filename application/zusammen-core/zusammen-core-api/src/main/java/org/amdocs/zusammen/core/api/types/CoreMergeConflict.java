@@ -16,11 +16,22 @@
 
 package org.amdocs.zusammen.core.api.types;
 
+import org.amdocs.zusammen.datatypes.item.ItemVersionDataConflict;
+
 import java.util.Collection;
 
-public class CoreItemVersionConflict {
+public class CoreMergeConflict {
+  ItemVersionDataConflict versionDataConflict;
   Collection<CoreElementConflict> elementConflicts;
-  CoreItemVersionInfoConflict infoConflict;
+
+  public void setVersionDataConflict(
+      ItemVersionDataConflict versionDataConflict) {
+    this.versionDataConflict = versionDataConflict;
+  }
+
+  public ItemVersionDataConflict getVersionDataConflict() {
+    return versionDataConflict;
+  }
 
   public Collection<CoreElementConflict> getElementConflicts() {
     return elementConflicts;
@@ -31,17 +42,8 @@ public class CoreItemVersionConflict {
     this.elementConflicts = elementConflicts;
   }
 
-  public CoreItemVersionInfoConflict getInfoConflict() {
-    return infoConflict;
-  }
-
-  public void setInfoConflict(
-      CoreItemVersionInfoConflict infoConflict) {
-    this.infoConflict = infoConflict;
-  }
-
   public boolean isSuccess() {
     return (this.elementConflicts == null || this.elementConflicts.size() == 0)
-        && this.infoConflict == null;
+        && this.versionDataConflict == null;
   }
 }

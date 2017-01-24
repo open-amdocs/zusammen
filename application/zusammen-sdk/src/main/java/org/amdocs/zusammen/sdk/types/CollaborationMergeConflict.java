@@ -16,33 +16,32 @@
 
 package org.amdocs.zusammen.sdk.types;
 
+import org.amdocs.zusammen.datatypes.item.ItemVersionDataConflict;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ItemVersionMergeConflict {
-  private Collection<ElementDataConflict> conflicts = new ArrayList<>();
-  private ItemVersionInfoConflict itemVersionInfoConflict;
+public class CollaborationMergeConflict {
+  private ItemVersionDataConflict versionDataConflict;
+  private Collection<ElementDataConflict> elementConflicts = new ArrayList<>();
 
   public Collection<ElementDataConflict> getElementConflicts() {
-    return conflicts;
+    return elementConflicts;
   }
 
-  public void setConflicts(
-      Collection<ElementDataConflict> conflicts) {
-    this.conflicts = conflicts;
+  public void setElementConflicts(Collection<ElementDataConflict> elementConflicts) {
+    this.elementConflicts = elementConflicts;
   }
 
-  public void addElementConflict(
-      ElementDataConflict conflict) {
-    this.conflicts.add(conflict);
+  public void addElementConflict(ElementDataConflict conflict) {
+    this.elementConflicts.add(conflict);
   }
 
-  public ItemVersionInfoConflict getItemVersionInfoConflict() {
-    return itemVersionInfoConflict;
+  public ItemVersionDataConflict getVersionDataConflict() {
+    return versionDataConflict;
   }
 
-  public void setItemVersionInfoConflict(
-      ItemVersionInfoConflict itemVersionInfoConflict) {
-    this.itemVersionInfoConflict = itemVersionInfoConflict;
+  public void setVersionDataConflict(ItemVersionDataConflict versionDataConflict) {
+    this.versionDataConflict = versionDataConflict;
   }
 }

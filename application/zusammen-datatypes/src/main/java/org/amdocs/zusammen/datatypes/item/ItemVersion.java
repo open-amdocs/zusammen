@@ -16,44 +16,34 @@
 
 package org.amdocs.zusammen.datatypes.item;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.amdocs.zusammen.datatypes.Id;
 
 public class ItemVersion {
-  private String id;
-  private String baseId;
-  private Info info;
-  private List<Relation> relations = new ArrayList<>();
+  private Id id;
+  private Id baseId;
+  private ItemVersionData data;
 
-  public String getId() {
+  public Id getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Id id) {
     this.id = id;
   }
 
-  public String getBaseId() {
+  public Id getBaseId() {
     return baseId;
   }
 
-  public void setBaseId(String baseId) {
+  public void setBaseId(Id baseId) {
     this.baseId = baseId;
   }
 
-  public Info getInfo() {
-    return info;
+  public ItemVersionData getData() {
+    return data;
   }
 
-  public void setInfo(Info info) {
-    this.info = info;
-  }
-
-  public List<Relation> getRelations() {
-    return relations;
-  }
-
-  public void setRelations(List<Relation> relations) {
-    this.relations = relations;
+  public void setData(ItemVersionData data) {
+    this.data = data;
   }
 }

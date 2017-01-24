@@ -17,35 +17,24 @@
 package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
 import org.amdocs.zusammen.core.api.types.CoreElement;
-import org.amdocs.zusammen.datatypes.item.ElementAction;
+import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.sdk.types.ChangedElementData;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-
 public class ChangedElementConvertor {
-
   private static final String UNSUPPORTED_CHANGE_TYPE_ERR_MSG =
       "Unsupported element change type %s.";
 
-  public static Collection<CoreElement> convertChangedElements(
-      Collection<ChangedElementData> changedElements) {
-    return changedElements.stream()
-        .map(ChangedElementConvertor::convertChangedCoreElement)
-        .collect(Collectors.toList());
-  }
-
-  public static CoreElement convertChangedCoreElement(ChangedElementData changedElement) {
+  public static CoreElement convert(ChangedElementData changedElement) {
     CoreElement coreElement = ElementDataConvertor.getCoreElement(changedElement.getElementData());
     switch (changedElement.getChangeType()) {
       case ADD:
-        coreElement.setAction(ElementAction.CREATE);
+        coreElement.setAction(Action.CREATE);
         break;
       case MODIFY:
-        coreElement.setAction(ElementAction.UPDATE);
+        coreElement.setAction(Action.UPDATE);
         break;
       case DELETE:
-        coreElement.setAction(ElementAction.DELETE);
+        coreElement.setAction(Action.DELETE);
         break;
       default:
         throw new RuntimeException(

@@ -33,7 +33,7 @@ import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
-import org.amdocs.zusammen.datatypes.item.ElementAction;
+import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ElementInfo;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
@@ -69,7 +69,7 @@ public class ElementManagerImpl implements ElementManager {
     validateItemVersionExistence(context, elementContext.getItemId(),
         elementContext.getVersionId());
 
-    if (element.getAction() == ElementAction.CREATE) {
+    if (element.getAction() == Action.CREATE) {
       setElementHierarchyPosition(element, Namespace.ROOT_NAMESPACE, null);
     } else {
       ElementInfo elementInfo = getInfo(context, elementContext, element.getId());

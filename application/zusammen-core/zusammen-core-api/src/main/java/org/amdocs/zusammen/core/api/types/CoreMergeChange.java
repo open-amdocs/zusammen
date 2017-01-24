@@ -16,13 +16,31 @@
 
 package org.amdocs.zusammen.core.api.types;
 
-import org.amdocs.zusammen.datatypes.item.Info;
+import org.amdocs.zusammen.datatypes.item.Action;
+import org.amdocs.zusammen.datatypes.item.ItemVersion;
 
 import java.util.Collection;
 
-public class CorePublishResult {
+public class CoreMergeChange {
+  private ItemVersion changedVersion;
+  private Action versionAction;
   private Collection<CoreElement> changedElements;
-  private Info changedInfo;
+
+  public ItemVersion getChangedVersion() {
+    return changedVersion;
+  }
+
+  public void setChangedVersion(ItemVersion changedVersion) {
+    this.changedVersion = changedVersion;
+  }
+
+  public Action getVersionAction() {
+    return versionAction;
+  }
+
+  public void setVersionAction(Action versionAction) {
+    this.versionAction = versionAction;
+  }
 
   public void setChangedElements(Collection<CoreElement> changedElements) {
     this.changedElements = changedElements;
@@ -30,14 +48,6 @@ public class CorePublishResult {
 
   public Collection<CoreElement> getChangedElements() {
     return changedElements;
-  }
-
-  public Info getChangedInfo() {
-    return changedInfo;
-  }
-
-  public void setChangedInfo(Info changedInfo) {
-    this.changedInfo = changedInfo;
   }
 }
 

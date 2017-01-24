@@ -17,7 +17,7 @@
 package org.amdocs.zusammen.adaptor.inbound.api.types.item;
 
 import org.amdocs.zusammen.datatypes.Id;
-import org.amdocs.zusammen.datatypes.item.ElementAction;
+import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Relation;
 
@@ -26,7 +26,7 @@ import java.util.Collection;
 
 public interface Element {
 
-  ElementAction getAction();
+  Action getAction();
 
   Id getElementId();
 

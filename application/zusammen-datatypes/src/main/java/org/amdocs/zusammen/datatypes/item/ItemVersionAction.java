@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 Amdocs Software Systems Limited
+ * Copyright © 2016 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,27 +14,10 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk.types;
+package org.amdocs.zusammen.datatypes.item;
 
-import org.amdocs.zusammen.datatypes.item.Info;
-
-public class ItemVersionInfoConflict {
-  private Info localInfo;
-  private Info remoteInfo;
-
-  public Info getLocalInfo() {
-    return localInfo;
-  }
-
-  public void setLocalInfo(Info localInfo) {
-    this.localInfo = localInfo;
-  }
-
-  public Info getRemoteInfo() {
-    return remoteInfo;
-  }
-
-  public void setRemoteInfo(Info remoteInfo) {
-    this.remoteInfo = remoteInfo;
-  }
+public enum ItemVersionAction {
+  CREATE,
+  UPDATE,
+  DELETE
 }

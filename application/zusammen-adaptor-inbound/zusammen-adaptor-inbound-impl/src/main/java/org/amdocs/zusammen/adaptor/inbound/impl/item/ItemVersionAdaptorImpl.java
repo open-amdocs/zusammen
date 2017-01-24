@@ -25,8 +25,8 @@ import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.UserInfo;
-import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 
 import java.util.Collection;
 
@@ -44,15 +44,15 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
 
   @Override
   public Id create(SessionContext context, Id itemId, Id baseVersionId,
-                   Info versionInfo) {
+                   ItemVersionData data) {
 
-    return getItemVersionManager(context).create(context, itemId, baseVersionId, versionInfo);
+    return getItemVersionManager(context).create(context, itemId, baseVersionId, data);
   }
 
   @Override
   public void save(SessionContext context, Id itemId, Id versionId,
-                   Info versionInfo) {
-    getItemVersionManager(context).save(context, itemId, versionId, versionInfo);
+                   ItemVersionData data) {
+    getItemVersionManager(context).update(context, itemId, versionId, data);
   }
 
   @Override

@@ -18,7 +18,7 @@ package org.amdocs.zusammen.core.api.types;
 
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
-import org.amdocs.zusammen.datatypes.item.ElementAction;
+import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Relation;
 import org.amdocs.zusammen.utils.fileutils.FileUtils;
@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.Objects;
 
 public class CoreElement {
-  private ElementAction action = ElementAction.IGNORE;
+  private Action action = Action.IGNORE;
   private Id id;
   private Id parentId;
   private Namespace namespace;
@@ -40,11 +40,11 @@ public class CoreElement {
   private byte[] visualization;
   private Collection<CoreElement> subElements = Collections.EMPTY_LIST;
 
-  public ElementAction getAction() {
+  public Action getAction() {
     return action;
   }
 
-  public void setAction(ElementAction action) {
+  public void setAction(Action action) {
     this.action = action;
   }
 
@@ -93,7 +93,7 @@ public class CoreElement {
   }
 
   public void setData(InputStream data) {
-    this.data = FileUtils.toByteArray(data);
+    this.data = getBytes(data);
   }
 
   public InputStream getSearchableData() {
@@ -101,7 +101,7 @@ public class CoreElement {
   }
 
   public void setSearchableData(InputStream searchableData) {
-    this.searchableData = FileUtils.toByteArray(searchableData);
+    this.searchableData = getBytes(searchableData);
   }
 
   public InputStream getVisualization() {
@@ -109,7 +109,7 @@ public class CoreElement {
   }
 
   public void setVisualization(InputStream visualization) {
-    this.visualization = FileUtils.toByteArray(visualization);
+    this.visualization = getBytes(visualization);
   }
 
   public Collection<CoreElement> getSubElements() {
@@ -121,8 +121,10 @@ public class CoreElement {
   }
 
   private InputStream getInputStream(byte[] bytes) {
-    return Objects.isNull(bytes) || bytes.length == 0
-        ? null
-        : FileUtils.toInputStream(bytes);
+    return Objects.isNull(bytes) || bytes.length == 0 ? null : FileUtils.toInputStream(bytes);
+  }
+
+  private byte[] getBytes(InputStream inputStream) {
+    return inputStream == null ? null : FileUtils.toByteArray(inputStream);
   }
 }

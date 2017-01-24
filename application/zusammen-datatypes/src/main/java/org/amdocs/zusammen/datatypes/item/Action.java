@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 Amdocs Software Systems Limited
+ * Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,29 +14,11 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.core.api.types;
+package org.amdocs.zusammen.datatypes.item;
 
-import org.amdocs.zusammen.datatypes.item.Info;
-
-import java.util.Collection;
-
-public class CoreItemVersionChangedData {
-  Collection<CoreElement> elements;
-  Info info;
-
-  public Collection<CoreElement> getElements() {
-    return elements;
-  }
-
-  public void setElements(Collection<CoreElement> elements) {
-    this.elements = elements;
-  }
-
-  public Info getInfo() {
-    return info;
-  }
-
-  public void setInfo(Info info) {
-    this.info = info;
-  }
+public enum Action {
+  IGNORE,
+  CREATE,
+  UPDATE,
+  DELETE
 }

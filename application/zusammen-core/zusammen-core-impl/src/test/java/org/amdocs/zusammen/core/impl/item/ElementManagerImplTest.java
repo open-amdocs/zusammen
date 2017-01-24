@@ -27,7 +27,7 @@ import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.UserInfo;
-import org.amdocs.zusammen.datatypes.item.ElementAction;
+import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ElementInfo;
 import org.mockito.Mock;
@@ -82,8 +82,8 @@ public class ElementManagerImplTest {
 
   @Test
   public void testSaveWithCreateRoot() throws Exception {
-    CoreElement a1 = createCoreElement(null, ElementAction.CREATE, "a1");
-    CoreElement root = createCoreElement(null, ElementAction.CREATE, "root", a1);
+    CoreElement a1 = createCoreElement(null, Action.CREATE, "a1");
+    CoreElement root = createCoreElement(null, Action.CREATE, "root", a1);
 
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     ElementContext elementContext = createElementContext();
@@ -104,11 +104,11 @@ public class ElementManagerImplTest {
 
   @Test
   public void testSaveWithUpdateRoot() throws Exception {
-    CoreElement a1 = createCoreElement(new Id(), ElementAction.UPDATE, "a1");
-    CoreElement a2 = createCoreElement(new Id(), ElementAction.IGNORE, "a2");
-    CoreElement a3 = createCoreElement(new Id(), ElementAction.DELETE, "a3");
-    CoreElement a4 = createCoreElement(null, ElementAction.CREATE, "a4");
-    CoreElement root = createCoreElement(new Id(), ElementAction.UPDATE, "root", a1, a2, a3, a4);
+    CoreElement a1 = createCoreElement(new Id(), Action.UPDATE, "a1");
+    CoreElement a2 = createCoreElement(new Id(), Action.IGNORE, "a2");
+    CoreElement a3 = createCoreElement(new Id(), Action.DELETE, "a3");
+    CoreElement a4 = createCoreElement(null, Action.CREATE, "a4");
+    CoreElement root = createCoreElement(new Id(), Action.UPDATE, "root", a1, a2, a3, a4);
 
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     ElementContext elementContext = createElementContext();
@@ -136,7 +136,7 @@ public class ElementManagerImplTest {
 
   @Test
   public void testSaveWithDeleteRoot() throws Exception {
-    CoreElement root = createCoreElement(new Id(), ElementAction.DELETE, "root");
+    CoreElement root = createCoreElement(new Id(), Action.DELETE, "root");
 
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     ElementContext elementContext = createElementContext();
@@ -154,19 +154,19 @@ public class ElementManagerImplTest {
 
   @Test
   public void testSaveWithIgnoreRoot() throws Exception {
-    CoreElement d1211 = createCoreElement(null, ElementAction.CREATE, "d1211");
+    CoreElement d1211 = createCoreElement(null, Action.CREATE, "d1211");
 
-    CoreElement c121 = createCoreElement(new Id(), ElementAction.UPDATE, "c121", d1211);
+    CoreElement c121 = createCoreElement(new Id(), Action.UPDATE, "c121", d1211);
 
-    CoreElement b11 = createCoreElement(new Id(), ElementAction.DELETE, "b11");
-    CoreElement b12 = createCoreElement(new Id(), ElementAction.IGNORE, "b12", c121);
-    CoreElement b21 = createCoreElement(null, ElementAction.CREATE, "b21");
-    CoreElement b22 = createCoreElement(null, ElementAction.CREATE, "b22");
+    CoreElement b11 = createCoreElement(new Id(), Action.DELETE, "b11");
+    CoreElement b12 = createCoreElement(new Id(), Action.IGNORE, "b12", c121);
+    CoreElement b21 = createCoreElement(null, Action.CREATE, "b21");
+    CoreElement b22 = createCoreElement(null, Action.CREATE, "b22");
 
-    CoreElement a1 = createCoreElement(new Id(), ElementAction.UPDATE, "a1", b11, b12);
-    CoreElement a2 = createCoreElement(null, ElementAction.CREATE, "a2", b21, b22);
+    CoreElement a1 = createCoreElement(new Id(), Action.UPDATE, "a1", b11, b12);
+    CoreElement a2 = createCoreElement(null, Action.CREATE, "a2", b21, b22);
 
-    CoreElement root = createCoreElement(new Id(), ElementAction.IGNORE, "root", a1, a2);
+    CoreElement root = createCoreElement(new Id(), Action.IGNORE, "root", a1, a2);
 
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     ElementContext elementContext = createElementContext();
@@ -225,7 +225,7 @@ public class ElementManagerImplTest {
     Assert.assertNotNull(element.getId());
   }
 
-  private CoreElement createCoreElement(Id id, ElementAction action, String infoValue,
+  private CoreElement createCoreElement(Id id, Action action, String infoValue,
                                         CoreElement... subElements) {
     CoreElement a1 = new CoreElement();
     a1.setId(id);
