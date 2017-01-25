@@ -16,26 +16,16 @@
 
 package org.amdocs.zusammen.sdk.types;
 
-import org.amdocs.zusammen.datatypes.collaboration.ChangeType;
-import org.amdocs.zusammen.datatypes.item.Action;
+public class CollaborationPublishResult {
+  private CollaborationMergeChange change;
 
-public class ChangedElementData {
-  private ElementData elementData;
-  private Action action;
 
-  public ElementData getElementData() {
-    return elementData;
+  public CollaborationMergeChange getChange() {
+    return change;
   }
 
-  public void setElementData(ElementData elementData) {
-    this.elementData = elementData;
+  public void setChange(CollaborationMergeChange change) {
+    this.change = change;
   }
 
-  public Action getAction() {
-    return action;
-  }
-
-  public void setAction(Action action) {
-    this.action = action;
-  }
 }

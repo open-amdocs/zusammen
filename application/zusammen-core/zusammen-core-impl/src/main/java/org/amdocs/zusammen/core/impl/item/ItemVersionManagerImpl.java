@@ -29,6 +29,7 @@ import org.amdocs.zusammen.core.api.item.ItemVersionManager;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreMergeChange;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
+import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.core.impl.Messages;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
@@ -83,25 +84,26 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   public void publish(SessionContext context, Id itemId, Id versionId, String
       message) {
     validateItemVersionExistence(context, itemId, versionId);
-    CoreMergeChange publishResult =
+    CorePublishResult publishResult =
         getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
 
-    switch (publishResult.getVersionAction()) {
+    switch (publishResult.getChange().getVersionAction()) {
       case CREATE:
         getStateAdaptor(context)
-            .createItemVersion(context, itemId, publishResult.getChangedVersion().getBaseId(),
-                versionId, Space.PUBLIC, publishResult.getChangedVersion().getData());
+            .createItemVersion(context, itemId, publishResult.getChange().getChangedVersion()
+                    .getBaseId(),
+                versionId, Space.PUBLIC, publishResult.getChange().getChangedVersion().getData());
         break;
       case UPDATE:
         getStateAdaptor(context)
             .updateItemVersion(context, itemId, versionId, Space.PUBLIC, publishResult
-                .getChangedVersion().getData());
+                .getChange().getChangedVersion().getData());
         break;
       default:
         throw new RuntimeException(String.format(Messages.UNSUPPORTED_VERSION_ACTION,
-            itemId, versionId, publishResult.getVersionAction()));
+            itemId, versionId, publishResult.getChange().getVersionAction()));
     }
-    saveElements(context, itemId, versionId, Space.PUBLIC, publishResult.getChangedElements());
+    saveElements(context, itemId, versionId, Space.PUBLIC, publishResult.getChange().getChangedElements());
   }
 
   @Override

@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk.types;
+package org.amdocs.zusammen.core.api.types;
 
-import org.amdocs.zusammen.datatypes.collaboration.ChangeType;
-import org.amdocs.zusammen.datatypes.item.Action;
+public class CorePublishResult {
+  private CoreMergeChange change;
 
-public class ChangedElementData {
-  private ElementData elementData;
-  private Action action;
 
-  public ElementData getElementData() {
-    return elementData;
+  public CoreMergeChange getChange() {
+    return change;
   }
 
-  public void setElementData(ElementData elementData) {
-    this.elementData = elementData;
+  public void setChange(CoreMergeChange change) {
+    this.change = change;
   }
 
-  public Action getAction() {
-    return action;
-  }
-
-  public void setAction(Action action) {
-    this.action = action;
-  }
 }
+
+

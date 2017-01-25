@@ -20,10 +20,12 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationMergeChangeConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationMergeResultConvertor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationPublishResultConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementDataConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreMergeChange;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
+import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
@@ -34,6 +36,7 @@ import org.amdocs.zusammen.sdk.CollaborationStore;
 import org.amdocs.zusammen.sdk.CollaborationStoreFactory;
 import org.amdocs.zusammen.sdk.types.CollaborationMergeChange;
 import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
+import org.amdocs.zusammen.sdk.types.CollaborationPublishResult;
 import org.amdocs.zusammen.sdk.types.ElementData;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
@@ -73,12 +76,16 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public CoreMergeChange publishItemVersion(SessionContext context, Id itemId, Id versionId,
-                                            String message) {
-    CollaborationMergeChange mergeChange =
+  public CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
+                                              String message) {
+    /*CollaborationMergeChange mergeChange =
         getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
 
     return CollaborationMergeChangeConvertor.convert(mergeChange);
+*/
+    CollaborationPublishResult publishResult = getCollaborationStore(context).publishItemVersion
+        (context, itemId, versionId, message);
+    return CollaborationPublishResultConvertor.convert(publishResult);
   }
 
   @Override

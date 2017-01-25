@@ -25,6 +25,7 @@ import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.sdk.types.CollaborationMergeChange;
 import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
+import org.amdocs.zusammen.sdk.types.CollaborationPublishResult;
 import org.amdocs.zusammen.sdk.types.ElementData;
 
 public interface CollaborationStore {
@@ -41,8 +42,8 @@ public interface CollaborationStore {
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  CollaborationMergeChange publishItemVersion(SessionContext context, Id itemId, Id versionId,
-                                              String message);
+  CollaborationPublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
+                                                String message);
 
   CollaborationMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
