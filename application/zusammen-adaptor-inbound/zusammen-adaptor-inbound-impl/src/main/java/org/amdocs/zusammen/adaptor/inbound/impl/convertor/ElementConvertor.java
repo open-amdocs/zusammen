@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 public class ElementConvertor {
 
-  public static Element getElement(CoreElement coreElement) {
+  public static Element convert(CoreElement coreElement) {
     ZusammenElement element = new ZusammenElement();
     element.setAction(coreElement.getAction());
     element.setElementId(coreElement.getId());
@@ -44,6 +44,6 @@ public class ElementConvertor {
     return coreElements == null
         ? null
         : coreElements.stream().map(coreElement ->
-            getElement(coreElement)).collect(Collectors.toList());
+            convert(coreElement)).collect(Collectors.toList());
   }
 }

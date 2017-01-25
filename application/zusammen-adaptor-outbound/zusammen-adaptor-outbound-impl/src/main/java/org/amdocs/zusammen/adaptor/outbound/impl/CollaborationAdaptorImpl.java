@@ -18,12 +18,10 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 
 
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationMergeChangeConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationMergeResultConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationPublishResultConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementDataConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
-import org.amdocs.zusammen.core.api.types.CoreMergeChange;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.datatypes.Id;
@@ -34,10 +32,8 @@ import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.sdk.CollaborationStore;
 import org.amdocs.zusammen.sdk.CollaborationStoreFactory;
-import org.amdocs.zusammen.sdk.types.CollaborationMergeChange;
 import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
 import org.amdocs.zusammen.sdk.types.CollaborationPublishResult;
-import org.amdocs.zusammen.sdk.types.ElementData;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
@@ -78,13 +74,8 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   @Override
   public CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
                                               String message) {
-    /*CollaborationMergeChange mergeChange =
+    CollaborationPublishResult publishResult =
         getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
-
-    return CollaborationMergeChangeConvertor.convert(mergeChange);
-*/
-    CollaborationPublishResult publishResult = getCollaborationStore(context).publishItemVersion
-        (context, itemId, versionId, message);
     return CollaborationPublishResultConvertor.convert(publishResult);
   }
 
@@ -93,8 +84,6 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
     CollaborationMergeResult mergeResult =
         getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
-    //ElementsMergeResult collaborationSyncResult = mergeResult.getElementsMergeResult();
-
     return CollaborationMergeResultConvertor.convert(mergeResult);
   }
 
@@ -104,14 +93,13 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
     CollaborationMergeResult mergeResult = getCollaborationStore(context)
         .mergeItemVersion(context, itemId, versionId, sourceVersionId);
-    //ElementsMergeResult collaborationSyncResult = mergeResult.getElementsMergeResult();
     return CollaborationMergeResultConvertor.convert(mergeResult);
   }
 
   @Override
   public CoreElement getElement(SessionContext context, ElementContext elementContext,
                                 Namespace namespace, Id elementId) {
-    return ElementDataConvertor.getCoreElement(
+    return ElementDataConvertor.convertFrom(
         getCollaborationStore(context).getElement(context, elementContext, namespace, elementId));
   }
 
@@ -119,21 +107,21 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   public void createElement(SessionContext context, ElementContext elementContext,
                             CoreElement element) {
     getCollaborationStore(context)
-        .createElement(context, getElementData(element, elementContext));
+        .createElement(context, ElementDataConvertor.convertTo(element, elementContext));
   }
 
   @Override
   public void updateElement(SessionContext context, ElementContext elementContext,
                             CoreElement element) {
     getCollaborationStore(context)
-        .updateElement(context, getElementData(element, elementContext));
+        .updateElement(context, ElementDataConvertor.convertTo(element, elementContext));
   }
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
                             CoreElement element) {
     getCollaborationStore(context)
-        .deleteElement(context, getElementData(element, elementContext));
+        .deleteElement(context, ElementDataConvertor.convertTo(element, elementContext));
   }
 
   @Override
@@ -141,20 +129,6 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
                              String message) {
     //getCollaborationStore(context).commitEntities(context, elementContext, message);
   }
-
-  private ElementData getElementData(CoreElement coreElement, ElementContext elementContext) {
-    ElementData elementData = new ElementData(elementContext.getItemId(), elementContext
-        .getVersionId(), coreElement.getNamespace(), coreElement.getId());
-    elementData.setParentId(coreElement.getParentId());
-    elementData.setInfo(coreElement.getInfo());
-    elementData.setRelations(coreElement.getRelations());
-
-    elementData.setData(coreElement.getData());
-    elementData.setSearchableData(coreElement.getSearchableData());
-    elementData.setVisualization(coreElement.getVisualization());
-    return elementData;
-  }
-
 
   private CollaborationStore getCollaborationStore(SessionContext context) {
     return CollaborationStoreFactory.getInstance().createInterface(context);

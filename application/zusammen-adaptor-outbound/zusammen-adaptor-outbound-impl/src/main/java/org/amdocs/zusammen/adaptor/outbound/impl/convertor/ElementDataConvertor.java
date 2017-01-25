@@ -18,16 +18,28 @@ package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.Id;
-import org.amdocs.zusammen.sdk.types.ChangedElementData;
+import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.sdk.types.ElementData;
 
 import java.util.stream.Collectors;
 
 public class ElementDataConvertor {
 
-  public static CoreElement getCoreElement(ElementData elementData) {
+  public static ElementData convertTo(CoreElement coreElement, ElementContext elementContext) {
+    ElementData elementData = new ElementData(elementContext.getItemId(), elementContext
+        .getVersionId(), coreElement.getNamespace(), coreElement.getId());
+    elementData.setParentId(coreElement.getParentId());
+    elementData.setInfo(coreElement.getInfo());
+    elementData.setRelations(coreElement.getRelations());
 
-    CoreElement coreElement = getCoreElement(elementData.getId());
+    elementData.setData(coreElement.getData());
+    elementData.setSearchableData(coreElement.getSearchableData());
+    elementData.setVisualization(coreElement.getVisualization());
+    return elementData;
+  }
+
+  public static CoreElement convertFrom(ElementData elementData) {
+    CoreElement coreElement = convertFrom(elementData.getId());
     coreElement.setNamespace(elementData.getNamespace());
     coreElement.setParentId(elementData.getParentId());
     coreElement.setInfo(elementData.getInfo());
@@ -38,12 +50,12 @@ public class ElementDataConvertor {
     coreElement.setVisualization(elementData.getVisualization());
 
     coreElement.setSubElements(elementData.getSubElements().stream()
-        .map(subElementEntry -> getCoreElement(subElementEntry))
+        .map(subElementEntry -> convertFrom(subElementEntry))
         .collect(Collectors.toList()));
     return coreElement;
   }
 
-  public static CoreElement getCoreElement(Id elementId) {
+  private static CoreElement convertFrom(Id elementId) {
     CoreElement coreElement = new CoreElement();
     coreElement.setId(elementId);
     return coreElement;

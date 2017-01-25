@@ -34,8 +34,8 @@ public class MergeConflictConvertor {
 
   private static ElementConflict convertElementConflict(CoreElementConflict conflict) {
     ElementConflict elementConflict = new ElementConflict();
-    elementConflict.setLocalElement(ElementConvertor.getElement(conflict.getLocalElement()));
-    elementConflict.setRemoteElement(ElementConvertor.getElement(conflict.getRemoteElement()));
+    elementConflict.setLocalElement(ElementConvertor.convert(conflict.getLocalElement()));
+    elementConflict.setRemoteElement(ElementConvertor.convert(conflict.getRemoteElement()));
     return elementConflict;
   }
 }

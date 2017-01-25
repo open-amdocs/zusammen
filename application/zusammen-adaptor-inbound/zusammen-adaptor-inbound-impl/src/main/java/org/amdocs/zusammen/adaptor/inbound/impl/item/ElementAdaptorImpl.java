@@ -48,7 +48,7 @@ public class ElementAdaptorImpl implements ElementAdaptor {
 
   @Override
   public Element get(SessionContext context, ElementContext elementContext, Id elementId) {
-    return ElementConvertor.getElement(
+    return ElementConvertor.convert(
         getElementManager(context).get(context, elementContext, elementId));
   }
 

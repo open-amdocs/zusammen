@@ -36,6 +36,7 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
+import org.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 
 import java.util.Collection;
@@ -87,24 +88,9 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     CorePublishResult publishResult =
         getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
 
-    switch (publishResult.getChange().getVersionAction()) {
-      case CREATE:
-        getStateAdaptor(context)
-            .createItemVersion(context, itemId, publishResult.getChange().getChangedVersion()
-                    .getBaseId(),
-                versionId, Space.PUBLIC, publishResult.getChange().getChangedVersion().getData());
-        break;
-      case UPDATE:
-        getStateAdaptor(context)
-            .updateItemVersion(context, itemId, versionId, Space.PUBLIC, publishResult
-                .getChange().getChangedVersion().getData());
-        break;
-      default:
-        throw new RuntimeException(String.format(Messages.UNSUPPORTED_VERSION_ACTION,
-            itemId, versionId, publishResult.getChange().getVersionAction()));
-    }
-    saveElements(context, itemId, versionId, Space.PUBLIC, publishResult.getChange().getChangedElements());
+    saveMergeChange(context, itemId, versionId, Space.PUBLIC, publishResult.getChange());
   }
+
 
   @Override
   public CoreMergeResult sync(SessionContext context, Id itemId, Id versionId) {
@@ -113,8 +99,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
 
     if (syncResult.isSuccess()) {
-      saveElements(context, itemId, versionId, Space.PRIVATE, syncResult
-          .getChange().getChangedElements());
+      saveMergeChange(context, itemId, versionId, Space.PRIVATE, syncResult.getChange());
     }
 
     return syncResult;
@@ -128,8 +113,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         .mergeItemVersion(context, itemId, versionId, sourceVersionId);
 
     if (mergeResult.isSuccess()) {
-      saveElements(context, itemId, versionId, Space.PRIVATE, mergeResult
-          .getChange().getChangedElements());
+      saveMergeChange(context, itemId, versionId, Space.PRIVATE, mergeResult.getChange());
     }
 
     return mergeResult;
@@ -140,8 +124,33 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
                      String targetRevisionId) {
   }
 
-  private void saveElements(SessionContext context, Id itemId, Id versionId, Space space,
-                            Collection<CoreElement> elements) {
+  private void saveMergeChange(SessionContext context, Id itemId, Id versionId, Space space,
+                               CoreMergeChange mergeChange) {
+    saveItemVersionChange(context, itemId, space, mergeChange.getChangedVersion());
+    saveElementChanges(context, itemId, versionId, space, mergeChange.getChangedElements());
+  }
+
+  private void saveItemVersionChange(SessionContext context, Id itemId,
+                                     Space space, ItemVersionChange itemVersionChange) {
+    ItemVersion itemVersion = itemVersionChange.getItemVersion();
+    switch (itemVersionChange.getAction()) {
+      case CREATE:
+        getStateAdaptor(context)
+            .createItemVersion(context, itemId, itemVersion.getBaseId(),
+                itemVersion.getId(), space, itemVersion.getData());
+        break;
+      case UPDATE:
+        getStateAdaptor(context)
+            .updateItemVersion(context, itemId, itemVersion.getId(), space, itemVersion.getData());
+        break;
+      default:
+        throw new RuntimeException(String.format(Messages.UNSUPPORTED_VERSION_ACTION,
+            itemId, itemVersion.getId(), itemVersionChange.getAction()));
+    }
+  }
+
+  private void saveElementChanges(SessionContext context, Id itemId, Id versionId, Space space,
+                                  Collection<CoreElement> elements) {
     ElementContext elementContext = new ElementContext(itemId, versionId);
     elements.stream().forEach(element -> {
       switch (element.getAction()) {

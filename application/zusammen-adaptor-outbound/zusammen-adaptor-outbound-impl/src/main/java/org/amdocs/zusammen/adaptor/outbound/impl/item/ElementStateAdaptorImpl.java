@@ -52,7 +52,7 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   @Override
   public void create(SessionContext context, ElementContext elementContext, Space space,
                      CoreElement element) {
-    ElementInfo elementInfo = ElementInfoConvertor.getElementInfo(elementContext, space, element);
+    ElementInfo elementInfo = ElementInfoConvertor.convert(elementContext, space, element);
     OutboundAdaptorUtils.getStateStore(context).createElement(context, elementInfo);
   }
 
@@ -61,7 +61,7 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
                      CoreElement element) {
     OutboundAdaptorUtils.getStateStore(context)
         .updateElement(context,
-            ElementInfoConvertor.getElementInfo(elementContext, space, element));
+            ElementInfoConvertor.convert(elementContext, space, element));
   }
 
   @Override
@@ -69,6 +69,6 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
                      CoreElement element) {
     OutboundAdaptorUtils.getStateStore(context)
         .deleteElement(context,
-            ElementInfoConvertor.getElementInfo(elementContext, space, element));
+            ElementInfoConvertor.convert(elementContext, space, element));
   }
 }

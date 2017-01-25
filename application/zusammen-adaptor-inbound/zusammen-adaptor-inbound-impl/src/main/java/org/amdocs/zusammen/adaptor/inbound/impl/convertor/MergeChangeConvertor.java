@@ -26,9 +26,8 @@ public class MergeChangeConvertor {
   public static MergeChange convert(CoreMergeChange coreMergeChange) {
     MergeChange mergeChange = new MergeChange();
     mergeChange.setChangedVersion(coreMergeChange.getChangedVersion());
-    mergeChange.setVersionAction(coreMergeChange.getVersionAction());
     mergeChange.setChangedElements(coreMergeChange.getChangedElements().stream()
-        .map(ElementConvertor::getElement)
+        .map(ElementConvertor::convert)
         .collect(Collectors.toList()));
     return mergeChange;
   }

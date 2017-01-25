@@ -42,9 +42,9 @@ public class CollaborationMergeConflictConvertor {
       ElementDataConflict elementDataConflict) {
     CoreElementConflict coreElementConflict = new CoreElementConflict();
     coreElementConflict.setLocalElement(
-        ElementDataConvertor.getCoreElement(elementDataConflict.getLocalElement()));
+        ElementDataConvertor.convertFrom(elementDataConflict.getLocalElement()));
     coreElementConflict.setRemoteElement(
-        ElementDataConvertor.getCoreElement(elementDataConflict.getRemoteElement()));
+        ElementDataConvertor.convertFrom(elementDataConflict.getRemoteElement()));
     return coreElementConflict;
   }
 }

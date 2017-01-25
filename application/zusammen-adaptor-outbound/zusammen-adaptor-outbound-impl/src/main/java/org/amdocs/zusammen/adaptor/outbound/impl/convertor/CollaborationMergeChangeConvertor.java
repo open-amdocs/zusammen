@@ -30,9 +30,8 @@ public class CollaborationMergeChangeConvertor {
 
     CoreMergeChange coreMergeChange = new CoreMergeChange();
     coreMergeChange.setChangedVersion(collaborationMergeChange.getChangedVersion());
-    coreMergeChange.setVersionAction(collaborationMergeChange.getVersionAction());
     coreMergeChange.setChangedElements(collaborationMergeChange.getChangedElements().stream()
-        .map(ChangedElementConvertor::convert)
+        .map(ElementDataConvertor::convertFrom)
         .collect(Collectors.toList()));
 
     return coreMergeChange;

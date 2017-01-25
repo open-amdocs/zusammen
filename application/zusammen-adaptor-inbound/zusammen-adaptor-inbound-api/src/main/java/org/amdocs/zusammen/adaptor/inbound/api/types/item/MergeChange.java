@@ -16,30 +16,20 @@
 
 package org.amdocs.zusammen.adaptor.inbound.api.types.item;
 
-import org.amdocs.zusammen.datatypes.item.Action;
-import org.amdocs.zusammen.datatypes.item.ItemVersion;
+import org.amdocs.zusammen.datatypes.item.ItemVersionChange;
 
 import java.util.Collection;
 
 public class MergeChange {
-  private ItemVersion changedVersion;
-  private Action versionAction;
+  private ItemVersionChange changedVersion;
   private Collection<Element> changedElements;
 
-  public ItemVersion getChangedVersion() {
+  public ItemVersionChange getChangedVersion() {
     return changedVersion;
   }
 
-  public void setChangedVersion(ItemVersion changedVersion) {
+  public void setChangedVersion(ItemVersionChange changedVersion) {
     this.changedVersion = changedVersion;
-  }
-
-  public Action getVersionAction() {
-    return versionAction;
-  }
-
-  public void setVersionAction(Action versionAction) {
-    this.versionAction = versionAction;
   }
 
   public Collection<Element> getChangedElements() {

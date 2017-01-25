@@ -23,8 +23,8 @@ import org.amdocs.zusammen.datatypes.item.ElementInfo;
 
 public class ElementInfoConvertor {
 
-  public static ElementInfo getElementInfo(ElementContext elementContext, Space space,
-                                           CoreElement element) {
+  public static ElementInfo convert(ElementContext elementContext, Space space,
+                                    CoreElement element) {
     ElementInfo elementInfo = new ElementInfo(
         elementContext.getItemId(), elementContext.getVersionId(), element.getId(),
         element.getParentId());

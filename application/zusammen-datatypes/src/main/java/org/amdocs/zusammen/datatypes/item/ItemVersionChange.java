@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Copyright © 2016 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.datatypes;
+package org.amdocs.zusammen.datatypes.item;
 
-public class Response {
-  private boolean success;
-  private Error error;
+public class ItemVersionChange {
+  private ItemVersion itemVersion;
+  private Action action;
 
-  public boolean isSuccess() {
-    return success;
+  public ItemVersion getItemVersion() {
+    return itemVersion;
   }
 
-  public void setSuccess(boolean success) {
-    this.success = success;
+  public void setItemVersion(ItemVersion itemVersion) {
+    this.itemVersion = itemVersion;
   }
 
-  public Error getError() {
-    return error;
+  public Action getAction() {
+    return action;
   }
 
-  public void setError(Error error) {
-    this.error = error;
+  public void setAction(Action action) {
+    this.action = action;
   }
 }
