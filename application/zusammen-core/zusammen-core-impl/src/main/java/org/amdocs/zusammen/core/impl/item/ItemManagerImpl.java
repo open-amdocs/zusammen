@@ -53,10 +53,10 @@ public class ItemManagerImpl implements ItemManager {
   }
 
   @Override
-  public void save(SessionContext context, Id itemId, Info itemInfo) {
+  public void update(SessionContext context, Id itemId, Info itemInfo) {
     validateItemExistence(context, itemId);
-    getCollaborationAdaptor(context).saveItem(context, itemId, itemInfo);
-    getStateAdaptor(context).saveItem(context, itemId, itemInfo);
+    getCollaborationAdaptor(context).updateItem(context, itemId, itemInfo);
+    getStateAdaptor(context).updateItem(context, itemId, itemInfo);
   }
 
   @Override

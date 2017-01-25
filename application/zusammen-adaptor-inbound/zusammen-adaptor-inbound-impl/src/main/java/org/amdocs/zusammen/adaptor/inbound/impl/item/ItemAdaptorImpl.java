@@ -44,8 +44,8 @@ public class ItemAdaptorImpl implements ItemAdaptor {
   }
 
   @Override
-  public void save(SessionContext context, Id itemId, Info itemInfo) {
-    getItemManager(context).save(context, itemId, itemInfo);
+  public void update(SessionContext context, Id itemId, Info itemInfo) {
+    getItemManager(context).update(context, itemId, itemInfo);
   }
 
   @Override

@@ -37,8 +37,8 @@ public interface CollaborationStore {
   void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
                          Id versionId, ItemVersionData data);
 
-  void saveItemVersion(SessionContext context, Id itemId, Id versionId,
-                       ItemVersionData data);
+  void updateItemVersion(SessionContext context, Id itemId, Id versionId,
+                         ItemVersionData data);
 
   void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 

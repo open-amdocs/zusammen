@@ -40,7 +40,7 @@ public interface StateStore {
 
   void createItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void saveItem(SessionContext context, Id itemId, Info itemInfo);
+  void updateItem(SessionContext context, Id itemId, Info itemInfo);
 
   void deleteItem(SessionContext context, Id itemId);
 

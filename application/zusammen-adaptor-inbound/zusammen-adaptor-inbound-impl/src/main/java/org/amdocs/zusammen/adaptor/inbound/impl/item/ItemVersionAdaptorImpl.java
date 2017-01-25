@@ -50,8 +50,8 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   }
 
   @Override
-  public void save(SessionContext context, Id itemId, Id versionId,
-                   ItemVersionData data) {
+  public void update(SessionContext context, Id itemId, Id versionId,
+                     ItemVersionData data) {
     getItemVersionManager(context).update(context, itemId, versionId, data);
   }
 

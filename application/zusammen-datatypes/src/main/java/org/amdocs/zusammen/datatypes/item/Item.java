@@ -16,15 +16,17 @@
 
 package org.amdocs.zusammen.datatypes.item;
 
+import org.amdocs.zusammen.datatypes.Id;
+
 public class Item {
-  private String id;
+  private Id id;
   private Info info;
 
-  public String getId() {
+  public Id getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Id id) {
     this.id = id;
   }
 

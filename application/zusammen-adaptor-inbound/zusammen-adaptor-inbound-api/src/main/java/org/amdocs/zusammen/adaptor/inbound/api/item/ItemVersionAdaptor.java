@@ -32,7 +32,7 @@ public interface ItemVersionAdaptor {
 
   Id create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data);
 
-  void save(SessionContext context, Id itemId, Id versionId, ItemVersionData data);
+  void update(SessionContext context, Id itemId, Id versionId, ItemVersionData data);
 
   void delete(SessionContext context, Id itemId, Id versionId);
 

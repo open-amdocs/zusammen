@@ -47,8 +47,8 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
   }
 
   @Override
-  public void saveItem(SessionContext context, Id itemId, Info itemInfo) {
-    OutboundAdaptorUtils.getStateStore(context).saveItem(context, itemId, itemInfo);
+  public void updateItem(SessionContext context, Id itemId, Info itemInfo) {
+    OutboundAdaptorUtils.getStateStore(context).updateItem(context, itemId, itemInfo);
   }
 
   @Override

@@ -44,8 +44,8 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public void saveItem(SessionContext context, Id itemId, Info itemInfo) {
-    //getCollaborationStore(context).saveItem(context, itemId, itemInfo);
+  public void updateItem(SessionContext context, Id itemId, Info itemInfo) {
+    //getCollaborationStore(context).updateItem(context, itemId, itemInfo);
   }
 
   @Override
@@ -63,7 +63,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   @Override
   public void updateItemVersion(SessionContext context, Id itemId, Id versionId,
                                 ItemVersionData data) {
-    getCollaborationStore(context).saveItemVersion(context, itemId, versionId, data);
+    getCollaborationStore(context).updateItemVersion(context, itemId, versionId, data);
   }
 
   @Override

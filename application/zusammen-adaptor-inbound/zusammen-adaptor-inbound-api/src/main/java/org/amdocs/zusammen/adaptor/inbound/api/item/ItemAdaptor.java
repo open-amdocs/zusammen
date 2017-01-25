@@ -32,7 +32,7 @@ public interface ItemAdaptor {
 
   Id create(SessionContext context, Info itemInfo);
 
-  void save(SessionContext context, Id itemId, Info itemInfo);
+  void update(SessionContext context, Id itemId, Info itemInfo);
 
   void delete(SessionContext context, Id itemId);
 }
