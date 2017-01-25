@@ -23,7 +23,7 @@ import java.util.Collection;
 
 public class CollaborationMergeChange {
   private ItemVersionChange changedVersion;
-  private Collection<ElementData> changedElements = new ArrayList<>();
+  private Collection<ElementDataChange> changedElements = new ArrayList<>();
 
   public ItemVersionChange getChangedVersion() {
     return changedVersion;
@@ -33,11 +33,11 @@ public class CollaborationMergeChange {
     this.changedVersion = changedVersion;
   }
 
-  public Collection<ElementData> getChangedElements() {
+  public Collection<ElementDataChange> getChangedElements() {
     return changedElements;
   }
 
-  public void setChangedElements(Collection<ElementData> changedElements) {
+  public void setChangedElements(Collection<ElementDataChange> changedElements) {
     this.changedElements = changedElements;
   }
 
