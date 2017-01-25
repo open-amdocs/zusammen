@@ -26,20 +26,7 @@ public class ChangedElementConvertor {
 
   public static CoreElement convert(ChangedElementData changedElement) {
     CoreElement coreElement = ElementDataConvertor.getCoreElement(changedElement.getElementData());
-    switch (changedElement.getChangeType()) {
-      case ADD:
-        coreElement.setAction(Action.CREATE);
-        break;
-      case MODIFY:
-        coreElement.setAction(Action.UPDATE);
-        break;
-      case DELETE:
-        coreElement.setAction(Action.DELETE);
-        break;
-      default:
-        throw new RuntimeException(
-            String.format(UNSUPPORTED_CHANGE_TYPE_ERR_MSG, changedElement.getChangeType()));
-    }
+    coreElement.setAction(changedElement.getAction());
     return coreElement;
   }
 }
