@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 public class MergeChangeConvertor {
 
   public static MergeChange convert(CoreMergeChange coreMergeChange) {
+
+    if(coreMergeChange == null) return null;
     MergeChange mergeChange = new MergeChange();
     mergeChange.setChangedVersion(coreMergeChange.getChangedVersion());
     mergeChange.setChangedElements(coreMergeChange.getChangedElements().stream()

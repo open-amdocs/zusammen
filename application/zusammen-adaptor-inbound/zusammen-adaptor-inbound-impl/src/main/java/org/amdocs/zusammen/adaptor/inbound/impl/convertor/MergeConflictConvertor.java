@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 public class MergeConflictConvertor {
   public static MergeConflict convert(CoreMergeConflict coreMergeConflict) {
+    if(coreMergeConflict== null) return null;
     MergeConflict mergeConflict = new MergeConflict();
     mergeConflict.setVersionDataConflict(coreMergeConflict.getVersionDataConflict());
     mergeConflict.setElementConflicts(coreMergeConflict.getElementConflicts().stream()
@@ -33,6 +34,7 @@ public class MergeConflictConvertor {
   }
 
   private static ElementConflict convertElementConflict(CoreElementConflict conflict) {
+    if(conflict == null) return null;
     ElementConflict elementConflict = new ElementConflict();
     elementConflict.setLocalElement(ElementConvertor.convert(conflict.getLocalElement()));
     elementConflict.setRemoteElement(ElementConvertor.convert(conflict.getRemoteElement()));
