@@ -27,4 +27,12 @@ public class ElementConflict {
   public void setRemoteElement(Element remoteElement) {
     this.remoteElement = remoteElement;
   }
+
+  public Element getLocalElement() {
+    return localElement;
+  }
+
+  public Element getRemoteElement() {
+    return remoteElement;
+  }
 }
