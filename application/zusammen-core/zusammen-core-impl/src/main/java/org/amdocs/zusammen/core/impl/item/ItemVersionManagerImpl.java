@@ -64,7 +64,9 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   @Override
   public Id create(SessionContext context, Id itemId, Id baseVersionId,
                    ItemVersionData data) {
-    validateItemVersionExistence(context, Space.PRIVATE, itemId, baseVersionId);
+    if(baseVersionId != null) {
+      validateItemVersionExistence(context, Space.PRIVATE, itemId, baseVersionId);
+    }
     Id versionId = new Id();
     getCollaborationAdaptor(context)
         .createItemVersion(context, itemId, baseVersionId, versionId, data);
@@ -130,8 +132,10 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   private void saveMergeChange(SessionContext context, Space space, Id itemId, Id versionId,
                                CoreMergeChange mergeChange) {
-    saveItemVersionChange(context, space, itemId, mergeChange.getChangedVersion());
-    saveElementChanges(context, space, itemId, versionId, mergeChange.getChangedElements());
+    if(mergeChange.getChangedVersion()!= null)
+      saveItemVersionChange(context, space, itemId, mergeChange.getChangedVersion());
+    if(mergeChange.getChangedElements() != null)
+      saveElementChanges(context, space, itemId, versionId, mergeChange.getChangedElements());
   }
 
   private void saveItemVersionChange(SessionContext context, Space space, Id itemId,
