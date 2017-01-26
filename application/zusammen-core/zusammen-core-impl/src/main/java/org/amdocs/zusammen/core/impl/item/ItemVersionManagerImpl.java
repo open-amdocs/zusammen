@@ -21,10 +21,10 @@ import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptorFactory;
 import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptorFactory;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptorFactory;
-import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptor;
-import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
+import org.amdocs.zusammen.core.api.item.ItemManager;
+import org.amdocs.zusammen.core.api.item.ItemManagerFactory;
 import org.amdocs.zusammen.core.api.item.ItemVersionManager;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreMergeChange;
@@ -44,62 +44,69 @@ import java.util.Collection;
 public class ItemVersionManagerImpl implements ItemVersionManager {
 
   @Override
-  public Collection<ItemVersion> list(SessionContext context, Id itemId) {
-    return getStateAdaptor(context).listItemVersions(context, itemId);
+  public Collection<ItemVersion> list(SessionContext context, Space space, Id itemId) {
+    validateItemExistence(context, itemId);
+    return getStateAdaptor(context).listItemVersions(context, space, itemId);
   }
 
   @Override
-  public ItemVersion get(SessionContext context, Id itemId, Id versionId) {
-    validateItemVersionExistence(context, itemId, versionId);
-    return getStateAdaptor(context).getItemVersion(context, itemId, versionId);
+  public boolean isExist(SessionContext context, Space space, Id itemId, Id versionId) {
+    validateItemExistence(context, itemId);
+    return getStateAdaptor(context).isItemVersionExist(context, space, itemId, versionId);
+  }
+
+  @Override
+  public ItemVersion get(SessionContext context, Space space, Id itemId, Id versionId) {
+    validateItemExistence(context, itemId);
+    return getStateAdaptor(context).getItemVersion(context, space, itemId, versionId);
   }
 
   @Override
   public Id create(SessionContext context, Id itemId, Id baseVersionId,
                    ItemVersionData data) {
+    validateItemVersionExistence(context, Space.PRIVATE, itemId, baseVersionId);
     Id versionId = new Id();
     getCollaborationAdaptor(context)
         .createItemVersion(context, itemId, baseVersionId, versionId, data);
 
     getStateAdaptor(context)
-        .createItemVersion(context, itemId, baseVersionId, versionId, Space.PRIVATE, data);
+        .createItemVersion(context, Space.PRIVATE, itemId, baseVersionId, versionId, data);
 
     return versionId;
   }
 
   @Override
   public void update(SessionContext context, Id itemId, Id versionId, ItemVersionData data) {
-    validateItemVersionExistence(context, itemId, versionId);
+    validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
     getCollaborationAdaptor(context).updateItemVersion(context, itemId, versionId, data);
-    getStateAdaptor(context).updateItemVersion(context, itemId, versionId, Space.PRIVATE, data);
+    getStateAdaptor(context).updateItemVersion(context, Space.PRIVATE, itemId, versionId, data);
   }
 
   @Override
   public void delete(SessionContext context, Id itemId, Id versionId) {
-    validateItemVersionExistence(context, itemId, versionId);
+    validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
     getCollaborationAdaptor(context).deleteItemVersion(context, itemId, versionId);
-    getStateAdaptor(context).deleteItemVersion(context, itemId, versionId, Space.PRIVATE);
+    getStateAdaptor(context).deleteItemVersion(context, Space.PRIVATE, itemId, versionId);
   }
 
   @Override
-  public void publish(SessionContext context, Id itemId, Id versionId, String
-      message) {
-    validateItemVersionExistence(context, itemId, versionId);
+  public void publish(SessionContext context, Id itemId, Id versionId, String message) {
+    validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
     CorePublishResult publishResult =
         getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
 
-    saveMergeChange(context, itemId, versionId, Space.PUBLIC, publishResult.getChange());
+    saveMergeChange(context, Space.PUBLIC, itemId, versionId, publishResult.getChange());
   }
 
 
   @Override
   public CoreMergeResult sync(SessionContext context, Id itemId, Id versionId) {
-    //validateItemVersionExistence(context, itemId, versionId);
+    validateItemVersionExistence(context, Space.PUBLIC, itemId, versionId);
     CoreMergeResult syncResult =
         getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
 
     if (syncResult.isSuccess()) {
-      saveMergeChange(context, itemId, versionId, Space.PRIVATE, syncResult.getChange());
+      saveMergeChange(context, Space.PRIVATE, itemId, versionId, syncResult.getChange());
     }
 
     return syncResult;
@@ -108,40 +115,37 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   @Override
   public CoreMergeResult merge(SessionContext context, Id itemId, Id versionId,
                                Id sourceVersionId) {
-    validateItemVersionExistence(context, itemId, versionId);
+    validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
+    validateItemVersionExistence(context, Space.PRIVATE, itemId, sourceVersionId);
+
     CoreMergeResult mergeResult = getCollaborationAdaptor(context)
         .mergeItemVersion(context, itemId, versionId, sourceVersionId);
 
     if (mergeResult.isSuccess()) {
-      saveMergeChange(context, itemId, versionId, Space.PRIVATE, mergeResult.getChange());
+      saveMergeChange(context, Space.PRIVATE, itemId, versionId, mergeResult.getChange());
     }
 
     return mergeResult;
   }
 
-  @Override
-  public void revert(SessionContext context, Id itemId, Id versionId,
-                     String targetRevisionId) {
-  }
-
-  private void saveMergeChange(SessionContext context, Id itemId, Id versionId, Space space,
+  private void saveMergeChange(SessionContext context, Space space, Id itemId, Id versionId,
                                CoreMergeChange mergeChange) {
-    saveItemVersionChange(context, itemId, space, mergeChange.getChangedVersion());
-    saveElementChanges(context, itemId, versionId, space, mergeChange.getChangedElements());
+    saveItemVersionChange(context, space, itemId, mergeChange.getChangedVersion());
+    saveElementChanges(context, space, itemId, versionId, mergeChange.getChangedElements());
   }
 
-  private void saveItemVersionChange(SessionContext context, Id itemId,
-                                     Space space, ItemVersionChange itemVersionChange) {
+  private void saveItemVersionChange(SessionContext context, Space space, Id itemId,
+                                     ItemVersionChange itemVersionChange) {
     ItemVersion itemVersion = itemVersionChange.getItemVersion();
     switch (itemVersionChange.getAction()) {
       case CREATE:
         getStateAdaptor(context)
-            .createItemVersion(context, itemId, itemVersion.getBaseId(),
-                itemVersion.getId(), space, itemVersion.getData());
+            .createItemVersion(context, space, itemId, itemVersion.getBaseId(),
+                itemVersion.getId(), itemVersion.getData());
         break;
       case UPDATE:
         getStateAdaptor(context)
-            .updateItemVersion(context, itemId, itemVersion.getId(), space, itemVersion.getData());
+            .updateItemVersion(context, space, itemId, itemVersion.getId(), itemVersion.getData());
         break;
       default:
         throw new RuntimeException(String.format(Messages.UNSUPPORTED_VERSION_ACTION,
@@ -149,7 +153,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     }
   }
 
-  private void saveElementChanges(SessionContext context, Id itemId, Id versionId, Space space,
+  private void saveElementChanges(SessionContext context, Space space, Id itemId, Id versionId,
                                   Collection<CoreElement> elements) {
     ElementContext elementContext = new ElementContext(itemId, versionId);
     elements.stream().forEach(element -> {
@@ -195,14 +199,18 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         .deleteElement(context, elementContext, space, element);
   }
 
-  private void validateItemVersionExistence(SessionContext context, Id itemId,
+  private void validateItemVersionExistence(SessionContext context, Space space, Id itemId,
                                             Id versionId) {
-    String space = context.getUser().getUserName();
-    if (!getStateAdaptor(context).isItemVersionExist(context, itemId, versionId)) {
-      String message = getItemStateAdaptor(context).isItemExist(context, itemId)
-          ? String.format(Messages.ITEM_VERSION_NOT_EXIST, itemId, versionId, space)
-          : String.format(Messages.ITEM_NOT_EXIST, itemId);
-      throw new RuntimeException(message);
+    if (!isExist(context, space, itemId, versionId)) {
+      validateItemExistence(context, itemId);
+      throw new RuntimeException(
+          String.format(Messages.ITEM_VERSION_NOT_EXIST, itemId, versionId, space));
+    }
+  }
+
+  private void validateItemExistence(SessionContext context, Id itemId) {
+    if (!getItemManager(context).isExist(context, itemId)) {
+      throw new RuntimeException(String.format(Messages.ITEM_NOT_EXIST, itemId));
     }
   }
 
@@ -214,7 +222,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     return ItemVersionStateAdaptorFactory.getInstance().createInterface(context);
   }
 
-  protected ItemStateAdaptor getItemStateAdaptor(SessionContext context) {
-    return ItemStateAdaptorFactory.getInstance().createInterface(context);
+  protected ItemManager getItemManager(SessionContext context) {
+    return ItemManagerFactory.getInstance().createInterface(context);
   }
 }

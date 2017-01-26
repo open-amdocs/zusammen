@@ -16,9 +16,15 @@
 
 package org.amdocs.zusammen.core.impl;
 
+import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.Info;
+import org.amdocs.zusammen.datatypes.item.ItemVersion;
+import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.datatypes.item.Relation;
+
+import java.util.Arrays;
 
 public class TestUtils {
   public static Info createInfo(String value) {
@@ -34,5 +40,16 @@ public class TestUtils {
     context.setUser(user);
     context.setTenant(tenant);
     return context;
+  }
+
+  public static ItemVersion createItemVersion(Id id, Id baseId, String name) {
+    ItemVersion version = new ItemVersion();
+    version.setId(id);
+    version.setBaseId(baseId);
+    ItemVersionData data = new ItemVersionData();
+    data.setInfo(TestUtils.createInfo(name));
+    data.setRelations(Arrays.asList(new Relation(), new Relation()));
+    version.setData(data);
+    return version;
   }
 }

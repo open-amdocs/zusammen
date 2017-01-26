@@ -20,6 +20,7 @@ package org.amdocs.zusammen.core.api.item;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
+import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 
@@ -27,9 +28,11 @@ import java.util.Collection;
 
 public interface ItemVersionManager {
 
-  Collection<ItemVersion> list(SessionContext context, Id itemId);
+  Collection<ItemVersion> list(SessionContext context, Space space, Id itemId);
 
-  ItemVersion get(SessionContext context, Id itemId, Id versionId);
+  boolean isExist(SessionContext context, Space space, Id itemId, Id versionId);
+
+  ItemVersion get(SessionContext context, Space space, Id itemId, Id versionId);
 
   Id create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data);
 
@@ -42,6 +45,4 @@ public interface ItemVersionManager {
   CoreMergeResult sync(SessionContext context, Id itemId, Id versionId);
 
   CoreMergeResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
-
-  void revert(SessionContext context, Id itemId, Id versionId, String targetRevisionId);
 }

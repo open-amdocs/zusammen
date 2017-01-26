@@ -22,11 +22,11 @@ import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptorFactory;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptorFactory;
-import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptor;
-import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
-import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
-import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
 import org.amdocs.zusammen.core.api.item.ElementManager;
+import org.amdocs.zusammen.core.api.item.ItemManager;
+import org.amdocs.zusammen.core.api.item.ItemManagerFactory;
+import org.amdocs.zusammen.core.api.item.ItemVersionManager;
+import org.amdocs.zusammen.core.api.item.ItemVersionManagerFactory;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.impl.Messages;
 import org.amdocs.zusammen.datatypes.Id;
@@ -45,18 +45,24 @@ public class ElementManagerImpl implements ElementManager {
   @Override
   public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
                                       Id elementId) {
+    validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
+        elementContext.getVersionId());
     return getStateAdaptor(context).list(context, elementContext, elementId);
   }
 
   @Override
   public ElementInfo getInfo(SessionContext context, ElementContext elementContext,
                              Id elementId) {
+    validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
+        elementContext.getVersionId());
     return getStateAdaptor(context).get(context, elementContext, elementId);
   }
 
   @Override
   public CoreElement get(SessionContext context, ElementContext elementContext,
                          Id elementId) {
+    validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
+        elementContext.getVersionId());
     Namespace namespace = getInfo(context, elementContext, elementId).getNamespace();
     return getCollaborationAdaptor(context)
         .getElement(context, elementContext, namespace, elementId);
@@ -65,8 +71,7 @@ public class ElementManagerImpl implements ElementManager {
   @Override
   public void save(SessionContext context, ElementContext elementContext,
                    CoreElement element, String message) {
-    // TODO error handling
-    validateItemVersionExistence(context, elementContext.getItemId(),
+    validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
 
     if (element.getAction() == Action.CREATE) {
@@ -75,7 +80,6 @@ public class ElementManagerImpl implements ElementManager {
       ElementInfo elementInfo = getInfo(context, elementContext, element.getId());
       setElementHierarchyPosition(element, elementInfo.getNamespace(), elementInfo.getParentId());
     }
-
     saveRecursively(context, elementContext, element);
   }
 
@@ -153,12 +157,11 @@ public class ElementManagerImpl implements ElementManager {
     getSearchIndexAdaptor(context).deleteElement(context, elementContext, space, element);
   }
 
-  private void validateItemVersionExistence(SessionContext context, Id itemId, Id versionId) {
-    String space = context.getUser().getUserName();
-    if (!getItemVersionStateAdaptor(context).isItemVersionExist(context, itemId, versionId)) {
-      String message = getItemStateAdaptor(context).isItemExist(context, itemId)
-          ? String
-          .format(Messages.ITEM_VERSION_NOT_EXIST, itemId.toString(), versionId.toString(), space)
+  private void validateItemVersionExistence(SessionContext context, Space space, Id itemId,
+                                            Id versionId) {
+    if (!getItemVersionManager(context).isExist(context, space, itemId, versionId)) {
+      String message = getItemManager(context).isExist(context, itemId)
+          ? String.format(Messages.ITEM_VERSION_NOT_EXIST, itemId, versionId, space)
           : String.format(Messages.ITEM_NOT_EXIST, itemId);
       throw new RuntimeException(message);
     }
@@ -176,11 +179,11 @@ public class ElementManagerImpl implements ElementManager {
     return SearchIndexAdaptorFactory.getInstance().createInterface(context);
   }
 
-  protected ItemVersionStateAdaptor getItemVersionStateAdaptor(SessionContext context) {
-    return ItemVersionStateAdaptorFactory.getInstance().createInterface(context);
+  protected ItemVersionManager getItemVersionManager(SessionContext context) {
+    return ItemVersionManagerFactory.getInstance().createInterface(context);
   }
 
-  protected ItemStateAdaptor getItemStateAdaptor(SessionContext context) {
-    return ItemStateAdaptorFactory.getInstance().createInterface(context);
+  protected ItemManager getItemManager(SessionContext context) {
+    return ItemManagerFactory.getInstance().createInterface(context);
   }
 }

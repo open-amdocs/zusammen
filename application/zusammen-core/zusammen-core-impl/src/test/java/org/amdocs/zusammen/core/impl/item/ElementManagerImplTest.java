@@ -19,8 +19,7 @@ package org.amdocs.zusammen.core.impl.item;
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptor;
-import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptor;
-import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
+import org.amdocs.zusammen.core.api.item.ItemVersionManager;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.impl.TestUtils;
 import org.amdocs.zusammen.datatypes.Id;
@@ -59,25 +58,24 @@ public class ElementManagerImplTest {
   private CollaborationAdaptor collaborationAdaptorMock;
   @Mock
   private SearchIndexAdaptor searchIndexAdaptorMock;
+  /*@Mock
+  private ItemManager itemManagerMock;*/
   @Mock
-  private ItemStateAdaptor itemStateAdaptorMock;
-  @Mock
-  private ItemVersionStateAdaptor versionStateAdaptorMock;
+  private ItemVersionManager versionManagerMock;
 
   @BeforeMethod
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
 
-    when(elementManager.getItemVersionStateAdaptor(anyObject()))
-        .thenReturn(versionStateAdaptorMock);
-    when(elementManager.getItemStateAdaptor(anyObject())).thenReturn(itemStateAdaptorMock);
+    when(elementManager.getItemVersionManager(anyObject())).thenReturn(versionManagerMock);
+    //when(elementManager.getItemManager(anyObject())).thenReturn(itemManagerMock);
 
     when(elementManager.getStateAdaptor(anyObject())).thenReturn(stateAdaptorMock);
     when(elementManager.getCollaborationAdaptor(anyObject())).thenReturn(collaborationAdaptorMock);
     when(elementManager.getSearchIndexAdaptor(anyObject())).thenReturn(searchIndexAdaptorMock);
 
     doReturn(true)
-        .when(versionStateAdaptorMock).isItemVersionExist(anyObject(), anyObject(), anyObject());
+        .when(versionManagerMock).isExist(anyObject(), anyObject(), anyObject(), anyObject());
   }
 
   @Test

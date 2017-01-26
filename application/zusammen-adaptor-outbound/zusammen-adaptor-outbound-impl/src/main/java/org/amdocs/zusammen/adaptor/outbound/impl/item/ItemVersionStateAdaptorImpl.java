@@ -29,38 +29,39 @@ import java.util.Collection;
 public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
 
   @Override
-  public Collection<ItemVersion> listItemVersions(SessionContext context, Id itemId) {
-    return OutboundAdaptorUtils.getStateStore(context).listItemVersions(context, itemId);
+  public Collection<ItemVersion> listItemVersions(SessionContext context, Space space, Id itemId) {
+    return OutboundAdaptorUtils.getStateStore(context).listItemVersions(context, space, itemId);
   }
 
   @Override
-  public boolean isItemVersionExist(SessionContext context, Id itemId, Id versionId) {
+  public boolean isItemVersionExist(SessionContext context, Space space, Id itemId, Id versionId) {
     return OutboundAdaptorUtils.getStateStore(context)
-        .isItemVersionExist(context, itemId, versionId);
+        .isItemVersionExist(context, space, itemId, versionId);
   }
 
   @Override
-  public ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId) {
-    return OutboundAdaptorUtils.getStateStore(context).getItemVersion(context, itemId, versionId);
+  public ItemVersion getItemVersion(SessionContext context, Space space, Id itemId, Id versionId) {
+    return OutboundAdaptorUtils.getStateStore(context)
+        .getItemVersion(context, space, itemId, versionId);
   }
 
   @Override
-  public void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
-                                Id versionId, Space space, ItemVersionData data) {
+  public void createItemVersion(SessionContext context, Space space, Id itemId, Id baseVersionId,
+                                Id versionId, ItemVersionData data) {
     OutboundAdaptorUtils.getStateStore(context)
-        .createItemVersion(context, itemId, baseVersionId, versionId, space, data);
+        .createItemVersion(context, space, itemId, baseVersionId, versionId, data);
   }
 
   @Override
-  public void updateItemVersion(SessionContext context, Id itemId, Id versionId,
-                                Space space, ItemVersionData data) {
+  public void updateItemVersion(SessionContext context, Space space, Id itemId, Id versionId,
+                                ItemVersionData data) {
     OutboundAdaptorUtils.getStateStore(context)
-        .updateItemVersion(context, itemId, versionId, space, data);
+        .updateItemVersion(context, space, itemId, versionId, data);
   }
 
   @Override
-  public void deleteItemVersion(SessionContext context, Id itemId, Id versionId, Space space) {
+  public void deleteItemVersion(SessionContext context, Space space, Id itemId, Id versionId) {
     OutboundAdaptorUtils.getStateStore(context)
-        .deleteItemVersion(context, itemId, versionId, space);
+        .deleteItemVersion(context, space, itemId, versionId);
   }
 }

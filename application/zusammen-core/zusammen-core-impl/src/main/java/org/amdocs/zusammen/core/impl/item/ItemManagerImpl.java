@@ -39,8 +39,12 @@ public class ItemManagerImpl implements ItemManager {
   }
 
   @Override
+  public boolean isExist(SessionContext context, Id itemId) {
+    return getStateAdaptor(context).isItemExist(context, itemId);
+  }
+
+  @Override
   public Item get(SessionContext context, Id itemId) {
-    validateItemExistence(context, itemId);
     return getStateAdaptor(context).getItem(context, itemId);
   }
 
@@ -67,16 +71,16 @@ public class ItemManagerImpl implements ItemManager {
   }
 
   private void validateItemExistence(SessionContext context, Id itemId) {
-    if (!getStateAdaptor(context).isItemExist(context, itemId)) {
+    if (!isExist(context, itemId)) {
       throw new RuntimeException(String.format(Messages.ITEM_NOT_EXIST, itemId));
     }
   }
 
-  private CollaborationAdaptor getCollaborationAdaptor(SessionContext context) {
+  protected CollaborationAdaptor getCollaborationAdaptor(SessionContext context) {
     return CollaborationAdaptorFactory.getInstance().createInterface(context);
   }
 
-  private ItemStateAdaptor getStateAdaptor(SessionContext context) {
+  protected ItemStateAdaptor getStateAdaptor(SessionContext context) {
     return ItemStateAdaptorFactory.getInstance().createInterface(context);
   }
 }

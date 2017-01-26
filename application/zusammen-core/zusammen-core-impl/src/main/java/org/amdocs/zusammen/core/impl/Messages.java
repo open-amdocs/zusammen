@@ -23,7 +23,7 @@ public class Messages {
       "Item Id %s, version Id %s, element Id %s, action %s is not supported";
   public static final String ITEM_NOT_EXIST = "Item with id %s does not exists.";
   public static final String ITEM_VERSION_NOT_EXIST =
-      "Item Id %s, version Id %s does not exist in space %s";
+      "Item Id %s, version Id %s does not exist in %s space";
   public static final String ITEM_VERSION_ELEMENT_NOT_EXIST =
-      "Item Id %s, version Id %s, element Id %s does not exist in space %s";
+      "Item Id %s, version Id %s, element Id %s does not exist in %s space";
 }

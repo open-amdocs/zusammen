@@ -24,6 +24,7 @@ import org.amdocs.zusammen.core.api.item.ItemVersionManagerFactory;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
+import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
@@ -33,19 +34,18 @@ import java.util.Collection;
 public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
 
   @Override
-  public Collection<ItemVersion> list(SessionContext context, Id itemId) {
-    return getItemVersionManager(context).list(context, itemId);
+  public Collection<ItemVersion> list(SessionContext context, Space space, Id itemId) {
+    return getItemVersionManager(context).list(context, space, itemId);
   }
 
   @Override
-  public ItemVersion get(SessionContext context, Id itemId, Id versionId) {
-    return getItemVersionManager(context).get(context, itemId, versionId);
+  public ItemVersion get(SessionContext context, Space space, Id itemId, Id versionId) {
+    return getItemVersionManager(context).get(context, space, itemId, versionId);
   }
 
   @Override
   public Id create(SessionContext context, Id itemId, Id baseVersionId,
                    ItemVersionData data) {
-
     return getItemVersionManager(context).create(context, itemId, baseVersionId, data);
   }
 

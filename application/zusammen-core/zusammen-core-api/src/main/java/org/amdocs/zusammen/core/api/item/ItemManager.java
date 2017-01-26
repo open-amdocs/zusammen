@@ -28,6 +28,8 @@ public interface ItemManager {
 
   Collection<Item> list(SessionContext context);
 
+  boolean isExist(SessionContext context, Id itemId);
+
   Item get(SessionContext context, Id itemId);
 
   Id create(SessionContext context, Info itemInfo);

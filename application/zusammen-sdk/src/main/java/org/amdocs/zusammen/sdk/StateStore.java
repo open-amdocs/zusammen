@@ -44,19 +44,19 @@ public interface StateStore {
 
   void deleteItem(SessionContext context, Id itemId);
 
-  Collection<ItemVersion> listItemVersions(SessionContext context, Id itemId);
+  Collection<ItemVersion> listItemVersions(SessionContext context, Space space, Id itemId);
 
-  boolean isItemVersionExist(SessionContext context, Id itemId, Id versionId);
+  boolean isItemVersionExist(SessionContext context, Space space, Id itemId, Id versionId);
 
-  ItemVersion getItemVersion(SessionContext context, Id itemId, Id versionId);
+  ItemVersion getItemVersion(SessionContext context, Space space, Id itemId, Id versionId);
 
-  void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
-                         Id versionId, Space space, ItemVersionData data);
+  void createItemVersion(SessionContext context, Space space, Id itemId, Id baseVersionId,
+                         Id versionId, ItemVersionData data);
 
-  void updateItemVersion(SessionContext context, Id itemId, Id versionId, Space space,
+  void updateItemVersion(SessionContext context, Space itemId, Id versionId, Id space,
                          ItemVersionData data);
 
-  void deleteItemVersion(SessionContext context, Id itemId, Id versionId, Space space);
+  void deleteItemVersion(SessionContext context, Space itemId, Id versionId, Id space);
 
   Collection<ElementInfo> listElements(SessionContext context, ElementContext elementContext,
                                        Id elementId);
