@@ -52,6 +52,7 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <!--    
             <properties>
                 <amdocs.repository.host>10.147.3.4</amdocs.repository.host>
                 <amdocs.repository.port>8081</amdocs.repository.port>
@@ -60,6 +61,7 @@
                 <amdocs.repository.updatePolicy.default>daily
                 </amdocs.repository.updatePolicy.default>
             </properties>
+            -->
             <repositories>
                 <repository>
                     <id>Amdocs</id>
