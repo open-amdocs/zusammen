@@ -2,12 +2,10 @@ language: java
 
 sudo: false
 
-script: mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: mvn clean install
 
 jdk:
   - oraclejdk8
 
-cache:
-  directories:
-  - $HOME/.m2
+
   
