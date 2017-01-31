@@ -25,10 +25,14 @@ import org.amdocs.zusammen.core.impl.TestUtils;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
+import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ElementInfo;
+import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
+import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
@@ -37,20 +41,15 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-import java.util.function.Consumer;
+import java.util.Collection;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class ElementManagerImplTest {
   public static final UserInfo USER = new UserInfo("ElementManagerImpl_user");
-
-  @Spy
-  private ElementManagerImpl elementManager;
 
   @Mock
   private ElementStateAdaptor stateAdaptorMock;
@@ -58,18 +57,23 @@ public class ElementManagerImplTest {
   private CollaborationAdaptor collaborationAdaptorMock;
   @Mock
   private SearchIndexAdaptor searchIndexAdaptorMock;
-  /*@Mock
-  private ItemManager itemManagerMock;*/
   @Mock
   private ItemVersionManager versionManagerMock;
+  @Mock
+  private ElementHierarchyTraverser traverserMock;
+  @Mock(name = "collaborativeStoreVisitor")
+  private ElementVisitor collaborativeStoreVisitorMock;
+  @Mock(name = "indexingVisitor")
+  private ElementVisitor indexingVisitorMock;
+  @InjectMocks
+  @Spy
+  private ElementManagerImpl elementManager;
 
   @BeforeMethod
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
 
     when(elementManager.getItemVersionManager(anyObject())).thenReturn(versionManagerMock);
-    //when(elementManager.getItemManager(anyObject())).thenReturn(itemManagerMock);
-
     when(elementManager.getStateAdaptor(anyObject())).thenReturn(stateAdaptorMock);
     when(elementManager.getCollaborationAdaptor(anyObject())).thenReturn(collaborationAdaptorMock);
     when(elementManager.getSearchIndexAdaptor(anyObject())).thenReturn(searchIndexAdaptorMock);
@@ -79,148 +83,123 @@ public class ElementManagerImplTest {
   }
 
   @Test
+  public void testListRoots() throws Exception {
+    testList(null);
+  }
+
+  @Test
+  public void testListSubs() throws Exception {
+    testList(new Id());
+  }
+
+  private void testList(Id elementId) {
+    SessionContext context = TestUtils.createSessionContext(USER, "test");
+    Id itemId = new Id();
+    Id versionId = new Id();
+    ElementContext elementContext = new ElementContext(itemId, versionId);
+
+    Collection<ElementInfo> retrievedElementInfos = Arrays.asList(
+        new ElementInfo(itemId, versionId, new Id(), new Id()),
+        new ElementInfo(itemId, versionId, new Id(), new Id()),
+        new ElementInfo(itemId, versionId, new Id(), new Id()));
+    doReturn(retrievedElementInfos).when(stateAdaptorMock)
+        .list(context, elementContext, elementId);
+
+    Collection<ElementInfo> elementInfos = elementManager.list(context, elementContext, elementId);
+
+    Assert.assertEquals(elementInfos, retrievedElementInfos);
+  }
+
+  @Test
+  public void testGetInfo() throws Exception {
+    SessionContext context = TestUtils.createSessionContext(USER, "test");
+    Id itemId = new Id();
+    Id versionId = new Id();
+    Id elementId = new Id();
+    ElementContext elementContext = new ElementContext(itemId, versionId);
+
+    ElementInfo retrievedElementInfo = new ElementInfo(itemId, versionId, elementId, new Id());
+    doReturn(retrievedElementInfo).when(stateAdaptorMock).get(context, elementContext, elementId);
+
+    ElementInfo elementInfo = elementManager.getInfo(context, elementContext, elementId);
+
+    Assert.assertEquals(elementInfo, retrievedElementInfo);
+  }
+
+  @Test
+  public void testGet() throws Exception {
+    SessionContext context = TestUtils.createSessionContext(USER, "test");
+    Id itemId = new Id();
+    Id versionId = new Id();
+    Id elementId = new Id();
+    ElementContext elementContext = new ElementContext(itemId, versionId);
+
+    ElementInfo retrievedElementInfo = new ElementInfo(itemId, versionId, elementId, new Id());
+    retrievedElementInfo
+        .setNamespace(new Namespace(Namespace.ROOT_NAMESPACE, retrievedElementInfo.getParentId()));
+    doReturn(retrievedElementInfo).when(stateAdaptorMock).get(context, elementContext, elementId);
+
+    CoreElement retrievedCoreElement = new CoreElement();
+    doReturn(retrievedCoreElement).when(collaborationAdaptorMock)
+        .getElement(context, elementContext, retrievedElementInfo.getNamespace(), elementId);
+
+    CoreElement element = elementManager.get(context, elementContext, elementId);
+
+    Assert.assertEquals(element, retrievedCoreElement);
+  }
+
+  @Test
   public void testSaveWithCreateRoot() throws Exception {
-    CoreElement a1 = createCoreElement(null, Action.CREATE, "a1");
-    CoreElement root = createCoreElement(null, Action.CREATE, "root", a1);
-
+    CoreElement root = createCoreElement(null, Action.CREATE, "root");
     SessionContext context = TestUtils.createSessionContext(USER, "test");
-    ElementContext elementContext = createElementContext();
+    ElementContext elementContext = new ElementContext(new Id(), new Id());
 
-    elementManager.save(context, elementContext, root, "update create root!");
+    elementManager.save(context, elementContext, root, "save create root!");
 
-    traverse(root, this::validateIdExistense);
-
-    Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptorMock).createElement(context, elementContext, root);
-    verify(collaborationAdaptorMock)
-        .createElement(context, elementContext, a1);
-
-    verify(stateAdaptorMock, never()).get(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock, times(2)).create(anyObject(), anyObject(), anyObject(),
-        anyObject());
+    Assert.assertEquals(root.getParentId(), null);
+    Assert.assertEquals(root.getNamespace(), Namespace.ROOT_NAMESPACE);
+    verify(traverserMock)
+        .traverse(context, elementContext, Space.PRIVATE, root, collaborativeStoreVisitorMock);
+    verify(traverserMock).traverse(context, elementContext, Space.PRIVATE, root,
+        indexingVisitorMock);
   }
 
   @Test
-  public void testSaveWithUpdateRoot() throws Exception {
-    CoreElement a1 = createCoreElement(new Id(), Action.UPDATE, "a1");
-    CoreElement a2 = createCoreElement(new Id(), Action.IGNORE, "a2");
-    CoreElement a3 = createCoreElement(new Id(), Action.DELETE, "a3");
-    CoreElement a4 = createCoreElement(null, Action.CREATE, "a4");
-    CoreElement root = createCoreElement(new Id(), Action.UPDATE, "root", a1, a2, a3, a4);
-
+  public void testSaveWithNonCreateRoot() throws Exception {
+    CoreElement root = createCoreElement(new Id(), Action.UPDATE, "root");
     SessionContext context = TestUtils.createSessionContext(USER, "test");
-    ElementContext elementContext = createElementContext();
+    ElementContext elementContext = new ElementContext(new Id(), new Id());
 
-    configMockReturn(context, elementContext, root);
-    elementManager.save(context, elementContext, root, "update update root!");
+    ElementInfo retrievedElementInfo = new ElementInfo(
+        elementContext.getItemId(), elementContext.getVersionId(), root.getId(), new Id());
+    retrievedElementInfo
+        .setNamespace(new Namespace(Namespace.ROOT_NAMESPACE, retrievedElementInfo.getParentId()));
+    doReturn(retrievedElementInfo).when(stateAdaptorMock)
+        .get(context, elementContext, root.getId());
 
-    traverse(root, this::validateIdExistense);
+    elementManager.save(context, elementContext, root, "save non-create root!");
 
-    Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptorMock).updateElement(context, elementContext, root);
-    verify(collaborationAdaptorMock)
-        .updateElement(context, elementContext, a1);
-    verify(collaborationAdaptorMock)
-        .deleteElement(context, elementContext, a3);
-    verify(collaborationAdaptorMock)
-        .createElement(context, elementContext, a4);
-
-    verify(stateAdaptorMock).get(context, elementContext, root.getId());
-    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock).create(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock).delete(anyObject(), anyObject(), anyObject(), anyObject());
+    Assert.assertEquals(root.getParentId(), retrievedElementInfo.getParentId());
+    Assert.assertEquals(root.getNamespace(), retrievedElementInfo.getNamespace());
+    verify(traverserMock)
+        .traverse(context, elementContext, Space.PRIVATE, root, collaborativeStoreVisitorMock);
+    verify(traverserMock).traverse(context, elementContext, Space.PRIVATE, root,
+        indexingVisitorMock);
   }
 
   @Test
-  public void testSaveWithDeleteRoot() throws Exception {
-    CoreElement root = createCoreElement(new Id(), Action.DELETE, "root");
-
+  public void testSearch() throws Exception {
     SessionContext context = TestUtils.createSessionContext(USER, "test");
-    ElementContext elementContext = createElementContext();
+    SearchCriteria searchCriteria = new SearchCriteria() {
+    };
 
-    configMockReturn(context, elementContext, root);
-    elementManager.save(context, elementContext, root, "update delete root!");
+    SearchResult retrievedSearchResult = new SearchResult() {
+    };
+    doReturn(retrievedSearchResult).when(searchIndexAdaptorMock).search(context, searchCriteria);
 
-    Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    verify(collaborationAdaptorMock).deleteElement(context, elementContext, root);
+    SearchResult searchResult = elementManager.search(context, searchCriteria);
 
-    verify(stateAdaptorMock).get(context, elementContext, root.getId());
-    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock).delete(anyObject(), anyObject(), anyObject(), anyObject());
-  }
-
-  @Test
-  public void testSaveWithIgnoreRoot() throws Exception {
-    CoreElement d1211 = createCoreElement(null, Action.CREATE, "d1211");
-
-    CoreElement c121 = createCoreElement(new Id(), Action.UPDATE, "c121", d1211);
-
-    CoreElement b11 = createCoreElement(new Id(), Action.DELETE, "b11");
-    CoreElement b12 = createCoreElement(new Id(), Action.IGNORE, "b12", c121);
-    CoreElement b21 = createCoreElement(null, Action.CREATE, "b21");
-    CoreElement b22 = createCoreElement(null, Action.CREATE, "b22");
-
-    CoreElement a1 = createCoreElement(new Id(), Action.UPDATE, "a1", b11, b12);
-    CoreElement a2 = createCoreElement(null, Action.CREATE, "a2", b21, b22);
-
-    CoreElement root = createCoreElement(new Id(), Action.IGNORE, "root", a1, a2);
-
-    SessionContext context = TestUtils.createSessionContext(USER, "test");
-    ElementContext elementContext = createElementContext();
-
-    configMockReturn(context, elementContext, root);
-    elementManager.save(context, elementContext, root, "update ignore root!");
-
-    traverse(root, this::validateIdExistense);
-    verifyAdaptorCalls(context, elementContext, root, a1, a2, b11, b12, b21, b22, c121, d1211);
-  }
-
-  private void configMockReturn(SessionContext context, ElementContext elementContext,
-                                CoreElement root) {
-    ElementInfo elementInfo = new ElementInfo(
-        elementContext.getItemId(), elementContext.getVersionId(), root.getId(), null);
-    elementInfo.setNamespace(new Namespace(Namespace.ROOT_NAMESPACE, root.getId()));
-    doReturn(elementInfo).when(stateAdaptorMock).get(context, elementContext, root.getId());
-  }
-
-  private void verifyAdaptorCalls(SessionContext context, ElementContext elementContext,
-                                  CoreElement root, CoreElement a1, CoreElement a2, CoreElement b11,
-                                  CoreElement b12, CoreElement b21, CoreElement b22,
-                                  CoreElement c121, CoreElement d1211) {
-    Namespace rootNs = getNamespace(new Namespace(), root.getId());
-    Namespace a1Ns = getNamespace(rootNs, a1.getId());
-    Namespace a2Ns = getNamespace(rootNs, a2.getId());
-    Namespace b12Ns = getNamespace(a1Ns, b12.getId());
-    Namespace c121Ns = getNamespace(b12Ns, c121.getId());
-
-    verify(collaborationAdaptorMock).updateElement(context, elementContext, a1);
-    verify(collaborationAdaptorMock)
-        .deleteElement(context, elementContext, b11);
-    verify(collaborationAdaptorMock).updateElement(context, elementContext, c121);
-    verify(collaborationAdaptorMock)
-        .createElement(context, elementContext, d1211);
-    verify(collaborationAdaptorMock).createElement(context, elementContext, a2);
-    verify(collaborationAdaptorMock)
-        .createElement(context, elementContext, b21);
-    verify(collaborationAdaptorMock)
-        .createElement(context, elementContext, b22);
-
-    verify(stateAdaptorMock).get(context, elementContext, root.getId());
-    verify(stateAdaptorMock).get(anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock, times(4)).create(anyObject(), anyObject(), anyObject(),
-        anyObject());
-    verify(stateAdaptorMock, times(2)).update(anyObject(), anyObject(), anyObject(), anyObject());
-    verify(stateAdaptorMock).delete(anyObject(), anyObject(), anyObject(), anyObject());
-  }
-
-  private void traverse(CoreElement element, Consumer<CoreElement> elementConsumer) {
-    elementConsumer.accept(element);
-    element.getSubElements().forEach(elementConsumer);
-  }
-
-  private void validateIdExistense(CoreElement element) {
-    Assert.assertNotNull(element.getId());
+    Assert.assertEquals(searchResult, retrievedSearchResult);
   }
 
   private CoreElement createCoreElement(Id id, Action action, String infoValue,
@@ -231,16 +210,5 @@ public class ElementManagerImplTest {
     a1.setInfo(TestUtils.createInfo(infoValue));
     a1.setSubElements(Arrays.asList(subElements));
     return a1;
-  }
-
-  private ElementContext createElementContext() {
-    ElementContext elementContext = new ElementContext();
-    elementContext.setItemId(new Id());
-    elementContext.setVersionId(new Id());
-    return elementContext;
-  }
-
-  private Namespace getNamespace(Namespace parentNamespace, Id elementId) {
-    return new Namespace(parentNamespace, elementId);
   }
 }

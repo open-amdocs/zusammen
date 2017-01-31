@@ -49,4 +49,32 @@ public class ElementContext {
   public void setVersionId(Id versionId) {
     this.versionId = versionId;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+
+    ElementContext that = (ElementContext) obj;
+
+    if (itemId != null ? !itemId.equals(that.itemId) : that.itemId != null) {
+      return false;
+    }
+    if (versionId != null ? !versionId.equals(that.versionId) : that.versionId != null) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = itemId != null ? itemId.hashCode() : 0;
+    result = 31 * result + (versionId != null ? versionId.hashCode() : 0);
+    return result;
+  }
 }

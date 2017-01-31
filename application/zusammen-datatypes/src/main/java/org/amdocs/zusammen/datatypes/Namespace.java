@@ -18,7 +18,7 @@ package org.amdocs.zusammen.datatypes;
 
 public class Namespace {
   private static final String INVALID_CTOR_ARGS_ERR_MSG =
-      "Parent element namespace and element Id must be supplied";
+      "Element namespace and Id must be supplied";
   private static final String INVALID_VALUE_ERR_MSG =
       "Namespace string representaion must be supplied";
   private static final String ROOT_NAMESPACE_VALUE = "";

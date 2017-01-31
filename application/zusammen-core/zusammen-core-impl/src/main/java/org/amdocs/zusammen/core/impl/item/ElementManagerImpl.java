@@ -42,6 +42,10 @@ import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 import java.util.Collection;
 
 public class ElementManagerImpl implements ElementManager {
+  private ElementHierarchyTraverser traverser = ElementHierarchyTraverser.init();
+  private ElementVisitor collaborativeStoreVisitor = CollaborativeStoreElementVisitor.init();
+  private ElementVisitor indexingVisitor = IndexingElementVisitor.init();
+
   @Override
   public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
                                       Id elementId) {
@@ -77,10 +81,13 @@ public class ElementManagerImpl implements ElementManager {
     if (element.getAction() == Action.CREATE) {
       setElementHierarchyPosition(element, Namespace.ROOT_NAMESPACE, null);
     } else {
-      ElementInfo elementInfo = getInfo(context, elementContext, element.getId());
+      ElementInfo elementInfo =
+          getStateAdaptor(context).get(context, elementContext, element.getId());
       setElementHierarchyPosition(element, elementInfo.getNamespace(), elementInfo.getParentId());
     }
-    saveRecursively(context, elementContext, element);
+
+    traverser.traverse(context, elementContext, Space.PRIVATE, element, collaborativeStoreVisitor);
+    traverser.traverse(context, elementContext, Space.PRIVATE, element, indexingVisitor);
   }
 
   @Override
@@ -91,70 +98,6 @@ public class ElementManagerImpl implements ElementManager {
   private void setElementHierarchyPosition(CoreElement element, Namespace namespace, Id parentId) {
     element.setParentId(parentId);
     element.setNamespace(namespace);
-  }
-
-  private void saveRecursively(SessionContext context, ElementContext elementContext,
-                               CoreElement element) {
-    switch (element.getAction()) {
-      case CREATE:
-        create(context, elementContext, element);
-        break;
-      case UPDATE:
-        update(context, elementContext, element);
-        break;
-      case DELETE:
-        delete(context, elementContext, element);
-        break;
-      case IGNORE:
-        break;
-      default:
-        throw new RuntimeException(String.format(Messages.UNSUPPORTED_ELEMENT_ACTION,
-            elementContext.getItemId(), elementContext.getVersionId(), element.getId(),
-            element.getAction()));
-    }
-
-    Namespace subElementsNamespace = new Namespace(element.getNamespace(), element.getId());
-    element.getSubElements().forEach(subElement -> {
-      setElementHierarchyPosition(subElement, subElementsNamespace, element.getId());
-      saveRecursively(context, elementContext, subElement);
-    });
-  }
-
-  private void create(SessionContext context, ElementContext elementContext,
-                      CoreElement element) {
-    element.setId(new Id());
-    getCollaborationAdaptor(context).createElement(context, elementContext, element);
-    createDescriptor(context, elementContext, Space.PRIVATE, element);
-  }
-
-  private void createDescriptor(SessionContext context, ElementContext elementContext, Space space,
-                                CoreElement element) {
-    getStateAdaptor(context).create(context, elementContext, space, element);
-    getSearchIndexAdaptor(context).createElement(context, elementContext, space, element);
-  }
-
-  private void update(SessionContext context, ElementContext elementContext,
-                      CoreElement element) {
-    getCollaborationAdaptor(context).updateElement(context, elementContext, element);
-    updateDescriptor(context, elementContext, Space.PRIVATE, element);
-  }
-
-  private void updateDescriptor(SessionContext context, ElementContext elementContext, Space space,
-                                CoreElement element) {
-    getStateAdaptor(context).update(context, elementContext, space, element);
-    getSearchIndexAdaptor(context).updateElement(context, elementContext, space, element);
-  }
-
-  private void delete(SessionContext context, ElementContext elementContext,
-                      CoreElement element) {
-    getCollaborationAdaptor(context).deleteElement(context, elementContext, element);
-    deleteDescriptor(context, elementContext, Space.PRIVATE, element);
-  }
-
-  private void deleteDescriptor(SessionContext context, ElementContext elementContext, Space space,
-                                CoreElement element) {
-    getStateAdaptor(context).delete(context, elementContext, space, element);
-    getSearchIndexAdaptor(context).deleteElement(context, elementContext, space, element);
   }
 
   private void validateItemVersionExistence(SessionContext context, Space space, Id itemId,

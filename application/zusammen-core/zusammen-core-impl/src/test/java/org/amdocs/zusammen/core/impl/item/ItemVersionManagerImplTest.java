@@ -21,6 +21,7 @@ import org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import org.amdocs.zusammen.core.api.item.ItemManager;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreMergeChange;
+import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
 import org.amdocs.zusammen.core.impl.TestUtils;
 import org.amdocs.zusammen.datatypes.Id;
@@ -28,10 +29,12 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.Action;
+import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.item.Relation;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
@@ -44,6 +47,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -56,14 +60,17 @@ public class ItemVersionManagerImplTest {
   private static final String ITEM_VERSION_NOT_EXIST =
       "Item Id .*, version Id .* does not exist in .* space";
 
-  @Spy
-  private ItemVersionManagerImpl itemVersionManagerImpl;
   @Mock
   private ItemVersionStateAdaptor stateAdaptorMock;
   @Mock
   private CollaborationAdaptor collaborationAdaptorMock;
   @Mock
   private ItemManager itemManagerMock;
+  @Mock
+  private ElementVisitor elementVisitorMock;
+  @InjectMocks
+  @Spy
+  private ItemVersionManagerImpl itemVersionManagerImpl;
 
   @BeforeMethod
   public void setUp() throws Exception {
@@ -216,22 +223,30 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testPublish() throws Exception {
+  public void testSuccessfulPublishNew() throws Exception {
     Id itemId = new Id();
     Id versionId = new Id();
+    CoreMergeChange change = testSuccessfulPublish(itemId, versionId, true);
+
+    verify(stateAdaptorMock).createItemVersion(context, Space.PUBLIC, itemId,
+        change.getChangedVersion().getItemVersion().getBaseId(), versionId,
+        change.getChangedVersion().getItemVersion().getData());
+  }
+
+  @Test
+  public void testSuccessfulPublishExsiting() throws Exception {
+    Id itemId = new Id();
+    Id versionId = new Id();
+    CoreMergeChange change = testSuccessfulPublish(itemId, versionId, false);
+
+    verify(stateAdaptorMock).updateItemVersion(context, Space.PUBLIC, itemId, versionId,
+        change.getChangedVersion().getItemVersion().getData());
+  }
+
+  private CoreMergeChange testSuccessfulPublish(Id itemId, Id versionId, boolean newVersion) {
     String message = "publish message";
     CorePublishResult publishResult = new CorePublishResult();
-    CoreMergeChange change = new CoreMergeChange();
-
-    ItemVersionChange changedVersion = new ItemVersionChange();
-    changedVersion.setAction(Action.UPDATE);
-    changedVersion.setItemVersion(TestUtils.createItemVersion(itemId, versionId, "v1"));
-    change.setChangedVersion(changedVersion);
-
-    CoreElement element1 = createElement(Action.CREATE);
-    CoreElement element2 = createElement(Action.UPDATE);
-    CoreElement element3 = createElement(Action.DELETE);
-    change.setChangedElements(Arrays.asList(element1, element2, element3));
+    CoreMergeChange change = createMergeChange(versionId, newVersion);
     publishResult.setChange(change);
 
     doReturn(true)
@@ -241,10 +256,9 @@ public class ItemVersionManagerImplTest {
 
     itemVersionManagerImpl.publish(context, itemId, versionId, message);
 
-    verify(stateAdaptorMock).updateItemVersion(
-        context, Space.PUBLIC, itemId, versionId, changedVersion.getItemVersion().getData());
+    verifySaveChangedElements(itemId, versionId, Space.PUBLIC, change.getChangedElements());
 
-    // TODO: 1/26/2017 verify actions on elements
+    return change;
   }
 
   @Test(expectedExceptions = RuntimeException.class,
@@ -262,9 +276,45 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testSync() throws Exception {
-    // TODO: 1/26/2017
+  public void testSuccessfulSyncNew() throws Exception {
+    Id itemId = new Id();
+    Id versionId = new Id();
+    CoreMergeChange change = testSuccessfulSync(itemId, versionId, true);
+
+    verify(stateAdaptorMock).createItemVersion(context, Space.PRIVATE, itemId,
+        change.getChangedVersion().getItemVersion().getBaseId(), versionId,
+        change.getChangedVersion().getItemVersion().getData());
   }
+
+  @Test
+  public void testSuccessfulSyncExisting() throws Exception {
+    Id itemId = new Id();
+    Id versionId = new Id();
+    CoreMergeChange change = testSuccessfulSync(itemId, versionId, false);
+
+    verify(stateAdaptorMock).updateItemVersion(context, Space.PRIVATE, itemId, versionId,
+        change.getChangedVersion().getItemVersion().getData());
+  }
+
+  private CoreMergeChange testSuccessfulSync(Id itemId, Id versionId, boolean newVersion) {
+    CoreMergeResult retrievedSyncResult = new CoreMergeResult();
+    CoreMergeChange change = createMergeChange(versionId, newVersion);
+    retrievedSyncResult.setChange(change);
+
+    doReturn(true)
+        .when(itemVersionManagerImpl).isExist(context, Space.PUBLIC, itemId, versionId);
+    doReturn(retrievedSyncResult).when(collaborationAdaptorMock)
+        .syncItemVersion(context, itemId, versionId);
+
+    CoreMergeResult syncResult = itemVersionManagerImpl.sync(context, itemId, versionId);
+    Assert.assertEquals(syncResult, retrievedSyncResult);
+
+    verifySaveChangedElements(itemId, versionId, Space.PRIVATE, change.getChangedElements());
+
+    return change;
+  }
+
+
 
   @Test(expectedExceptions = RuntimeException.class,
       expectedExceptionsMessageRegExp = ITEM_NOT_EXIST)
@@ -307,6 +357,29 @@ public class ItemVersionManagerImplTest {
     doReturn(true).when(itemManagerMock).isExist(context, itemId);
     doReturn(true).when(itemVersionManagerImpl).isExist(context, Space.PRIVATE, itemId, versionId);
     itemVersionManagerImpl.merge(context, itemId, versionId, new Id());
+  }
+
+  private void verifySaveChangedElements(Id itemId, Id versionId, Space space,
+                                         Collection<CoreElement> changedElements) {
+    ElementContext elementContext = new ElementContext(itemId, versionId);
+    changedElements.forEach(element ->
+        verify(elementVisitorMock)
+            .visit(eq(context), eq(elementContext), eq(space), eq(element)));
+  }
+
+  private CoreMergeChange createMergeChange(Id versionId, boolean newVersion) {
+    CoreMergeChange change = new CoreMergeChange();
+
+    ItemVersionChange changedVersion = new ItemVersionChange();
+    changedVersion.setAction(newVersion ? Action.CREATE : Action.UPDATE);
+    changedVersion.setItemVersion(TestUtils.createItemVersion(versionId, new Id(), "v1"));
+    change.setChangedVersion(changedVersion);
+
+    CoreElement element1 = createElement(Action.CREATE);
+    CoreElement element2 = createElement(newVersion ? Action.CREATE : Action.UPDATE);
+    CoreElement element3 = createElement(newVersion ? Action.CREATE : Action.DELETE);
+    change.setChangedElements(Arrays.asList(element1, element2, element3));
+    return change;
   }
 
   private CoreElement createElement(Action action) {
