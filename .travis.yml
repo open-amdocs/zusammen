@@ -4,9 +4,6 @@ sudo: false
 
 script: mvn clean install
 
-before_install:
-  - git clone --depth=50 --branch=master https://github.com/open-amdocs/zusammen-common.git open-amdocs/zusammen-common
-
 cache:
   directories:
     - $HOME/.m2
