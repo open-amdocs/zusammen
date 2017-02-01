@@ -10,3 +10,11 @@
 *Zusammen* will give you capabilities to do all that, so you can concentrate on building your awesome application without worrying how the shared data is managed. 
 
 ### Let you users collaborate, easier.
+
+
+## Plugins
+|plugins                                                                   |Developer                                        |
+|--------------------------------------------------------------------------|-------------------------------------------------|
+|[Collaborative](https://github.com/open-amdocs/zusammen-collaborative-git)| [Shalom Berman](https://github.com/sybberman)  [Tali Grama](https://github.com/taligs) |
+|[Metadata](https://github.com/open-amdocs/zusammen-metadata-cassandra)    | [Shalom Berman](https://github.com/sybberman)  [Tali Grama](https://github.com/taligs) |
+|[Search](https://github.com/open-amdocs/zusammen-search-elastic)          | [Shalom Berman](https://github.com/sybberman)  [Tali Grama](https://github.com/taligs) |
