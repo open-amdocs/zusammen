@@ -26,6 +26,9 @@ import java.util.stream.Collectors;
 public class ElementConvertor {
 
   public static Element convert(CoreElement coreElement) {
+    if (coreElement == null) {
+      return null;
+    }
     ZusammenElement element = new ZusammenElement();
     element.setAction(coreElement.getAction());
     element.setElementId(coreElement.getId());

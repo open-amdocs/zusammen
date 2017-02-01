@@ -65,9 +65,11 @@ public class ElementManagerImpl implements ElementManager {
   @Override
   public CoreElement get(SessionContext context, ElementContext elementContext,
                          Id elementId) {
-    validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
-        elementContext.getVersionId());
-    Namespace namespace = getInfo(context, elementContext, elementId).getNamespace();
+    ElementInfo elementInfo = getInfo(context, elementContext, elementId);
+    if (elementInfo == null) {
+      return null;
+    }
+    Namespace namespace = elementInfo.getNamespace();
     return getCollaborationAdaptor(context)
         .getElement(context, elementContext, namespace, elementId);
   }
@@ -83,6 +85,11 @@ public class ElementManagerImpl implements ElementManager {
     } else {
       ElementInfo elementInfo =
           getStateAdaptor(context).get(context, elementContext, element.getId());
+      if (elementInfo == null) {
+        throw new RuntimeException(String.format(Messages.ITEM_VERSION_ELEMENT_NOT_EXIST,
+            elementContext.getItemId(), elementContext.getVersionId(), element.getId(),
+            Space.PRIVATE));
+      }
       setElementHierarchyPosition(element, elementInfo.getNamespace(), elementInfo.getParentId());
     }
 
