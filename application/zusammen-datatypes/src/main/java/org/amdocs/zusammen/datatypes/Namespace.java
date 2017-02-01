@@ -32,14 +32,14 @@ public class Namespace {
     value = ROOT_NAMESPACE_VALUE;
   }
 
-  public Namespace(Namespace namespace, Id elementId) {
-    if (namespace == null || elementId == null) {
+  public Namespace(Namespace parentNamespace, Id parentElementId) {
+    if (parentNamespace == null || parentElementId == null) {
       throw new IllegalArgumentException(INVALID_CTOR_ARGS_ERR_MSG);
     }
-    this.value = (ROOT_NAMESPACE.equals(namespace)
-        ? namespace.getValue()
-        : namespace.getValue() + NAMESPACE_DELIMITER)
-        + elementId.toString();
+    this.value = (ROOT_NAMESPACE.equals(parentNamespace)
+        ? parentNamespace.getValue()
+        : parentNamespace.getValue() + NAMESPACE_DELIMITER)
+        + parentElementId.toString();
   }
 
   public String getValue() {
@@ -51,6 +51,14 @@ public class Namespace {
       throw new IllegalArgumentException(INVALID_VALUE_ERR_MSG);
     }
     this.value = value;
+  }
+
+  public Id getParentElementId() {
+    return this.equals(ROOT_NAMESPACE)
+        ? null
+        : value.contains(NAMESPACE_DELIMITER)
+            ? new Id(value.substring(value.lastIndexOf(NAMESPACE_DELIMITER) + 1, value.length()))
+            : new Id(value);
   }
 
   @Override
