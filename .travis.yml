@@ -5,7 +5,9 @@ sudo: false
 script: mvn clean install
 
 before_install:
-  git clone --depth=50 --branch=master https://github.com/open-amdocs/zusammen.git open-amdocs/zusammen-common
+  - git clone --depth=50 --branch=master https://github.com/open-amdocs/zusammen.git open-amdocs/zusammen-common
+  - cd open-amdocs/zusammen-common
+  - git marge origin master
 
 cache:
   directories:
