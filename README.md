@@ -15,6 +15,6 @@
 ## Plugins
 |plugins                                                                   |Developer                                        |
 |--------------------------------------------------------------------------|-------------------------------------------------|
-|[Collaborative](https://github.com/open-amdocs/zusammen-collaborative-git)| [Shalom Berman](https://github.com/sybberman)  [Tali Grama](https://github.com/taligs) |
-|[Metadata](https://github.com/open-amdocs/zusammen-metadata-cassandra)    | [Shalom Berman](https://github.com/sybberman)  [Tali Grama](https://github.com/taligs) |
-|[Search](https://github.com/open-amdocs/zusammen-search-elastic)          | [Shalom Berman](https://github.com/sybberman)  [Tali Grama](https://github.com/taligs) |
+|[Collaborative](https://github.com/open-amdocs/zusammen-collaborative-git)| [Shalom Berman](https://github.com/sybberman), [Tali Grama](https://github.com/taligs) |
+|[Metadata](https://github.com/open-amdocs/zusammen-metadata-cassandra)    | [Shalom Berman](https://github.com/sybberman), [Tali Grama](https://github.com/taligs) |
+|[Search](https://github.com/open-amdocs/zusammen-search-elastic)          |  |
