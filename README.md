@@ -7,3 +7,5 @@ The major benefits of Zusammen are its collaborative features, flexible versioni
 Whether your application enables a team to write an article together, to design a model, or to contribute to other joint efforts, Zusammen user collaboration will make collaborative application development both fast and easy.
 
 Zusammen has been designed from day one for user extensibility. This means that you can use Zusammen as a whole, or replace the default plug-ins with plug-ins that better meet your organizational needs.
+
+###### Copyright © 2016-2017 European Support Limited
