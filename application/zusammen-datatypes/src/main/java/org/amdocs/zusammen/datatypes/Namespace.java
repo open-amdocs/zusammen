@@ -36,7 +36,7 @@ public class Namespace {
     if (namespace == null || elementId == null) {
       throw new IllegalArgumentException(INVALID_CTOR_ARGS_ERR_MSG);
     }
-    this.value = (namespace == ROOT_NAMESPACE
+    this.value = (ROOT_NAMESPACE.equals(namespace)
         ? namespace.getValue()
         : namespace.getValue() + NAMESPACE_DELIMITER)
         + elementId.toString();
