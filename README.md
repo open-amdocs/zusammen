@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/open-amdocs/zusammen.svg?branch=master)](https://travis-ci.org/open-amdocs/zusammen)
+
 ![Zusammen - Collaboration made easy](docs/images/zusammen_logo_final_888px.png/?raw=true "Zusammen Logo")
 
 Zusammen is a document store that is designed specifically to facilitate collaborative work. It enables application creators to add collaboration features to their product with ease.
