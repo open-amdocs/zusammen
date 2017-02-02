@@ -1,0 +1,38 @@
+language: java
+
+sudo: false
+
+script: mvn clean install
+
+jdk:
+  - oraclejdk8
+  
+before_install: 
+  - git clone https://github.com/open-amdocs/zusammen-commons.git ~/builds/open-amdocs/zusammen-commons 
+  - pushd ~/builds/open-amdocs/zusammen-commons
+  - mvn clean install
+  - popd 
+
+services:
+  - cassandra
+  
+# safelist
+branches:
+  only:
+  - master
+
+after_success:
+ 
+#Build notification messages , upun build status 
+notifications: 
+  email:
+    recipients:
+      - Zohar.Sacks@amdocs.com
+      - Halfon.Tal@amdocs.com
+      - elhay.efrat1@amdocs.com
+      - SHALOMB@Amdocs.com
+      - Tali.Grama@amdocs.com
+      - liron.shtraichman@amdocs.com
+
+    on_success: always
+    on_failure: always
