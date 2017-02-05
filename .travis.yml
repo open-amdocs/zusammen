@@ -28,12 +28,7 @@ after_success:
 notifications: 
   email:
     recipients:
-      - Zohar.Sacks@amdocs.com
-      - Halfon.Tal@amdocs.com
-      - elhay.efrat1@amdocs.com
-      - SHALOMB@Amdocs.com
-      - Tali.Grama@amdocs.com
-      - liron.shtraichman@amdocs.com
+      - zusammen@int.amdocs.com
 
     on_success: always
     on_failure: always
