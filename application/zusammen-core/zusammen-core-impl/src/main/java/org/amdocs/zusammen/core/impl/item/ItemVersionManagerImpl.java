@@ -35,6 +35,7 @@ import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 
 import java.util.Collection;
 
@@ -128,6 +129,20 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     return mergeResult;
   }
 
+  @Override
+  public ItemVersionHistory listHistory(SessionContext context, Id itemId,
+                                        Id versionId) {
+    validateItemExistence(context, itemId);
+    return getCollaborationAdaptor(context).listItemVersionHistory(context, itemId, versionId);
+  }
+
+  @Override
+  public void resetHistory(SessionContext context, Id itemId,
+                                        Id versionId,Id changeId) {
+    validateItemExistence(context, itemId);
+    getCollaborationAdaptor(context).resetItemVersionHistory(context, itemId, versionId,changeId);
+  }
+
   private void saveMergeChange(SessionContext context, Space space, Id itemId, Id versionId,
                                CoreMergeChange mergeChange) {
     if (mergeChange.getChangedVersion() != null) {
@@ -185,4 +200,6 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   protected ItemManager getItemManager(SessionContext context) {
     return ItemManagerFactory.getInstance().createInterface(context);
   }
+
+
 }

@@ -30,6 +30,7 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import org.amdocs.zusammen.sdk.CollaborationStore;
 import org.amdocs.zusammen.sdk.CollaborationStoreFactory;
 import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
@@ -128,6 +129,17 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   public void commitEntities(SessionContext context, ElementContext elementContext,
                              String message) {
     //getCollaborationStore(context).commitEntities(context, elementContext, message);
+  }
+
+  @Override
+  public ItemVersionHistory listItemVersionHistory(SessionContext context, Id itemId, Id versionId){
+    return getCollaborationStore(context).getItemVersionHistory(context,itemId,versionId);
+  }
+
+  @Override
+  public void resetItemVersionHistory(SessionContext context, Id itemId, Id
+      versionId,Id changeId){
+    getCollaborationStore(context).resetItemVersionHistory(context,itemId,versionId,changeId);
   }
 
   private CollaborationStore getCollaborationStore(SessionContext context) {

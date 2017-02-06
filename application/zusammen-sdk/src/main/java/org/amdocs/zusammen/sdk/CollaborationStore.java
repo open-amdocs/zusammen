@@ -23,6 +23,7 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import org.amdocs.zusammen.sdk.types.CollaborationMergeChange;
 import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
 import org.amdocs.zusammen.sdk.types.CollaborationPublishResult;
@@ -59,4 +60,9 @@ public interface CollaborationStore {
   void updateElement(SessionContext context, ElementData elementData);
 
   void deleteElement(SessionContext context, ElementData elementData);
+
+  ItemVersionHistory getItemVersionHistory(SessionContext context, Id itemId, Id versionId);
+
+  public void resetItemVersionHistory(SessionContext context, Id itemId, Id
+      versionId,Id changeId);
 }

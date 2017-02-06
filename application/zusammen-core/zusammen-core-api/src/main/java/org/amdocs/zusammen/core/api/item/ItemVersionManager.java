@@ -23,6 +23,7 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 
 import java.util.Collection;
 
@@ -45,4 +46,9 @@ public interface ItemVersionManager {
   CoreMergeResult sync(SessionContext context, Id itemId, Id versionId);
 
   CoreMergeResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
+
+  ItemVersionHistory listHistory(SessionContext context, Id itemId, Id versionId);
+
+  void resetHistory(SessionContext context, Id itemId,
+                    Id versionId, Id changeId);
 }
