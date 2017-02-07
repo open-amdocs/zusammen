@@ -28,6 +28,7 @@ import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import org.amdocs.zusammen.sdk.types.CollaborationMergeChange;
 
 public interface CollaborationAdaptor {
 
@@ -66,6 +67,6 @@ public interface CollaborationAdaptor {
 
   ItemVersionHistory listItemVersionHistory(SessionContext context, Id itemId, Id versionId);
 
-  void resetItemVersionHistory(SessionContext context, Id itemId, Id
+  CoreMergeChange revertItemVersionHistory(SessionContext context, Id itemId, Id
       versionId, Id changeId);
 }

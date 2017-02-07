@@ -137,10 +137,10 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public void resetHistory(SessionContext context, Id itemId,
+  public void revertHistory(SessionContext context, Id itemId,
                                         Id versionId,Id changeId) {
     validateItemExistence(context, itemId);
-    getCollaborationAdaptor(context).resetItemVersionHistory(context, itemId, versionId,changeId);
+    getCollaborationAdaptor(context).revertItemVersionHistory(context, itemId, versionId,changeId);
   }
 
   private void saveMergeChange(SessionContext context, Space space, Id itemId, Id versionId,

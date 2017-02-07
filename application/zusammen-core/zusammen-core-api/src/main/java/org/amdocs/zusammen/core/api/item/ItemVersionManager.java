@@ -49,6 +49,6 @@ public interface ItemVersionManager {
 
   ItemVersionHistory listHistory(SessionContext context, Id itemId, Id versionId);
 
-  void resetHistory(SessionContext context, Id itemId,
+  void revertHistory(SessionContext context, Id itemId,
                     Id versionId, Id changeId);
 }

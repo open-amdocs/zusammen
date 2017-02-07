@@ -89,10 +89,10 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   }
 
   @Override
-  public void resetHistory(SessionContext context, Id itemId, Id versionId,Id changeId
+  public void revertHistory(SessionContext context, Id itemId, Id versionId,Id changeId
   ) {
 
-    getItemVersionManager(context).resetHistory(context, itemId, versionId,changeId);
+    getItemVersionManager(context).revertHistory(context, itemId, versionId,changeId);
 
   }
 

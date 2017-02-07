@@ -61,8 +61,8 @@ public interface CollaborationStore {
 
   void deleteElement(SessionContext context, ElementData elementData);
 
-  ItemVersionHistory getItemVersionHistory(SessionContext context, Id itemId, Id versionId);
+  ItemVersionHistory listItemVersionHistory(SessionContext context, Id itemId, Id versionId);
 
-  public void resetItemVersionHistory(SessionContext context, Id itemId, Id
+  CollaborationMergeChange revertItemVersionHistory(SessionContext context, Id itemId, Id
       versionId,Id changeId);
 }
