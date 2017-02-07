@@ -19,6 +19,7 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationElementConvertor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationMergeChangeConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationMergeResultConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationPublishResultConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
@@ -34,11 +35,8 @@ import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import org.amdocs.zusammen.sdk.collaboration.CollaborationStore;
 import org.amdocs.zusammen.sdk.collaboration.CollaborationStoreFactory;
-import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeChange;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeResult;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
-
-import java.util.stream.Collectors;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
@@ -139,23 +137,16 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public ItemVersionHistory listItemVersionHistory(SessionContext context, Id itemId, Id versionId){
-    return getCollaborationStore(context).listItemVersionHistory(context,itemId,versionId);
+  public ItemVersionHistory listItemVersionHistory(SessionContext context, Id itemId,
+                                                   Id versionId) {
+    return getCollaborationStore(context).listItemVersionHistory(context, itemId, versionId);
   }
 
   @Override
-  public CoreMergeChange revertItemVersionHistory(SessionContext context, Id itemId, Id
-      versionId, Id changeId){
-
-    CollaborationMergeChange collaborationMergeChange = getCollaborationStore(context)
-        .revertItemVersionHistory(context,
-        itemId,versionId,
-        changeId);
-    CoreMergeChange coreMergeChange = new CoreMergeChange();
-    coreMergeChange.setChangedElements(collaborationMergeChange.getChangedElements().stream()
-        .map(ElementDataChangeConvertor::convert)
-        .collect(Collectors.toList()));
-    return coreMergeChange;
+  public CoreMergeChange revertItemVersionHistory(SessionContext context, Id itemId, Id versionId,
+                                                  Id changeId) {
+    return CollaborationMergeChangeConvertor.convertToCoreMergeChange(getCollaborationStore(context)
+        .revertItemVersionHistory(context, itemId, versionId, changeId));
   }
 
   private CollaborationStore getCollaborationStore(SessionContext context) {

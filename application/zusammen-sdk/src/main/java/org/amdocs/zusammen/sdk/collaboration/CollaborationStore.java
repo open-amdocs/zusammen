@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk;
+package org.amdocs.zusammen.sdk.collaboration;
 
 
 import org.amdocs.zusammen.datatypes.Id;
@@ -63,5 +63,6 @@ public interface CollaborationStore {
 
   ItemVersionHistory listItemVersionHistory(SessionContext context, Id itemId, Id versionId);
 
-  CollaborationMergeChange revertItemVersionHistory(SessionContext context, Id itemId, Id versionId,Id changeId);
+  CollaborationMergeChange revertItemVersionHistory(SessionContext context, Id itemId, Id versionId,
+                                                    Id changeId);
 }

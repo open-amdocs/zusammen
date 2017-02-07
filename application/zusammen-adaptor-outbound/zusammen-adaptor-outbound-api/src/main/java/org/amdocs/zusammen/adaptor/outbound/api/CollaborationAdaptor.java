@@ -28,7 +28,6 @@ import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
-import org.amdocs.zusammen.sdk.types.CollaborationMergeChange;
 
 public interface CollaborationAdaptor {
 
