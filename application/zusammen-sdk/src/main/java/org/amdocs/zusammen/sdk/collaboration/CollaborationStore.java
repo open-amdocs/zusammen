@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk;
+package org.amdocs.zusammen.sdk.collaboration;
 
 
 import org.amdocs.zusammen.datatypes.Id;
@@ -23,10 +23,9 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
-import org.amdocs.zusammen.sdk.types.CollaborationMergeChange;
-import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
-import org.amdocs.zusammen.sdk.types.CollaborationPublishResult;
-import org.amdocs.zusammen.sdk.types.ElementData;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeResult;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
 
 public interface CollaborationStore {
 
@@ -51,12 +50,12 @@ public interface CollaborationStore {
   CollaborationMergeResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
                                             Id sourceVersionId);
 
-  ElementData getElement(SessionContext context, ElementContext elementContext,
-                         Namespace namespace, Id elementId);
+  CollaborationElement getElement(SessionContext context, ElementContext elementContext,
+                                  Namespace namespace, Id elementId);
 
-  void createElement(SessionContext context, ElementData elementData);
+  void createElement(SessionContext context, CollaborationElement elementData);
 
-  void updateElement(SessionContext context, ElementData elementData);
+  void updateElement(SessionContext context, CollaborationElement elementData);
 
-  void deleteElement(SessionContext context, ElementData elementData);
+  void deleteElement(SessionContext context, CollaborationElement elementData);
 }

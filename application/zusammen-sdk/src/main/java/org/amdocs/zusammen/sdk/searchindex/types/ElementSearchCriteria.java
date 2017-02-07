@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk.types.searchindex;
+package org.amdocs.zusammen.sdk.searchindex.types;
 
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;

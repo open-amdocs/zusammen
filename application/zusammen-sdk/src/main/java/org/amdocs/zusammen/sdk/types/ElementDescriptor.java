@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,35 +21,35 @@ import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Relation;
-import org.amdocs.zusammen.utils.fileutils.FileUtils;
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
-public class ElementData {
-  private Id id;
+public class ElementDescriptor {
+  private Space space = Space.PRIVATE;
   private Id itemId;
   private Id versionId;
   private Namespace namespace;
-  private Space space;
+  private Id id;
   private Id parentId;
   private Info info;
-  private Collection<Relation> relations = new ArrayList<>();
-  private byte[] data;
-  private byte[] searchableData;
-  private byte[] visualization;
+  private Collection<Relation> relations;
   private Set<Id> subElements = new HashSet();
 
-  public ElementData(Id itemId, Id versionId, Namespace namespace, Id id) {
+  public ElementDescriptor(Id itemId, Id versionId, Namespace namespace, Id id) {
     this.itemId = itemId;
     this.versionId = versionId;
     this.namespace = namespace;
     this.id = id;
+  }
+
+  public Space getSpace() {
+    return space;
+  }
+
+  public void setSpace(Space space) {
+    this.space = space;
   }
 
   public Id getItemId() {
@@ -62,14 +62,6 @@ public class ElementData {
 
   public Namespace getNamespace() {
     return namespace;
-  }
-
-  public Space getSpace() {
-    return space;
-  }
-
-  public void setSpace(Space space) {
-    this.space = space;
   }
 
   public Id getId() {
@@ -100,47 +92,11 @@ public class ElementData {
     this.relations = relations;
   }
 
-  public InputStream getData() {
-    return getInputStream(this.data);
-  }
-
-  public void setData(InputStream data) {
-    this.data = getBytes(data);
-  }
-
-  public InputStream getSearchableData() {
-    return getInputStream(searchableData);
-  }
-
-  public void setSearchableData(InputStream searchableData) {
-    this.searchableData = getBytes(searchableData);
-  }
-
-  public InputStream getVisualization() {
-    return getInputStream(this.visualization);
-  }
-
-  public void setVisualization(InputStream visualization) {
-    this.visualization = getBytes(visualization);
-  }
-
   public Set<Id> getSubElements() {
     return subElements;
   }
 
   public void setSubElements(Set<Id> subElements) {
     this.subElements = subElements;
-  }
-
-  public void addSubElement(Id key) {
-    this.subElements.add(key);
-  }
-
-  private InputStream getInputStream(byte[] bytes) {
-    return Objects.isNull(bytes) || bytes.length == 0 ? null : FileUtils.toInputStream(bytes);
-  }
-
-  private byte[] getBytes(InputStream inputStream) {
-    return inputStream == null ? null : FileUtils.toByteArray(inputStream);
   }
 }

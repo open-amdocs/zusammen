@@ -17,10 +17,10 @@
 package org.amdocs.zusammen.core.api.item;
 
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreElementInfo;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
-import org.amdocs.zusammen.datatypes.item.ElementInfo;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 
@@ -28,9 +28,10 @@ import java.util.Collection;
 
 public interface ElementManager {
 
-  Collection<ElementInfo> list(SessionContext context, ElementContext elementContext, Id elementId);
+  Collection<CoreElementInfo> list(SessionContext context, ElementContext elementContext, Id
+      elementId);
 
-  ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId);
+  CoreElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId);
 
   CoreElement get(SessionContext context, ElementContext elementContext, Id elementId);
 

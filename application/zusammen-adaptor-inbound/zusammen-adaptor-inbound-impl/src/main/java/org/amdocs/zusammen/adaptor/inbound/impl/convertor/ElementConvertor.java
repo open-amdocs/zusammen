@@ -20,7 +20,7 @@ import org.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import org.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class ElementConvertor {
@@ -39,14 +39,31 @@ public class ElementConvertor {
     element.setSearchableData(coreElement.getSearchableData());
     element.setVisualization(coreElement.getVisualization());
 
-    element.setSubElements(getElements(coreElement.getSubElements()));
+    element.setSubElements(coreElement.getSubElements() == null
+        ? null
+        : coreElement.getSubElements().stream()
+            .map(ElementConvertor::convert)
+            .collect(Collectors.toList()));
     return element;
   }
 
-  private static Collection<Element> getElements(Collection<CoreElement> coreElements) {
-    return coreElements == null
-        ? null
-        : coreElements.stream().map(coreElement ->
-            convert(coreElement)).collect(Collectors.toList());
+  public static CoreElement convertFrom(Element element) {
+    CoreElement coreElement = new CoreElement();
+    coreElement.setAction(element.getAction());
+
+    coreElement.setId(element.getElementId());
+    coreElement.setInfo(element.getInfo());
+    coreElement.setRelations(element.getRelations());
+
+    coreElement.setData(element.getData());
+    coreElement.setSearchableData(element.getSearchableData());
+    coreElement.setVisualization(element.getVisualization());
+
+    coreElement.setSubElements(element.getSubElements() == null
+        ? new ArrayList<>()
+        : element.getSubElements().stream()
+            .map(ElementConvertor::convertFrom)
+            .collect(Collectors.toList()));
+    return coreElement;
   }
 }

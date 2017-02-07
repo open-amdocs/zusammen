@@ -21,6 +21,7 @@ import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.zusammen.core.api.item.ItemVersionManager;
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreElementInfo;
 import org.amdocs.zusammen.core.impl.TestUtils;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
@@ -29,9 +30,9 @@ import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
-import org.amdocs.zusammen.datatypes.item.ElementInfo;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
+import org.amdocs.zusammen.sdk.state.types.StateElement;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -98,14 +99,15 @@ public class ElementManagerImplTest {
     Id versionId = new Id();
     ElementContext elementContext = new ElementContext(itemId, versionId);
 
-    Collection<ElementInfo> retrievedElementInfos = Arrays.asList(
-        new ElementInfo(itemId, versionId, new Id(), new Id()),
-        new ElementInfo(itemId, versionId, new Id(), new Id()),
-        new ElementInfo(itemId, versionId, new Id(), new Id()));
+    Collection<StateElement> retrievedElementInfos = Arrays.asList(
+        new StateElement(itemId, versionId, Namespace.ROOT_NAMESPACE, new Id()),
+        new StateElement(itemId, versionId, Namespace.ROOT_NAMESPACE, new Id()),
+        new StateElement(itemId, versionId, Namespace.ROOT_NAMESPACE, new Id()));
     doReturn(retrievedElementInfos).when(stateAdaptorMock)
         .list(context, elementContext, elementId);
 
-    Collection<ElementInfo> elementInfos = elementManager.list(context, elementContext, elementId);
+    Collection<CoreElementInfo> elementInfos =
+        elementManager.list(context, elementContext, elementId);
 
     Assert.assertEquals(elementInfos, retrievedElementInfos);
   }
@@ -118,10 +120,11 @@ public class ElementManagerImplTest {
     Id elementId = new Id();
     ElementContext elementContext = new ElementContext(itemId, versionId);
 
-    ElementInfo retrievedElementInfo = new ElementInfo(itemId, versionId, elementId, new Id());
+    CoreElementInfo retrievedElementInfo =
+        createCoreElementInfo(elementId, new Id(), Namespace.ROOT_NAMESPACE);
     doReturn(retrievedElementInfo).when(stateAdaptorMock).get(context, elementContext, elementId);
 
-    ElementInfo elementInfo = elementManager.getInfo(context, elementContext, elementId);
+    CoreElementInfo elementInfo = elementManager.getInfo(context, elementContext, elementId);
 
     Assert.assertEquals(elementInfo, retrievedElementInfo);
   }
@@ -134,9 +137,8 @@ public class ElementManagerImplTest {
     Id elementId = new Id();
     ElementContext elementContext = new ElementContext(itemId, versionId);
 
-    ElementInfo retrievedElementInfo = new ElementInfo(itemId, versionId, elementId, new Id());
-    retrievedElementInfo
-        .setNamespace(new Namespace(Namespace.ROOT_NAMESPACE, retrievedElementInfo.getParentId()));
+    CoreElementInfo retrievedElementInfo =
+        createCoreElementInfo(elementId, new Id(), Namespace.ROOT_NAMESPACE);
     doReturn(retrievedElementInfo).when(stateAdaptorMock).get(context, elementContext, elementId);
 
     CoreElement retrievedCoreElement = new CoreElement();
@@ -146,6 +148,14 @@ public class ElementManagerImplTest {
     CoreElement element = elementManager.get(context, elementContext, elementId);
 
     Assert.assertEquals(element, retrievedCoreElement);
+  }
+
+  private CoreElementInfo createCoreElementInfo(Id id, Id parentId, Namespace parentNamespace) {
+    CoreElementInfo elementInfo = new CoreElementInfo();
+    elementInfo.setId(id);
+    elementInfo.setParentId(parentId);
+    elementInfo.setNamespace(new Namespace(parentNamespace, parentId));
+    return elementInfo;
   }
 
   @Test
@@ -170,10 +180,8 @@ public class ElementManagerImplTest {
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     ElementContext elementContext = new ElementContext(new Id(), new Id());
 
-    ElementInfo retrievedElementInfo = new ElementInfo(
-        elementContext.getItemId(), elementContext.getVersionId(), root.getId(), new Id());
-    retrievedElementInfo
-        .setNamespace(new Namespace(Namespace.ROOT_NAMESPACE, retrievedElementInfo.getParentId()));
+    CoreElementInfo retrievedElementInfo =
+        createCoreElementInfo(root.getId(), new Id(), Namespace.ROOT_NAMESPACE);
     doReturn(retrievedElementInfo).when(stateAdaptorMock)
         .get(context, elementContext, root.getId());
 

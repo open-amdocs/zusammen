@@ -17,10 +17,10 @@
 package org.amdocs.zusammen.adaptor.inbound.api.item;
 
 import org.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
+import org.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
-import org.amdocs.zusammen.datatypes.item.ElementInfo;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 

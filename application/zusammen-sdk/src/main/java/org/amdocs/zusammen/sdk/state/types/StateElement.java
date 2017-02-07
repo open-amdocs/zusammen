@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,27 +14,17 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk.types;
+package org.amdocs.zusammen.sdk.state.types;
 
-import org.amdocs.zusammen.datatypes.item.Action;
+import org.amdocs.zusammen.datatypes.Id;
+import org.amdocs.zusammen.datatypes.Namespace;
+import org.amdocs.zusammen.sdk.types.ElementDescriptor;
 
-public class ElementDataChange {
-  private ElementData elementData;
-  private Action action;
-
-  public ElementData getElementData() {
-    return elementData;
-  }
-
-  public void setElementData(ElementData elementData) {
-    this.elementData = elementData;
-  }
-
-  public Action getAction() {
-    return action;
-  }
-
-  public void setAction(Action action) {
-    this.action = action;
+public class StateElement extends ElementDescriptor {
+  public StateElement(Id itemId,
+                      Id versionId,
+                      Namespace namespace,
+                      Id id) {
+    super(itemId, versionId, namespace, id);
   }
 }

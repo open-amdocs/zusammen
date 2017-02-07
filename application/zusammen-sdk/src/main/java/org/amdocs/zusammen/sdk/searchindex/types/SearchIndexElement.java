@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,45 +14,24 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk.types.searchindex;
+package org.amdocs.zusammen.sdk.searchindex.types;
 
 
 import org.amdocs.zusammen.datatypes.Id;
-import org.amdocs.zusammen.datatypes.Space;
+import org.amdocs.zusammen.datatypes.Namespace;
+import org.amdocs.zusammen.sdk.types.ElementDescriptor;
 import org.amdocs.zusammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
 import java.util.Objects;
 
-public class ElementSearchableData {
+public class SearchIndexElement extends ElementDescriptor {
   private byte[] searchableData;
-  private Id elementId;
-  private Id itemId;
-  private Id versionId;
-  private Space space;
 
-  public Id getItemId() {
-    return itemId;
-  }
-
-  public void setItemId(Id itemId) {
-    this.itemId = itemId;
-  }
-
-  public Id getVersionId() {
-    return versionId;
-  }
-
-  public void setVersionId(Id versionId) {
-    this.versionId = versionId;
-  }
-
-  public Space getSpace() {
-    return space;
-  }
-
-  public void setSpace(Space space) {
-    this.space = space;
+  public SearchIndexElement(Id itemId, Id versionId,
+                            Namespace namespace,
+                            Id id) {
+    super(itemId, versionId, namespace, id);
   }
 
   public InputStream getSearchableData() {
@@ -63,13 +42,5 @@ public class ElementSearchableData {
 
   public void setSearchableData(InputStream searchableData) {
     this.searchableData = FileUtils.toByteArray(searchableData);
-  }
-
-  public Id getElementId() {
-    return elementId;
-  }
-
-  public void setElementId(Id elementId) {
-    this.elementId = elementId;
   }
 }

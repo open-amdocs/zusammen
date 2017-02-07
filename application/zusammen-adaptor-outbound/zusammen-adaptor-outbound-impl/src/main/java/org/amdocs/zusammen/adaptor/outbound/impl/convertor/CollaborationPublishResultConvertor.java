@@ -16,17 +16,15 @@
 
 package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
-import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
-import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
-import org.amdocs.zusammen.sdk.types.CollaborationPublishResult;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
 
 public class CollaborationPublishResultConvertor {
   public static CorePublishResult convert(CollaborationPublishResult collaborationPublishResult) {
 
     CorePublishResult corePublishResult = new CorePublishResult();
-    corePublishResult.setChange(
-        CollaborationMergeChangeConvertor.convert(collaborationPublishResult.getChange()));
+    corePublishResult.setChange(CollaborationMergeChangeConvertor
+        .convertToCoreMergeChange(collaborationPublishResult.getChange()));
 
 
     return corePublishResult;

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 Amdocs Software Systems Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk.types;
+package org.amdocs.zusammen.sdk.collaboration.types;
 
 import org.amdocs.zusammen.datatypes.item.ItemVersionDataConflict;
 
@@ -23,17 +23,17 @@ import java.util.Collection;
 
 public class CollaborationMergeConflict {
   private ItemVersionDataConflict versionDataConflict;
-  private Collection<ElementDataConflict> elementConflicts = new ArrayList<>();
+  private Collection<CollaborationElementConflict> elementConflicts = new ArrayList<>();
 
-  public Collection<ElementDataConflict> getElementConflicts() {
+  public Collection<CollaborationElementConflict> getElementConflicts() {
     return elementConflicts;
   }
 
-  public void setElementConflicts(Collection<ElementDataConflict> elementConflicts) {
+  public void setElementConflicts(Collection<CollaborationElementConflict> elementConflicts) {
     this.elementConflicts = elementConflicts;
   }
 
-  public void addElementConflict(ElementDataConflict conflict) {
+  public void addElementConflict(CollaborationElementConflict conflict) {
     this.elementConflicts.add(conflict);
   }
 

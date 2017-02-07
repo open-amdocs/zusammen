@@ -18,23 +18,27 @@ package org.amdocs.zusammen.adaptor.outbound.impl.item;
 
 import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.OutboundAdaptorUtils;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementInfoConvertor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.StateElementConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreElementInfo;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
-import org.amdocs.zusammen.datatypes.item.ElementInfo;
+import org.amdocs.zusammen.sdk.state.types.StateElement;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ElementStateAdaptorImpl implements ElementStateAdaptor {
 
   @Override
-  public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
-                                      Id elementId) {
+  public Collection<CoreElementInfo> list(SessionContext context, ElementContext elementContext,
+                                          Id elementId) {
     return OutboundAdaptorUtils.getStateStore(context)
-        .listElements(context, elementContext, elementId);
+        .listElements(context, elementContext, elementId).stream()
+        .map(StateElementConvertor::convertToCoreElementInfo)
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -44,31 +48,30 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   }
 
   @Override
-  public ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId) {
-    return OutboundAdaptorUtils.getStateStore(context)
-        .getElement(context, elementContext, elementId);
+  public CoreElementInfo get(SessionContext context, ElementContext elementContext, Id elementId) {
+    return StateElementConvertor.convertToCoreElementInfo(
+        OutboundAdaptorUtils.getStateStore(context).getElement(context, elementContext, elementId));
   }
 
   @Override
   public void create(SessionContext context, ElementContext elementContext, Space space,
                      CoreElement element) {
-    ElementInfo elementInfo = ElementInfoConvertor.convert(elementContext, space, element);
+    StateElement elementInfo =
+        StateElementConvertor.convertFromCoreElement(elementContext, space, element);
     OutboundAdaptorUtils.getStateStore(context).createElement(context, elementInfo);
   }
 
   @Override
   public void update(SessionContext context, ElementContext elementContext, Space space,
                      CoreElement element) {
-    OutboundAdaptorUtils.getStateStore(context)
-        .updateElement(context,
-            ElementInfoConvertor.convert(elementContext, space, element));
+    OutboundAdaptorUtils.getStateStore(context).updateElement(context,
+        StateElementConvertor.convertFromCoreElement(elementContext, space, element));
   }
 
   @Override
   public void delete(SessionContext context, ElementContext elementContext, Space space,
                      CoreElement element) {
-    OutboundAdaptorUtils.getStateStore(context)
-        .deleteElement(context,
-            ElementInfoConvertor.convert(elementContext, space, element));
+    OutboundAdaptorUtils.getStateStore(context).deleteElement(context,
+        StateElementConvertor.convertFromCoreElement(elementContext, space, element));
   }
 }

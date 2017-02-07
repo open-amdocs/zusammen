@@ -17,8 +17,8 @@
 package org.amdocs.zusammen.adaptor.outbound.impl;
 
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.sdk.StateStore;
-import org.amdocs.zusammen.sdk.StateStoreFactory;
+import org.amdocs.zusammen.sdk.state.StateStore;
+import org.amdocs.zusammen.sdk.state.StateStoreFactory;
 
 public class OutboundAdaptorUtils {
 

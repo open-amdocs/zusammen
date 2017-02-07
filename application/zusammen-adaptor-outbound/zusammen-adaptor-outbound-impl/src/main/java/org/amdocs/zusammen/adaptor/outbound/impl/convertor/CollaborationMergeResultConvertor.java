@@ -17,14 +17,14 @@
 package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
-import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeResult;
 
 public class CollaborationMergeResultConvertor {
   public static CoreMergeResult convert(CollaborationMergeResult collaborationMergeResult) {
 
     CoreMergeResult coreMergeResult = new CoreMergeResult();
-    coreMergeResult.setChange(
-        CollaborationMergeChangeConvertor.convert(collaborationMergeResult.getChange()));
+    coreMergeResult.setChange(CollaborationMergeChangeConvertor
+        .convertToCoreMergeChange(collaborationMergeResult.getChange()));
     coreMergeResult.setConflict(
         CollaborationMergeConflictConvertor.convert(collaborationMergeResult.getConflict()));
 

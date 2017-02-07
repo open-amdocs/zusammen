@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 Amdocs Software Systems Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,10 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk.types;
+package org.amdocs.zusammen.sdk;
 
-public class CollaborationMergeResult {
-  private CollaborationMergeChange change;
-  private CollaborationMergeConflict conflict;
-
-  public CollaborationMergeChange getChange() {
-    return change;
-  }
-
-  public void setChange(CollaborationMergeChange change) {
-    this.change = change;
-  }
-
-  public CollaborationMergeConflict getConflict() {
-    return conflict;
-  }
-
-  public void setConflict(CollaborationMergeConflict conflict) {
-    this.conflict = conflict;
-  }
+public class SdkConstants {
+  public static final String ZUSAMMEN_COLLABORATIVE_STORE = "zusammen_collaborative_store";
+  public static final String ZUSAMMEN_STATE_STORE = "zusammen_state_store";
+  public static final String ZUSAMMEN_SEARCH_INDEX = "zusammen_search_index";
 }

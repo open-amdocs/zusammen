@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk;
+package org.amdocs.zusammen.sdk.state;
 
 
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
-import org.amdocs.zusammen.datatypes.item.ElementInfo;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.workspace.WorkspaceInfo;
+import org.amdocs.zusammen.sdk.state.types.StateElement;
 
 import java.util.Collection;
 
@@ -58,18 +58,18 @@ public interface StateStore {
 
   void deleteItemVersion(SessionContext context, Space itemId, Id versionId, Id space);
 
-  Collection<ElementInfo> listElements(SessionContext context, ElementContext elementContext,
-                                       Id elementId);
+  Collection<StateElement> listElements(SessionContext context, ElementContext elementContext,
+                                        Id elementId);
 
   boolean isElementExist(SessionContext context, ElementContext elementContext, Id elementId);
 
-  ElementInfo getElement(SessionContext context, ElementContext elementContext, Id elementId);
+  StateElement getElement(SessionContext context, ElementContext elementContext, Id elementId);
 
-  void createElement(SessionContext context, ElementInfo element);
+  void createElement(SessionContext context, StateElement element);
 
-  void updateElement(SessionContext context, ElementInfo element);
+  void updateElement(SessionContext context, StateElement element);
 
-  void deleteElement(SessionContext context, ElementInfo element);
+  void deleteElement(SessionContext context, StateElement element);
 
   void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 

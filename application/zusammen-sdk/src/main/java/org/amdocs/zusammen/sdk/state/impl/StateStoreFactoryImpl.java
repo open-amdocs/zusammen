@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk.impl;
+package org.amdocs.zusammen.sdk.state.impl;
 
 import org.amdocs.zusammen.commons.configuration.ConfigurationManager;
 import org.amdocs.zusammen.commons.configuration.ConfigurationManagerFactory;
 import org.amdocs.zusammen.commons.configuration.datatypes.PluginInfo;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.sdk.StateStore;
-import org.amdocs.zusammen.sdk.StateStoreFactory;
-import org.amdocs.zusammen.sdk.utils.SdkConstants;
+import org.amdocs.zusammen.sdk.SdkConstants;
+import org.amdocs.zusammen.sdk.state.StateStore;
+import org.amdocs.zusammen.sdk.state.StateStoreFactory;
 import org.amdocs.zusammen.utils.common.CommonMethods;
 
 public class StateStoreFactoryImpl extends StateStoreFactory {

@@ -17,21 +17,22 @@
 package org.amdocs.zusammen.adaptor.outbound.api.item;
 
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreElementInfo;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
-import org.amdocs.zusammen.datatypes.item.ElementInfo;
 
 import java.util.Collection;
 
 public interface ElementStateAdaptor {
 
-  Collection<ElementInfo> list(SessionContext context, ElementContext elementContext, Id elementId);
+  Collection<CoreElementInfo> list(SessionContext context, ElementContext elementContext, Id
+      elementId);
 
   boolean isExist(SessionContext context, ElementContext elementContext, Id elementId);
 
-  ElementInfo get(SessionContext context, ElementContext elementContext, Id elementId);
+  CoreElementInfo get(SessionContext context, ElementContext elementContext, Id elementId);
 
   void create(SessionContext context, ElementContext elementContext, Space space,
               CoreElement element);

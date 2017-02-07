@@ -18,8 +18,8 @@ package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
 import org.amdocs.zusammen.core.api.types.CoreElementConflict;
 import org.amdocs.zusammen.core.api.types.CoreMergeConflict;
-import org.amdocs.zusammen.sdk.types.CollaborationMergeConflict;
-import org.amdocs.zusammen.sdk.types.ElementDataConflict;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElementConflict;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeConflict;
 
 import java.util.stream.Collectors;
 
@@ -39,12 +39,12 @@ public class CollaborationMergeConflictConvertor {
   }
 
   private static CoreElementConflict convertElementConflict(
-      ElementDataConflict elementDataConflict) {
+      CollaborationElementConflict elementDataConflict) {
     CoreElementConflict coreElementConflict = new CoreElementConflict();
     coreElementConflict.setLocalElement(
-        ElementDataConvertor.convertFrom(elementDataConflict.getLocalElement()));
+        CollaborationElementConvertor.convertToCoreElement(elementDataConflict.getLocalElement()));
     coreElementConflict.setRemoteElement(
-        ElementDataConvertor.convertFrom(elementDataConflict.getRemoteElement()));
+        CollaborationElementConvertor.convertToCoreElement(elementDataConflict.getRemoteElement()));
     return coreElementConflict;
   }
 }

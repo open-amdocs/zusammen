@@ -16,24 +16,33 @@
 
 package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
+import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreMergeChange;
-import org.amdocs.zusammen.sdk.types.CollaborationMergeChange;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElementChange;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeChange;
 
 import java.util.stream.Collectors;
 
 public class CollaborationMergeChangeConvertor {
 
-  public static CoreMergeChange convert(CollaborationMergeChange collaborationMergeChange) {
-    if (collaborationMergeChange == null) {
+  public static CoreMergeChange convertToCoreMergeChange(CollaborationMergeChange mergeChange) {
+    if (mergeChange == null) {
       return null;
     }
 
     CoreMergeChange coreMergeChange = new CoreMergeChange();
-    coreMergeChange.setChangedVersion(collaborationMergeChange.getChangedVersion());
-    coreMergeChange.setChangedElements(collaborationMergeChange.getChangedElements().stream()
-        .map(ElementDataChangeConvertor::convert)
+    coreMergeChange.setChangedVersion(mergeChange.getChangedVersion());
+    coreMergeChange.setChangedElements(mergeChange.getChangedElements().stream()
+        .map(CollaborationMergeChangeConvertor::convertToCoreElement)
         .collect(Collectors.toList()));
 
     return coreMergeChange;
+  }
+
+  private static CoreElement convertToCoreElement(CollaborationElementChange elementChange) {
+    CoreElement coreElement =
+        CollaborationElementConvertor.convertToCoreElement(elementChange.getElement());
+    coreElement.setAction(elementChange.getAction());
+    return coreElement;
   }
 }

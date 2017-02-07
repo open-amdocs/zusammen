@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,44 +14,43 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk.impl;
+package org.amdocs.zusammen.sdk.searchindex.impl;
 
 import org.amdocs.zusammen.commons.configuration.ConfigurationManager;
 import org.amdocs.zusammen.commons.configuration.ConfigurationManagerFactory;
 import org.amdocs.zusammen.commons.configuration.datatypes.PluginInfo;
 import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.sdk.CollaborationStore;
-import org.amdocs.zusammen.sdk.CollaborationStoreFactory;
-import org.amdocs.zusammen.sdk.utils.SdkConstants;
+import org.amdocs.zusammen.sdk.searchindex.SearchIndex;
+import org.amdocs.zusammen.sdk.searchindex.SearchIndexFactory;
+import org.amdocs.zusammen.sdk.SdkConstants;
 import org.amdocs.zusammen.utils.common.CommonMethods;
 
-public class CollaborationStoreFactoryImpl extends CollaborationStoreFactory {
+public class SearchIndexFactoryImpl extends SearchIndexFactory {
 
-  private static CollaborationStore collaborationStore;
+  private static SearchIndex searchIndex;
 
-  private static void intCollaborationStore(SessionContext context) {
-    synchronized (CollaborationStoreFactoryImpl.class) {
+  private static void initSearchIndex(SessionContext context) {
+    synchronized (SearchIndexFactoryImpl.class) {
       ConfigurationManager configurationManager =
           ConfigurationManagerFactory.getInstance().createInterface();
-      PluginInfo pluginInfo = configurationManager.getPluginInfo(SdkConstants
-          .ZUSAMMEN_COLLABORATIVE_STORE);
+      PluginInfo pluginInfo =
+          configurationManager.getPluginInfo(SdkConstants.ZUSAMMEN_SEARCH_INDEX);
       try {
-        collaborationStore = CommonMethods
-            .newInstance(pluginInfo.getImplementationClass(), CollaborationStore.class);
+        searchIndex =
+            CommonMethods.newInstance(pluginInfo.getImplementationClass(), SearchIndex.class);
       } catch (Exception ex) {
         throw new RuntimeException(ex);
       }
     }
   }
 
-
   @Override
-  public CollaborationStore createInterface(SessionContext context) {
-    synchronized (CollaborationStoreFactoryImpl.class) {
-      if (collaborationStore == null) {
-        intCollaborationStore(context);
+  public SearchIndex createInterface(SessionContext context) {
+    synchronized (SearchIndexFactoryImpl.class) {
+      if (searchIndex == null) {
+        initSearchIndex(context);
       }
     }
-    return collaborationStore;
+    return searchIndex;
   }
 }

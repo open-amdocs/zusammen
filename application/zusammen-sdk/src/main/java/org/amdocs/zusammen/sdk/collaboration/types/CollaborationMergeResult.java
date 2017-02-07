@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,25 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk;
+package org.amdocs.zusammen.sdk.collaboration.types;
 
-import org.amdocs.zusammen.datatypes.SessionContext;
-import org.amdocs.zusammen.utils.facade.api.AbstractComponentFactory;
-import org.amdocs.zusammen.utils.facade.api.AbstractFactory;
+public class CollaborationMergeResult {
+  private CollaborationMergeChange change;
+  private CollaborationMergeConflict conflict;
 
-public abstract class SearchIndexFactory extends AbstractComponentFactory<SearchIndex> {
-
-  public static SearchIndexFactory getInstance() {
-    return AbstractFactory.getInstance(SearchIndexFactory.class);
+  public CollaborationMergeChange getChange() {
+    return change;
   }
 
-  public abstract SearchIndex createInterface(SessionContext context);
+  public void setChange(CollaborationMergeChange change) {
+    this.change = change;
+  }
+
+  public CollaborationMergeConflict getConflict() {
+    return conflict;
+  }
+
+  public void setConflict(CollaborationMergeConflict conflict) {
+    this.conflict = conflict;
+  }
 }

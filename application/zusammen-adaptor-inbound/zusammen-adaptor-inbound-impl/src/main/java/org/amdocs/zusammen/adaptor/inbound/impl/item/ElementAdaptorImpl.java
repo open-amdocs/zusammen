@@ -18,18 +18,17 @@ package org.amdocs.zusammen.adaptor.inbound.impl.item;
 
 import org.amdocs.zusammen.adaptor.inbound.api.item.ElementAdaptor;
 import org.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
+import org.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import org.amdocs.zusammen.adaptor.inbound.impl.convertor.ElementConvertor;
+import org.amdocs.zusammen.adaptor.inbound.impl.convertor.ElementInfoConvertor;
 import org.amdocs.zusammen.core.api.item.ElementManager;
 import org.amdocs.zusammen.core.api.item.ElementManagerFactory;
-import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
-import org.amdocs.zusammen.datatypes.item.ElementInfo;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -38,54 +37,33 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   @Override
   public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
                                       Id elementId) {
-    return getElementManager(context).list(context, elementContext, elementId);
+    return getElementManager(context).list(context, elementContext, elementId).stream()
+        .map(ElementInfoConvertor::convert)
+        .collect(Collectors.toList());
   }
 
   @Override
   public ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId) {
-    return getElementManager(context).getInfo(context, elementContext, elementId);
+    return ElementInfoConvertor
+        .convert(getElementManager(context).getInfo(context, elementContext, elementId));
   }
 
   @Override
   public Element get(SessionContext context, ElementContext elementContext, Id elementId) {
-    return ElementConvertor.convert(
-        getElementManager(context).get(context, elementContext, elementId));
+    return ElementConvertor
+        .convert(getElementManager(context).get(context, elementContext, elementId));
   }
 
   @Override
   public void save(SessionContext context, ElementContext elementContext,
                    Element element, String message) {
     getElementManager(context)
-        .save(context, elementContext, getCoreElement(element), message);
+        .save(context, elementContext, ElementConvertor.convertFrom(element), message);
   }
 
   @Override
   public SearchResult search(SessionContext context, SearchCriteria searchCriteria) {
     return getElementManager(context).search(context, searchCriteria);
-  }
-
-  private CoreElement getCoreElement(Element element) {
-    CoreElement coreElement = new CoreElement();
-    coreElement.setAction(element.getAction());
-
-    coreElement.setId(element.getElementId());
-    coreElement.setInfo(element.getInfo());
-    coreElement.setRelations(element.getRelations());
-
-    coreElement.setData(element.getData());
-    coreElement.setSearchableData(element.getSearchableData());
-    coreElement.setVisualization(element.getVisualization());
-
-    coreElement.setSubElements(getCoreElements(element.getSubElements(), element.getElementId()));
-
-    return coreElement;
-  }
-
-  private Collection<CoreElement> getCoreElements(Collection<Element> elements, Id parentId) {
-    return elements == null
-        ? new ArrayList<>()
-        : elements.stream().map(element -> getCoreElement(element))
-            .collect(Collectors.toList());
   }
 
   private ElementManager getElementManager(SessionContext context) {

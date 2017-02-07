@@ -18,54 +18,42 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 
 
 import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.SearchIndexElementConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
-import org.amdocs.zusammen.sdk.SearchIndex;
-import org.amdocs.zusammen.sdk.SearchIndexFactory;
-import org.amdocs.zusammen.sdk.types.searchindex.ElementSearchableData;
+import org.amdocs.zusammen.sdk.searchindex.SearchIndex;
+import org.amdocs.zusammen.sdk.searchindex.SearchIndexFactory;
 
 public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
-
 
   @Override
   public void createElement(SessionContext context, ElementContext elementContext,
                             Space space, CoreElement element) {
-    getSearchIndex(context)
-        .createElement(context, getElementSearchableData(elementContext, element, space));
+    getSearchIndex(context).createElement(context,
+        SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
   }
 
   @Override
   public void updateElement(SessionContext context, ElementContext elementContext,
                             Space space, CoreElement element) {
-    getSearchIndex(context)
-        .updateElement(context, getElementSearchableData(elementContext, element, space));
+    getSearchIndex(context).updateElement(context,
+        SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
   }
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
                             Space space, CoreElement element) {
-    getSearchIndex(context)
-        .deleteElement(context, getElementSearchableData(elementContext, element, space));
+    getSearchIndex(context).deleteElement(context,
+        SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
   }
 
   @Override
   public SearchResult search(SessionContext context, SearchCriteria searchCriteria) {
     return getSearchIndex(context).search(context, searchCriteria);
-  }
-
-  private ElementSearchableData getElementSearchableData(ElementContext elementContext,
-                                                         CoreElement element, Space space) {
-    ElementSearchableData elementSearchableData = new ElementSearchableData();
-    elementSearchableData.setSearchableData(element.getSearchableData());
-    elementSearchableData.setElementId(element.getId());
-    elementSearchableData.setVersionId(elementContext.getVersionId());
-    elementSearchableData.setItemId(elementContext.getItemId());
-    elementSearchableData.setSpace(space);
-    return elementSearchableData;
   }
 
   private SearchIndex getSearchIndex(SessionContext context) {

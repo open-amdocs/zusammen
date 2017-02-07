@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2017 European Support Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk;
+package org.amdocs.zusammen.sdk.searchindex;
 
 
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
-import org.amdocs.zusammen.sdk.types.searchindex.ElementSearchableData;
+import org.amdocs.zusammen.sdk.searchindex.types.SearchIndexElement;
 
 public interface SearchIndex {
 
-  void createElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
+  void createElement(SessionContext sessionContext, SearchIndexElement elementSearchableData);
 
-  void updateElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
+  void updateElement(SessionContext sessionContext, SearchIndexElement elementSearchableData);
 
-  void deleteElement(SessionContext sessionContext, ElementSearchableData elementSearchableData);
+  void deleteElement(SessionContext sessionContext, SearchIndexElement elementSearchableData);
 
   SearchResult search(SessionContext sessionContext, SearchCriteria searchCriteria);
 

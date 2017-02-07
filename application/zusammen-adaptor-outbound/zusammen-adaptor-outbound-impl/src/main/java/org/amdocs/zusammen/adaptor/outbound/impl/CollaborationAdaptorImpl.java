@@ -18,9 +18,9 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 
 
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
+import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationElementConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationMergeResultConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationPublishResultConvertor;
-import org.amdocs.zusammen.adaptor.outbound.impl.convertor.ElementDataConvertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
 import org.amdocs.zusammen.core.api.types.CorePublishResult;
@@ -30,10 +30,10 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
-import org.amdocs.zusammen.sdk.CollaborationStore;
-import org.amdocs.zusammen.sdk.CollaborationStoreFactory;
-import org.amdocs.zusammen.sdk.types.CollaborationMergeResult;
-import org.amdocs.zusammen.sdk.types.CollaborationPublishResult;
+import org.amdocs.zusammen.sdk.collaboration.CollaborationStore;
+import org.amdocs.zusammen.sdk.collaboration.CollaborationStoreFactory;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeResult;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
@@ -99,7 +99,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   @Override
   public CoreElement getElement(SessionContext context, ElementContext elementContext,
                                 Namespace namespace, Id elementId) {
-    return ElementDataConvertor.convertFrom(
+    return CollaborationElementConvertor.convertToCoreElement(
         getCollaborationStore(context).getElement(context, elementContext, namespace, elementId));
   }
 
@@ -107,21 +107,24 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   public void createElement(SessionContext context, ElementContext elementContext,
                             CoreElement element) {
     getCollaborationStore(context)
-        .createElement(context, ElementDataConvertor.convertTo(element, elementContext));
+        .createElement(context,
+            CollaborationElementConvertor.convertFromCoreElement(element, elementContext));
   }
 
   @Override
   public void updateElement(SessionContext context, ElementContext elementContext,
                             CoreElement element) {
     getCollaborationStore(context)
-        .updateElement(context, ElementDataConvertor.convertTo(element, elementContext));
+        .updateElement(context,
+            CollaborationElementConvertor.convertFromCoreElement(element, elementContext));
   }
 
   @Override
   public void deleteElement(SessionContext context, ElementContext elementContext,
                             CoreElement element) {
     getCollaborationStore(context)
-        .deleteElement(context, ElementDataConvertor.convertTo(element, elementContext));
+        .deleteElement(context,
+            CollaborationElementConvertor.convertFromCoreElement(element, elementContext));
   }
 
   @Override

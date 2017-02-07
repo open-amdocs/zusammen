@@ -28,6 +28,7 @@ import org.amdocs.zusammen.core.api.item.ItemManagerFactory;
 import org.amdocs.zusammen.core.api.item.ItemVersionManager;
 import org.amdocs.zusammen.core.api.item.ItemVersionManagerFactory;
 import org.amdocs.zusammen.core.api.types.CoreElement;
+import org.amdocs.zusammen.core.api.types.CoreElementInfo;
 import org.amdocs.zusammen.core.impl.Messages;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
@@ -35,9 +36,9 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
-import org.amdocs.zusammen.datatypes.item.ElementInfo;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
 
 import java.util.Collection;
 
@@ -47,16 +48,16 @@ public class ElementManagerImpl implements ElementManager {
   private ElementVisitor indexingVisitor = IndexingElementVisitor.init();
 
   @Override
-  public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
-                                      Id elementId) {
+  public Collection<CoreElementInfo> list(SessionContext context, ElementContext elementContext,
+                                          Id elementId) {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
     return getStateAdaptor(context).list(context, elementContext, elementId);
   }
 
   @Override
-  public ElementInfo getInfo(SessionContext context, ElementContext elementContext,
-                             Id elementId) {
+  public CoreElementInfo getInfo(SessionContext context, ElementContext elementContext,
+                                 Id elementId) {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
     return getStateAdaptor(context).get(context, elementContext, elementId);
@@ -65,7 +66,7 @@ public class ElementManagerImpl implements ElementManager {
   @Override
   public CoreElement get(SessionContext context, ElementContext elementContext,
                          Id elementId) {
-    ElementInfo elementInfo = getInfo(context, elementContext, elementId);
+    CoreElementInfo elementInfo = getInfo(context, elementContext, elementId);
     if (elementInfo == null) {
       return null;
     }
@@ -83,7 +84,7 @@ public class ElementManagerImpl implements ElementManager {
     if (element.getAction() == Action.CREATE) {
       setElementHierarchyPosition(element, Namespace.ROOT_NAMESPACE, null);
     } else {
-      ElementInfo elementInfo =
+      CoreElementInfo elementInfo =
           getStateAdaptor(context).get(context, elementContext, element.getId());
       if (elementInfo == null) {
         throw new RuntimeException(String.format(Messages.ITEM_VERSION_ELEMENT_NOT_EXIST,

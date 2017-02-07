@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 Amdocs Software Systems Limited
+ * Add Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +19,16 @@ package org.amdocs.zusammen.adaptor.outbound.impl.convertor;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
-import org.amdocs.zusammen.datatypes.item.ElementInfo;
+import org.amdocs.zusammen.sdk.searchindex.types.SearchIndexElement;
 
-public class ElementInfoConvertor {
+public class SearchIndexElementConvertor {
 
-  public static ElementInfo convert(ElementContext elementContext, Space space,
-                                    CoreElement element) {
-    ElementInfo elementInfo = new ElementInfo(
-        elementContext.getItemId(), elementContext.getVersionId(), element.getId(),
-        element.getParentId());
-    elementInfo.setSpace(space);
-    elementInfo.setNamespace(element.getNamespace());
-    elementInfo.setInfo(element.getInfo());
-    elementInfo.setRelations(element.getRelations());
-    return elementInfo;
+  public static SearchIndexElement convertFromCoreElement(ElementContext elementContext,
+                                                          CoreElement element, Space space) {
+    SearchIndexElement searchIndexElement = new SearchIndexElement(elementContext.getItemId(),
+        elementContext.getVersionId(), element.getNamespace(), element.getId());
+    searchIndexElement.setSpace(space);
+    searchIndexElement.setSearchableData(element.getSearchableData());
+    return searchIndexElement;
   }
 }
