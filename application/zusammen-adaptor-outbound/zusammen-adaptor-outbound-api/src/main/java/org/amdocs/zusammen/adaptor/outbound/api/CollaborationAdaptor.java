@@ -27,6 +27,8 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import org.amdocs.zusammen.sdk.types.CollaborationMergeChange;
 
 public interface CollaborationAdaptor {
 
@@ -62,4 +64,9 @@ public interface CollaborationAdaptor {
   void deleteElement(SessionContext context, ElementContext elementContext, CoreElement element);
 
   void commitEntities(SessionContext context, ElementContext elementContext, String message);
+
+  ItemVersionHistory listItemVersionHistory(SessionContext context, Id itemId, Id versionId);
+
+  CoreMergeChange revertItemVersionHistory(SessionContext context, Id itemId, Id
+      versionId, Id changeId);
 }

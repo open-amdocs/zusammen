@@ -28,6 +28,7 @@ import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 
 import java.util.Collection;
 
@@ -78,6 +79,23 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
         getItemVersionManager(context).merge(context, itemId, versionId, sourceVersionId);
     return MergeResultConvertor.getMergeResult(coreMergeResult);
   }
+
+  @Override
+  public ItemVersionHistory listHistory(SessionContext context, Id itemId, Id versionId
+                                                  ) {
+
+    return getItemVersionManager(context).listHistory(context, itemId, versionId);
+
+  }
+
+  @Override
+  public void revertHistory(SessionContext context, Id itemId, Id versionId,Id changeId
+  ) {
+
+    getItemVersionManager(context).revertHistory(context, itemId, versionId,changeId);
+
+  }
+
 
   private SessionContext createSessionContext(UserInfo user) {
     SessionContext context = new SessionContext();

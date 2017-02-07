@@ -1,5 +1,5 @@
 /*
- * Add Copyright © 2016-2017 European Support Limited
+ * Copyright © 2016-2017 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.amdocs.zusammen.sdk.collaboration;
+package org.amdocs.zusammen.sdk;
 
 
 import org.amdocs.zusammen.datatypes.Id;
@@ -23,7 +23,9 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeChange;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeResult;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
 
@@ -53,9 +55,13 @@ public interface CollaborationStore {
   CollaborationElement getElement(SessionContext context, ElementContext elementContext,
                                   Namespace namespace, Id elementId);
 
-  void createElement(SessionContext context, CollaborationElement elementData);
+  void createElement(SessionContext context, CollaborationElement element);
 
-  void updateElement(SessionContext context, CollaborationElement elementData);
+  void updateElement(SessionContext context, CollaborationElement element);
 
-  void deleteElement(SessionContext context, CollaborationElement elementData);
+  void deleteElement(SessionContext context, CollaborationElement element);
+
+  ItemVersionHistory listItemVersionHistory(SessionContext context, Id itemId, Id versionId);
+
+  CollaborationMergeChange revertItemVersionHistory(SessionContext context, Id itemId, Id versionId,Id changeId);
 }
