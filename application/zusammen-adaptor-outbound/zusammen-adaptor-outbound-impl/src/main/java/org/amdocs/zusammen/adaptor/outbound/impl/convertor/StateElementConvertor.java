@@ -44,7 +44,7 @@ public class StateElementConvertor {
     elementInfo.setParentId(element.getParentId());
     elementInfo.setNamespace(element.getNamespace());
     elementInfo.setRelations(element.getRelations());
-
+    elementInfo.setInfo(element.getInfo()    );
     if (element.getSubElements() != null && !element.getSubElements().isEmpty()) {
       elementInfo.setSubElements(element.getSubElements().stream()
           .map(StateElementConvertor::convertToCoreElementInfo)

@@ -140,7 +140,10 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   public void revertHistory(SessionContext context, Id itemId,
                                         Id versionId,Id changeId) {
     validateItemExistence(context, itemId);
-    getCollaborationAdaptor(context).revertItemVersionHistory(context, itemId, versionId,changeId);
+    CoreMergeChange changes =
+        getCollaborationAdaptor(context).revertItemVersionHistory(context, itemId, versionId,
+            changeId);
+    saveMergeChange(context, Space.PRIVATE, itemId, versionId, changes);
   }
 
   private void saveMergeChange(SessionContext context, Space space, Id itemId, Id versionId,
@@ -200,6 +203,4 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   protected ItemManager getItemManager(SessionContext context) {
     return ItemManagerFactory.getInstance().createInterface(context);
   }
-
-
 }
