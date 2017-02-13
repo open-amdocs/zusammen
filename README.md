@@ -1,12 +1,15 @@
-![Zusammen - Collaboration made easy](docs/images/zusammen_logo_black.png/?raw=true "Title")
-# Zusammen - Collaboration Made Easy
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build Status](https://travis-ci.org/open-amdocs/zusammen.svg?branch=master)](https://travis-ci.org/open-amdocs/zusammen)
+[![codecov](https://codecov.io/gh/open-amdocs/zusammen/branch/master/graph/badge.svg)](https://codecov.io/gh/open-amdocs/zusammen)
 
-*Zusammen* is a collaboration centric framework, which provides APIs to manage data in a way that multiple users can work together, in real time, across different geographic location, on any type of data. 
+![Zusammen - Collaboration made easy](docs/images/zusammen_logo_final_888px.png/?raw=true "Zusammen Logo")
 
-* Share team effort, do collaborate design, and still keep sensitive data segregated from other teams. 
-* Rich versioning scheme, to manage different type of lifecycles for those different use case, like managing a new release of a business process, or do a patch for an existing role base policy, while its new design is on the go.
-* The perfect framework, when you need to bring together team of experts who work on different aspects of the same design, but are still dependent on one another. 
- 
-*Zusammen* will give you capabilities to do all that, so you can concentrate on building your awesome application without worrying how the shared data is managed. 
+Zusammen is a document store that is designed specifically to facilitate collaborative work. It enables application creators to add collaboration features to their product with ease.
 
-### Let you users collaborate, easier.
+The major benefits of Zusammen are its collaborative features, flexible versioning mechanism, fast searching, and easy merging. Also, it provides schema-free data management.
+
+Whether your application enables a team to write an article together, to design a model, or to contribute to other joint efforts, Zusammen user collaboration will make collaborative application development both fast and easy.
+
+Zusammen has been designed from day one for user extensibility. This means that you can use Zusammen as a whole, or replace the default plug-ins with plug-ins that better meet your organizational needs.
+
+###### Copyright © 2016-2017 European Support Limited
