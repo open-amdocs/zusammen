@@ -1,6 +1,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://travis-ci.org/open-amdocs/zusammen.svg?branch=master)](https://travis-ci.org/open-amdocs/zusammen)
 [![codecov](https://codecov.io/gh/open-amdocs/zusammen/branch/master/graph/badge.svg)](https://codecov.io/gh/open-amdocs/zusammen)
+[![codebeat badge](https://codebeat.co/badges/b97bf287-15af-4e2c-b129-f3c0f7207eda)](https://codebeat.co/projects/github-com-open-amdocs-zusammen)
 
 ![Zusammen - Collaboration made easy](docs/images/zusammen_logo_final_888px.png/?raw=true "Zusammen Logo")
 
