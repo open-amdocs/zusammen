@@ -27,7 +27,6 @@ import org.amdocs.zusammen.datatypes.response.ErrorCode;
 import org.amdocs.zusammen.datatypes.response.Module;
 import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.response.ReturnCode;
-import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 
@@ -41,18 +40,15 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
       response =
           OutboundAdaptorUtils.getStateStore(context).listItemVersions(context, space, itemId);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSIONS_LIST, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSIONS_LIST, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSIONS_LIST, Module.MDW, e
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_VERSIONS_LIST, Module.STT, rte
           .getMessage(),
+          null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSIONS_LIST, Module.MDW, null,
           returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSIONS_LIST, Module.MDW, rte.getMessage(),
-          null));
     }
     return response;
   }
@@ -65,18 +61,17 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
       response = OutboundAdaptorUtils.getStateStore(context)
           .isItemVersionExist(context, space, itemId, versionId);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_IS_EXIST, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSION_IS_EXIST, Module.MDW,
+            null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_IS_EXIST, Module.MDW, e
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_VERSION_IS_EXIST, Module.STT, rte
           .getMessage(),
+          null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSION_IS_EXIST, Module.MDW,
+          null,
           returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_IS_EXIST, Module.MDW, rte.getMessage(),
-          null));
     }
     return response;
   }
@@ -89,18 +84,15 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
       response = OutboundAdaptorUtils.getStateStore(context)
           .getItemVersion(context, space, itemId, versionId);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_GET, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSION_GET, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_GET, Module.MDW, e
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_VERSION_GET, Module.STT, rte
           .getMessage(),
+          null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSION_GET, Module.MDW, null,
           returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_GET, Module.MDW, rte.getMessage(),
-          null));
     }
     return response;
   }
@@ -114,44 +106,35 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
       response = OutboundAdaptorUtils.getStateStore(context)
           .createItemVersion(context, space, itemId, baseVersionId, versionId, data);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_CREATE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSION_CREATE, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_CREATE, Module.MDW, e
-          .getMessage(),
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_VERSION_CREATE, Module.STT, rte
+          .getMessage(), null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSION_CREATE, Module.MDW, null,
           returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_CREATE, Module.MDW, rte
-          .getMessage(),
-          null));
     }
     return response;
   }
 
   @Override
   public Response<Void> updateItemVersion(SessionContext context, Space space, Id itemId,
-                                          Id versionId,
-                                          ItemVersionData data) {
+                                          Id versionId,ItemVersionData data) {
     Response response;
     try {
       response = OutboundAdaptorUtils.getStateStore(context)
           .updateItemVersion(context, space, itemId, versionId, data);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_UPDATE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSION_UPDATE, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_UPDATE, Module.MDW, e
-          .getMessage(),
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.ST_ITEM_VERSION_UPDATE, Module.STT, rte.getMessage(),
+              null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSION_UPDATE, Module.MDW, null,
           returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_UPDATE, Module.MDW, rte.getMessage(),
-          null));
     }
     return response;
   }
@@ -164,18 +147,16 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
       response = OutboundAdaptorUtils.getStateStore(context)
           .deleteItemVersion(context, space, itemId, versionId);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_DELETE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_VERSION_DELETE, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_DELETE, Module.MDW, e
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode =new ReturnCode(ErrorCode.ST_ITEM_VERSION_DELETE, Module.STT, rte
           .getMessage(),
-          returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_VERSION_DELETE, Module.MDW, rte.getMessage(),
-          null));
+          null);
+      response = new Response(
+          new ReturnCode(ErrorCode.MD_ITEM_VERSION_DELETE, Module.MDW, null,
+              returnCode));
     }
     return response;
   }

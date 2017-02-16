@@ -114,15 +114,35 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   @Override
   public void update(SessionContext context, Id itemId, Id versionId, ItemVersionData data) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
-    getCollaborationAdaptor(context).updateItemVersion(context, itemId, versionId, data);
-    getStateAdaptor(context).updateItemVersion(context, Space.PRIVATE, itemId, versionId, data);
+    Response response;
+    response = getCollaborationAdaptor(context).updateItemVersion(context, itemId, versionId, data);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_UPDATE,Module.ZUS,null,response
+          .getReturnCode());
+    }
+    response = getStateAdaptor(context).updateItemVersion(context, Space.PRIVATE, itemId,
+        versionId, data);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_UPDATE,Module.ZUS,null,response
+          .getReturnCode());
+    }
   }
 
   @Override
   public void delete(SessionContext context, Id itemId, Id versionId) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
-    getCollaborationAdaptor(context).deleteItemVersion(context, itemId, versionId);
-    getStateAdaptor(context).deleteItemVersion(context, Space.PRIVATE, itemId, versionId);
+    Response response = getCollaborationAdaptor(context).deleteItemVersion(context, itemId,
+        versionId);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_DELETE,Module.ZUS,null,response
+          .getReturnCode());
+    }
+    response = getStateAdaptor(context).deleteItemVersion(context, Space.PRIVATE, itemId,
+        versionId);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_DELETE,Module.ZUS,null,response
+          .getReturnCode());
+    }
   }
 
   @Override

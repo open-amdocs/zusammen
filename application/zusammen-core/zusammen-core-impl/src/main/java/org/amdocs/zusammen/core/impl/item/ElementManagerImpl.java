@@ -42,7 +42,6 @@ import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
-import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
 
 import java.util.Collection;
 
@@ -59,7 +58,7 @@ public class ElementManagerImpl implements ElementManager {
     Response<Collection<CoreElementInfo>> response;
     response = getStateAdaptor(context).list(context, elementContext, elementId);
     if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.SS_ELEMENT_LIST, Module.ZUS,null,response.getReturnCode
+      throw new ZusammenException(ErrorCode.ST_ELEMENT_LIST, Module.ZUS,null,response.getReturnCode
           ());
     }
     return response.getValue();
@@ -74,7 +73,7 @@ public class ElementManagerImpl implements ElementManager {
     Response<CoreElementInfo> response;
     response = getStateAdaptor(context).get(context, elementContext, elementId);
     if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.SS_ELEMENT_GET, Module.ZUS,null,response.getReturnCode
+      throw new ZusammenException(ErrorCode.ST_ELEMENT_GET, Module.ZUS,null,response.getReturnCode
           ());
     }
     return response.getValue();

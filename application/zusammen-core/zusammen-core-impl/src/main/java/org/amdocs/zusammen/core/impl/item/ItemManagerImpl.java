@@ -43,7 +43,7 @@ public class ItemManagerImpl implements ItemManager {
 
     response = getStateAdaptor(context).listItems(context);
     if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.SS_ITEM_LIST, Module.ZUS,null,response.getReturnCode());
+      throw new ZusammenException(ErrorCode.ZU_ITEM_LIST, Module.ZUS,null,response.getReturnCode());
     }
 
     return response.getValue();
@@ -73,23 +73,50 @@ public class ItemManagerImpl implements ItemManager {
   @Override
   public Id create(SessionContext context, Info itemInfo) {
     Id itemId = new Id();
-    getCollaborationAdaptor(context).createItem(context, itemId, itemInfo);
-    getStateAdaptor(context).createItem(context, itemId, itemInfo);
+    Response response;
+    response = getCollaborationAdaptor(context).createItem(context, itemId, itemInfo);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_CREATE,Module.ZUS,null,response
+          .getReturnCode());
+    }
+    response = getStateAdaptor(context).createItem(context, itemId, itemInfo);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_CREATE,Module.ZUS,null,response
+          .getReturnCode());
+    }
     return itemId;
   }
 
   @Override
   public void update(SessionContext context, Id itemId, Info itemInfo) {
     validateItemExistence(context, itemId);
-    getCollaborationAdaptor(context).updateItem(context, itemId, itemInfo);
-    getStateAdaptor(context).updateItem(context, itemId, itemInfo);
+    Response response;
+    response = getCollaborationAdaptor(context).updateItem(context, itemId, itemInfo);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_UPDATE,Module.ZUS,null,response
+          .getReturnCode());
+    }
+    response = getStateAdaptor(context).updateItem(context, itemId, itemInfo);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_UPDATE,Module.ZUS,null,response
+          .getReturnCode());
+    }
   }
 
   @Override
   public void delete(SessionContext context, Id itemId) {
     validateItemExistence(context, itemId);
-    getCollaborationAdaptor(context).deleteItem(context, itemId);
-    getStateAdaptor(context).deleteItem(context, itemId);
+    Response response;
+    response = getCollaborationAdaptor(context).deleteItem(context, itemId);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_DELETE,Module.ZUS,null,response
+          .getReturnCode());
+    }
+    response = getStateAdaptor(context).deleteItem(context, itemId);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_DELETE,Module.ZUS,null,response
+          .getReturnCode());
+    }
   }
 
   private void validateItemExistence(SessionContext context, Id itemId) {

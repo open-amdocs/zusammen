@@ -37,17 +37,14 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
     try {
       response = OutboundAdaptorUtils.getStateStore(context).listItems(context);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_LIST, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, e.getMessage(),
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_LIST, Module.STT, rte.getMessage(),
+          null);
+          response = new Response(new ReturnCode(ErrorCode.MD_ITEM_LIST, Module.MDW, null,
           returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, rte.getMessage(),
-          null));
     }
     return response;
   }
@@ -58,17 +55,15 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
     try {
       response = OutboundAdaptorUtils.getStateStore(context).isItemExist(context, itemId);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_IS_EXIST, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_IS_EXIST, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_IS_EXIST, Module.MDW, e.getMessage(),
-          returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_IS_EXIST, Module.MDW, rte.getMessage(),
-          null));
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_IS_EXIST, Module.STT, rte
+          .getMessage(),null);
+      response =
+          new Response(new ReturnCode(ErrorCode.MD_ITEM_IS_EXIST, Module.MDW, null,
+              returnCode));
     }
     return response;
   }
@@ -79,17 +74,14 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
     try {
       response = OutboundAdaptorUtils.getStateStore(context).getItem(context, itemId);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_GET, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_GET, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_GET, Module.MDW, e.getMessage(),
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_GET, Module.STT, rte.getMessage(),
+          null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ITEM_GET, Module.MDW, null,
           returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_GET, Module.MDW, rte.getMessage(),
-          null));
     }
     return response;
   }
@@ -100,17 +92,14 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
     try {
       response = OutboundAdaptorUtils.getStateStore(context).createItem(context, itemId, itemInfo);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_CREATE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_CREATE, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_CREATE, Module.MDW, e.getMessage(),
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_CREATE, Module.STT,
+          rte.getMessage(), null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ITEM_CREATE, Module.MDW, null,
           returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_CREATE, Module.MDW, rte.getMessage(),
-          null));
     }
     return response;
   }
@@ -121,17 +110,15 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
     try {
       response = OutboundAdaptorUtils.getStateStore(context).updateItem(context, itemId, itemInfo);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_UPDATE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_UPDATE, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
 
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_UPDATE, Module.MDW, e.getMessage(),
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_UPDATE, Module.STT, rte.getMessage()
+          , null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ITEM_UPDATE, Module.MDW, null,
           returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_UPDATE, Module.MDW, rte.getMessage(),
-          null));
     }
     return response;
   }
@@ -142,17 +129,14 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
     try {
       response = OutboundAdaptorUtils.getStateStore(context).deleteItem(context, itemId);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_DELETE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ITEM_DELETE, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_DELETE, Module.MDW, e.getMessage(),
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_DELETE, Module.STT, rte.getMessage()
+          , null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ITEM_DELETE, Module.MDW, null,
           returnCode));
-    }catch (RuntimeException rte){
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_DELETE, Module.MDW, rte.getMessage(),
-          null));
     }
     return response;
   }

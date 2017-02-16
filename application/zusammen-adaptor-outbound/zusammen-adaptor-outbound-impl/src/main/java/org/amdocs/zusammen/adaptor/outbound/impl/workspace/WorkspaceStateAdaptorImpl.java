@@ -40,14 +40,14 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
       response = OutboundAdaptorUtils.getStateStore(context)
           .createWorkspace(context, workspaceId, workspaceInfo);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_CREATE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.MDW, null,
             response.getReturnCode()));
       }
     } catch (ZusammenException e) {
-      response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_CREATE, Module.MDW, e.getMessage(),
+      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.MDW, e.getMessage(),
           e.getReturnCode()));
     } catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_CREATE, Module.MDW, rte.getMessage(),
+      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.MDW, rte.getMessage(),
           null));
     }
 
@@ -60,14 +60,14 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
     try {
       response = OutboundAdaptorUtils.getStateStore(context).saveWorkspace(context, workspaceId, workspaceInfo);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_SAVE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.MDW, null,
             response.getReturnCode()));
       }
     } catch (ZusammenException e) {
-      response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_SAVE, Module.MDW, e.getMessage(),
+      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.MDW, e.getMessage(),
           e.getReturnCode()));
     } catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_SAVE, Module.MDW, rte.getMessage(),
+      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.MDW, rte.getMessage(),
           null));
     }
 
@@ -80,15 +80,15 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
     try {
       response = OutboundAdaptorUtils.getStateStore(context).deleteWorkspace(context, workspaceId);
     if (!response.isSuccessful()) {
-      response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_DELETE, Module.MDW, null,
+      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.MDW, null,
           response.getReturnCode()));
     }
   } catch (ZusammenException e) {
-    response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_DELETE, Module.MDW, e
+    response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.MDW, e
         .getMessage(),
         e.getReturnCode()));
   } catch (RuntimeException rte) {
-    response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_DELETE, Module.MDW, rte
+    response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.MDW, rte
         .getMessage(),
         null));
   }
@@ -102,15 +102,15 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
     try {
       response = OutboundAdaptorUtils.getStateStore(context).listWorkspaces(context);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_LIST, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.MDW, null,
             response.getReturnCode()));
       }
     } catch (ZusammenException e) {
-      response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_LIST, Module.MDW, e
+      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.MDW, e
           .getMessage(),
           e.getReturnCode()));
     } catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.SS_WORKSPACE_LIST, Module.MDW, rte
+      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.MDW, rte
           .getMessage(),
           null));
     }

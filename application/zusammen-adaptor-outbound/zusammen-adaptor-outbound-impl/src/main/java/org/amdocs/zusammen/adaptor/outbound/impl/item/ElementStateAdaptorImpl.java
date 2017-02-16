@@ -29,7 +29,6 @@ import org.amdocs.zusammen.datatypes.response.ErrorCode;
 import org.amdocs.zusammen.datatypes.response.Module;
 import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.response.ReturnCode;
-import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.sdk.state.types.StateElement;
 
 import java.util.Collection;
@@ -52,17 +51,16 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
             .map(StateElementConvertor::convertToCoreElementInfo)
             .collect(Collectors.toList()));
       } else {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_LIST, Module.MDW, null,
             plugintResponse.getReturnCode()));
       }
 
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, e.getMessage(),
-          returnCode));
     } catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, rte.getMessage(),
-          null));
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ELEMENT_LIST, Module.STT, rte
+          .getMessage(),
+          null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_LIST, Module.MDW, null,
+          returnCode));
     }
     return response;
   }
@@ -75,16 +73,15 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
       response = OutboundAdaptorUtils.getStateStore(context)
           .isElementExist(context, elementContext, elementId);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_IS_EXIST, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, e.getMessage(),
-          returnCode));
     } catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, rte.getMessage(),
-          null));
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ELEMENT_IS_EXIST, Module.STT, rte
+          .getMessage(),
+          null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_IS_EXIST, Module.MDW, null,
+          returnCode));
     }
     return response;
   }
@@ -101,17 +98,14 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
         response = new Response<CoreElementInfo>(StateElementConvertor.convertToCoreElementInfo
             (pluginResponse.getValue()));
       } else {
-        response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_GET, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_GET, Module.MDW, null,
             pluginResponse.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_GET, Module.MDW, e.getMessage(),
-          returnCode));
     } catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_GET, Module.MDW, rte.getMessage(),
-          null));
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ELEMENT_GET, Module.STT, rte.getMessage(),
+          null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_GET, Module.MDW, null,
+          returnCode));
     }
     return response;
   }
@@ -125,18 +119,14 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
     try {
       response = OutboundAdaptorUtils.getStateStore(context).createElement(context, elementInfo);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_CREATE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_CREATE, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_CREATE, Module.MDW, e.getMessage(),
-          returnCode));
     } catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_CREATE, Module.MDW, rte
-          .getMessage(),
-          null));
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ELEMENT_CREATE, Module.STT, rte
+          .getMessage(), null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_CREATE, Module.MDW, null,
+          returnCode));
     }
     return response;
   }
@@ -150,19 +140,14 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
       response = OutboundAdaptorUtils.getStateStore(context).updateElement(context,
           StateElementConvertor.convertFromCoreElement(elementContext, space, element));
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_UPDATE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_UPDATE, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_UPDATE, Module.MDW, e.getMessage(),
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ELEMENT_UPDATE, Module.STT, rte
+          .getMessage(), null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_UPDATE, Module.MDW, null,
           returnCode));
-
-    }catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_UPDATE, Module.MDW, rte
-          .getMessage(),
-          null));
     }
     return response;
   }
@@ -176,18 +161,14 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
       response = OutboundAdaptorUtils.getStateStore(context).deleteElement(context,
           StateElementConvertor.convertFromCoreElement(elementContext, space, element));
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_DELETE, Module.MDW, null,
+        response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_DELETE, Module.MDW, null,
             response.getReturnCode()));
       }
-    } catch (ZusammenException e) {
-      ReturnCode returnCode = e.getReturnCode();
-
-      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_DELETE, Module.MDW, e.getMessage(),
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ELEMENT_DELETE, Module.STT, rte
+          .getMessage(), null);
+      response = new Response(new ReturnCode(ErrorCode.MD_ELEMENT_DELETE, Module.MDW, null,
           returnCode));
-    }catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_DELETE, Module.MDW, rte
-          .getMessage(),
-          null));
     }
     return response;
   }
