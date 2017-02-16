@@ -22,24 +22,26 @@ import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
+import org.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
 
 public interface ElementStateAdaptor {
 
-  Collection<CoreElementInfo> list(SessionContext context, ElementContext elementContext, Id
+  Response<Collection<CoreElementInfo>> list(SessionContext context, ElementContext
+      elementContext, Id
       elementId);
 
-  boolean isExist(SessionContext context, ElementContext elementContext, Id elementId);
+  Response<Boolean> isExist(SessionContext context, ElementContext elementContext, Id elementId);
 
-  CoreElementInfo get(SessionContext context, ElementContext elementContext, Id elementId);
+  Response<CoreElementInfo> get(SessionContext context, ElementContext elementContext, Id elementId);
 
-  void create(SessionContext context, ElementContext elementContext, Space space,
+  Response<Void> create(SessionContext context, ElementContext elementContext, Space space,
               CoreElement element);
 
-  void update(SessionContext context, ElementContext elementContext, Space space,
+  Response<Void> update(SessionContext context, ElementContext elementContext, Space space,
               CoreElement element);
 
-  void delete(SessionContext context, ElementContext elementContext, Space space,
+  Response<Void> delete(SessionContext context, ElementContext elementContext, Space space,
               CoreElement element);
 }

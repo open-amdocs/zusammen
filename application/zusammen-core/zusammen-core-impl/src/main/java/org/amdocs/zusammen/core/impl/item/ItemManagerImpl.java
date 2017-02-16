@@ -27,6 +27,10 @@ import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 
@@ -35,17 +39,35 @@ public class ItemManagerImpl implements ItemManager {
 
   @Override
   public Collection<Item> list(SessionContext context) {
-    return getStateAdaptor(context).listItems(context);
+    Response<Collection<Item>> response;
+
+    response = getStateAdaptor(context).listItems(context);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.SS_ITEM_LIST, Module.ZUS,null,response.getReturnCode());
+    }
+
+    return response.getValue();
   }
 
   @Override
   public boolean isExist(SessionContext context, Id itemId) {
-    return getStateAdaptor(context).isItemExist(context, itemId);
+    Response<Boolean> response;
+    response = getStateAdaptor(context).isItemExist(context, itemId);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_IS_EXIST, Module.ZUS,null,response.getReturnCode());
+    }
+
+    return response.getValue();
   }
 
   @Override
   public Item get(SessionContext context, Id itemId) {
-    return getStateAdaptor(context).getItem(context, itemId);
+    Response<Item> response;
+    response = getStateAdaptor(context).getItem(context, itemId);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_GET, Module.ZUS,null,response.getReturnCode());
+    }
+    return response.getValue();
   }
 
   @Override

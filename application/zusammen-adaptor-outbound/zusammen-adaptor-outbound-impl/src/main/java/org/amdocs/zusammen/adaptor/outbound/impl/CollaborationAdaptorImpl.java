@@ -33,123 +33,330 @@ import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.sdk.collaboration.CollaborationStore;
 import org.amdocs.zusammen.sdk.collaboration.CollaborationStoreFactory;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
+import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeChange;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeResult;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
-  @Override
-  public void createItem(SessionContext context, Id itemId,
-                         Info itemInfo) {
-    getCollaborationStore(context).createItem(context, itemId, itemInfo);
-  }
-
-  @Override
-  public void updateItem(SessionContext context, Id itemId, Info itemInfo) {
-    //getCollaborationStore(context).updateItem(context, itemId, itemInfo);
-  }
-
-  @Override
-  public void deleteItem(SessionContext context, Id itemId) {
-    getCollaborationStore(context).deleteItem(context, itemId);
-  }
-
-  @Override
-  public void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
-                                Id versionId, ItemVersionData data) {
-    getCollaborationStore(context)
-        .createItemVersion(context, itemId, baseVersionId, versionId, data);
-  }
-
-  @Override
-  public void updateItemVersion(SessionContext context, Id itemId, Id versionId,
-                                ItemVersionData data) {
-    getCollaborationStore(context).updateItemVersion(context, itemId, versionId, data);
-  }
-
-  @Override
-  public void deleteItemVersion(SessionContext context, Id itemId, Id versionId) {
-    getCollaborationStore(context).deleteItemVersion(context, itemId, versionId);
-  }
-
-  @Override
-  public CorePublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
-                                              String message) {
-    CollaborationPublishResult publishResult =
-        getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
-    return CollaborationPublishResultConvertor.convert(publishResult);
-  }
-
-  @Override
-  public CoreMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId) {
-
-    CollaborationMergeResult mergeResult =
-        getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
-    return CollaborationMergeResultConvertor.convert(mergeResult);
-  }
-
-  @Override
-  public CoreMergeResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                          Id sourceVersionId) {
-
-    CollaborationMergeResult mergeResult = getCollaborationStore(context)
-        .mergeItemVersion(context, itemId, versionId, sourceVersionId);
-    return CollaborationMergeResultConvertor.convert(mergeResult);
-  }
-
-  @Override
-  public CoreElement getElement(SessionContext context, ElementContext elementContext,
-                                Namespace namespace, Id elementId) {
-    return CollaborationElementConvertor.convertToCoreElement(
-        getCollaborationStore(context).getElement(context, elementContext, namespace, elementId));
-  }
-
-  @Override
-  public void createElement(SessionContext context, ElementContext elementContext,
-                            CoreElement element) {
-    getCollaborationStore(context)
-        .createElement(context,
-            CollaborationElementConvertor.convertFromCoreElement(element, elementContext));
-  }
-
-  @Override
-  public void updateElement(SessionContext context, ElementContext elementContext,
-                            CoreElement element) {
-    getCollaborationStore(context)
-        .updateElement(context,
-            CollaborationElementConvertor.convertFromCoreElement(element, elementContext));
-  }
-
-  @Override
-  public void deleteElement(SessionContext context, ElementContext elementContext,
-                            CoreElement element) {
-    getCollaborationStore(context)
-        .deleteElement(context,
-            CollaborationElementConvertor.convertFromCoreElement(element, elementContext));
-  }
-
-  @Override
-  public void commitEntities(SessionContext context, ElementContext elementContext,
-                             String message) {
-    //getCollaborationStore(context).commitEntities(context, elementContext, message);
-  }
-
-  @Override
-  public ItemVersionHistory listItemVersionHistory(SessionContext context, Id itemId,
-                                                   Id versionId) {
-    return getCollaborationStore(context).listItemVersionHistory(context, itemId, versionId);
-  }
-
-  @Override
-  public CoreMergeChange revertItemVersionHistory(SessionContext context, Id itemId, Id versionId,
-                                                  Id changeId) {
-    return CollaborationMergeChangeConvertor.convertToCoreMergeChange(getCollaborationStore(context)
-        .revertItemVersionHistory(context, itemId, versionId, changeId));
-  }
 
   private CollaborationStore getCollaborationStore(SessionContext context) {
     return CollaborationStoreFactory.getInstance().createInterface(context);
   }
+
+  @Override
+  public Response<Void> createItem(SessionContext context, Id itemId,
+                                   Info itemInfo) {
+    Response response;
+    try {
+      response = getCollaborationStore(context).createItem(context, itemId, itemInfo);
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.CL_ITEM_CREATE, Module.MDW, null,
+            response.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_CREATE, Module.MDW, e.getMessage(), null);
+    }
+  }
+
+  @Override
+  public Response<Void> updateItem(SessionContext context, Id itemId, Info itemInfo) {
+    return new Response(Void.TYPE);
+    /* Response response;
+    try {
+      response = getCollaborationStore(context).updateItem(context, itemId, itemInfo);
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.CL_ITEM_UPDATE, Module.MDW, null,
+            response.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_UPDATE, Module.MDW, e.getMessage(), null);
+    }*/
+  }
+
+  @Override
+  public Response<Void> deleteItem(SessionContext context, Id itemId) {
+    Response response;
+    try {
+      response = getCollaborationStore(context).deleteItem(context, itemId);
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.CL_ITEM_DELETE, Module.MDW, null,
+            response.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_DELETE, Module.MDW, e.getMessage(), null);
+    }
+  }
+
+  @Override
+  public Response<Void> createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
+                                          Id versionId, ItemVersionData data) {
+    Response response;
+    try {
+      response = getCollaborationStore(context)
+          .createItemVersion(context, itemId, baseVersionId, versionId, data);
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_CREATE, Module.MDW, null,
+            response.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_CREATE, Module.MDW, e.getMessage(),
+          null);
+    }
+  }
+
+  @Override
+  public Response<Void> updateItemVersion(SessionContext context, Id itemId, Id versionId,
+                                          ItemVersionData data) {
+    Response response;
+    try {
+      response = getCollaborationStore(context).updateItemVersion(context, itemId, versionId, data);
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_UPDATE, Module.MDW, null);
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_UPDATE, Module.MDW, e.getMessage(),
+          null);
+    }
+  }
+
+  @Override
+  public Response<Void> deleteItemVersion(SessionContext context, Id itemId, Id versionId) {
+    Response response;
+    try {
+      response = getCollaborationStore(context).deleteItemVersion(context, itemId, versionId);
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_DELETE, Module.MDW, null);
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_DELETE, Module.MDW, e.getMessage(),
+          null);
+    }
+  }
+
+  @Override
+  public Response<CorePublishResult> publishItemVersion(SessionContext context, Id itemId, Id
+      versionId,
+                                                        String message) {
+    Response<CollaborationPublishResult> collaborationResponse;
+    try {
+      collaborationResponse =
+          getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
+      if (!collaborationResponse.isSuccessful()) {
+        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_PUBLISH, Module.MDW, null,
+            collaborationResponse.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_PUBLISH, Module.MDW, e.getMessage(),
+          null);
+    }
+
+    CorePublishResult corePublishResult = CollaborationPublishResultConvertor.convert
+        (collaborationResponse.getValue());
+
+    return new Response(corePublishResult);
+  }
+
+  @Override
+  public Response<CoreMergeResult> syncItemVersion(SessionContext context, Id itemId, Id
+      versionId) {
+    Response<CollaborationMergeResult> collaborationResponse;
+    try {
+      collaborationResponse =
+          getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
+      if (!collaborationResponse.isSuccessful()) {
+        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_SYNC, Module.MDW, null,
+            collaborationResponse.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_SYNC, Module.MDW, e.getMessage(), null);
+    }
+
+    CoreMergeResult coreMergeResult = CollaborationMergeResultConvertor.convert(
+        (collaborationResponse.getValue()));
+
+    return new Response(coreMergeResult);
+
+
+  }
+
+  @Override
+  public Response<CoreMergeResult> mergeItemVersion(SessionContext context, Id itemId, Id
+      versionId,
+                                                    Id sourceVersionId) {
+    Response<CollaborationMergeResult> collaborationResponse;
+    try {
+      collaborationResponse =
+          getCollaborationStore(context)
+              .mergeItemVersion(context, itemId, versionId, sourceVersionId);
+      if (!collaborationResponse.isSuccessful()) {
+        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_MERGE, Module.MDW, null,
+            collaborationResponse.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_MERGE, Module.MDW, e.getMessage(),
+          null);
+    }
+
+    CoreMergeResult coreMergeResult = CollaborationMergeResultConvertor.convert(
+        (collaborationResponse.getValue()));
+
+    return new Response(coreMergeResult);
+
+  }
+
+  @Override
+  public Response<CoreElement> getElement(SessionContext context, ElementContext elementContext,
+                                          Namespace namespace, Id elementId) {
+
+    Response<CollaborationElement> collaborationResponse;
+    try {
+      collaborationResponse =
+          getCollaborationStore(context)
+              .getElement(context, elementContext, namespace, elementId);
+      if (!collaborationResponse.isSuccessful()) {
+        throw new ZusammenException(ErrorCode.CL_ELEMENT_GET, Module.MDW, null,
+            collaborationResponse.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ELEMENT_GET, Module.MDW, e.getMessage(),
+          null);
+    }
+
+    CoreElement coreElement = CollaborationElementConvertor.convertToCoreElement(
+        collaborationResponse.getValue());
+
+    return new Response(coreElement);
+  }
+
+  @Override
+  public Response<Void> createElement(SessionContext context, ElementContext elementContext,
+                                      CoreElement element) {
+
+    Response response;
+    try {
+      response = getCollaborationStore(context)
+          .createElement(context,
+              CollaborationElementConvertor.convertFromCoreElement(element, elementContext));
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.CL_ELEMENT_CREATE, Module.MDW, null);
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ELEMENT_CREATE, Module.MDW, e.getMessage(),
+          null);
+    }
+  }
+
+  @Override
+  public Response<Void> updateElement(SessionContext context, ElementContext elementContext,
+                                      CoreElement element) {
+    Response response;
+    try {
+      response = getCollaborationStore(context)
+          .updateElement(context,
+              CollaborationElementConvertor.convertFromCoreElement(element, elementContext));
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.CL_ELEMENT_UPDATE, Module.MDW, null);
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ELEMENT_UPDATE, Module.MDW, e.getMessage(),
+          null);
+    }
+  }
+
+  @Override
+  public Response<Void> deleteElement(SessionContext context, ElementContext elementContext,
+                                      CoreElement element) {
+
+    Response response;
+    try {
+      response = getCollaborationStore(context)
+          .deleteElement(context,
+              CollaborationElementConvertor.convertFromCoreElement(element, elementContext));
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.CL_ELEMENT_DELETE, Module.MDW, null);
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ELEMENT_DELETE, Module.MDW, e.getMessage(),
+          null);
+    }
+  }
+
+  @Override
+  public Response<Void> commitEntities(SessionContext context, ElementContext elementContext,
+                                       String message) {
+    return new Response(Void.TYPE);
+    //getCollaborationStore(context).commitEntities(context, elementContext, message);
+  }
+
+  @Override
+  public Response<ItemVersionHistory> listItemVersionHistory(SessionContext context, Id itemId,
+                                                             Id versionId) {
+    Response<ItemVersionHistory> response;
+    try {
+      response = getCollaborationStore(context).listItemVersionHistory(context, itemId, versionId);
+      if (!response.isSuccessful()) {
+        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_HISTORY, Module.MDW, null,
+            response.getReturnCode());
+      }
+
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_HISTORY, Module.MDW, e.getMessage(),
+          null);
+    }
+    return response;
+  }
+
+  @Override
+  public Response<CoreMergeChange> revertItemVersionHistory(SessionContext context, Id
+      itemId, Id versionId, Id changeId) {
+
+    Response<CollaborationMergeChange> collaborationResponse;
+    try {
+
+      collaborationResponse = getCollaborationStore(context)
+          .revertItemVersionHistory(context, itemId, versionId, changeId);
+      if (collaborationResponse.isSuccessful()) {
+        return new Response(CollaborationMergeChangeConvertor
+            .convertToCoreMergeChange(collaborationResponse.getValue()));
+      } else {
+        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_REVERT_HISTORY, Module.MDW, null,
+            collaborationResponse.getReturnCode());
+      }
+
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_REVERT_HISTORY, Module.MDW, e
+          .getMessage(),
+          null);
+    }
+
+
+  }
+
+
 }

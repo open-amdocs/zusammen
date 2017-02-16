@@ -21,21 +21,25 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
 
 public interface ItemVersionStateAdaptor {
-  Collection<ItemVersion> listItemVersions(SessionContext context, Space space, Id itemId);
+  Response<Collection<ItemVersion>> listItemVersions(SessionContext context, Space space, Id
+      itemId);
 
-  boolean isItemVersionExist(SessionContext context, Space space, Id itemId, Id versionId);
+  Response<Boolean> isItemVersionExist(SessionContext context, Space space, Id itemId, Id
+      versionId);
 
-  ItemVersion getItemVersion(SessionContext context, Space space, Id itemId, Id versionId);
+  Response<ItemVersion> getItemVersion(SessionContext context, Space space, Id itemId, Id
+      versionId);
 
-  void createItemVersion(SessionContext context, Space space, Id itemId, Id baseVersionId,
+  Response<Void> createItemVersion(SessionContext context, Space space, Id itemId, Id baseVersionId,
                          Id versionId, ItemVersionData data);
 
-  void updateItemVersion(SessionContext context, Space space, Id itemId, Id versionId,
+  Response<Void> updateItemVersion(SessionContext context, Space space, Id itemId, Id versionId,
                          ItemVersionData data);
 
-  void deleteItemVersion(SessionContext context, Space space, Id itemId, Id versionId);
+  Response<Void> deleteItemVersion(SessionContext context, Space space, Id itemId, Id versionId);
 }

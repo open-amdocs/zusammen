@@ -36,6 +36,10 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
@@ -52,7 +56,13 @@ public class ElementManagerImpl implements ElementManager {
                                           Id elementId) {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
-    return getStateAdaptor(context).list(context, elementContext, elementId);
+    Response<Collection<CoreElementInfo>> response;
+    response = getStateAdaptor(context).list(context, elementContext, elementId);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.SS_ELEMENT_LIST, Module.ZUS,null,response.getReturnCode
+          ());
+    }
+    return response.getValue();
   }
 
   @Override
@@ -60,7 +70,14 @@ public class ElementManagerImpl implements ElementManager {
                                  Id elementId) {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
-    return getStateAdaptor(context).get(context, elementContext, elementId);
+
+    Response<CoreElementInfo> response;
+    response = getStateAdaptor(context).get(context, elementContext, elementId);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.SS_ELEMENT_GET, Module.ZUS,null,response.getReturnCode
+          ());
+    }
+    return response.getValue();
   }
 
   @Override
@@ -71,8 +88,16 @@ public class ElementManagerImpl implements ElementManager {
       return null;
     }
     Namespace namespace = elementInfo.getNamespace();
-    return getCollaborationAdaptor(context)
+
+    Response<CoreElement> response;
+    response = getCollaborationAdaptor(context)
         .getElement(context, elementContext, namespace, elementId);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.CL_ELEMENT_GET, Module.ZUS,null,response.getReturnCode
+          ());
+    }
+    return response.getValue();
+
   }
 
   @Override
@@ -84,13 +109,9 @@ public class ElementManagerImpl implements ElementManager {
     if (element.getAction() == Action.CREATE) {
       setElementHierarchyPosition(element, Namespace.ROOT_NAMESPACE, null);
     } else {
-      CoreElementInfo elementInfo =
-          getStateAdaptor(context).get(context, elementContext, element.getId());
-      if (elementInfo == null) {
-        throw new RuntimeException(String.format(Messages.ITEM_VERSION_ELEMENT_NOT_EXIST,
-            elementContext.getItemId(), elementContext.getVersionId(), element.getId(),
-            Space.PRIVATE));
-      }
+
+      CoreElementInfo elementInfo = getInfo(context, elementContext, element.getId());
+
       setElementHierarchyPosition(element, elementInfo.getNamespace(), elementInfo.getParentId());
     }
 
@@ -100,7 +121,12 @@ public class ElementManagerImpl implements ElementManager {
 
   @Override
   public SearchResult search(SessionContext context, SearchCriteria searchCriteria) {
-    return getSearchIndexAdaptor(context).search(context, searchCriteria);
+    Response<SearchResult> response;
+    response = getSearchIndexAdaptor(context).search(context, searchCriteria);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.IN_SEARCH,Module.ZUS,null,response.getReturnCode());
+    }
+    return response.getValue();
   }
 
   private void setElementHierarchyPosition(CoreElement element, Namespace namespace, Id parentId) {
@@ -114,7 +140,7 @@ public class ElementManagerImpl implements ElementManager {
       String message = getItemManager(context).isExist(context, itemId)
           ? String.format(Messages.ITEM_VERSION_NOT_EXIST, itemId, versionId, space)
           : String.format(Messages.ITEM_NOT_EXIST, itemId);
-      throw new RuntimeException(message);
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_NOT_EXIST,Module.ZUS,message,null);
     }
   }
 

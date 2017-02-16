@@ -23,28 +23,29 @@ import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import org.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
 
 public interface ItemVersionAdaptor {
 
-  Collection<ItemVersion> list(SessionContext context, Space space, Id itemId);
+  Response<Collection<ItemVersion>> list(SessionContext context, Space space, Id itemId);
 
-  ItemVersion get(SessionContext context, Space space, Id itemId, Id versionId);
+  Response<ItemVersion> get(SessionContext context, Space space, Id itemId, Id versionId);
 
-  Id create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data);
+  Response<Id> create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data);
 
-  void update(SessionContext context, Id itemId, Id versionId, ItemVersionData data);
+  Response<Void> update(SessionContext context, Id itemId, Id versionId, ItemVersionData data);
 
-  void delete(SessionContext context, Id itemId, Id versionId);
+  Response<Void> delete(SessionContext context, Id itemId, Id versionId);
 
-  void publish(SessionContext context, Id itemId, Id versionId, String message);
+  Response<Void> publish(SessionContext context, Id itemId, Id versionId, String message);
 
-  MergeResult sync(SessionContext context, Id itemId, Id versionId);
+  Response<MergeResult> sync(SessionContext context, Id itemId, Id versionId);
 
-  MergeResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
+  Response<MergeResult> merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 
-  ItemVersionHistory listHistory(SessionContext context, Id itemId, Id versionId);
+  Response<ItemVersionHistory> listHistory(SessionContext context, Id itemId, Id versionId);
 
-  void revertHistory(SessionContext context, Id itemId, Id versionId, Id changeId);
+  Response<Void> revertHistory(SessionContext context, Id itemId, Id versionId, Id changeId);
 }

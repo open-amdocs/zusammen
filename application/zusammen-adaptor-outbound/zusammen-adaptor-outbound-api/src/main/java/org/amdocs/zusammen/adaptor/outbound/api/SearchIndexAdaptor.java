@@ -21,22 +21,23 @@ import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
+import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 
 public interface SearchIndexAdaptor {
 
 
-  void createElement(SessionContext context, ElementContext elementContext, Space space,
+  Response<Void> createElement(SessionContext context, ElementContext elementContext, Space space,
                      CoreElement element);
 
-  void updateElement(SessionContext context, ElementContext elementContext, Space space,
+  Response<Void> updateElement(SessionContext context, ElementContext elementContext, Space space,
                      CoreElement element);
 
-  void deleteElement(SessionContext context, ElementContext elementContext, Space space,
+  Response<Void> deleteElement(SessionContext context, ElementContext elementContext, Space space,
                      CoreElement element);
 
-  SearchResult search(SessionContext context, SearchCriteria searchCriteria);
+  Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria);
 
 
 }

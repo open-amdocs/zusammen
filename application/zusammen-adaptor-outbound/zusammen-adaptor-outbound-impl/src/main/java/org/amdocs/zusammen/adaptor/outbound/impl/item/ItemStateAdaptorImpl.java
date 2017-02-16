@@ -22,38 +22,139 @@ import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ReturnCode;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 
 public class ItemStateAdaptorImpl implements ItemStateAdaptor {
   @Override
-  public Collection<Item> listItems(SessionContext context) {
-    return OutboundAdaptorUtils.getStateStore(context).listItems(context);
+  public Response<Collection<Item>> listItems(SessionContext context) {
+    Response response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context).listItems(context);
+      if (!response.isSuccessful()) {
+        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, null,
+            response.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, e.getMessage(),
+          returnCode));
+    }catch (RuntimeException rte){
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, rte.getMessage(),
+          null));
+    }
+    return response;
   }
 
   @Override
-  public boolean isItemExist(SessionContext context, Id itemId) {
-    return OutboundAdaptorUtils.getStateStore(context).isItemExist(context, itemId);
+  public Response<Boolean> isItemExist(SessionContext context, Id itemId) {
+    Response response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context).isItemExist(context, itemId);
+      if (!response.isSuccessful()) {
+        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_IS_EXIST, Module.MDW, null,
+            response.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_IS_EXIST, Module.MDW, e.getMessage(),
+          returnCode));
+    }catch (RuntimeException rte){
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_IS_EXIST, Module.MDW, rte.getMessage(),
+          null));
+    }
+    return response;
   }
 
   @Override
-  public Item getItem(SessionContext context, Id itemId) {
-    return OutboundAdaptorUtils.getStateStore(context).getItem(context, itemId);
+  public Response<Item> getItem(SessionContext context, Id itemId) {
+    Response response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context).getItem(context, itemId);
+      if (!response.isSuccessful()) {
+        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_GET, Module.MDW, null,
+            response.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_GET, Module.MDW, e.getMessage(),
+          returnCode));
+    }catch (RuntimeException rte){
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_GET, Module.MDW, rte.getMessage(),
+          null));
+    }
+    return response;
   }
 
   @Override
-  public void createItem(SessionContext context, Id itemId, Info itemInfo) {
-    OutboundAdaptorUtils.getStateStore(context).createItem(context, itemId, itemInfo);
+  public Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo) {
+    Response response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context).createItem(context, itemId, itemInfo);
+      if (!response.isSuccessful()) {
+        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_CREATE, Module.MDW, null,
+            response.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_CREATE, Module.MDW, e.getMessage(),
+          returnCode));
+    }catch (RuntimeException rte){
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_CREATE, Module.MDW, rte.getMessage(),
+          null));
+    }
+    return response;
   }
 
   @Override
-  public void updateItem(SessionContext context, Id itemId, Info itemInfo) {
-    OutboundAdaptorUtils.getStateStore(context).updateItem(context, itemId, itemInfo);
+  public Response<Void> updateItem(SessionContext context, Id itemId, Info itemInfo) {
+    Response response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context).updateItem(context, itemId, itemInfo);
+      if (!response.isSuccessful()) {
+        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_UPDATE, Module.MDW, null,
+            response.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_UPDATE, Module.MDW, e.getMessage(),
+          returnCode));
+    }catch (RuntimeException rte){
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_UPDATE, Module.MDW, rte.getMessage(),
+          null));
+    }
+    return response;
   }
 
   @Override
-  public void deleteItem(SessionContext context, Id itemId) {
-    OutboundAdaptorUtils.getStateStore(context).deleteItem(context, itemId);
+  public Response<Void> deleteItem(SessionContext context, Id itemId) {
+    Response response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context).deleteItem(context, itemId);
+      if (!response.isSuccessful()) {
+        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_DELETE, Module.MDW, null,
+            response.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_DELETE, Module.MDW, e.getMessage(),
+          returnCode));
+    }catch (RuntimeException rte){
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_DELETE, Module.MDW, rte.getMessage(),
+          null));
+    }
+    return response;
   }
 
 }

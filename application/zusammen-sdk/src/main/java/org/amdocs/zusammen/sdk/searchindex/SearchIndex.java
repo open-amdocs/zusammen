@@ -18,19 +18,21 @@ package org.amdocs.zusammen.sdk.searchindex;
 
 
 import org.amdocs.zusammen.datatypes.SessionContext;
+import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 import org.amdocs.zusammen.sdk.searchindex.types.SearchIndexElement;
 
 public interface SearchIndex {
 
-  void createElement(SessionContext sessionContext, SearchIndexElement elementSearchableData);
+  Response<Void> createElement(SessionContext sessionContext, SearchIndexElement
+      elementSearchableData);
 
-  void updateElement(SessionContext sessionContext, SearchIndexElement elementSearchableData);
+  Response<Void> updateElement(SessionContext sessionContext, SearchIndexElement elementSearchableData);
 
-  void deleteElement(SessionContext sessionContext, SearchIndexElement elementSearchableData);
+  Response<Void> deleteElement(SessionContext sessionContext, SearchIndexElement elementSearchableData);
 
-  SearchResult search(SessionContext sessionContext, SearchCriteria searchCriteria);
+  Response<SearchResult> search(SessionContext sessionContext, SearchCriteria searchCriteria);
 
 
 }

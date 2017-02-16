@@ -20,17 +20,18 @@ package org.amdocs.zusammen.adaptor.outbound.api.workspace;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
+import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.workspace.WorkspaceInfo;
 
 import java.util.Collection;
 
 public interface WorkspaceStateAdaptor {
 
-  void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
+  Response<Void> createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 
-  void saveWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
+  Response<Void> saveWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 
-  void deleteWorkspace(SessionContext context, Id workspaceId);
+  Response<Void> deleteWorkspace(SessionContext context, Id workspaceId);
 
-  Collection<WorkspaceInfo> listWorkspaces(SessionContext context);
+  Response<Collection<WorkspaceInfo>> listWorkspaces(SessionContext context);
 }

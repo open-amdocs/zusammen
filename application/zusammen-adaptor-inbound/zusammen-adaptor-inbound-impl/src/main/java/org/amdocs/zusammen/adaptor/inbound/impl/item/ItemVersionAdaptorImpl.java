@@ -29,70 +29,155 @@ import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 
 public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
 
   @Override
-  public Collection<ItemVersion> list(SessionContext context, Space space, Id itemId) {
-    return getItemVersionManager(context).list(context, space, itemId);
-  }
+  public Response<Collection<ItemVersion>> list(SessionContext context, Space space, Id itemId) {
 
-  @Override
-  public ItemVersion get(SessionContext context, Space space, Id itemId, Id versionId) {
-    return getItemVersionManager(context).get(context, space, itemId, versionId);
-  }
+    Response response;
+    try {
+      Collection<ItemVersion> itemVersionCollection = getItemVersionManager(context).list(context,
+          space, itemId);
+      response = new Response(itemVersionCollection);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
 
-  @Override
-  public Id create(SessionContext context, Id itemId, Id baseVersionId,
-                   ItemVersionData data) {
-    return getItemVersionManager(context).create(context, itemId, baseVersionId, data);
-  }
-
-  @Override
-  public void update(SessionContext context, Id itemId, Id versionId,
-                     ItemVersionData data) {
-    getItemVersionManager(context).update(context, itemId, versionId, data);
-  }
-
-  @Override
-  public void delete(SessionContext context, Id itemId, Id versionId) {
-    getItemVersionManager(context).delete(context, itemId, versionId);
-  }
-
-  @Override
-  public void publish(SessionContext context, Id itemId, Id versionId, String message) {
-    getItemVersionManager(context).publish(context, itemId, versionId, message);
-  }
-
-  @Override
-  public MergeResult sync(SessionContext context, Id itemId, Id versionId) {
-    CoreMergeResult coreMergeResult =
-        getItemVersionManager(context).sync(context, itemId, versionId);
-    return MergeResultConvertor.getMergeResult(coreMergeResult);
-  }
-
-  @Override
-  public MergeResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId) {
-    CoreMergeResult coreMergeResult =
-        getItemVersionManager(context).merge(context, itemId, versionId, sourceVersionId);
-    return MergeResultConvertor.getMergeResult(coreMergeResult);
-  }
-
-  @Override
-  public ItemVersionHistory listHistory(SessionContext context, Id itemId, Id versionId
-                                                  ) {
-
-    return getItemVersionManager(context).listHistory(context, itemId, versionId);
 
   }
 
   @Override
-  public void revertHistory(SessionContext context, Id itemId, Id versionId,Id changeId
+  public Response<ItemVersion> get(SessionContext context, Space space, Id itemId, Id versionId) {
+    Response response;
+    try {
+
+      ItemVersion itemVersion = getItemVersionManager(context).get(context, space, itemId,
+          versionId);
+      response = new Response(itemVersion);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
+
+  }
+
+  @Override
+  public Response<Id> create(SessionContext context, Id itemId, Id baseVersionId,
+                             ItemVersionData data) {
+
+    Response response;
+    try {
+      Id id = getItemVersionManager(context).create(context, itemId, baseVersionId, data);
+      response = new Response(id);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
+  }
+
+  @Override
+  public Response<Void> update(SessionContext context, Id itemId, Id versionId,
+                               ItemVersionData data) {
+    Response response;
+    try {
+      getItemVersionManager(context).update(context, itemId, versionId, data);
+      response = new Response(Void.TYPE);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
+  }
+
+  @Override
+  public Response<Void> delete(SessionContext context, Id itemId, Id versionId) {
+
+    Response response;
+    try {
+      getItemVersionManager(context).delete(context, itemId, versionId);
+      response = new Response(Void.TYPE);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
+  }
+
+  @Override
+  public Response<Void> publish(SessionContext context, Id itemId, Id versionId, String message) {
+
+    Response response;
+    try {
+      getItemVersionManager(context).publish(context, itemId, versionId, message);
+      response = new Response(Void.TYPE);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
+  }
+
+  @Override
+  public Response<MergeResult> sync(SessionContext context, Id itemId, Id versionId) {
+    Response response;
+    try {
+
+      CoreMergeResult coreMergeResult =
+          getItemVersionManager(context).sync(context, itemId, versionId);
+      MergeResult mergeResult = MergeResultConvertor.getMergeResult(coreMergeResult);
+      response = new Response(mergeResult);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
+  }
+
+  @Override
+  public Response<MergeResult> merge(SessionContext context, Id itemId, Id versionId, Id
+      sourceVersionId) {
+
+    Response response;
+    try {
+      CoreMergeResult coreMergeResult =
+          getItemVersionManager(context).merge(context, itemId, versionId, sourceVersionId);
+      MergeResult mergeResult = MergeResultConvertor.getMergeResult(coreMergeResult);
+      response = new Response(mergeResult);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
+  }
+
+  @Override
+  public Response<ItemVersionHistory> listHistory(SessionContext context, Id itemId, Id versionId
   ) {
+    Response response;
+    try {
+      ItemVersionHistory itemVersionHistory = getItemVersionManager(context).listHistory(context,
+          itemId,
+          versionId);
+      response = new Response(itemVersionHistory);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
 
-    getItemVersionManager(context).revertHistory(context, itemId, versionId,changeId);
+  }
+
+  @Override
+  public Response<Void> revertHistory(SessionContext context, Id itemId, Id versionId, Id changeId
+  ) {
+    Response response;
+    try {
+      getItemVersionManager(context).revertHistory(context, itemId, versionId, changeId);
+      response = new Response(Void.TYPE);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
 
   }
 

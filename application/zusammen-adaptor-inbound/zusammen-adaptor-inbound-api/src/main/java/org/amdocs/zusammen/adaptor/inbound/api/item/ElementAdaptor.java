@@ -21,6 +21,7 @@ import org.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
+import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 
@@ -28,15 +29,17 @@ import java.util.Collection;
 
 public interface ElementAdaptor {
 
-  Collection<ElementInfo> list(SessionContext context, ElementContext elementContext, Id elementId);
+  Response<Collection<ElementInfo>> list(SessionContext context, ElementContext elementContext, Id
+      elementId);
 
-  ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId);
+  Response<ElementInfo> getInfo(SessionContext context, ElementContext elementContext, Id
+      elementId);
 
-  Element get(SessionContext context, ElementContext elementContext, Id elementId);
+  Response<Element> get(SessionContext context, ElementContext elementContext, Id elementId);
 
-  void save(SessionContext context, ElementContext elementContext, Element element,
+  Response<Void> save(SessionContext context, ElementContext elementContext, Element element,
             String message);
 
-  SearchResult search(SessionContext context, SearchCriteria searchCriteria);
+  Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria);
 
 }

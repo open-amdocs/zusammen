@@ -36,6 +36,10 @@ import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 
@@ -45,19 +49,40 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   @Override
   public Collection<ItemVersion> list(SessionContext context, Space space, Id itemId) {
     validateItemExistence(context, itemId);
-    return getStateAdaptor(context).listItemVersions(context, space, itemId);
+    Response<Collection<ItemVersion>> response;
+    response = getStateAdaptor(context).listItemVersions(context, space, itemId);
+    if (response.isSuccessful()) {
+      return response.getValue();
+    } else {
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_LIST, Module.ZUS, null, response
+          .getReturnCode());
+    }
   }
 
   @Override
   public boolean isExist(SessionContext context, Space space, Id itemId, Id versionId) {
     validateItemExistence(context, itemId);
-    return getStateAdaptor(context).isItemVersionExist(context, space, itemId, versionId);
+    Response<Boolean> response;
+    response = getStateAdaptor(context).isItemVersionExist(context, space, itemId, versionId);
+    if (response.isSuccessful()) {
+      return response.getValue();
+    } else {
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_IS_EXIST, Module.ZUS, null, response
+          .getReturnCode());
+    }
   }
 
   @Override
   public ItemVersion get(SessionContext context, Space space, Id itemId, Id versionId) {
     validateItemExistence(context, itemId);
-    return getStateAdaptor(context).getItemVersion(context, space, itemId, versionId);
+    Response<ItemVersion> response;
+    response = getStateAdaptor(context).getItemVersion(context, space, itemId, versionId);
+    if (response.isSuccessful()) {
+      return response.getValue();
+    } else {
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_GET, Module.ZUS, null, response
+          .getReturnCode());
+    }
   }
 
   @Override
@@ -67,12 +92,22 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
       validateItemVersionExistence(context, Space.PRIVATE, itemId, baseVersionId);
     }
     Id versionId = new Id();
-    getCollaborationAdaptor(context)
-        .createItemVersion(context, itemId, baseVersionId, versionId, data);
+    Response response;
 
-    getStateAdaptor(context)
+    response = getCollaborationAdaptor(context)
+        .createItemVersion(context, itemId, baseVersionId, versionId, data);
+    if (!response.isSuccessful()) {
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_CREATE, Module.ZUS, null, response
+          .getReturnCode());
+    }
+
+    response = getStateAdaptor(context)
         .createItemVersion(context, Space.PRIVATE, itemId, baseVersionId, versionId, data);
 
+    if (!response.isSuccessful()) {
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_CREATE, Module.ZUS, null, response
+          .getReturnCode());
+    }
     return versionId;
   }
 
@@ -93,24 +128,35 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   @Override
   public void publish(SessionContext context, Id itemId, Id versionId, String message) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
-    CorePublishResult publishResult =
+    Response<CorePublishResult> response;
+    response =
         getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
+    if (!response.isSuccessful()) {
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_PUBLISH, Module.ZUS, null, response
+          .getReturnCode());
+    }
 
-    saveMergeChange(context, Space.PUBLIC, itemId, versionId, publishResult.getChange());
+    saveMergeChange(context, Space.PUBLIC, itemId, versionId, response.getValue().getChange());
   }
 
 
   @Override
   public CoreMergeResult sync(SessionContext context, Id itemId, Id versionId) {
     validateItemVersionExistence(context, Space.PUBLIC, itemId, versionId);
-    CoreMergeResult syncResult =
-        getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
 
-    if (syncResult.isSuccess()) {
-      saveMergeChange(context, Space.PRIVATE, itemId, versionId, syncResult.getChange());
+
+    Response<CoreMergeResult> response;
+    response = getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
+    if (!response.isSuccessful()) {
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_SYNC, Module.ZUS, null, response
+          .getReturnCode());
     }
 
-    return syncResult;
+    if (response.getValue().isSuccess()) {
+      saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue().getChange());
+    }
+
+    return response.getValue();
   }
 
   @Override
@@ -119,31 +165,54 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
     validateItemVersionExistence(context, Space.PRIVATE, itemId, sourceVersionId);
 
-    CoreMergeResult mergeResult = getCollaborationAdaptor(context)
-        .mergeItemVersion(context, itemId, versionId, sourceVersionId);
 
-    if (mergeResult.isSuccess()) {
-      saveMergeChange(context, Space.PRIVATE, itemId, versionId, mergeResult.getChange());
+    Response<CoreMergeResult> response;
+    response = getCollaborationAdaptor(context).mergeItemVersion(context, itemId, versionId,sourceVersionId);
+    if (!response.isSuccessful()) {
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_MERGE, Module.ZUS, null, response
+          .getReturnCode());
     }
 
-    return mergeResult;
+    if (response.getValue().isSuccess()) {
+      saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue().getChange());
+    }
+
+    return response.getValue();
+
+
+
+
+
+
   }
 
   @Override
   public ItemVersionHistory listHistory(SessionContext context, Id itemId,
                                         Id versionId) {
     validateItemExistence(context, itemId);
-    return getCollaborationAdaptor(context).listItemVersionHistory(context, itemId, versionId);
+    Response<ItemVersionHistory> response;
+
+    response = getCollaborationAdaptor(context).listItemVersionHistory(context, itemId, versionId);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_HISTORY,Module.ZUS,null,response
+          .getReturnCode());
+    }
+    return response.getValue();
   }
 
   @Override
   public void revertHistory(SessionContext context, Id itemId,
-                                        Id versionId,Id changeId) {
+                            Id versionId, Id changeId) {
     validateItemExistence(context, itemId);
-    CoreMergeChange changes =
-        getCollaborationAdaptor(context).revertItemVersionHistory(context, itemId, versionId,
+
+    Response<CoreMergeChange> response;
+    response = getCollaborationAdaptor(context).revertItemVersionHistory(context, itemId, versionId,
             changeId);
-    saveMergeChange(context, Space.PRIVATE, itemId, versionId, changes);
+    if(!response.isSuccessful()){
+      throw new ZusammenException(ErrorCode.ZU_ITEM_VERSION_REVERT_HISTORY,Module.ZUS,null,response
+          .getReturnCode());
+    }
+    saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue());
   }
 
   private void saveMergeChange(SessionContext context, Space space, Id itemId, Id versionId,

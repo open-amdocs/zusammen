@@ -18,6 +18,7 @@ package org.amdocs.zusammen.adaptor.inbound.api.item;
 
 
 import org.amdocs.zusammen.datatypes.Id;
+import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
@@ -26,13 +27,13 @@ import java.util.Collection;
 
 public interface ItemAdaptor {
 
-  Collection<Item> list(SessionContext context);
+  Response<Collection<Item>> list(SessionContext context);
 
-  Item get(SessionContext context, Id itemId);
+  Response<Item> get(SessionContext context, Id itemId);
 
-  Id create(SessionContext context, Info itemInfo);
+  Response<Id> create(SessionContext context, Info itemInfo);
 
-  void update(SessionContext context, Id itemId, Info itemInfo);
+  Response<Void> update(SessionContext context, Id itemId, Info itemInfo);
 
-  void delete(SessionContext context, Id itemId);
+  Response<Void> delete(SessionContext context, Id itemId);
 }

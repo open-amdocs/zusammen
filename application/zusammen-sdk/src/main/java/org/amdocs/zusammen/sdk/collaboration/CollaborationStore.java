@@ -24,6 +24,7 @@ import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeChange;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeResult;
@@ -31,38 +32,43 @@ import org.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
 
 public interface CollaborationStore {
 
-  void createItem(SessionContext context, Id itemId, Info itemInfo);
+  Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void deleteItem(SessionContext context, Id itemId);
+  Response<Void> deleteItem(SessionContext context, Id itemId);
 
-  void createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
+  Response<Void> createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
                          Id versionId, ItemVersionData data);
 
-  void updateItemVersion(SessionContext context, Id itemId, Id versionId,
+  Response<Void> updateItemVersion(SessionContext context, Id itemId, Id versionId,
                          ItemVersionData data);
 
-  void deleteItemVersion(SessionContext context, Id itemId, Id versionId);
+  Response<Void> deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
-  CollaborationPublishResult publishItemVersion(SessionContext context, Id itemId, Id versionId,
+  Response<CollaborationPublishResult> publishItemVersion(SessionContext context, Id itemId, Id
+      versionId,
                                                 String message);
 
-  CollaborationMergeResult syncItemVersion(SessionContext context, Id itemId, Id versionId);
+  Response<CollaborationMergeResult> syncItemVersion(SessionContext context, Id itemId, Id
+      versionId);
 
 
-  CollaborationMergeResult mergeItemVersion(SessionContext context, Id itemId, Id versionId,
+  Response<CollaborationMergeResult> mergeItemVersion(SessionContext context, Id itemId, Id
+      versionId,
                                             Id sourceVersionId);
 
-  CollaborationElement getElement(SessionContext context, ElementContext elementContext,
+  Response<CollaborationElement> getElement(SessionContext context, ElementContext elementContext,
                                   Namespace namespace, Id elementId);
 
-  void createElement(SessionContext context, CollaborationElement element);
+  Response<Void> createElement(SessionContext context, CollaborationElement element);
 
-  void updateElement(SessionContext context, CollaborationElement element);
+  Response<Void> updateElement(SessionContext context, CollaborationElement element);
 
-  void deleteElement(SessionContext context, CollaborationElement element);
+  Response<Void> deleteElement(SessionContext context, CollaborationElement element);
 
-  ItemVersionHistory listItemVersionHistory(SessionContext context, Id itemId, Id versionId);
+  Response<ItemVersionHistory> listItemVersionHistory(SessionContext context, Id itemId, Id
+      versionId);
 
-  CollaborationMergeChange revertItemVersionHistory(SessionContext context, Id itemId, Id versionId,
+  Response<CollaborationMergeChange> revertItemVersionHistory(SessionContext context, Id itemId, Id
+      versionId,
                                                     Id changeId);
 }

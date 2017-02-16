@@ -20,20 +20,21 @@ import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
+import org.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
 
 public interface ItemStateAdaptor {
 
-  Collection<Item> listItems(SessionContext context);
+  Response<Collection<Item>> listItems(SessionContext context);
 
-  boolean isItemExist(SessionContext context, Id itemId);
+  Response<Boolean> isItemExist(SessionContext context, Id itemId);
 
-  Item getItem(SessionContext context, Id itemId);
+  Response<Item> getItem(SessionContext context, Id itemId);
 
-  void createItem(SessionContext context, Id itemId, Info itemInfo);
+  Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void updateItem(SessionContext context, Id itemId, Info itemInfo);
+  Response<Void> updateItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void deleteItem(SessionContext context, Id itemId);
+  Response<Void> deleteItem(SessionContext context, Id itemId);
 }

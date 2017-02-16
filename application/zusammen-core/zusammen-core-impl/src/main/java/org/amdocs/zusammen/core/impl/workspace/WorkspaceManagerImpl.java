@@ -51,7 +51,7 @@ public class WorkspaceManagerImpl implements WorkspaceManager {
 
   @Override
   public Collection<WorkspaceInfo> list(SessionContext context) {
-    return getStateAdaptor(context).listWorkspaces(context);
+    return getStateAdaptor(context).listWorkspaces(context).getValue();
   }
 
   @Override

@@ -23,6 +23,10 @@ import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 import org.amdocs.zusammen.sdk.searchindex.SearchIndex;
@@ -31,29 +35,79 @@ import org.amdocs.zusammen.sdk.searchindex.SearchIndexFactory;
 public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
 
   @Override
-  public void createElement(SessionContext context, ElementContext elementContext,
-                            Space space, CoreElement element) {
-    getSearchIndex(context).createElement(context,
-        SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
+  public Response<Void> createElement(SessionContext context, ElementContext elementContext,
+                                      Space space, CoreElement element) {
+    Response response;
+    try {
+      response = getSearchIndex(context).createElement(context,
+          SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.IN_ELEMENT_CREATE, Module.MDW, null,
+            response.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.IN_ELEMENT_CREATE, Module.MDW, e.getMessage(),
+          null);
+    }
   }
 
   @Override
-  public void updateElement(SessionContext context, ElementContext elementContext,
-                            Space space, CoreElement element) {
-    getSearchIndex(context).updateElement(context,
-        SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
+  public Response<Void> updateElement(SessionContext context, ElementContext elementContext,
+                                      Space space, CoreElement element) {
+    Response response;
+    try {
+      response = getSearchIndex(context).updateElement(context,
+          SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.IN_ELEMENT_UPDATE, Module.MDW, null,
+            response.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.IN_ELEMENT_UPDATE, Module.MDW, e.getMessage(),
+          null);
+    }
   }
 
   @Override
-  public void deleteElement(SessionContext context, ElementContext elementContext,
-                            Space space, CoreElement element) {
-    getSearchIndex(context).deleteElement(context,
-        SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
+  public Response<Void> deleteElement(SessionContext context, ElementContext elementContext,
+                                      Space space, CoreElement element) {
+
+    Response response;
+    try {
+      response = getSearchIndex(context).deleteElement(context,
+          SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.IN_ELEMENT_DELETE, Module.MDW, null,
+            response.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.IN_ELEMENT_DELETE, Module.MDW, e.getMessage(),
+          null);
+    }
   }
 
   @Override
-  public SearchResult search(SessionContext context, SearchCriteria searchCriteria) {
-    return getSearchIndex(context).search(context, searchCriteria);
+  public Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria) {
+
+    Response response;
+    try {
+      response = getSearchIndex(context).search(context, searchCriteria);
+      if (response.isSuccessful()) {
+        return response;
+      } else {
+        throw new ZusammenException(ErrorCode.IN_SEARCH, Module.MDW, null,
+            response.getReturnCode());
+      }
+    } catch (RuntimeException e) {
+      throw new ZusammenException(ErrorCode.IN_SEARCH, Module.MDW, e.getMessage(),
+          null);
+    }
   }
 
   private SearchIndex getSearchIndex(SessionContext context) {

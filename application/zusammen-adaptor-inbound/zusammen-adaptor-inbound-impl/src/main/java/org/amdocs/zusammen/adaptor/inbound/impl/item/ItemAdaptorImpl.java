@@ -23,34 +23,73 @@ import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 
 public class ItemAdaptorImpl implements ItemAdaptor {
 
   @Override
-  public Collection<Item> list(SessionContext context) {
-    return getItemManager(context).list(context);
+  public Response<Collection<Item>> list(SessionContext context) {
+    Response response;
+    try {
+      Collection<Item> itemCollection = getItemManager(context).list(context);
+      response = new Response(itemCollection);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
   }
 
   @Override
-  public Item get(SessionContext context, Id itemId) {
-    return getItemManager(context).get(context, itemId);
+  public Response<Item> get(SessionContext context, Id itemId) {
+    Response response;
+    try {
+      Item item = getItemManager(context).get(context, itemId);
+      response = new Response(item);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
   }
 
   @Override
-  public Id create(SessionContext context, Info itemInfo) {
-    return getItemManager(context).create(context, itemInfo);
+  public Response<Id> create(SessionContext context, Info itemInfo) {
+    Response response;
+    try {
+      Id id = getItemManager(context).create(context, itemInfo);
+      response = new Response(id);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+
+    return response;
+
   }
 
   @Override
-  public void update(SessionContext context, Id itemId, Info itemInfo) {
-    getItemManager(context).update(context, itemId, itemInfo);
+  public Response<Void> update(SessionContext context, Id itemId, Info itemInfo) {
+    Response response;
+    try {
+      getItemManager(context).update(context, itemId, itemInfo);
+      response = new Response(Void.TYPE);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
   }
 
   @Override
-  public void delete(SessionContext context, Id itemId) {
-    getItemManager(context).delete(context, itemId);
+  public Response<Void> delete(SessionContext context, Id itemId) {
+    Response response;
+    try {
+      getItemManager(context).delete(context, itemId);
+      response = new Response(Void.TYPE);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
   }
 
   private ItemManager getItemManager(SessionContext context) {

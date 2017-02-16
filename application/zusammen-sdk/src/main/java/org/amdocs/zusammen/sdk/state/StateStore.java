@@ -25,6 +25,7 @@ import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
+import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.workspace.WorkspaceInfo;
 import org.amdocs.zusammen.sdk.state.types.StateElement;
 
@@ -32,50 +33,55 @@ import java.util.Collection;
 
 public interface StateStore {
 
-  Collection<Item> listItems(SessionContext context);
+  Response<Collection<Item>> listItems(SessionContext context);
 
-  boolean isItemExist(SessionContext context, Id itemId);
+  Response<Boolean> isItemExist(SessionContext context, Id itemId);
 
-  Item getItem(SessionContext context, Id itemId);
+  Response<Item> getItem(SessionContext context, Id itemId);
 
-  void createItem(SessionContext context, Id itemId, Info itemInfo);
+  Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void updateItem(SessionContext context, Id itemId, Info itemInfo);
+  Response<Void> updateItem(SessionContext context, Id itemId, Info itemInfo);
 
-  void deleteItem(SessionContext context, Id itemId);
+  Response<Void> deleteItem(SessionContext context, Id itemId);
 
-  Collection<ItemVersion> listItemVersions(SessionContext context, Space space, Id itemId);
+  Response<Collection<ItemVersion>> listItemVersions(SessionContext context, Space space, Id
+      itemId);
 
-  boolean isItemVersionExist(SessionContext context, Space space, Id itemId, Id versionId);
+  Response<Boolean> isItemVersionExist(SessionContext context, Space space, Id itemId, Id versionId);
 
-  ItemVersion getItemVersion(SessionContext context, Space space, Id itemId, Id versionId);
+  Response<ItemVersion> getItemVersion(SessionContext context, Space space, Id itemId, Id
+      versionId);
 
-  void createItemVersion(SessionContext context, Space space, Id itemId, Id baseVersionId,
+  Response<Void> createItemVersion(SessionContext context, Space space, Id itemId, Id baseVersionId,
                          Id versionId, ItemVersionData data);
 
-  void updateItemVersion(SessionContext context, Space space, Id itemId, Id versionId,
+  Response<Void> updateItemVersion(SessionContext context, Space space, Id itemId, Id versionId,
                          ItemVersionData data);
 
-  void deleteItemVersion(SessionContext context, Space space, Id itemId, Id versionId);
+  Response<Void> deleteItemVersion(SessionContext context, Space space, Id itemId, Id versionId);
 
-  Collection<StateElement> listElements(SessionContext context, ElementContext elementContext,
+  Response<Collection<StateElement>> listElements(SessionContext context, ElementContext
+      elementContext,
                                         Id elementId);
 
-  boolean isElementExist(SessionContext context, ElementContext elementContext, Id elementId);
+  Response<Boolean> isElementExist(SessionContext context, ElementContext elementContext, Id
+      elementId);
 
-  StateElement getElement(SessionContext context, ElementContext elementContext, Id elementId);
+  Response<StateElement> getElement(SessionContext context, ElementContext elementContext, Id
+      elementId);
 
-  void createElement(SessionContext context, StateElement element);
+  Response<Void> createElement(SessionContext context, StateElement element);
 
-  void updateElement(SessionContext context, StateElement element);
+  Response<Void> updateElement(SessionContext context, StateElement element);
 
-  void deleteElement(SessionContext context, StateElement element);
+  Response<Void> deleteElement(SessionContext context, StateElement element);
 
-  void createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
+  Response<Void> createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 
-  void saveWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
+  Response<Void> saveWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 
-  void deleteWorkspace(SessionContext context, Id workspaceId);
+  Response<Void> deleteWorkspace(SessionContext context, Id workspaceId);
 
-  Collection<WorkspaceInfo> listWorkspaces(SessionContext context);
+  Response<Collection<WorkspaceInfo>> listWorkspaces(SessionContext context);
 }

@@ -25,6 +25,11 @@ import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ReturnCode;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.sdk.state.types.StateElement;
 
 import java.util.Collection;
@@ -33,45 +38,157 @@ import java.util.stream.Collectors;
 public class ElementStateAdaptorImpl implements ElementStateAdaptor {
 
   @Override
-  public Collection<CoreElementInfo> list(SessionContext context, ElementContext elementContext,
-                                          Id elementId) {
-    return OutboundAdaptorUtils.getStateStore(context)
-        .listElements(context, elementContext, elementId).stream()
-        .map(StateElementConvertor::convertToCoreElementInfo)
-        .collect(Collectors.toList());
+  public Response<Collection<CoreElementInfo>> list(SessionContext context, ElementContext
+      elementContext,
+                                                    Id elementId) {
+    Response<Collection<StateElement>> plugintResponse;
+    Response<Collection<CoreElementInfo>> response;
+    try {
+
+      plugintResponse = OutboundAdaptorUtils.getStateStore(context)
+          .listElements(context, elementContext, elementId);
+      if (plugintResponse.isSuccessful()) {
+        response = new Response<Collection<CoreElementInfo>>(plugintResponse.getValue().stream()
+            .map(StateElementConvertor::convertToCoreElementInfo)
+            .collect(Collectors.toList()));
+      } else {
+        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, null,
+            plugintResponse.getReturnCode()));
+      }
+
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, e.getMessage(),
+          returnCode));
+    } catch (RuntimeException rte) {
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, rte.getMessage(),
+          null));
+    }
+    return response;
   }
 
   @Override
-  public boolean isExist(SessionContext context, ElementContext elementContext, Id elementId) {
-    return OutboundAdaptorUtils.getStateStore(context)
-        .isElementExist(context, elementContext, elementId);
+  public Response<Boolean> isExist(SessionContext context, ElementContext elementContext, Id
+      elementId) {
+    Response response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context)
+          .isElementExist(context, elementContext, elementId);
+      if (!response.isSuccessful()) {
+        response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, null,
+            response.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, e.getMessage(),
+          returnCode));
+    } catch (RuntimeException rte) {
+      response = new Response(new ReturnCode(ErrorCode.SS_ITEM_LIST, Module.MDW, rte.getMessage(),
+          null));
+    }
+    return response;
   }
 
   @Override
-  public CoreElementInfo get(SessionContext context, ElementContext elementContext, Id elementId) {
-    return StateElementConvertor.convertToCoreElementInfo(
-        OutboundAdaptorUtils.getStateStore(context).getElement(context, elementContext, elementId));
+  public Response<CoreElementInfo> get(SessionContext context, ElementContext elementContext, Id
+      elementId) {
+    Response<StateElement> pluginResponse;
+    Response<CoreElementInfo> response;
+    try {
+      pluginResponse = OutboundAdaptorUtils.getStateStore(context)
+          .getElement(context, elementContext, elementId);
+      if (pluginResponse.isSuccessful()) {
+        response = new Response<CoreElementInfo>(StateElementConvertor.convertToCoreElementInfo
+            (pluginResponse.getValue()));
+      } else {
+        response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_GET, Module.MDW, null,
+            pluginResponse.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+
+      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_GET, Module.MDW, e.getMessage(),
+          returnCode));
+    } catch (RuntimeException rte) {
+      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_GET, Module.MDW, rte.getMessage(),
+          null));
+    }
+    return response;
   }
 
   @Override
-  public void create(SessionContext context, ElementContext elementContext, Space space,
-                     CoreElement element) {
+  public Response<Void> create(SessionContext context, ElementContext elementContext, Space space,
+                               CoreElement element) {
     StateElement elementInfo =
         StateElementConvertor.convertFromCoreElement(elementContext, space, element);
-    OutboundAdaptorUtils.getStateStore(context).createElement(context, elementInfo);
+    Response response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context).createElement(context, elementInfo);
+      if (!response.isSuccessful()) {
+        response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_CREATE, Module.MDW, null,
+            response.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+
+      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_CREATE, Module.MDW, e.getMessage(),
+          returnCode));
+    } catch (RuntimeException rte) {
+      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_CREATE, Module.MDW, rte
+          .getMessage(),
+          null));
+    }
+    return response;
   }
 
   @Override
-  public void update(SessionContext context, ElementContext elementContext, Space space,
-                     CoreElement element) {
-    OutboundAdaptorUtils.getStateStore(context).updateElement(context,
-        StateElementConvertor.convertFromCoreElement(elementContext, space, element));
+  public Response<Void> update(SessionContext context, ElementContext elementContext, Space
+      space,
+                               CoreElement element) {
+    Response response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context).updateElement(context,
+          StateElementConvertor.convertFromCoreElement(elementContext, space, element));
+      if (!response.isSuccessful()) {
+        response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_UPDATE, Module.MDW, null,
+            response.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+
+      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_UPDATE, Module.MDW, e.getMessage(),
+          returnCode));
+
+    }catch (RuntimeException rte) {
+      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_UPDATE, Module.MDW, rte
+          .getMessage(),
+          null));
+    }
+    return response;
   }
 
   @Override
-  public void delete(SessionContext context, ElementContext elementContext, Space space,
-                     CoreElement element) {
-    OutboundAdaptorUtils.getStateStore(context).deleteElement(context,
-        StateElementConvertor.convertFromCoreElement(elementContext, space, element));
+  public Response<Void> delete(SessionContext context, ElementContext elementContext, Space
+      space,
+                               CoreElement element) {
+    Response response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context).deleteElement(context,
+          StateElementConvertor.convertFromCoreElement(elementContext, space, element));
+      if (!response.isSuccessful()) {
+        response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_DELETE, Module.MDW, null,
+            response.getReturnCode()));
+      }
+    } catch (ZusammenException e) {
+      ReturnCode returnCode = e.getReturnCode();
+
+      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_DELETE, Module.MDW, e.getMessage(),
+          returnCode));
+    }catch (RuntimeException rte) {
+      response = new Response(new ReturnCode(ErrorCode.SS_ELEMENT_DELETE, Module.MDW, rte
+          .getMessage(),
+          null));
+    }
+    return response;
   }
 }

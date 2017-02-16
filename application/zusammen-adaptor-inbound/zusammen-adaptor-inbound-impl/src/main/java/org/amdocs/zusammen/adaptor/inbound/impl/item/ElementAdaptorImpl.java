@@ -26,6 +26,8 @@ import org.amdocs.zusammen.core.api.item.ElementManagerFactory;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 
@@ -35,35 +37,74 @@ import java.util.stream.Collectors;
 public class ElementAdaptorImpl implements ElementAdaptor {
 
   @Override
-  public Collection<ElementInfo> list(SessionContext context, ElementContext elementContext,
-                                      Id elementId) {
-    return getElementManager(context).list(context, elementContext, elementId).stream()
-        .map(ElementInfoConvertor::convert)
-        .collect(Collectors.toList());
+  public Response<Collection<ElementInfo>> list(SessionContext context, ElementContext
+      elementContext, Id elementId) {
+    Response response;
+    try {
+      Collection<ElementInfo> elementInfoCollection = getElementManager(context).list(context,
+          elementContext, elementId)
+          .stream()
+          .map(ElementInfoConvertor::convert)
+          .collect(Collectors.toList());
+      response = new Response(elementInfoCollection);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
   }
 
   @Override
-  public ElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId) {
-    return ElementInfoConvertor
-        .convert(getElementManager(context).getInfo(context, elementContext, elementId));
+  public Response<ElementInfo> getInfo(SessionContext context, ElementContext elementContext, Id
+      elementId) {
+    Response response;
+    try {
+      ElementInfo elementInfo = ElementInfoConvertor
+          .convert(getElementManager(context).getInfo(context, elementContext, elementId));
+      response = new Response(elementInfo);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
   }
 
   @Override
-  public Element get(SessionContext context, ElementContext elementContext, Id elementId) {
-    return ElementConvertor
-        .convert(getElementManager(context).get(context, elementContext, elementId));
+  public Response<Element> get(SessionContext context, ElementContext elementContext, Id
+      elementId) {
+    Response response;
+    try {
+      Element element = ElementConvertor
+          .convert(getElementManager(context).get(context, elementContext, elementId));
+      response = new Response(element);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
   }
 
   @Override
-  public void save(SessionContext context, ElementContext elementContext,
-                   Element element, String message) {
-    getElementManager(context)
-        .save(context, elementContext, ElementConvertor.convertFrom(element), message);
+  public Response<Void> save(SessionContext context, ElementContext elementContext,
+                             Element element, String message) {
+    Response response;
+    try {
+      getElementManager(context)
+          .save(context, elementContext, ElementConvertor.convertFrom(element), message);
+      response = new Response(Void.TYPE);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
   }
 
   @Override
-  public SearchResult search(SessionContext context, SearchCriteria searchCriteria) {
-    return getElementManager(context).search(context, searchCriteria);
+  public Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria) {
+    Response response;
+    try {
+      SearchResult searchResult = getElementManager(context).search(context, searchCriteria);
+      response = new Response(searchResult);
+    } catch (ZusammenException e) {
+      response = new Response(e.getReturnCode());
+    }
+    return response;
   }
 
   private ElementManager getElementManager(SessionContext context) {
