@@ -19,20 +19,11 @@ package org.amdocs.zusammen.datatypes.item;
 import org.amdocs.zusammen.datatypes.Id;
 
 public class Relation {
-  private Id id;
   private String type;
   private Info info;
   private RelationEdge edge1;
   private RelationEdge edge2;
   private RelationDirection direction;
-
-  public Id getId() {
-    return id;
-  }
-
-  public void setId(Id id) {
-    this.id = id;
-  }
 
   public String getType() {
     return type;
