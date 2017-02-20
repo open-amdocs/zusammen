@@ -21,6 +21,8 @@ import org.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import org.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import org.amdocs.zusammen.adaptor.inbound.impl.convertor.ElementConvertor;
 import org.amdocs.zusammen.adaptor.inbound.impl.convertor.ElementInfoConvertor;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.core.api.item.ElementManager;
 import org.amdocs.zusammen.core.api.item.ElementManagerFactory;
 import org.amdocs.zusammen.datatypes.Id;
@@ -36,6 +38,8 @@ import java.util.stream.Collectors;
 
 public class ElementAdaptorImpl implements ElementAdaptor {
 
+  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(ElementAdaptorImpl.class
+      .getName());
   @Override
   public Response<Collection<ElementInfo>> list(SessionContext context, ElementContext
       elementContext, Id elementId) {
@@ -61,8 +65,9 @@ public class ElementAdaptorImpl implements ElementAdaptor {
       ElementInfo elementInfo = ElementInfoConvertor
           .convert(getElementManager(context).getInfo(context, elementContext, elementId));
       response = new Response(elementInfo);
-    } catch (ZusammenException e) {
-      response = new Response(e.getReturnCode());
+    } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
+      response = new Response(ze.getReturnCode());
     }
     return response;
   }
@@ -75,8 +80,9 @@ public class ElementAdaptorImpl implements ElementAdaptor {
       Element element = ElementConvertor
           .convert(getElementManager(context).get(context, elementContext, elementId));
       response = new Response(element);
-    } catch (ZusammenException e) {
-      response = new Response(e.getReturnCode());
+    } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
+      response = new Response(ze.getReturnCode());
     }
     return response;
   }
@@ -89,8 +95,9 @@ public class ElementAdaptorImpl implements ElementAdaptor {
       getElementManager(context)
           .save(context, elementContext, ElementConvertor.convertFrom(element), message);
       response = new Response(Void.TYPE);
-    } catch (ZusammenException e) {
-      response = new Response(e.getReturnCode());
+    } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
+      response = new Response(ze.getReturnCode());
     }
     return response;
   }
@@ -101,8 +108,9 @@ public class ElementAdaptorImpl implements ElementAdaptor {
     try {
       SearchResult searchResult = getElementManager(context).search(context, searchCriteria);
       response = new Response(searchResult);
-    } catch (ZusammenException e) {
-      response = new Response(e.getReturnCode());
+    } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
+      response = new Response(ze.getReturnCode());
     }
     return response;
   }

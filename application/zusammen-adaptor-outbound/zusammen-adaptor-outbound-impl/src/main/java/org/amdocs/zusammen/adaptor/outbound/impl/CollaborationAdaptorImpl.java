@@ -22,6 +22,8 @@ import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationElementC
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationMergeChangeConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationMergeResultConvertor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.CollaborationPublishResultConvertor;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreMergeChange;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
@@ -36,6 +38,7 @@ import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import org.amdocs.zusammen.datatypes.response.ErrorCode;
 import org.amdocs.zusammen.datatypes.response.Module;
 import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ReturnCode;
 import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.sdk.collaboration.CollaborationStore;
 import org.amdocs.zusammen.sdk.collaboration.CollaborationStoreFactory;
@@ -51,6 +54,10 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     return CollaborationStoreFactory.getInstance().createInterface(context);
   }
 
+  private static ZusammenLogger logger =
+      ZusammenLoggerFactory.getLogger(CollaborationAdaptorImpl.class
+          .getName());
+
   @Override
   public Response<Void> createItem(SessionContext context, Id itemId,
                                    Info itemInfo) {
@@ -60,11 +67,16 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.CL_ITEM_CREATE, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ITEM_CREATE, Module.MDW, null,
             response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ITEM_CREATE, Module.MDW, e.getMessage(), null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ITEM_CREATE, Module.MDW, e.getMessage(), null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -93,11 +105,16 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.CL_ITEM_DELETE, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ITEM_DELETE, Module.MDW, null,
             response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ITEM_DELETE, Module.MDW, e.getMessage(), null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ITEM_DELETE, Module.MDW, e.getMessage(), null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -111,12 +128,17 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_CREATE, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ITEM_VERSION_CREATE, Module.MDW, null,
             response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_CREATE, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ITEM_VERSION_CREATE, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -129,11 +151,17 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_UPDATE, Module.MDW, null);
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ITEM_VERSION_UPDATE, Module.MDW,
+            null, response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_UPDATE, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ITEM_VERSION_UPDATE, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -145,11 +173,17 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_DELETE, Module.MDW, null);
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ITEM_VERSION_DELETE, Module.MDW,
+            null, response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_DELETE, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ITEM_VERSION_DELETE, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -162,12 +196,17 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       collaborationResponse =
           getCollaborationStore(context).publishItemVersion(context, itemId, versionId, message);
       if (!collaborationResponse.isSuccessful()) {
-        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_PUBLISH, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ITEM_VERSION_PUBLISH, Module.MDW, null,
             collaborationResponse.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_PUBLISH, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ITEM_VERSION_PUBLISH, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
 
     CorePublishResult corePublishResult = CollaborationPublishResultConvertor.convert
@@ -184,11 +223,16 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       collaborationResponse =
           getCollaborationStore(context).syncItemVersion(context, itemId, versionId);
       if (!collaborationResponse.isSuccessful()) {
-        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_SYNC, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ITEM_VERSION_SYNC, Module.MDW, null,
             collaborationResponse.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_SYNC, Module.MDW, e.getMessage(), null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ITEM_VERSION_SYNC, Module.MDW, e.getMessage(), null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
 
     CoreMergeResult coreMergeResult = CollaborationMergeResultConvertor.convert(
@@ -209,12 +253,17 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
           getCollaborationStore(context)
               .mergeItemVersion(context, itemId, versionId, sourceVersionId);
       if (!collaborationResponse.isSuccessful()) {
-        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_MERGE, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ITEM_VERSION_MERGE, Module.MDW, null,
             collaborationResponse.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_MERGE, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ITEM_VERSION_MERGE, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
 
     CoreMergeResult coreMergeResult = CollaborationMergeResultConvertor.convert(
@@ -234,12 +283,16 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
           getCollaborationStore(context)
               .getElement(context, elementContext, namespace, elementId);
       if (!collaborationResponse.isSuccessful()) {
-        throw new ZusammenException(ErrorCode.CL_ELEMENT_GET, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ELEMENT_GET, Module.MDW, null,
             collaborationResponse.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ELEMENT_GET, Module.MDW, e.getMessage(),
+      ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ELEMENT_GET, Module.MDW, e.getMessage(),
           null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
 
     CoreElement coreElement = CollaborationElementConvertor.convertToCoreElement(
@@ -260,11 +313,17 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.CL_ELEMENT_CREATE, Module.MDW, null);
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ELEMENT_CREATE, Module.MDW, null,
+            response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ELEMENT_CREATE, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ELEMENT_CREATE, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -279,11 +338,17 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.CL_ELEMENT_UPDATE, Module.MDW, null);
+        ReturnCode returnCode =
+            new ReturnCode(ErrorCode.CL_ELEMENT_UPDATE, Module.MDW, null, response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ELEMENT_UPDATE, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ELEMENT_UPDATE, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -299,11 +364,17 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.CL_ELEMENT_DELETE, Module.MDW, null);
+        ReturnCode returnCode =
+            new ReturnCode(ErrorCode.CL_ELEMENT_DELETE, Module.MDW, null, response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ELEMENT_DELETE, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ELEMENT_DELETE, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -321,13 +392,18 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     try {
       response = getCollaborationStore(context).listItemVersionHistory(context, itemId, versionId);
       if (!response.isSuccessful()) {
-        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_HISTORY, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ITEM_VERSION_HISTORY, Module.MDW, null,
             response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
 
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_HISTORY, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.CL_ITEM_VERSION_HISTORY, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
     return response;
   }
@@ -345,14 +421,19 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
         return new Response(CollaborationMergeChangeConvertor
             .convertToCoreMergeChange(collaborationResponse.getValue()));
       } else {
-        throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_REVERT_HISTORY, Module.MDW, null,
-            collaborationResponse.getReturnCode());
+        ReturnCode returnCode =
+            new ReturnCode(ErrorCode.CL_ITEM_VERSION_REVERT_HISTORY, Module.MDW, null,
+                collaborationResponse.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
 
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.CL_ITEM_VERSION_REVERT_HISTORY, Module.MDW, e
+      ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ITEM_VERSION_REVERT_HISTORY, Module.MDW, e
           .getMessage(),
           null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
 
 

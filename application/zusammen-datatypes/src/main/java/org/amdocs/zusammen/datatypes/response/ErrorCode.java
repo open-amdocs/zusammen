@@ -37,6 +37,8 @@ public class ErrorCode {
   public static final int ZU_ITEM_GET = 11500;
   public static final int ZU_ITEM_IS_EXIST = 11600;
   public static final int ZU_ITEM_VERSION_NOT_EXIST = 11700;
+  public static final int ZU_STATE_STORE_INIT = 11800;
+  public static final int ZU_ITEM_DOES_NOT_EXIST = 11900;
 
 
   public static final int MD_ITEM_UPDATE = 20100;
@@ -118,5 +120,9 @@ public class ErrorCode {
 
   public void setErrorCode(int errorCode) {
     this.errorCode = errorCode;
+  }
+
+  public String toString(){
+    return module.name()+errorCode;
   }
 }

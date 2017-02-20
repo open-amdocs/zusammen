@@ -17,6 +17,8 @@
 package org.amdocs.zusammen.adaptor.inbound.impl.item;
 
 import org.amdocs.zusammen.adaptor.inbound.api.item.ItemAdaptor;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.core.api.item.ItemManager;
 import org.amdocs.zusammen.core.api.item.ItemManagerFactory;
 import org.amdocs.zusammen.datatypes.Id;
@@ -30,14 +32,18 @@ import java.util.Collection;
 
 public class ItemAdaptorImpl implements ItemAdaptor {
 
+  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(ItemAdaptorImpl.class
+      .getName());
+
   @Override
   public Response<Collection<Item>> list(SessionContext context) {
     Response response;
     try {
       Collection<Item> itemCollection = getItemManager(context).list(context);
       response = new Response(itemCollection);
-    } catch (ZusammenException e) {
-      response = new Response(e.getReturnCode());
+    } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(), ze);
+      response = new Response(ze.getReturnCode());
     }
     return response;
   }
@@ -48,8 +54,9 @@ public class ItemAdaptorImpl implements ItemAdaptor {
     try {
       Item item = getItemManager(context).get(context, itemId);
       response = new Response(item);
-    } catch (ZusammenException e) {
-      response = new Response(e.getReturnCode());
+    } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(), ze);
+      response = new Response(ze.getReturnCode());
     }
     return response;
   }
@@ -60,8 +67,9 @@ public class ItemAdaptorImpl implements ItemAdaptor {
     try {
       Id id = getItemManager(context).create(context, itemInfo);
       response = new Response(id);
-    } catch (ZusammenException e) {
-      response = new Response(e.getReturnCode());
+    } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(), ze);
+      response = new Response(ze.getReturnCode());
     }
 
     return response;
@@ -74,8 +82,9 @@ public class ItemAdaptorImpl implements ItemAdaptor {
     try {
       getItemManager(context).update(context, itemId, itemInfo);
       response = new Response(Void.TYPE);
-    } catch (ZusammenException e) {
-      response = new Response(e.getReturnCode());
+    } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(), ze);
+      response = new Response(ze.getReturnCode());
     }
     return response;
   }
@@ -86,8 +95,9 @@ public class ItemAdaptorImpl implements ItemAdaptor {
     try {
       getItemManager(context).delete(context, itemId);
       response = new Response(Void.TYPE);
-    } catch (ZusammenException e) {
-      response = new Response(e.getReturnCode());
+    } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(), ze);
+      response = new Response(ze.getReturnCode());
     }
     return response;
   }

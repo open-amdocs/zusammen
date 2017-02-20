@@ -20,15 +20,20 @@ public class ZusammenException extends RuntimeException {
   private ReturnCode returnCode;
 
 
-  public ZusammenException(int code,Module module,String message){
-    this.returnCode=new ReturnCode(code,module,message,null);
+  /*public ZusammenException(int code, Module module, String message) {
+    this.returnCode = new ReturnCode(code, module, message, null);
+
+  }*/
+
+  public ZusammenException(ReturnCode returnCode) {
+    this.returnCode = returnCode;
 
   }
 
-  public ZusammenException(int code,Module module,String message,ReturnCode returnCode){
-    this.returnCode=new ReturnCode(code,module,message,returnCode);
+  /*public ZusammenException(int code, Module module, String message, ReturnCode returnCode) {
+    this.returnCode = new ReturnCode(code, module, message, returnCode);
 
-  }
+  }*/
 
   public ReturnCode getReturnCode() {
     return returnCode;

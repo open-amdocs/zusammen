@@ -19,6 +19,8 @@ package org.amdocs.zusammen.adaptor.inbound.impl.item;
 import org.amdocs.zusammen.adaptor.inbound.api.item.ItemVersionAdaptor;
 import org.amdocs.zusammen.adaptor.inbound.api.types.item.MergeResult;
 import org.amdocs.zusammen.adaptor.inbound.impl.convertor.MergeResultConvertor;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.core.api.item.ItemVersionManager;
 import org.amdocs.zusammen.core.api.item.ItemVersionManagerFactory;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
@@ -36,6 +38,9 @@ import java.util.Collection;
 
 public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
 
+  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(ItemVersionAdaptorImpl
+      .class.getName());
+
   @Override
   public Response<Collection<ItemVersion>> list(SessionContext context, Space space, Id itemId) {
 
@@ -45,6 +50,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
           space, itemId);
       response = new Response(itemVersionCollection);
     } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
       response = new Response(ze.getReturnCode());
     }
     return response;
@@ -61,6 +67,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
           versionId);
       response = new Response(itemVersion);
     } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
       response = new Response(ze.getReturnCode());
     }
     return response;
@@ -76,6 +83,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
       Id id = getItemVersionManager(context).create(context, itemId, baseVersionId, data);
       response = new Response(id);
     } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
       response = new Response(ze.getReturnCode());
     }
     return response;
@@ -89,6 +97,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
       getItemVersionManager(context).update(context, itemId, versionId, data);
       response = new Response(Void.TYPE);
     } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
       response = new Response(ze.getReturnCode());
     }
     return response;
@@ -102,6 +111,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
       getItemVersionManager(context).delete(context, itemId, versionId);
       response = new Response(Void.TYPE);
     } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
       response = new Response(ze.getReturnCode());
     }
     return response;
@@ -115,6 +125,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
       getItemVersionManager(context).publish(context, itemId, versionId, message);
       response = new Response(Void.TYPE);
     } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
       response = new Response(ze.getReturnCode());
     }
     return response;
@@ -130,6 +141,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
       MergeResult mergeResult = MergeResultConvertor.getMergeResult(coreMergeResult);
       response = new Response(mergeResult);
     } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
       response = new Response(ze.getReturnCode());
     }
     return response;
@@ -146,6 +158,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
       MergeResult mergeResult = MergeResultConvertor.getMergeResult(coreMergeResult);
       response = new Response(mergeResult);
     } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
       response = new Response(ze.getReturnCode());
     }
     return response;
@@ -161,6 +174,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
           versionId);
       response = new Response(itemVersionHistory);
     } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
       response = new Response(ze.getReturnCode());
     }
     return response;
@@ -175,6 +189,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
       getItemVersionManager(context).revertHistory(context, itemId, versionId, changeId);
       response = new Response(Void.TYPE);
     } catch (ZusammenException ze) {
+      logger.error(ze.getReturnCode().toString(),ze);
       response = new Response(ze.getReturnCode());
     }
     return response;

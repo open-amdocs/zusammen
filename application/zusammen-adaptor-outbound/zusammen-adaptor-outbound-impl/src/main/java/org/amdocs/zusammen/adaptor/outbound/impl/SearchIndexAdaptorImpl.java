@@ -19,6 +19,8 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 
 import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.SearchIndexElementConvertor;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
@@ -26,6 +28,7 @@ import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.response.ErrorCode;
 import org.amdocs.zusammen.datatypes.response.Module;
 import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ReturnCode;
 import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
@@ -33,6 +36,10 @@ import org.amdocs.zusammen.sdk.searchindex.SearchIndex;
 import org.amdocs.zusammen.sdk.searchindex.SearchIndexFactory;
 
 public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
+
+  private static ZusammenLogger logger =
+      ZusammenLoggerFactory.getLogger(SearchIndexAdaptorImpl.class
+          .getName());
 
   @Override
   public Response<Void> createElement(SessionContext context, ElementContext elementContext,
@@ -44,12 +51,17 @@ public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.IN_ELEMENT_CREATE, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.IN_ELEMENT_CREATE, Module.MDW, null,
             response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.IN_ELEMENT_CREATE, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.IN_ELEMENT_CREATE, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -63,12 +75,17 @@ public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.IN_ELEMENT_UPDATE, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.IN_ELEMENT_UPDATE, Module.MDW, null,
             response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.IN_ELEMENT_UPDATE, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.IN_ELEMENT_UPDATE, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -83,12 +100,17 @@ public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.IN_ELEMENT_DELETE, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.IN_ELEMENT_DELETE, Module.MDW, null,
             response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.IN_ELEMENT_DELETE, Module.MDW, e.getMessage(),
-          null);
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.IN_ELEMENT_DELETE, Module.MDW, e.getMessage(),
+              null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -101,12 +123,16 @@ public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
       if (response.isSuccessful()) {
         return response;
       } else {
-        throw new ZusammenException(ErrorCode.IN_SEARCH, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.IN_SEARCH, Module.MDW, null,
             response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
       }
     } catch (RuntimeException e) {
-      throw new ZusammenException(ErrorCode.IN_SEARCH, Module.MDW, e.getMessage(),
+      ReturnCode returnCode = new ReturnCode(ErrorCode.IN_SEARCH, Module.MDW, e.getMessage(),
           null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 

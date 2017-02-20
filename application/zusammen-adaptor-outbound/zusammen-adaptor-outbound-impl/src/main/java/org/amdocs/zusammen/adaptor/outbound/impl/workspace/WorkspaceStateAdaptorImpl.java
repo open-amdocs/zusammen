@@ -18,6 +18,8 @@ package org.amdocs.zusammen.adaptor.outbound.impl.workspace;
 
 import org.amdocs.zusammen.adaptor.outbound.api.workspace.WorkspaceStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.OutboundAdaptorUtils;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
@@ -32,6 +34,9 @@ import java.util.Collection;
 
 public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
 
+  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger
+      (WorkspaceStateAdaptorImpl.class.getName());
+
   @Override
   public Response<Void> createWorkspace(SessionContext context, Id workspaceId, Info
       workspaceInfo) {
@@ -44,11 +49,15 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
             response.getReturnCode()));
       }
     } catch (ZusammenException e) {
-      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.MDW, e.getMessage(),
-          e.getReturnCode()));
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.MDW, e.getMessage(),
+          e.getReturnCode());
+      response = new Response(returnCode);
+      logger.error(returnCode.toString());
     } catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.MDW, rte.getMessage(),
-          null));
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.MDW, rte.getMessage(),
+          null);
+      logger.error(returnCode.toString());
+      response = new Response(returnCode);
     }
 
     return response;
@@ -62,13 +71,16 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
       if (!response.isSuccessful()) {
         response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.MDW, null,
             response.getReturnCode()));
+        logger.error(response.getReturnCode().toString());
       }
     } catch (ZusammenException e) {
       response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.MDW, e.getMessage(),
           e.getReturnCode()));
+      logger.error(response.getReturnCode().toString());
     } catch (RuntimeException rte) {
       response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.MDW, rte.getMessage(),
           null));
+      logger.error(response.getReturnCode().toString());
     }
 
     return response;
@@ -87,10 +99,12 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
     response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.MDW, e
         .getMessage(),
         e.getReturnCode()));
+      logger.error(response.getReturnCode().toString());
   } catch (RuntimeException rte) {
     response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.MDW, rte
         .getMessage(),
         null));
+      logger.error(response.getReturnCode().toString());
   }
     return response;
 
@@ -109,10 +123,12 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
       response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.MDW, e
           .getMessage(),
           e.getReturnCode()));
+      logger.error(response.getReturnCode().toString());
     } catch (RuntimeException rte) {
       response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.MDW, rte
           .getMessage(),
           null));
+      logger.error(response.getReturnCode().toString());
     }
     return response;
   }

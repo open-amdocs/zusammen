@@ -42,4 +42,12 @@ public class ReturnCode {
   public void setReturnCode(ReturnCode returnCode) {
     this.returnCode = returnCode;
   }
+
+  public String toString(){
+    StringBuffer sb = new StringBuffer();
+    sb.append(errorCode.toString()).append("-").append(message).append(System.lineSeparator())
+        .append("\t");
+    sb.append(returnCode.toString());
+    return sb.toString();
+  }
 }

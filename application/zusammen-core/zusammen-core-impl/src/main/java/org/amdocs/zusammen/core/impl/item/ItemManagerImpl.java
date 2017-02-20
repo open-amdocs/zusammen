@@ -21,6 +21,8 @@ import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptorFactory;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.core.api.item.ItemManager;
 import org.amdocs.zusammen.core.impl.Messages;
 import org.amdocs.zusammen.datatypes.Id;
@@ -30,20 +32,27 @@ import org.amdocs.zusammen.datatypes.item.Item;
 import org.amdocs.zusammen.datatypes.response.ErrorCode;
 import org.amdocs.zusammen.datatypes.response.Module;
 import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ReturnCode;
 import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 
 public class ItemManagerImpl implements ItemManager {
 
+  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(ItemManagerImpl.class
+      .getName());
 
   @Override
   public Collection<Item> list(SessionContext context) {
     Response<Collection<Item>> response;
 
     response = getStateAdaptor(context).listItems(context);
-    if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.ZU_ITEM_LIST, Module.ZUS,null,response.getReturnCode());
+    if (!response.isSuccessful()) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.ZU_ITEM_LIST, Module.ZUS, null,
+              response.getReturnCode());
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
 
     return response.getValue();
@@ -53,8 +62,12 @@ public class ItemManagerImpl implements ItemManager {
   public boolean isExist(SessionContext context, Id itemId) {
     Response<Boolean> response;
     response = getStateAdaptor(context).isItemExist(context, itemId);
-    if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.ZU_ITEM_IS_EXIST, Module.ZUS,null,response.getReturnCode());
+    if (!response.isSuccessful()) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.ZU_ITEM_IS_EXIST, Module.ZUS, null,
+              response.getReturnCode());
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
 
     return response.getValue();
@@ -64,8 +77,11 @@ public class ItemManagerImpl implements ItemManager {
   public Item get(SessionContext context, Id itemId) {
     Response<Item> response;
     response = getStateAdaptor(context).getItem(context, itemId);
-    if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.ZU_ITEM_GET, Module.ZUS,null,response.getReturnCode());
+    if (!response.isSuccessful()) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.ZU_ITEM_GET, Module.ZUS, null, response.getReturnCode());
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
     return response.getValue();
   }
@@ -75,14 +91,18 @@ public class ItemManagerImpl implements ItemManager {
     Id itemId = new Id();
     Response response;
     response = getCollaborationAdaptor(context).createItem(context, itemId, itemInfo);
-    if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.ZU_ITEM_CREATE,Module.ZUS,null,response
+    if (!response.isSuccessful()) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZUS, null, response
           .getReturnCode());
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
     response = getStateAdaptor(context).createItem(context, itemId, itemInfo);
-    if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.ZU_ITEM_CREATE,Module.ZUS,null,response
+    if (!response.isSuccessful()) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZUS, null, response
           .getReturnCode());
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
     return itemId;
   }
@@ -92,14 +112,18 @@ public class ItemManagerImpl implements ItemManager {
     validateItemExistence(context, itemId);
     Response response;
     response = getCollaborationAdaptor(context).updateItem(context, itemId, itemInfo);
-    if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.ZU_ITEM_UPDATE,Module.ZUS,null,response
+    if (!response.isSuccessful()) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_UPDATE, Module.ZUS, null, response
           .getReturnCode());
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
     response = getStateAdaptor(context).updateItem(context, itemId, itemInfo);
-    if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.ZU_ITEM_UPDATE,Module.ZUS,null,response
+    if (!response.isSuccessful()) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_UPDATE, Module.ZUS, null, response
           .getReturnCode());
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
@@ -108,20 +132,29 @@ public class ItemManagerImpl implements ItemManager {
     validateItemExistence(context, itemId);
     Response response;
     response = getCollaborationAdaptor(context).deleteItem(context, itemId);
-    if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.ZU_ITEM_DELETE,Module.ZUS,null,response
+    if (!response.isSuccessful()) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DELETE, Module.ZUS, null, response
           .getReturnCode());
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
     response = getStateAdaptor(context).deleteItem(context, itemId);
-    if(!response.isSuccessful()){
-      throw new ZusammenException(ErrorCode.ZU_ITEM_DELETE,Module.ZUS,null,response
+    if (!response.isSuccessful()) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DELETE, Module.ZUS, null, response
           .getReturnCode());
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 
   private void validateItemExistence(SessionContext context, Id itemId) {
     if (!isExist(context, itemId)) {
-      throw new RuntimeException(String.format(Messages.ITEM_NOT_EXIST, itemId));
+
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DOES_NOT_EXIST, Module.ZUS, String
+          .format(Messages.ITEM_NOT_EXIST,
+              itemId), null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
     }
   }
 

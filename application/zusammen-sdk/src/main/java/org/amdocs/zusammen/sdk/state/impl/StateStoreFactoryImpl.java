@@ -19,7 +19,13 @@ package org.amdocs.zusammen.sdk.state.impl;
 import org.amdocs.zusammen.commons.configuration.ConfigurationManager;
 import org.amdocs.zusammen.commons.configuration.ConfigurationManagerFactory;
 import org.amdocs.zusammen.commons.configuration.datatypes.PluginInfo;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.datatypes.SessionContext;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
+import org.amdocs.zusammen.datatypes.response.ReturnCode;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.sdk.SdkConstants;
 import org.amdocs.zusammen.sdk.state.StateStore;
 import org.amdocs.zusammen.sdk.state.StateStoreFactory;
@@ -28,7 +34,8 @@ import org.amdocs.zusammen.utils.common.CommonMethods;
 public class StateStoreFactoryImpl extends StateStoreFactory {
 
   private static StateStore stateStore;
-
+  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(StateStoreFactoryImpl
+      .class.getName());
   private static void initStateStore(SessionContext context) {
     synchronized (StateStoreFactoryImpl.class) {
       ConfigurationManager configurationManager =
@@ -39,7 +46,10 @@ public class StateStoreFactoryImpl extends StateStoreFactory {
         stateStore =
             CommonMethods.newInstance(pluginInfo.getImplementationClass(), StateStore.class);
       } catch (Exception ex) {
-        throw new RuntimeException(ex);
+        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_STATE_STORE_INIT, Module.ZUS,ex
+            .getMessage(),null);
+        logger.error(returnCode.toString(),ex);
+        throw new ZusammenException(returnCode);
       }
     }
   }

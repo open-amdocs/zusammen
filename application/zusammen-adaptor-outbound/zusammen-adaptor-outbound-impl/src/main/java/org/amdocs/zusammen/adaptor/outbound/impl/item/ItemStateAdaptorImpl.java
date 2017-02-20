@@ -18,6 +18,8 @@ package org.amdocs.zusammen.adaptor.outbound.impl.item;
 
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.OutboundAdaptorUtils;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
@@ -26,11 +28,14 @@ import org.amdocs.zusammen.datatypes.response.ErrorCode;
 import org.amdocs.zusammen.datatypes.response.Module;
 import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.response.ReturnCode;
-import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 
 public class ItemStateAdaptorImpl implements ItemStateAdaptor {
+
+  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(ItemStateAdaptorImpl.class
+      .getName());
+
   @Override
   public Response<Collection<Item>> listItems(SessionContext context) {
     Response response;
@@ -39,12 +44,14 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
       if (!response.isSuccessful()) {
         response = new Response(new ReturnCode(ErrorCode.MD_ITEM_LIST, Module.MDW, null,
             response.getReturnCode()));
+        logger.error(response.getReturnCode().toString());
       }
     } catch (RuntimeException rte) {
       ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_LIST, Module.STT, rte.getMessage(),
           null);
-          response = new Response(new ReturnCode(ErrorCode.MD_ITEM_LIST, Module.MDW, null,
+      response = new Response(new ReturnCode(ErrorCode.MD_ITEM_LIST, Module.MDW, null,
           returnCode));
+      logger.error(response.getReturnCode().toString(), rte);
     }
     return response;
   }
@@ -57,13 +64,15 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
       if (!response.isSuccessful()) {
         response = new Response(new ReturnCode(ErrorCode.MD_ITEM_IS_EXIST, Module.MDW, null,
             response.getReturnCode()));
+        logger.error(response.getReturnCode().toString());
       }
     } catch (RuntimeException rte) {
       ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_IS_EXIST, Module.STT, rte
-          .getMessage(),null);
+          .getMessage(), null);
       response =
           new Response(new ReturnCode(ErrorCode.MD_ITEM_IS_EXIST, Module.MDW, null,
               returnCode));
+      logger.error(response.getReturnCode().toString(), rte);
     }
     return response;
   }
@@ -76,12 +85,14 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
       if (!response.isSuccessful()) {
         response = new Response(new ReturnCode(ErrorCode.MD_ITEM_GET, Module.MDW, null,
             response.getReturnCode()));
+        logger.error(response.getReturnCode().toString());
       }
     } catch (RuntimeException rte) {
       ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_GET, Module.STT, rte.getMessage(),
           null);
       response = new Response(new ReturnCode(ErrorCode.MD_ITEM_GET, Module.MDW, null,
           returnCode));
+      logger.error(response.getReturnCode().toString(), rte);
     }
     return response;
   }
@@ -94,12 +105,14 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
       if (!response.isSuccessful()) {
         response = new Response(new ReturnCode(ErrorCode.MD_ITEM_CREATE, Module.MDW, null,
             response.getReturnCode()));
+        logger.error(response.getReturnCode().toString());
       }
     } catch (RuntimeException rte) {
       ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_CREATE, Module.STT,
           rte.getMessage(), null);
       response = new Response(new ReturnCode(ErrorCode.MD_ITEM_CREATE, Module.MDW, null,
           returnCode));
+      logger.error(response.getReturnCode().toString(), rte);
     }
     return response;
   }
@@ -112,6 +125,7 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
       if (!response.isSuccessful()) {
         response = new Response(new ReturnCode(ErrorCode.MD_ITEM_UPDATE, Module.MDW, null,
             response.getReturnCode()));
+        logger.error(response.getReturnCode().toString());
       }
 
     } catch (RuntimeException rte) {
@@ -119,6 +133,7 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
           , null);
       response = new Response(new ReturnCode(ErrorCode.MD_ITEM_UPDATE, Module.MDW, null,
           returnCode));
+      logger.error(response.getReturnCode().toString(), rte);
     }
     return response;
   }
@@ -131,12 +146,14 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
       if (!response.isSuccessful()) {
         response = new Response(new ReturnCode(ErrorCode.MD_ITEM_DELETE, Module.MDW, null,
             response.getReturnCode()));
+        logger.error(response.getReturnCode().toString());
       }
     } catch (RuntimeException rte) {
       ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_DELETE, Module.STT, rte.getMessage()
           , null);
       response = new Response(new ReturnCode(ErrorCode.MD_ITEM_DELETE, Module.MDW, null,
           returnCode));
+      logger.error(response.getReturnCode().toString(), rte);
     }
     return response;
   }

@@ -35,4 +35,11 @@
         <module>zusammen-adaptor-outbound</module>
         <module>zusammen-sdk</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.amdocs.zusammen</groupId>
+            <artifactId>zusammen-commons-log</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
 </project>
