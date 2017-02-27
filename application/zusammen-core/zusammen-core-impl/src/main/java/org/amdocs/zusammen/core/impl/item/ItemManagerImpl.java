@@ -49,7 +49,7 @@ public class ItemManagerImpl implements ItemManager {
     response = getStateAdaptor(context).listItems(context);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_LIST, Module.ZUS, null,
+          new ReturnCode(ErrorCode.ZU_ITEM_LIST, Module.ZDB, null,
               response.getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -64,7 +64,7 @@ public class ItemManagerImpl implements ItemManager {
     response = getStateAdaptor(context).isItemExist(context, itemId);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_IS_EXIST, Module.ZUS, null,
+          new ReturnCode(ErrorCode.ZU_ITEM_IS_EXIST, Module.ZDB, null,
               response.getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -79,7 +79,7 @@ public class ItemManagerImpl implements ItemManager {
     response = getStateAdaptor(context).getItem(context, itemId);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_GET, Module.ZUS, null, response.getReturnCode());
+          new ReturnCode(ErrorCode.ZU_ITEM_GET, Module.ZDB, null, response.getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
@@ -92,14 +92,14 @@ public class ItemManagerImpl implements ItemManager {
     Response response;
     response = getCollaborationAdaptor(context).createItem(context, itemId, itemInfo);
     if (!response.isSuccessful()) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZUS, null, response
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB, null, response
           .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
     response = getStateAdaptor(context).createItem(context, itemId, itemInfo);
     if (!response.isSuccessful()) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZUS, null, response
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB, null, response
           .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -113,14 +113,14 @@ public class ItemManagerImpl implements ItemManager {
     Response response;
     response = getCollaborationAdaptor(context).updateItem(context, itemId, itemInfo);
     if (!response.isSuccessful()) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_UPDATE, Module.ZUS, null, response
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_UPDATE, Module.ZDB, null, response
           .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
     response = getStateAdaptor(context).updateItem(context, itemId, itemInfo);
     if (!response.isSuccessful()) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_UPDATE, Module.ZUS, null, response
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_UPDATE, Module.ZDB, null, response
           .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -133,14 +133,14 @@ public class ItemManagerImpl implements ItemManager {
     Response response;
     response = getCollaborationAdaptor(context).deleteItem(context, itemId);
     if (!response.isSuccessful()) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DELETE, Module.ZUS, null, response
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DELETE, Module.ZDB, null, response
           .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
     response = getStateAdaptor(context).deleteItem(context, itemId);
     if (!response.isSuccessful()) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DELETE, Module.ZUS, null, response
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DELETE, Module.ZDB, null, response
           .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -150,7 +150,7 @@ public class ItemManagerImpl implements ItemManager {
   private void validateItemExistence(SessionContext context, Id itemId) {
     if (!isExist(context, itemId)) {
 
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DOES_NOT_EXIST, Module.ZUS, String
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DOES_NOT_EXIST, Module.ZDB, String
           .format(Messages.ITEM_NOT_EXIST,
               itemId), null);
       logger.error(returnCode.toString());

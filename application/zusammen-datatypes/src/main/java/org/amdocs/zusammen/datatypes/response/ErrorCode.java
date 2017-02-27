@@ -19,6 +19,7 @@ package org.amdocs.zusammen.datatypes.response;
 public class ErrorCode {
 
 
+  public static final int SYSTEM_ERROR = 10000;
   public static final int ZU_ITEM_VERSION_LIST = 10100;
   public static final int ZU_ITEM_VERSION_CREATE = 10200;
   public static final int ZU_ITEM_VERSION_UPDATE = 10300;
@@ -39,6 +40,15 @@ public class ErrorCode {
   public static final int ZU_ITEM_VERSION_NOT_EXIST = 11700;
   public static final int ZU_STATE_STORE_INIT = 11800;
   public static final int ZU_ITEM_DOES_NOT_EXIST = 11900;
+  public static final int ZU_ELEMENT_LIST = 12000;
+  public static final int ZU_ELEMENT_GET = 12100;
+  public static final int ZU_SEARCH = 12200;
+  public static final int ZU_ELEMENT_DELETE = 12300;
+  public static final int ZU_ELEMENT_CREATE = 12400;
+  public static final int ZU_ELEMENT_UPDATE = 12500;
+  public static final int ZU_ELEMENT_GET_INFO = 12600;
+  public static final int ZU_ELEMENT_SAVE = 12700;
+  public static final int ZU_ELEMENT_SEARCH = 12800;
 
 
   public static final int MD_ITEM_UPDATE = 20100;
@@ -59,6 +69,12 @@ public class ErrorCode {
   public static final int MD_ELEMENT_CREATE = 21600;
   public static final int MD_ELEMENT_UPDATE = 21700;
   public static final int MD_ELEMENT_DELETE = 21800;
+  public static final int MD_ITEM_VERSION_PUBLISH = 21900;
+  public static final int MD_ITEM_VERSION_SYNC = 22000;
+  public static final int MD_ITEM_VERSION_MERGE = 22100;
+  public static final int MD_ITEM_VERSION_HISTORY = 22200;
+  public static final int MD_ITEM_VERSION_REVERT_HISTORY = 22300;
+  public static final int MD_SEARCH = 22400;
 
 
   public static final int ST_ITEM_LIST = 50100;
@@ -122,7 +138,7 @@ public class ErrorCode {
     this.errorCode = errorCode;
   }
 
-  public String toString(){
-    return module.name()+errorCode;
+  public String toString() {
+    return module.name() + "-" + errorCode;
   }
 }

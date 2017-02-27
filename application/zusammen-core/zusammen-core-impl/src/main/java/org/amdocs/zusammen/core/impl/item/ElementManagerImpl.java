@@ -62,7 +62,8 @@ public class ElementManagerImpl implements ElementManager {
     Response<Collection<CoreElementInfo>> response;
     response = getStateAdaptor(context).list(context, elementContext, elementId);
     if(!response.isSuccessful()){
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ELEMENT_LIST, Module.ZUS,null,response.getReturnCode
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_LIST, Module.ZDB,null,response
+          .getReturnCode
           ());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -79,7 +80,8 @@ public class ElementManagerImpl implements ElementManager {
     Response<CoreElementInfo> response;
     response = getStateAdaptor(context).get(context, elementContext, elementId);
     if(!response.isSuccessful()){
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ELEMENT_GET, Module.ZUS,null,response.getReturnCode
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_GET, Module.ZDB,null,response
+          .getReturnCode
           ());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -100,7 +102,8 @@ public class ElementManagerImpl implements ElementManager {
     response = getCollaborationAdaptor(context)
         .getElement(context, elementContext, namespace, elementId);
     if(!response.isSuccessful()){
-      ReturnCode returnCode = new ReturnCode(ErrorCode.CL_ELEMENT_GET, Module.ZUS,null,response.getReturnCode
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_GET, Module.ZDB,null,response
+          .getReturnCode
           ());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -133,7 +136,8 @@ public class ElementManagerImpl implements ElementManager {
     Response<SearchResult> response;
     response = getSearchIndexAdaptor(context).search(context, searchCriteria);
     if(!response.isSuccessful()){
-      ReturnCode returnCode = new ReturnCode(ErrorCode.IN_SEARCH,Module.ZUS,null,response.getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_SEARCH,Module.ZDB,null,response
+          .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
@@ -151,7 +155,7 @@ public class ElementManagerImpl implements ElementManager {
       String message = getItemManager(context).isExist(context, itemId)
           ? String.format(Messages.ITEM_VERSION_NOT_EXIST, itemId, versionId, space)
           : String.format(Messages.ITEM_NOT_EXIST, itemId);
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_VERSION_NOT_EXIST,Module.ZUS,message,null);
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_VERSION_NOT_EXIST,Module.ZDB,message,null);
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }

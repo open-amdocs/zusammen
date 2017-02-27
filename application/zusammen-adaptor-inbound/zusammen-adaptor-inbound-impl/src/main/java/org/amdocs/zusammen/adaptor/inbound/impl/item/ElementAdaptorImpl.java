@@ -28,7 +28,10 @@ import org.amdocs.zusammen.core.api.item.ElementManagerFactory;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
 import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ReturnCode;
 import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
@@ -43,16 +46,20 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   @Override
   public Response<Collection<ElementInfo>> list(SessionContext context, ElementContext
       elementContext, Id elementId) {
-    Response response;
+    Response<Collection<ElementInfo>> response;
     try {
       Collection<ElementInfo> elementInfoCollection = getElementManager(context).list(context,
           elementContext, elementId)
           .stream()
           .map(ElementInfoConvertor::convert)
           .collect(Collectors.toList());
-      response = new Response(elementInfoCollection);
-    } catch (ZusammenException e) {
-      response = new Response(e.getReturnCode());
+      response = new Response<>(elementInfoCollection);
+    } catch (ZusammenException ze) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_LIST, Module.ZDB,null,ze
+          .getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
+
     }
     return response;
   }
@@ -60,14 +67,16 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   @Override
   public Response<ElementInfo> getInfo(SessionContext context, ElementContext elementContext, Id
       elementId) {
-    Response response;
+    Response<ElementInfo> response;
     try {
       ElementInfo elementInfo = ElementInfoConvertor
           .convert(getElementManager(context).getInfo(context, elementContext, elementId));
-      response = new Response(elementInfo);
+      response = new Response<>(elementInfo);
     } catch (ZusammenException ze) {
-      logger.error(ze.getReturnCode().toString(),ze);
-      response = new Response(ze.getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_GET_INFO, Module.ZDB,null,ze
+          .getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
     }
     return response;
   }
@@ -75,14 +84,16 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   @Override
   public Response<Element> get(SessionContext context, ElementContext elementContext, Id
       elementId) {
-    Response response;
+    Response<Element> response;
     try {
       Element element = ElementConvertor
           .convert(getElementManager(context).get(context, elementContext, elementId));
-      response = new Response(element);
+      response = new Response<>(element);
     } catch (ZusammenException ze) {
-      logger.error(ze.getReturnCode().toString(),ze);
-      response = new Response(ze.getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_GET, Module.ZDB,null,ze
+          .getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
     }
     return response;
   }
@@ -94,23 +105,27 @@ public class ElementAdaptorImpl implements ElementAdaptor {
     try {
       getElementManager(context)
           .save(context, elementContext, ElementConvertor.convertFrom(element), message);
-      response = new Response(Void.TYPE);
+      response = new Response<>(Void.TYPE);
     } catch (ZusammenException ze) {
-      logger.error(ze.getReturnCode().toString(),ze);
-      response = new Response(ze.getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_SAVE, Module.ZDB,null,ze
+          .getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
     }
     return response;
   }
 
   @Override
   public Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria) {
-    Response response;
+    Response<SearchResult> response;
     try {
       SearchResult searchResult = getElementManager(context).search(context, searchCriteria);
-      response = new Response(searchResult);
+      response = new Response<>(searchResult);
     } catch (ZusammenException ze) {
-      logger.error(ze.getReturnCode().toString(),ze);
-      response = new Response(ze.getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_SEARCH, Module.ZDB,null,ze
+          .getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
     }
     return response;
   }

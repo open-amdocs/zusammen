@@ -25,7 +25,10 @@ import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
 import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ReturnCode;
 import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
@@ -37,39 +40,47 @@ public class ItemAdaptorImpl implements ItemAdaptor {
 
   @Override
   public Response<Collection<Item>> list(SessionContext context) {
-    Response response;
+    Response<Collection<Item>> response;
     try {
       Collection<Item> itemCollection = getItemManager(context).list(context);
-      response = new Response(itemCollection);
+      response = new Response<>(itemCollection);
     } catch (ZusammenException ze) {
-      logger.error(ze.getReturnCode().toString(), ze);
-      response = new Response(ze.getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_LIST, Module.ZDB,null,ze
+          .getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
     }
     return response;
   }
 
   @Override
   public Response<Item> get(SessionContext context, Id itemId) {
-    Response response;
+    Response<Item> response;
     try {
       Item item = getItemManager(context).get(context, itemId);
-      response = new Response(item);
+      response = new Response<>(item);
     } catch (ZusammenException ze) {
-      logger.error(ze.getReturnCode().toString(), ze);
-      response = new Response(ze.getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_GET, Module.ZDB,null,ze
+          .getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
     }
     return response;
   }
 
   @Override
   public Response<Id> create(SessionContext context, Info itemInfo) {
-    Response response;
+
+    Response<Id> response;
     try {
       Id id = getItemManager(context).create(context, itemInfo);
-      response = new Response(id);
+      response = new Response<>(id);
+      logger.info("create item:"+id.getValue());
     } catch (ZusammenException ze) {
-      logger.error(ze.getReturnCode().toString(), ze);
-      response = new Response(ze.getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB,null,ze
+          .getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
     }
 
     return response;
@@ -81,10 +92,12 @@ public class ItemAdaptorImpl implements ItemAdaptor {
     Response response;
     try {
       getItemManager(context).update(context, itemId, itemInfo);
-      response = new Response(Void.TYPE);
+      response = new Response<>(Void.TYPE);
     } catch (ZusammenException ze) {
-      logger.error(ze.getReturnCode().toString(), ze);
-      response = new Response(ze.getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_UPDATE, Module.ZDB,null,ze
+          .getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
     }
     return response;
   }
@@ -94,10 +107,12 @@ public class ItemAdaptorImpl implements ItemAdaptor {
     Response response;
     try {
       getItemManager(context).delete(context, itemId);
-      response = new Response(Void.TYPE);
+      response = new Response<>(Void.TYPE);
     } catch (ZusammenException ze) {
-      logger.error(ze.getReturnCode().toString(), ze);
-      response = new Response(ze.getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DELETE, Module.ZDB,null,ze
+          .getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
     }
     return response;
   }

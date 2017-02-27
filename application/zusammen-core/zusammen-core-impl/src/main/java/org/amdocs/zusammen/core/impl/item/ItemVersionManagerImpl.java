@@ -61,7 +61,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
       return response.getValue();
     } else {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_LIST, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_LIST, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -77,7 +77,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
       return response.getValue();
     } else {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_IS_EXIST, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_IS_EXIST, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -93,7 +93,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
       return response.getValue();
     } else {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_GET, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_GET, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -113,7 +113,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         .createItemVersion(context, itemId, baseVersionId, versionId, data);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_CREATE, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_CREATE, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -124,7 +124,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_CREATE, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_CREATE, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -139,7 +139,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     response = getCollaborationAdaptor(context).updateItemVersion(context, itemId, versionId, data);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_UPDATE, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_UPDATE, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -147,7 +147,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     response = getStateAdaptor(context).updateItemVersion(context, Space.PRIVATE, itemId,
         versionId, data);
     if (!response.isSuccessful()) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_VERSION_UPDATE, Module.ZUS, null, response
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_VERSION_UPDATE, Module.ZDB, null, response
           .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -161,7 +161,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         versionId);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_DELETE, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_DELETE, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -169,7 +169,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     response = getStateAdaptor(context).deleteItemVersion(context, Space.PRIVATE, itemId,
         versionId);
     if (!response.isSuccessful()) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_VERSION_DELETE, Module.ZUS, null, response
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_VERSION_DELETE, Module.ZDB, null, response
           .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -184,7 +184,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_PUBLISH, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_PUBLISH, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -203,7 +203,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     response = getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_SYNC, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_SYNC, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -228,7 +228,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         .mergeItemVersion(context, itemId, versionId, sourceVersionId);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_MERGE, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_MERGE, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -252,7 +252,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     response = getCollaborationAdaptor(context).listItemVersionHistory(context, itemId, versionId);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_HISTORY, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_HISTORY, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -270,7 +270,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         changeId);
     if (!response.isSuccessful()) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_REVERT_HISTORY, Module.ZUS, null, response
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_REVERT_HISTORY, Module.ZDB, null, response
               .getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -314,7 +314,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     if (!isExist(context, space, itemId, versionId)) {
       validateItemExistence(context, itemId);
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_DOES_NOT_EXIST,Module.ZUS,String.format(Messages
+          new ReturnCode(ErrorCode.ZU_ITEM_DOES_NOT_EXIST,Module.ZDB,String.format(Messages
               .ITEM_VERSION_NOT_EXIST, itemId, versionId, space),null);
       logger.error(returnCode.toString());
       throw new ZusammenException(
@@ -324,7 +324,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   private void validateItemExistence(SessionContext context, Id itemId) {
     if (!getItemManager(context).isExist(context, itemId)) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DOES_NOT_EXIST,Module.ZUS,String
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_DOES_NOT_EXIST,Module.ZDB,String
           .format(Messages.ITEM_NOT_EXIST, itemId),null);
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);

@@ -20,10 +20,20 @@ import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptorFactory;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptorFactory;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Action;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ReturnCode;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 public class IndexingElementCommandFactory extends ElementCommandAbstarctFactory {
+
+  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(IndexingElementCommandFactory.class
+      .getName());
 
   private IndexingElementCommandFactory() {
   }
@@ -32,16 +42,49 @@ public class IndexingElementCommandFactory extends ElementCommandAbstarctFactory
     final ElementCommandAbstarctFactory factory = new IndexingElementCommandFactory();
 
     factory.addCommand(Action.CREATE, (context, elementContext, space, element) -> {
-      getStateAdaptor(context).create(context, elementContext, space, element);
-      getSearchIndexAdaptor(context).createElement(context, elementContext, space, element);
+      Response response = getStateAdaptor(context).create(context, elementContext, space, element);
+      if(response.isSuccessful()) {
+        response = getSearchIndexAdaptor(context).createElement(context, elementContext, space,
+            element);
+      }
+
+      if (!response.isSuccessful()) {
+        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_CREATE, Module.ZDB, null,
+            response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
+
+      }
+
     });
     factory.addCommand(Action.UPDATE, (context, elementContext, space, element) -> {
-      getStateAdaptor(context).update(context, elementContext, space, element);
-      getSearchIndexAdaptor(context).updateElement(context, elementContext, space, element);
+      Response response = getStateAdaptor(context).update(context, elementContext, space, element);
+      if(response.isSuccessful()) {
+        response = getSearchIndexAdaptor(context).updateElement(context, elementContext, space,
+            element);
+      }
+      if (!response.isSuccessful()) {
+        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_UPDATE, Module.ZDB, null,
+            response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
+
+      }
+
     });
     factory.addCommand(Action.DELETE, (context, elementContext, space, element) -> {
-      getStateAdaptor(context).delete(context, elementContext, space, element);
-      getSearchIndexAdaptor(context).deleteElement(context, elementContext, space, element);
+      Response response = getStateAdaptor(context).delete(context, elementContext, space, element);
+      if(response.isSuccessful()) {
+        response =
+            getSearchIndexAdaptor(context).deleteElement(context, elementContext, space, element);
+      }
+      if (!response.isSuccessful()) {
+        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_DELETE, Module.ZDB, null,
+            response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
+
+      }
     });
     return factory;
   }

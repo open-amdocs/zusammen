@@ -17,9 +17,11 @@
 package org.amdocs.zusammen.datatypes.response;
 
 public enum Module {
-  COL,
-  IND,
-  STT,
-  ZUS,
-  MDW
+  ZCSP,
+  ZSIP,
+  ZMDP,
+  ZDB,
+  ZCSM,
+  ZSTM,
+  ZSIM
 }

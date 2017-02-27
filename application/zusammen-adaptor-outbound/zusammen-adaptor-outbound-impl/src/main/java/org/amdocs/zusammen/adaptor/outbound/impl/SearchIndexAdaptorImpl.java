@@ -19,8 +19,6 @@ package org.amdocs.zusammen.adaptor.outbound.impl;
 
 import org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.impl.convertor.SearchIndexElementConvertor;
-import org.amdocs.zusammen.commons.log.ZusammenLogger;
-import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
@@ -37,30 +35,30 @@ import org.amdocs.zusammen.sdk.searchindex.SearchIndexFactory;
 
 public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
 
-  private static ZusammenLogger logger =
+ /* private static ZusammenLogger logger =
       ZusammenLoggerFactory.getLogger(SearchIndexAdaptorImpl.class
-          .getName());
+          .getName());*/
 
   @Override
   public Response<Void> createElement(SessionContext context, ElementContext elementContext,
                                       Space space, CoreElement element) {
-    Response response;
+    Response<Void> response;
     try {
       response = getSearchIndex(context).createElement(context,
           SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
       if (response.isSuccessful()) {
         return response;
       } else {
-        ReturnCode returnCode = new ReturnCode(ErrorCode.IN_ELEMENT_CREATE, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.MD_ELEMENT_CREATE, Module.ZSIM, null,
             response.getReturnCode());
-        logger.error(returnCode.toString());
+        //logger.error(returnCode.toString());
         throw new ZusammenException(returnCode);
       }
-    } catch (RuntimeException e) {
+    } catch (RuntimeException re) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.IN_ELEMENT_CREATE, Module.MDW, e.getMessage(),
-              null);
-      logger.error(returnCode.toString());
+          new ReturnCode(ErrorCode.MD_ELEMENT_CREATE, Module.ZSIM, null,
+              new ReturnCode(ErrorCode.IN_ELEMENT_CREATE, Module.ZSIP, re.getMessage(), null));
+      //logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
   }
@@ -68,23 +66,23 @@ public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
   @Override
   public Response<Void> updateElement(SessionContext context, ElementContext elementContext,
                                       Space space, CoreElement element) {
-    Response response;
+    Response<Void> response;
     try {
       response = getSearchIndex(context).updateElement(context,
           SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
       if (response.isSuccessful()) {
         return response;
       } else {
-        ReturnCode returnCode = new ReturnCode(ErrorCode.IN_ELEMENT_UPDATE, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.MD_ELEMENT_UPDATE, Module.ZSIM, null,
             response.getReturnCode());
-        logger.error(returnCode.toString());
+        //logger.error(returnCode.toString());
         throw new ZusammenException(returnCode);
       }
-    } catch (RuntimeException e) {
+    } catch (RuntimeException re) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.IN_ELEMENT_UPDATE, Module.MDW, e.getMessage(),
-              null);
-      logger.error(returnCode.toString());
+          new ReturnCode(ErrorCode.MD_ELEMENT_UPDATE, Module.ZSIM, null,
+              new ReturnCode(ErrorCode.IN_ELEMENT_UPDATE, Module.ZSIP, re.getMessage(), null));
+      //logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
   }
@@ -93,23 +91,23 @@ public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
   public Response<Void> deleteElement(SessionContext context, ElementContext elementContext,
                                       Space space, CoreElement element) {
 
-    Response response;
+    Response<Void> response;
     try {
       response = getSearchIndex(context).deleteElement(context,
           SearchIndexElementConvertor.convertFromCoreElement(elementContext, element, space));
       if (response.isSuccessful()) {
         return response;
       } else {
-        ReturnCode returnCode = new ReturnCode(ErrorCode.IN_ELEMENT_DELETE, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.MD_ELEMENT_DELETE, Module.ZSIM, null,
             response.getReturnCode());
-        logger.error(returnCode.toString());
+        //logger.error(returnCode.toString());
         throw new ZusammenException(returnCode);
       }
-    } catch (RuntimeException e) {
+    } catch (RuntimeException re) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.IN_ELEMENT_DELETE, Module.MDW, e.getMessage(),
-              null);
-      logger.error(returnCode.toString());
+          new ReturnCode(ErrorCode.MD_ELEMENT_DELETE, Module.ZSIM, null,
+              new ReturnCode(ErrorCode.IN_ELEMENT_DELETE, Module.ZSIP, re.getMessage(), null));
+      //logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
   }
@@ -117,21 +115,22 @@ public class SearchIndexAdaptorImpl implements SearchIndexAdaptor {
   @Override
   public Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria) {
 
-    Response response;
+    Response<SearchResult> response;
     try {
       response = getSearchIndex(context).search(context, searchCriteria);
       if (response.isSuccessful()) {
         return response;
       } else {
-        ReturnCode returnCode = new ReturnCode(ErrorCode.IN_SEARCH, Module.MDW, null,
+        ReturnCode returnCode = new ReturnCode(ErrorCode.MD_SEARCH, Module.ZSIM, null,
             response.getReturnCode());
-        logger.error(returnCode.toString());
+        //logger.error(returnCode.toString());
         throw new ZusammenException(returnCode);
       }
-    } catch (RuntimeException e) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.IN_SEARCH, Module.MDW, e.getMessage(),
-          null);
-      logger.error(returnCode.toString());
+    } catch (RuntimeException re) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.MD_SEARCH, Module.ZSIM, null,
+              new ReturnCode(ErrorCode.IN_SEARCH, Module.ZSIP, re.getMessage(), null));
+      //logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
   }

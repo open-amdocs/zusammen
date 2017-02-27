@@ -40,24 +40,24 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
   @Override
   public Response<Void> createWorkspace(SessionContext context, Id workspaceId, Info
       workspaceInfo) {
-    Response response;
+    Response<Void> response;
     try {
       response = OutboundAdaptorUtils.getStateStore(context)
           .createWorkspace(context, workspaceId, workspaceInfo);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.MDW, null,
+        response = new Response<>(new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.ZSTM, null,
             response.getReturnCode()));
       }
     } catch (ZusammenException e) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.MDW, e.getMessage(),
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.ZSTM, e.getMessage(),
           e.getReturnCode());
-      response = new Response(returnCode);
+      response = new Response<>(returnCode);
       logger.error(returnCode.toString());
     } catch (RuntimeException rte) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.MDW, rte.getMessage(),
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_WORKSPACE_CREATE, Module.ZSTM, rte.getMessage(),
           null);
       logger.error(returnCode.toString());
-      response = new Response(returnCode);
+      response = new Response<>(returnCode);
     }
 
     return response;
@@ -65,20 +65,20 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
 
   @Override
   public Response<Void> saveWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo) {
-    Response response;
+    Response<Void> response;
     try {
       response = OutboundAdaptorUtils.getStateStore(context).saveWorkspace(context, workspaceId, workspaceInfo);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.MDW, null,
+        response = new Response<>(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.ZSTM, null,
             response.getReturnCode()));
         logger.error(response.getReturnCode().toString());
       }
     } catch (ZusammenException e) {
-      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.MDW, e.getMessage(),
+      response = new Response<>(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.ZSTM, e.getMessage(),
           e.getReturnCode()));
       logger.error(response.getReturnCode().toString());
     } catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.MDW, rte.getMessage(),
+      response = new Response<>(new ReturnCode(ErrorCode.ST_WORKSPACE_SAVE, Module.ZSTM, rte.getMessage(),
           null));
       logger.error(response.getReturnCode().toString());
     }
@@ -88,20 +88,20 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
 
   @Override
   public Response<Void> deleteWorkspace(SessionContext context, Id workspaceId) {
-    Response response;
+    Response<Void> response;
     try {
       response = OutboundAdaptorUtils.getStateStore(context).deleteWorkspace(context, workspaceId);
     if (!response.isSuccessful()) {
-      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.MDW, null,
+      response = new Response<>(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.ZSTM, null,
           response.getReturnCode()));
     }
   } catch (ZusammenException e) {
-    response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.MDW, e
+    response = new Response<>(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.ZSTM, e
         .getMessage(),
         e.getReturnCode()));
       logger.error(response.getReturnCode().toString());
   } catch (RuntimeException rte) {
-    response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.MDW, rte
+    response = new Response<>(new ReturnCode(ErrorCode.ST_WORKSPACE_DELETE, Module.ZSTM, rte
         .getMessage(),
         null));
       logger.error(response.getReturnCode().toString());
@@ -112,20 +112,20 @@ public class WorkspaceStateAdaptorImpl implements WorkspaceStateAdaptor {
 
   @Override
   public Response<Collection<WorkspaceInfo>> listWorkspaces(SessionContext context) {
-    Response response;
+    Response<Collection<WorkspaceInfo>> response;
     try {
       response = OutboundAdaptorUtils.getStateStore(context).listWorkspaces(context);
       if (!response.isSuccessful()) {
-        response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.MDW, null,
+        response = new Response<>(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.ZSTM, null,
             response.getReturnCode()));
       }
     } catch (ZusammenException e) {
-      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.MDW, e
+      response = new Response<>(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.ZSTM, e
           .getMessage(),
           e.getReturnCode()));
       logger.error(response.getReturnCode().toString());
     } catch (RuntimeException rte) {
-      response = new Response(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.MDW, rte
+      response = new Response<>(new ReturnCode(ErrorCode.ST_WORKSPACE_LIST, Module.ZSTM, rte
           .getMessage(),
           null));
       logger.error(response.getReturnCode().toString());

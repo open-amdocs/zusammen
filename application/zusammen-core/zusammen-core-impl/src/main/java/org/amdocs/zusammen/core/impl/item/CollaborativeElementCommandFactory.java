@@ -18,11 +18,21 @@ package org.amdocs.zusammen.core.impl.item;
 
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptorFactory;
+import org.amdocs.zusammen.commons.log.ZusammenLogger;
+import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.item.Action;
+import org.amdocs.zusammen.datatypes.response.ErrorCode;
+import org.amdocs.zusammen.datatypes.response.Module;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ReturnCode;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 public class CollaborativeElementCommandFactory extends ElementCommandAbstarctFactory {
+
+  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(CollaborativeElementCommandFactory.class
+      .getName());
 
   private CollaborativeElementCommandFactory() {
   }
@@ -32,14 +42,39 @@ public class CollaborativeElementCommandFactory extends ElementCommandAbstarctFa
 
     factory.addCommand(Action.CREATE, (context, elementContext, space, element) -> {
       element.setId(new Id());
-      getCollaborationAdaptor(context).createElement(context, elementContext, element);
+      Response response = getCollaborationAdaptor(context).createElement(context, elementContext,
+          element);
+      if (!response.isSuccessful()) {
+        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_CREATE, Module.ZDB, null,
+            response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
+
+      }
     });
-    factory.addCommand(Action.UPDATE, (context, elementContext, space, element) ->
-        getCollaborationAdaptor(context).updateElement(context, elementContext, element)
-    );
-    factory.addCommand(Action.DELETE, (context, elementContext, space, element) ->
-        getCollaborationAdaptor(context).deleteElement(context, elementContext, element)
-    );
+    factory.addCommand(Action.UPDATE, (context, elementContext, space, element) -> {
+
+      Response response = getCollaborationAdaptor(context).updateElement(context, elementContext,
+          element);
+      if (!response.isSuccessful()) {
+        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_UPDATE, Module.ZDB, null,
+            response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
+
+      }
+    });
+    factory.addCommand(Action.DELETE, (context, elementContext, space, element) -> {
+      Response response = getCollaborationAdaptor(context).deleteElement(context, elementContext,
+          element);
+      if (!response.isSuccessful()) {
+        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_DELETE, Module.ZDB, null,
+            response.getReturnCode());
+        logger.error(returnCode.toString());
+        throw new ZusammenException(returnCode);
+
+      }
+    });
     return factory;
   }
 

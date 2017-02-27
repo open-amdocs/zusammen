@@ -44,10 +44,12 @@ public class ReturnCode {
   }
 
   public String toString(){
-    StringBuffer sb = new StringBuffer();
-    sb.append(errorCode.toString()).append("-").append(message).append(System.lineSeparator())
-        .append("\t");
-    sb.append(returnCode.toString());
+    StringBuilder sb = new StringBuilder();
+
+    sb.append(errorCode.toString());
+    if(message!= null) sb.append("-").append(message);
+    sb.append(System.lineSeparator()).append("\t");
+    if(returnCode!= null)    sb.append(returnCode.toString());
     return sb.toString();
   }
 }

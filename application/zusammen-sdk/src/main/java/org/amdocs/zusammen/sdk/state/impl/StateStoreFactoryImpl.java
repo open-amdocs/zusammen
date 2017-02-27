@@ -46,7 +46,7 @@ public class StateStoreFactoryImpl extends StateStoreFactory {
         stateStore =
             CommonMethods.newInstance(pluginInfo.getImplementationClass(), StateStore.class);
       } catch (Exception ex) {
-        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_STATE_STORE_INIT, Module.ZUS,ex
+        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_STATE_STORE_INIT, Module.ZDB,ex
             .getMessage(),null);
         logger.error(returnCode.toString(),ex);
         throw new ZusammenException(returnCode);
