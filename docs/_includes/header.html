@@ -1,0 +1,71 @@
+<!doctype html>
+
+<head>
+
+    <!-- Meta -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatiblte" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{% if page.title %}{{ page.title }} {% else %}{{ site.data.global.title }} {% endif %}</title>
+    <link rel="stylesheet" href="{{site.baseurl}}/css/site.css"/>
+    <link rel="stylesheet" href="{{site.baseurl}}/css/zusammen.css"/>
+
+</head>
+
+<body>
+<div class="navbar-wrapper">
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top navbar-inverse bg-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false"
+                            aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{site.baseurl}}/"><img
+                            src="{{site.baseurl}}/images/logo_for_site_160px.png" alt="Zusammen logo"/></a>
+                </div>
+                <div id="navbar" class="navbar-right navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li {% if (page.url == "/") %}class="active" {%endif%}><a href="{{site.baseurl}}/">Home</a></li>
+                        {% assign current = page.url | split: '/' %}
+                        <li {% if (current[1] == "about") %}class="active"{%endif%}><a href="{{site.baseurl}}/about">About</a></li>
+                        <li class="dropdown {% if page.group == "arch") %} active {%endif%}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">Architecture <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {% assign arch_pages = (site.pages | where: "group", "arch") | sort: "sortindex" %} {%
+                            for p in arch_pages %}
+                            <li {%if page.url == p.url%} class="active" {%endif%}><a href="{{site.baseurl}}/{{ p.url }}">{{
+                                p.title }}</a></li>
+                            {% endfor %}
+                            <!-- page -->
+                        </ul>
+                        </li>
+                        <li class="dropdown {% if (page.group != null and page.group != "arch" ) %} active {% endif %}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">API <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {% assign myArray = "Item|ItemVersion|Element|Error Handling" | split: "|" %}
+                            {% for cat in myArray %}
+                            <li>{{ cat }}</li>
+                            {% assign api_pages = (site.pages | where: "group", cat) | sort: "sortindex" %} {%
+                            for p in api_pages %}
+                            <li {% if p.url== page.url %} class="active" {% endif %}><a
+                                    href="{{ site.baseurl }}/{{ p.url }}">{{ p.title }}</a></li>
+                            {% endfor %}
+                            {% endfor %}
+                            <!-- page -->
+                        </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    </div>
+</div>

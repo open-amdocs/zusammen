@@ -1,0 +1,369 @@
+/* GLOBAL STYLES */
+html, body {
+    height: 100%
+}
+
+body {
+    background-color: white;
+    font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 18px;
+    color: #323232;
+}
+
+footer, footer a, footer a:hover, footer a:visited {
+    background-color: #323232;
+    color: white;
+    height: 98px;
+    width: 100%;
+    vertical-align: middle;
+    bottom: 0px;
+}
+.footer-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* CAROUSEL */
+.carousel, .item, .carousel-inner > .item > img {
+    height: 700px;
+    max-width: none;
+}
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none
+}
+
+.carousel-caption {
+    text-shadow: none;
+    top: 150px;
+}
+
+.carousel-control > img {
+    border-style: solid;
+    border-color: black;
+    position: absolute;
+    /*set position of image from top to be 50%...*/
+    top: 50%;
+    /*and then shift it down to make it perfectly center.*/
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    display: inline-block;
+}
+
+.carousel-inner > .item > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+}
+
+.carousel > .carousel-indicators > li {
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+/* MAIN PAGE TEXT */
+.marketing {
+    margin-bottom: 50px;
+}
+
+.marketing .col-lg-4 {
+    margin-bottom: 150px;
+    text-align: center;
+}
+
+.col-lg-4 > p {
+    min-height: 110px;
+}
+
+.marketing .col-lg-4 h2 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+
+.gradient-muted {
+    background-image: linear-gradient(to top right, #2d78e7, #26b6d0), linear-gradient(#282828, #282828); /* Standard syntax */
+}
+
+.gradient-bg {
+    background: -webkit-linear-gradient(left top, #2d78e7, #26b6d0); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #2d78e7, #26b6d0); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #2d78e7, #26b6d0); /* For Firefox 3.6 to 15 */
+    background-image: linear-gradient(to top right, #3250fa, #1ee6b4), linear-gradient(#282828, #282828); /* Standard syntax */
+    color: white;
+}
+
+.zusammen-button {
+    border-style: none;
+    border-radius: 19px;
+    width: 162px;
+    height: 38px;
+    padding: 10px;
+    color: white !important;
+    text-shadow: 0px 0px 9.6px rgba(25, 25, 25, 0.7);
+    box-shadow: 0 0 11.5px 0.5px rgba(25, 25, 25, 0.25);
+    margin-top: 60px;
+}
+
+/* NAVBAR */
+.navbar {
+    background-color: #323232;
+    border-color: #323232;
+    -webkit-box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 1);
+    box-shadow: 0px 3px 3px 0px #323232;
+}
+
+ul.navbar-nav {
+    white-space: nowrap;
+}
+
+.navbar-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+.navbar-nav {
+    margin-top: 25px;
+    font-size: 18px;
+}
+
+.navbar-wrapper {
+    margin-top: 20px;
+    margin-left: 170px;
+}
+
+.navbar-wrapper .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    background-color: #323232;
+}
+
+.navbar-wrapper .navbar {
+    padding-right: 0;
+    padding-left: 0;
+    border-radius: 0px;
+}
+
+.navbar-wrapper .navbar {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.navbar-wrapper > .container {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.navbar-default .navbar-brand {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.navbar, .navbar-transparent, .navbar-default, .navbar-fixed-top, .navbar-inverse, .bg-inverse {
+    background-color: #323232 !important;
+    background: #323232 !important;
+}
+/*** CONTENT ****/
+code {
+    color:#323232;
+    font-family: Courier;
+}
+    .footer-top {
+        margin-top: 100px;
+        width: 100%;
+        height: 10px;
+    }
+
+    footer {
+        padding-top: 40px;
+        height: 100px;
+    }
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (min-width: 760px) {
+    .forceBreak:after {
+        content: "\a";
+        white-space: pre;
+    }
+    footer {
+    footer {
+        padding-top: 40px;
+        height: 100px;
+    }
+
+        padding-top: 40px;
+        height: 100px;
+    }
+
+}
+@media (max-width: 1200px) {
+.navbar-inverse {
+	margin-top:30px;
+}
+.col-lg-6  {
+margin-bottom: 120px;
+}
+h1 {
+margin-top: 120px;
+font-size:55px;
+font-weight:bold;
+}
+    .carousel-caption p {
+        font-size: 35px;
+        font-weight: normal;
+    }
+
+    .carousel-caption > h1 {
+        font-size: 70px;
+        font-weight: bold;
+    }
+
+    .marketing .first-image {
+	margin-top:120px;
+    }
+    .marketing .icon-image {
+        margin-bottom: 40px;
+    }
+    .zusammen-button {
+	margin-top:25px;
+    }
+    .col-lg-4 > p {
+        margin-left: 200px;
+        margin-right: 200px;
+    }
+
+}
+
+@media (min-width: 1200px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 1200px;
+    }
+
+    .formContainer {
+        padding-bottom: 100px;
+    }
+
+
+    .footer-icon-link, .footer-icon-link:hover, .footer-icon-link:visited {
+        margin-left: 30px;
+    }
+    footer a, footer a:hover, footer a:visited {
+        margin-left: 50px;
+    }
+
+    .innercontainer {
+	min-height: calc(100% - 180px);
+    }
+
+    #content {
+        padding-top: 120px;
+        margin-bottom: 50px;
+        max-width: 800px;
+    }
+
+    .navbar-wrapper .navbar {
+        height: 80px;
+        background-color: #323232;
+        vertical-align: middle;
+    }
+
+
+    .navbar-default .navbar-brand {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .carousel-caption p {
+        font-size: 40px;
+    }
+
+    .carousel-caption > h1 {
+        font-size: 80px;
+        font-weight: bold;
+    }
+
+    .col-lg-6 {
+        height: 500px;
+    }
+
+    form > h1 {
+        padding-bottom: 40px;
+    }
+
+    .col-lg-6 > h1 {
+        padding-bottom: 20px;
+    }
+
+    .form-control {
+        height: 48px;
+        border-radius: 10px;
+        border: solid 1px #323232;
+    }
+
+    .form-group {
+        padding-top: 10px;
+    }
+
+    #content > h1 {
+        font-size: 40px;
+    }
+
+    #content > table {
+        border-collapse: collapse;
+    }
+    
+    #content > table, th, td {
+        border: 1px solid #232323;
+        padding : 3px;
+    }
+
+    h1 {
+        font-size: 60px;
+        font-weight: bold;
+    }
+
+    .row h1 {
+        padding-top: 120px;
+    }
+    .col-lg-6 > p {
+        color: white;
+        padding-left: 80px;
+        padding-right: 30px;
+    }
+
+    .rightVerticalDivider {
+    }
+
+    .rightVerticalDivider:after {
+        content: "";
+        background: white;
+        position: absolute;
+        bottom: 30%;
+        left: 0;
+        height: 175px;
+        width: 1px;
+    }
+
+    .marketing .icon-image {
+        margin-top: 133px;
+        margin-bottom: 45px;
+    }
+}
+
+
