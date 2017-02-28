@@ -18,12 +18,16 @@ package org.amdocs.zusammen.core.impl.item;
 
 import org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptor;
+import org.amdocs.zusammen.adaptor.outbound.impl.CollaborationAdaptorImpl;
+import org.amdocs.zusammen.adaptor.outbound.impl.item.ItemStateAdaptorImpl;
 import org.amdocs.zusammen.core.impl.TestUtils;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
+import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
@@ -49,15 +53,20 @@ public class ItemManagerImplTest {
   @Spy
   private ItemManagerImpl itemManagerImpl;
   @Mock
-  private ItemStateAdaptor stateAdaptorMock;
+  private ItemStateAdaptor stateAdaptorMock = new ItemStateAdaptorImpl();
   @Mock
-  private CollaborationAdaptor collaborationAdaptorMock;
+  private CollaborationAdaptor collaborationAdaptorMock = new CollaborationAdaptorImpl();
 
   @BeforeMethod
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
+
     when(itemManagerImpl.getStateAdaptor(anyObject())).thenReturn(stateAdaptorMock);
     when(itemManagerImpl.getCollaborationAdaptor(anyObject())).thenReturn(collaborationAdaptorMock);
+    when(stateAdaptorMock.createItem(anyObject(),anyObject(),anyObject())).thenReturn(new
+        Response(Void.TYPE));
+    when(collaborationAdaptorMock.createItem(anyObject(),anyObject(),anyObject())).thenReturn(new
+        Response(Void.TYPE));
   }
 
   @Test
@@ -67,7 +76,8 @@ public class ItemManagerImplTest {
         createItem(new Id(), "item1"),
         createItem(new Id(), "item2"),
         createItem(new Id(), "item3"));
-    doReturn(retrievedItems).when(stateAdaptorMock).listItems(context);
+    Response<List<Item>> itemListResponse = new Response<List<Item>>(retrievedItems);
+    doReturn(itemListResponse).when(stateAdaptorMock).listItems(context);
 
     Collection<Item> items = itemManagerImpl.list(context);
     Assert.assertEquals(items, retrievedItems);
@@ -76,7 +86,7 @@ public class ItemManagerImplTest {
   @Test
   public void testIsExist() throws Exception {
     Id itemId = new Id();
-    doReturn(true).when(stateAdaptorMock).isItemExist(context, itemId);
+    doReturn(new Response<Boolean>(true)).when(stateAdaptorMock).isItemExist(context, itemId);
 
     boolean exist = itemManagerImpl.isExist(context, itemId);
     Assert.assertTrue(exist);
@@ -84,14 +94,17 @@ public class ItemManagerImplTest {
 
   @Test
   public void testIsExistWhenNot() throws Exception {
-    boolean exist = itemManagerImpl.isExist(context, new Id());
+    Id itemId = new Id();
+    doReturn(new Response<Boolean>(false)).when(stateAdaptorMock).isItemExist(context, itemId);
+    boolean exist = itemManagerImpl.isExist(context, itemId);
     Assert.assertFalse(exist);
   }
 
   @Test
   public void testGet() throws Exception {
     Item retrievedItem = createItem(new Id(), "item1");
-    doReturn(retrievedItem).when(stateAdaptorMock).getItem(context, retrievedItem.getId());
+    Response<Item> itemResponse = new Response<Item>(retrievedItem);
+    doReturn(itemResponse).when(stateAdaptorMock).getItem(context, retrievedItem.getId());
 
     Item item = itemManagerImpl.get(context, retrievedItem.getId());
     Assert.assertEquals(item, retrievedItem);
@@ -99,7 +112,11 @@ public class ItemManagerImplTest {
 
   @Test
   public void testGetNonExisting() throws Exception {
-    Item item = itemManagerImpl.get(context, new Id());
+    Id itemId = new Id();
+    Item retrieveItem = null;
+    Response<Item> itemResponse = new Response<Item>(retrieveItem);
+    doReturn(itemResponse).when(stateAdaptorMock).getItem(context, itemId);
+    Item item = itemManagerImpl.get(context, itemId);
     Assert.assertNull(item);
   }
 
@@ -117,7 +134,9 @@ public class ItemManagerImplTest {
   public void testUpdate() throws Exception {
     Id itemId = new Id();
     Info info = TestUtils.createInfo("item1");
-    doReturn(true).when(stateAdaptorMock).isItemExist(context, itemId);
+    doReturn(new Response<Boolean>(true)).when(stateAdaptorMock).isItemExist(context, itemId);
+    doReturn(new Response(Void.TYPE)).when(stateAdaptorMock).updateItem(context, itemId, info);
+    doReturn(new Response(Void.TYPE)).when(collaborationAdaptorMock).updateItem(context, itemId, info);
 
     itemManagerImpl.update(context, itemId, info);
 
@@ -125,26 +144,39 @@ public class ItemManagerImplTest {
     verify(stateAdaptorMock).updateItem(context, itemId, info);
   }
 
-  @Test(expectedExceptions = RuntimeException.class,
-      expectedExceptionsMessageRegExp = ITEM_NOT_EXIST)
+  @Test(expectedExceptions = ZusammenException.class/*,
+      expectedExceptionsMessageRegExp = ITEM_NOT_EXIST*/)
   public void testUpdateNonExisting() throws Exception {
-    itemManagerImpl.update(context, new Id(), new Info());
+    Id itemId = new Id();
+    Info info = new Info();
+
+    doReturn(new Response<Boolean>(false)).when(stateAdaptorMock).isItemExist(context, itemId);
+
+    doReturn(new Response(Void.TYPE)).when(stateAdaptorMock).updateItem(context, itemId, info);
+    doReturn(new Response(Void.TYPE)).when(collaborationAdaptorMock).updateItem(context, itemId, info);
+
+    itemManagerImpl.update(context, itemId, info);
   }
 
   @Test
   public void testDelete() throws Exception {
     Id itemId = new Id();
-    doReturn(true).when(stateAdaptorMock).isItemExist(context, itemId);
-
+    doReturn(new Response<Boolean>(true)).when(stateAdaptorMock).isItemExist(context, itemId);
+    doReturn(new Response(Void.TYPE)).when(stateAdaptorMock).deleteItem(anyObject(), anyObject());
+    doReturn(new Response(Void.TYPE)).when(collaborationAdaptorMock).deleteItem(anyObject(), anyObject());
     itemManagerImpl.delete(context, itemId);
 
     verify(collaborationAdaptorMock).deleteItem(context, itemId);
     verify(stateAdaptorMock).deleteItem(context, itemId);
   }
 
-  @Test(expectedExceptions = RuntimeException.class,
-      expectedExceptionsMessageRegExp = ITEM_NOT_EXIST)
+  @Test(expectedExceptions = ZusammenException.class/*,
+      expectedExceptionsMessageRegExp = ITEM_NOT_EXIST*/)
   public void testDeleteNonExisting() throws Exception {
+    doReturn(new Response<Boolean>(false)).when(stateAdaptorMock).isItemExist(anyObject(),anyObject
+        ());
+    doReturn(new Response(Void.TYPE)).when(stateAdaptorMock).deleteItem(anyObject(), anyObject());
+    doReturn(new Response(Void.TYPE)).when(collaborationAdaptorMock).deleteItem(anyObject(), anyObject());
     itemManagerImpl.delete(context, new Id());
   }
 

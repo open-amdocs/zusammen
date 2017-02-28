@@ -30,6 +30,7 @@ import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.UserInfo;
 import org.amdocs.zusammen.datatypes.item.Action;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
+import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 import org.amdocs.zusammen.sdk.state.types.StateElement;
@@ -103,7 +104,10 @@ public class ElementManagerImplTest {
         new StateElement(itemId, versionId, Namespace.ROOT_NAMESPACE, new Id()),
         new StateElement(itemId, versionId, Namespace.ROOT_NAMESPACE, new Id()),
         new StateElement(itemId, versionId, Namespace.ROOT_NAMESPACE, new Id()));
-    doReturn(retrievedElementInfos).when(stateAdaptorMock)
+    Response<Collection<StateElement>> stateElementCollectionResponse = new
+        Response<Collection<StateElement>>(retrievedElementInfos);
+
+    doReturn(stateElementCollectionResponse).when(stateAdaptorMock)
         .list(context, elementContext, elementId);
 
     Collection<CoreElementInfo> elementInfos =
@@ -122,7 +126,9 @@ public class ElementManagerImplTest {
 
     CoreElementInfo retrievedElementInfo =
         createCoreElementInfo(elementId, new Id(), Namespace.ROOT_NAMESPACE);
-    doReturn(retrievedElementInfo).when(stateAdaptorMock).get(context, elementContext, elementId);
+    Response<CoreElementInfo> coreElementInfoResponse = new Response<CoreElementInfo>
+        (retrievedElementInfo);
+    doReturn(coreElementInfoResponse).when(stateAdaptorMock).get(context, elementContext, elementId);
 
     CoreElementInfo elementInfo = elementManager.getInfo(context, elementContext, elementId);
 
@@ -139,10 +145,13 @@ public class ElementManagerImplTest {
 
     CoreElementInfo retrievedElementInfo =
         createCoreElementInfo(elementId, new Id(), Namespace.ROOT_NAMESPACE);
-    doReturn(retrievedElementInfo).when(stateAdaptorMock).get(context, elementContext, elementId);
+    Response<CoreElementInfo> CoreElementInfoRes  = new Response<CoreElementInfo>
+        (retrievedElementInfo);
+    doReturn(CoreElementInfoRes).when(stateAdaptorMock).get(context, elementContext, elementId);
 
     CoreElement retrievedCoreElement = new CoreElement();
-    doReturn(retrievedCoreElement).when(collaborationAdaptorMock)
+    Response<CoreElement> CoreElementRes  = new Response<>(retrievedCoreElement);
+    doReturn(CoreElementRes).when(collaborationAdaptorMock)
         .getElement(context, elementContext, retrievedElementInfo.getNamespace(), elementId);
 
     CoreElement element = elementManager.get(context, elementContext, elementId);
@@ -182,7 +191,9 @@ public class ElementManagerImplTest {
 
     CoreElementInfo retrievedElementInfo =
         createCoreElementInfo(root.getId(), new Id(), Namespace.ROOT_NAMESPACE);
-    doReturn(retrievedElementInfo).when(stateAdaptorMock)
+    Response<CoreElementInfo> coreElementInfoResponse = new Response<CoreElementInfo>
+        (retrievedElementInfo);
+    doReturn(coreElementInfoResponse).when(stateAdaptorMock)
         .get(context, elementContext, root.getId());
 
     elementManager.save(context, elementContext, root, "save non-create root!");
@@ -203,7 +214,8 @@ public class ElementManagerImplTest {
 
     SearchResult retrievedSearchResult = new SearchResult() {
     };
-    doReturn(retrievedSearchResult).when(searchIndexAdaptorMock).search(context, searchCriteria);
+    Response<SearchResult> searchResultResponse = new Response<SearchResult>(retrievedSearchResult);
+    doReturn(searchResultResponse).when(searchIndexAdaptorMock).search(context, searchCriteria);
 
     SearchResult searchResult = elementManager.search(context, searchCriteria);
 
