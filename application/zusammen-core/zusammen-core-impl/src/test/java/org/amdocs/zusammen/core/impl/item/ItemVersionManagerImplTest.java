@@ -65,9 +65,9 @@ public class ItemVersionManagerImplTest {
       "Item Id .*, version Id .* does not exist in .* space";
 
   @Mock
-  private ItemVersionStateAdaptor stateAdaptorMock = new ItemVersionStateAdaptorImpl();
+  private ItemVersionStateAdaptor stateAdaptorMock;
   @Mock
-  private CollaborationAdaptor collaborationAdaptorMock = new CollaborationAdaptorImpl();
+  private CollaborationAdaptor collaborationAdaptorMock;
   @Mock
   private ItemManager itemManagerMock;
   @Mock

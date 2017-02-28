@@ -3,6 +3,5 @@
   "org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.item.ItemStateAdaptorFactoryImpl",
   "org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.item.ItemVersionStateAdaptorFactoryImpl",
   "org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.item.ElementStateAdaptorFactoryImpl",
-  "org.amdocs.zusammen.adaptor.outbound.api.workspace.WorkspaceStateAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.workspace.WorkspaceStateAdaptorFactoryImpl",
   "org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.SearchIndexAdaptorFactoryImpl"
 }

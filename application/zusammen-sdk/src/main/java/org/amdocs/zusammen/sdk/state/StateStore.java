@@ -26,7 +26,6 @@ import org.amdocs.zusammen.datatypes.item.Item;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.response.Response;
-import org.amdocs.zusammen.datatypes.workspace.WorkspaceInfo;
 import org.amdocs.zusammen.sdk.state.types.StateElement;
 
 import java.util.Collection;
@@ -48,22 +47,23 @@ public interface StateStore {
   Response<Collection<ItemVersion>> listItemVersions(SessionContext context, Space space, Id
       itemId);
 
-  Response<Boolean> isItemVersionExist(SessionContext context, Space space, Id itemId, Id versionId);
+  Response<Boolean> isItemVersionExist(SessionContext context, Space space, Id itemId,
+                                       Id versionId);
 
   Response<ItemVersion> getItemVersion(SessionContext context, Space space, Id itemId, Id
       versionId);
 
   Response<Void> createItemVersion(SessionContext context, Space space, Id itemId, Id baseVersionId,
-                         Id versionId, ItemVersionData data);
+                                   Id versionId, ItemVersionData data);
 
   Response<Void> updateItemVersion(SessionContext context, Space space, Id itemId, Id versionId,
-                         ItemVersionData data);
+                                   ItemVersionData data);
 
   Response<Void> deleteItemVersion(SessionContext context, Space space, Id itemId, Id versionId);
 
   Response<Collection<StateElement>> listElements(SessionContext context, ElementContext
       elementContext,
-                                        Id elementId);
+                                                  Id elementId);
 
   Response<Boolean> isElementExist(SessionContext context, ElementContext elementContext, Id
       elementId);
@@ -77,11 +77,5 @@ public interface StateStore {
 
   Response<Void> deleteElement(SessionContext context, StateElement element);
 
-  Response<Void> createWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
 
-  Response<Void> saveWorkspace(SessionContext context, Id workspaceId, Info workspaceInfo);
-
-  Response<Void> deleteWorkspace(SessionContext context, Id workspaceId);
-
-  Response<Collection<WorkspaceInfo>> listWorkspaces(SessionContext context);
 }
