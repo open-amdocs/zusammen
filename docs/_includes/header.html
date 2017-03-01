@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatiblte" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>{% if page.title %}{{ page.title }} {% else %}{{ site.data.global.title }} {% endif %}</title>
-    <link rel="stylesheet" href="{{site.baseurl}}/css/site.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{{site.baseurl}}/css/zusammen.css"/>
 
 </head>
@@ -40,7 +40,7 @@
                         <ul class="dropdown-menu">
                             {% assign arch_pages = (site.pages | where: "group", "arch") | sort: "sortindex" %} {%
                             for p in arch_pages %}
-                            <li {%if page.url == p.url%} class="active" {%endif%}><a href="{{site.baseurl}}/{{ p.url }}">{{
+                            <li {%if page.url == p.url%} class="active" {%endif%}><a href="{{site.baseurl}}{{ p.url }}">{{
                                 p.title }}</a></li>
                             {% endfor %}
                             <!-- page -->
@@ -56,7 +56,7 @@
                             {% assign api_pages = (site.pages | where: "group", cat) | sort: "sortindex" %} {%
                             for p in api_pages %}
                             <li {% if p.url== page.url %} class="active" {% endif %}><a
-                                    href="{{ site.baseurl }}/{{ p.url }}">{{ p.title }}</a></li>
+                                    href="{{ site.baseurl }}{{ p.url }}">{{ p.title }}</a></li>
                             {% endfor %}
                             {% endfor %}
                             <!-- page -->
