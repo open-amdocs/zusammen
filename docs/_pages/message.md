@@ -5,9 +5,8 @@ permalink: /about
 ---
 # About
 
-Amdocs is pleased to announce the release of our first Open Source project, Zusammen. 
+**Amdocs is pleased to announce the release of our first Open Source project, Zusammen.**
 
-Zusammen can be downloaded from [zusammen.io](http://zusammen.io/) from today.
 
 Zusammen is a document store that is designed specifically to facilitate collaborative work. It enables application creators to add collaboration features to their product with ease.
 
