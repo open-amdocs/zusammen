@@ -1,0 +1,36 @@
+{
+  "configuration": {
+    "level": 1,
+    "plugins": {
+      "zusammen_collaborative_store": {
+        "properties": {
+          "main": "main",
+          "public.path": "full path to public area",
+          "private.path": "full path to private area",
+          "blueprint.path": "Blue print repository full path",
+          "public.url": "git://{IP of Git location.}/public"
+        }
+      },
+      "zusammen_search_index": {
+        "properties": {
+          "es.host": "localhost",
+          "es.transport.tcp.port": "9300",
+          "es.clusterName": "zusammenCluster"
+        }
+      }
+    },
+    "properties": {
+      "cassandra.nodes": [
+        "localhost"
+      ],
+      "cassandra.port": "9042",
+      "cassandra.authenticate": false,
+      "cassandra.user": "asdc_user",
+      "cassandra.password": "not mandatory",
+      "cassandra.ssl": false,
+      "cassandra.truststore": "not mandatory",
+      "cassandra.truststore.password": "not mandatory",
+      "cassandra.keyspace": "zusammen"
+    }
+  }
+}
