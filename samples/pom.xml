@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!--parent>
+        <artifactId>zusammen-rest-web</artifactId>
+        <groupId>org.amdocs.zusammen.web</groupId>
+        <version>0.0.1</version>
+    </parent-->
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.amdocs.zusammen</groupId>
+    <artifactId>zusammen-samples</artifactId>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <java.source>1.8</java.source>
+        <java.target>1.8</java.target>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.amdocs.zusammen.plugin</groupId>
+            <artifactId>zusammen-collaboration-store-plugin</artifactId>
+            <version>0.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.zusammen.plugin</groupId>
+            <artifactId>zusammen-state-store-cassandra-plugin</artifactId>
+            <version>0.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.zusammen.plugin</groupId>
+            <artifactId>zusammen-search-index-elasticsearch-plugin</artifactId>
+            <version>0.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!--dependency>
+            <groupId>org.amdocs.zusammen.web</groupId>
+            <artifactId>item-rest-services</artifactId>
+            <version>0.0.1</version>
+        </dependency-->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlets</artifactId>
+            <version>9.0.6.v20130930</version>
+        </dependency>
+        <!--dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${javax.servlet.version}</version>
+        </dependency-->
+        <!-- JSON -->
+        <!--dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>${org.codehaus.jackson.version}</version>
+        </dependency-->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.zusammen.plugin</groupId>
+            <artifactId>zusammen-collaboration-store-plugin</artifactId>
+            <version>0.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.zusammen.plugin</groupId>
+            <artifactId>zusammen-state-store-cassandra-plugin</artifactId>
+            <version>0.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.zusammen.plugin</groupId>
+            <artifactId>zusammen-search-index-elasticsearch-plugin</artifactId>
+            <version>0.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.zusammen</groupId>
+            <artifactId>zusammen-adaptor-inbound-api</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.zusammen</groupId>
+            <artifactId>zusammen-adaptor-inbound-impl</artifactId>
+            <version>0.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- ================================================== -->
+            <!-- Set the JDK compiler version.                      -->
+            <!-- ================================================== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>${java.source}</source>
+                    <target>${java.target}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
