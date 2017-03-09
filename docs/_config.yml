@@ -30,6 +30,8 @@ highlighter: rouge
 lsi:         false
 excerpt_separator: "\n\n"
 
+syntax_highlighter_opts:
+  default_lang: text
 # Serving
 detach:  false
 port:    4000
@@ -54,20 +56,14 @@ redcarpet:
   extensions: []
 
 kramdown:
-  auto_ids:       true
-  footnote_nr:    1
-  entity_output:  as_char
-  toc_levels:     1..6
-  smart_quotes:   lsquo,rsquo,ldquo,rdquo
-  enable_coderay: false
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
 
   syntax_highlighter_opts:
-    wrap:              div
-    line_numbers:      inline
-    line_number_start: 1
-    tab_width:         4
-    bold_every:        10
-    css:               style
+  default_lang: text
+  css_class: 'highlight'
+  line_numbers: false
 
 sass:
     style: :compressed
