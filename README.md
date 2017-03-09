@@ -13,6 +13,8 @@ Whether your application enables a team to write an article together, to design 
 
 Zusammen has been designed from day one for user extensibility. This means that you can use Zusammen as a whole, or replace the default plug-ins with plug-ins that better meet your organizational needs.
 
+**[Installation guide](https://open-amdocs.github.io/zusammen/installation)**
+
 **For more details please check [Zusammen documentation](https://open-amdocs.github.io/zusammen/)**
 
 ###### Copyright © 2016-2017 European Support Limited
