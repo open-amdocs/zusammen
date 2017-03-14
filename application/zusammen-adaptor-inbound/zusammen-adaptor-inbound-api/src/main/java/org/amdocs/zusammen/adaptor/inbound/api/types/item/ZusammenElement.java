@@ -23,6 +23,7 @@ import org.amdocs.zusammen.datatypes.item.Relation;
 import org.amdocs.zusammen.utils.fileutils.FileUtils;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -34,7 +35,7 @@ public class ZusammenElement implements Element {
   private byte[] data;
   private byte[] searchableData;
   private byte[] visualization;
-  private Collection<Element> subElements = Collections.EMPTY_LIST;
+  private Collection<Element> subElements = new ArrayList<>();
 
   @Override
   public Action getAction() {
