@@ -111,4 +111,8 @@ public class ZusammenElement implements Element {
   public void setAction(Action action) {
     this.action = action;
   }
+
+  public void addSubElement(Element element){
+    this.subElements.add(element);
+  }
 }

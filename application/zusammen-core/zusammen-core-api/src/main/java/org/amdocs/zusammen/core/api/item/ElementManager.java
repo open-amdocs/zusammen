@@ -35,8 +35,8 @@ public interface ElementManager {
 
   CoreElement get(SessionContext context, ElementContext elementContext, Id elementId);
 
-  void save(SessionContext context, ElementContext elementContext, CoreElement element,
-            String message);
+  CoreElement save(SessionContext context, ElementContext elementContext, CoreElement element,
+                   String message);
 
   SearchResult search(SessionContext context, SearchCriteria searchCriteria);
 }

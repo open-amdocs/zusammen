@@ -173,10 +173,10 @@ public class ElementManagerImplTest {
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     ElementContext elementContext = new ElementContext(new Id(), new Id());
 
-    elementManager.save(context, elementContext, root, "save create root!");
+    CoreElement returnedRoot = elementManager.save(context, elementContext, root, "save create root!");
 
-    Assert.assertEquals(root.getParentId(), null);
-    Assert.assertEquals(root.getNamespace(), Namespace.ROOT_NAMESPACE);
+    Assert.assertEquals(returnedRoot.getParentId(), null);
+    Assert.assertEquals(returnedRoot.getNamespace(), Namespace.ROOT_NAMESPACE);
     verify(traverserMock)
         .traverse(context, elementContext, Space.PRIVATE, root, collaborativeStoreVisitorMock);
     verify(traverserMock).traverse(context, elementContext, Space.PRIVATE, root,
@@ -196,8 +196,9 @@ public class ElementManagerImplTest {
     doReturn(coreElementInfoResponse).when(stateAdaptorMock)
         .get(context, elementContext, root.getId());
 
-    elementManager.save(context, elementContext, root, "save non-create root!");
+    CoreElement returnedRoot = elementManager.save(context, elementContext, root, "save non-create root!");
 
+    Assert.assertEquals(returnedRoot.getId(), root.getId());
     Assert.assertEquals(root.getParentId(), retrievedElementInfo.getParentId());
     Assert.assertEquals(root.getNamespace(), retrievedElementInfo.getNamespace());
     verify(traverserMock)

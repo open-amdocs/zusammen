@@ -29,16 +29,16 @@ import java.util.Collection;
 
 public interface ElementAdaptor {
 
-  Response<Collection<ElementInfo>> list(SessionContext context, ElementContext elementContext, Id
-      elementId);
+  Response<Collection<ElementInfo>> list(SessionContext context, ElementContext elementContext,
+                                         Id elementId);
 
-  Response<ElementInfo> getInfo(SessionContext context, ElementContext elementContext, Id
-      elementId);
+  Response<ElementInfo> getInfo(SessionContext context, ElementContext elementContext,
+                                Id elementId);
 
   Response<Element> get(SessionContext context, ElementContext elementContext, Id elementId);
 
-  Response<Void> save(SessionContext context, ElementContext elementContext, Element element,
-            String message);
+  Response<Element> save(SessionContext context, ElementContext elementContext, Element element,
+                         String message);
 
   Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria);
 
