@@ -454,5 +454,22 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   }
 
+  @Override
+  public Response<Void> commitElements(SessionContext context, ElementContext elementContext,
+                                       String message) {
+    Response<Void> response;
+    response = getCollaborationStore(context).commit(context,elementContext.getItemId(),
+        elementContext
+        .getVersionId(),message);
+    if (!response.isSuccessful()) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.MD_COMMIT, Module.ZCSM,
+          null,
+          response.getReturnCode());
+      //logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
+    return response;
+  }
+
 
 }

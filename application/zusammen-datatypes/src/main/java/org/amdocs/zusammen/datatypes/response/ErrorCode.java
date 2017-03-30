@@ -75,7 +75,7 @@ public class ErrorCode {
   public static final int MD_ITEM_VERSION_HISTORY = 22200;
   public static final int MD_ITEM_VERSION_REVERT_HISTORY = 22300;
   public static final int MD_SEARCH = 22400;
-
+  public static final int MD_COMMIT = 22500;
 
   public static final int ST_ITEM_LIST = 50100;
   public static final int ST_ITEM_IS_EXIST = 50200;
@@ -120,6 +120,7 @@ public class ErrorCode {
   public static final int IN_ELEMENT_CREATE = 40200;
   public static final int IN_ELEMENT_DELETE = 40300;
   public static final int IN_ELEMENT_UPDATE = 40400;
+  ;
 
 
   private int errorCode;

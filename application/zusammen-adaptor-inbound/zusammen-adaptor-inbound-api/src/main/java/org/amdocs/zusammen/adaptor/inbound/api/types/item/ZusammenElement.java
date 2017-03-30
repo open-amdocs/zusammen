@@ -25,7 +25,6 @@ import org.amdocs.zusammen.utils.fileutils.FileUtils;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 public class ZusammenElement implements Element {
   private Action action;
@@ -112,7 +111,8 @@ public class ZusammenElement implements Element {
     this.action = action;
   }
 
-  public void addSubElement(Element element){
+  public ZusammenElement addSubElement(Element element){
     this.subElements.add(element);
+    return this;
   }
 }

@@ -125,6 +125,7 @@ public class ElementManagerImpl implements ElementManager {
 
     traverser.traverse(context, elementContext, Space.PRIVATE, element, collaborativeStoreVisitor);
     traverser.traverse(context, elementContext, Space.PRIVATE, element, indexingVisitor);
+    getCollaborationAdaptor(context).commitElements(context, elementContext, message);
     return element;
   }
 

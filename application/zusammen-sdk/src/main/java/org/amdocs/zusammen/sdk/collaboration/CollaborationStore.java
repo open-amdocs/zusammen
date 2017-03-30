@@ -32,21 +32,23 @@ import org.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
 
 public interface CollaborationStore {
 
+  Response<Void> commit(SessionContext context, Id itemId, Id versionId, String message);
+
   Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo);
 
   Response<Void> deleteItem(SessionContext context, Id itemId);
 
   Response<Void> createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
-                         Id versionId, ItemVersionData data);
+                                   Id versionId, ItemVersionData data);
 
   Response<Void> updateItemVersion(SessionContext context, Id itemId, Id versionId,
-                         ItemVersionData data);
+                                   ItemVersionData data);
 
   Response<Void> deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
   Response<CollaborationPublishResult> publishItemVersion(SessionContext context, Id itemId, Id
       versionId,
-                                                String message);
+                                                          String message);
 
   Response<CollaborationMergeResult> syncItemVersion(SessionContext context, Id itemId, Id
       versionId);
@@ -54,10 +56,10 @@ public interface CollaborationStore {
 
   Response<CollaborationMergeResult> mergeItemVersion(SessionContext context, Id itemId, Id
       versionId,
-                                            Id sourceVersionId);
+                                                      Id sourceVersionId);
 
   Response<CollaborationElement> getElement(SessionContext context, ElementContext elementContext,
-                                  Namespace namespace, Id elementId);
+                                            Namespace namespace, Id elementId);
 
   Response<Void> createElement(SessionContext context, CollaborationElement element);
 
@@ -70,5 +72,5 @@ public interface CollaborationStore {
 
   Response<CollaborationMergeChange> revertItemVersionHistory(SessionContext context, Id itemId, Id
       versionId,
-                                                    Id changeId);
+                                                              Id changeId);
 }

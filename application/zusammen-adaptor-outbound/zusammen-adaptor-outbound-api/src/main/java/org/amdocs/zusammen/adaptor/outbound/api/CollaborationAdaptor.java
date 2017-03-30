@@ -70,4 +70,7 @@ public interface CollaborationAdaptor {
 
   Response<CoreMergeChange> revertItemVersionHistory(SessionContext context, Id itemId, Id
       versionId, Id changeId);
+
+  Response<Void> commitElements(SessionContext context, ElementContext elementContext, String
+      message);
 }

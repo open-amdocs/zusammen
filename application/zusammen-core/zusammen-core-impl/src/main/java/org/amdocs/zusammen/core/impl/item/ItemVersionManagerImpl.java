@@ -285,7 +285,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     }
     if (mergeChange.getChangedElements() != null) {
       ElementContext elementContext = new ElementContext(itemId, versionId);
-      mergeChange.getChangedElements().stream().forEach(element ->
+      mergeChange.getChangedElements().forEach(element ->
           indexingElementVisitor.visit(context, elementContext, space, element));
     }
   }
