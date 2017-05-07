@@ -2,5 +2,6 @@
 
   "org.amdocs.zusammen.core.api.item.ItemManagerFactory": "org.amdocs.zusammen.core.impl.item.ItemManagerFactoryImpl",
   "org.amdocs.zusammen.core.api.item.ItemVersionManagerFactory": "org.amdocs.zusammen.core.impl.item.ItemVersionManagerFactoryImpl",
-  "org.amdocs.zusammen.core.api.item.ElementManagerFactory": "org.amdocs.zusammen.core.impl.item.ElementManagerFactoryImpl"
+  "org.amdocs.zusammen.core.api.item.ElementManagerFactory": "org.amdocs.zusammen.core.impl.item.ElementManagerFactoryImpl",
+  "org.amdocs.zusammen.core.health.HealthManagerFactory": "org.amdocs.zusammen.core.impl.health.HealthManagerFactoryImpl"
 }
