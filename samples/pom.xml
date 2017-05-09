@@ -37,7 +37,7 @@
             <groupId>org.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-search-index-elasticsearch-plugin</artifactId>
             <version>0.0.1</version>
-            <scope>runtime</scope>
+            <scope>test</scope>
         </dependency>
         <!--dependency>
             <groupId>org.amdocs.zusammen.web</groupId>
@@ -69,24 +69,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.amdocs.zusammen.plugin</groupId>
-            <artifactId>zusammen-collaboration-store-plugin</artifactId>
-            <version>0.0.1</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.amdocs.zusammen.plugin</groupId>
-            <artifactId>zusammen-state-store-cassandra-plugin</artifactId>
-            <version>0.0.1</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.amdocs.zusammen.plugin</groupId>
-            <artifactId>zusammen-search-index-elasticsearch-plugin</artifactId>
-            <version>0.0.1</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.amdocs.zusammen</groupId>

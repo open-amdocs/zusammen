@@ -24,6 +24,7 @@ import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
+import java.util.Date;
 
 public interface ItemVersionStateAdaptor {
   Response<Collection<ItemVersion>> listItemVersions(SessionContext context, Space space, Id
@@ -36,10 +37,14 @@ public interface ItemVersionStateAdaptor {
       versionId);
 
   Response<Void> createItemVersion(SessionContext context, Space space, Id itemId, Id baseVersionId,
-                         Id versionId, ItemVersionData data);
+                                   Id versionId, ItemVersionData data, Date creationTime);
 
   Response<Void> updateItemVersion(SessionContext context, Space space, Id itemId, Id versionId,
-                         ItemVersionData data);
+                                   ItemVersionData data, Date modificationTime);
 
   Response<Void> deleteItemVersion(SessionContext context, Space space, Id itemId, Id versionId);
+
+  Response<Void> updateItemVersionModificationTime(SessionContext context, Space space, Id itemId,
+                                         Id versionId, Date modificationTime);
+
 }

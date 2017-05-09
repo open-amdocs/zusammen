@@ -18,6 +18,7 @@ package org.amdocs.zusammen.sdk.state;
 
 
 import org.amdocs.zusammen.datatypes.Id;
+import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
@@ -29,6 +30,7 @@ import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.sdk.state.types.StateElement;
 
 import java.util.Collection;
+import java.util.Date;
 
 public interface StateStore {
 
@@ -38,38 +40,40 @@ public interface StateStore {
 
   Response<Item> getItem(SessionContext context, Id itemId);
 
-  Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo);
+  Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo, Date creationTime);
 
-  Response<Void> updateItem(SessionContext context, Id itemId, Info itemInfo);
+  Response<Void> updateItem(SessionContext context, Id itemId, Info itemInfo,
+                            Date modificationTime);
 
   Response<Void> deleteItem(SessionContext context, Id itemId);
 
-  Response<Collection<ItemVersion>> listItemVersions(SessionContext context, Space space, Id
-      itemId);
+  Response<Collection<ItemVersion>> listItemVersions(SessionContext context, Space space,
+                                                     Id itemId);
 
   Response<Boolean> isItemVersionExist(SessionContext context, Space space, Id itemId,
                                        Id versionId);
 
-  Response<ItemVersion> getItemVersion(SessionContext context, Space space, Id itemId, Id
-      versionId);
+  Response<ItemVersion> getItemVersion(SessionContext context, Space space, Id itemId,
+                                       Id versionId);
 
   Response<Void> createItemVersion(SessionContext context, Space space, Id itemId, Id baseVersionId,
-                                   Id versionId, ItemVersionData data);
+                                   Id versionId, ItemVersionData data, Date creationTime);
 
   Response<Void> updateItemVersion(SessionContext context, Space space, Id itemId, Id versionId,
-                                   ItemVersionData data);
+                                   ItemVersionData data, Date modificationTime);
 
   Response<Void> deleteItemVersion(SessionContext context, Space space, Id itemId, Id versionId);
 
-  Response<Collection<StateElement>> listElements(SessionContext context, ElementContext
-      elementContext,
-                                                  Id elementId);
+  Response<Collection<StateElement>> listElements(SessionContext context,
+                                                  ElementContext elementContext, Id elementId);
 
-  Response<Boolean> isElementExist(SessionContext context, ElementContext elementContext, Id
-      elementId);
+  Response<Boolean> isElementExist(SessionContext context, ElementContext elementContext,
+                                   Id elementId);
 
-  Response<StateElement> getElement(SessionContext context, ElementContext elementContext, Id
-      elementId);
+  Response<Namespace> getElementNamespace(SessionContext context, Id itemId, Id elementId);
+
+  Response<StateElement> getElement(SessionContext context, ElementContext elementContext,
+                                    Id elementId);
 
   Response<Void> createElement(SessionContext context, StateElement element);
 
@@ -77,5 +81,10 @@ public interface StateStore {
 
   Response<Void> deleteElement(SessionContext context, StateElement element);
 
+  Response<Void> updateItemModificationTime(SessionContext context, Id itemId, Date
+      modificationTime);
+
+  Response<Void> updateItemVersionModificationTime(SessionContext context, Space space, Id itemId,
+                                                   Id versionId, Date modificationTime);
 
 }

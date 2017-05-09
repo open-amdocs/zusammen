@@ -32,6 +32,7 @@ import org.amdocs.zusammen.core.api.item.ItemVersionManagerFactory;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreElementInfo;
 import org.amdocs.zusammen.core.impl.Messages;
+import org.amdocs.zusammen.core.impl.ValidationUtil;
 import org.amdocs.zusammen.datatypes.Id;
 import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
@@ -46,7 +47,10 @@ import org.amdocs.zusammen.datatypes.response.ZusammenException;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.stream.Collectors;
 
 public class ElementManagerImpl implements ElementManager {
   private ElementHierarchyTraverser traverser = ElementHierarchyTraverser.init();
@@ -60,15 +64,35 @@ public class ElementManagerImpl implements ElementManager {
                                           Id elementId) {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
-    Response<Collection<CoreElementInfo>> response;
-    response = getStateAdaptor(context).list(context, elementContext, elementId);
-    if (!response.isSuccessful()) {
-      ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ELEMENT_LIST, Module.ZDB, null, response.getReturnCode());
-      logger.error(returnCode.toString());
-      throw new ZusammenException(returnCode);
+
+    if (elementContext.getChangeRef() == null) {
+      Response<Collection<CoreElementInfo>> infoListResponse =
+          getStateAdaptor(context).list(context, elementContext, elementId);
+      ValidationUtil.validateResponse(infoListResponse, logger, ErrorCode.ZU_ELEMENT_LIST);
+
+      return infoListResponse.getValue();
+    } else {
+      Namespace namespace;
+      if (elementId == null) {
+        namespace = Namespace.ROOT_NAMESPACE;
+      } else {
+        Response<Namespace> namespaceResponse =
+            getStateAdaptor(context).getNamespace(context, elementContext.getItemId(), elementId);
+        ValidationUtil.validateResponse(namespaceResponse, logger, ErrorCode.ZU_ELEMENT_LIST);
+        namespace = namespaceResponse.getValue();
+        if (namespace == null) {
+          return new ArrayList<>();
+        }
+      }
+
+      Response<Collection<CoreElement>> elementsResponse = getCollaborationAdaptor(context)
+          .listElements(context, elementContext, namespace, elementId);
+      ValidationUtil.validateResponse(elementsResponse, logger, ErrorCode.ZU_ELEMENT_LIST);
+
+      return elementsResponse.getValue()
+          .stream().map(this::coreElementToCoreElementInfo)
+          .collect(Collectors.toList());
     }
-    return response.getValue();
   }
 
   @Override
@@ -77,37 +101,42 @@ public class ElementManagerImpl implements ElementManager {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
 
-    Response<CoreElementInfo> response;
-    response = getStateAdaptor(context).get(context, elementContext, elementId);
-    if (!response.isSuccessful()) {
-      ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ELEMENT_GET, Module.ZDB, null, response.getReturnCode());
-      logger.error(returnCode.toString());
-      throw new ZusammenException(returnCode);
+    if (elementContext.getChangeRef() == null) {
+      Response<CoreElementInfo> infoResponse =
+          getStateAdaptor(context).get(context, elementContext, elementId);
+      ValidationUtil.validateResponse(infoResponse, logger, ErrorCode.ZU_ELEMENT_GET_INFO);
+      return infoResponse.getValue();
+    } else {
+      Response<Namespace> namespaceResponse =
+          getStateAdaptor(context).getNamespace(context, elementContext.getItemId(), elementId);
+      ValidationUtil.validateResponse(namespaceResponse, logger, ErrorCode.ZU_ELEMENT_GET_INFO);
+      Namespace namespace = namespaceResponse.getValue();
+      if (namespace == null) {
+        return null;
+      }
+      Response<CoreElement> elementResponse =
+          getCollaborationAdaptor(context)
+              .getElement(context, elementContext, namespace, elementId);
+      ValidationUtil.validateResponse(elementResponse, logger, ErrorCode.ZU_ELEMENT_GET_INFO);
+      return coreElementToCoreElementInfo(elementResponse.getValue());
     }
-    return response.getValue();
   }
 
   @Override
   public CoreElement get(SessionContext context, ElementContext elementContext,
                          Id elementId) {
-    CoreElementInfo elementInfo = getInfo(context, elementContext, elementId);
-    if (elementInfo == null) {
+    Response<Namespace> namespaceResponse =
+        getStateAdaptor(context).getNamespace(context, elementContext.getItemId(), elementId);
+    ValidationUtil.validateResponse(namespaceResponse, logger, ErrorCode.ZU_ELEMENT_GET);
+    Namespace namespace = namespaceResponse.getValue();
+    if (namespace == null) {
       return null;
     }
-    Namespace namespace = elementInfo.getNamespace();
 
-    Response<CoreElement> response;
-    response = getCollaborationAdaptor(context)
-        .getElement(context, elementContext, namespace, elementId);
-    if (!response.isSuccessful()) {
-      ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ELEMENT_GET, Module.ZDB, null, response.getReturnCode());
-      logger.error(returnCode.toString());
-      throw new ZusammenException(returnCode);
-    }
+    Response<CoreElement> response =
+        getCollaborationAdaptor(context).getElement(context, elementContext, namespace, elementId);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ELEMENT_GET);
     return response.getValue();
-
   }
 
   @Override
@@ -116,35 +145,38 @@ public class ElementManagerImpl implements ElementManager {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
 
+    Namespace namespace;
     if (element.getAction() == Action.CREATE) {
-      setElementHierarchyPosition(element, Namespace.ROOT_NAMESPACE, null);
+      namespace = Namespace.ROOT_NAMESPACE;
     } else {
-      CoreElementInfo elementInfo = getInfo(context, elementContext, element.getId());
-      setElementHierarchyPosition(element, elementInfo.getNamespace(), elementInfo.getParentId());
+      Response<Namespace> namespaceResponse =
+          getStateAdaptor(context)
+              .getNamespace(context, elementContext.getItemId(), element.getId());
+      ValidationUtil.validateResponse(namespaceResponse, logger, ErrorCode.ZU_ELEMENT_SAVE);
+      namespace = namespaceResponse.getValue();
     }
+    setElementHierarchyPosition(element, namespace);
 
     traverser.traverse(context, elementContext, Space.PRIVATE, element, collaborativeStoreVisitor);
     traverser.traverse(context, elementContext, Space.PRIVATE, element, indexingVisitor);
     getCollaborationAdaptor(context).commitElements(context, elementContext, message);
+    getItemVersionManager(context)
+        .updateModificationTime(context, Space.PRIVATE, elementContext.getItemId(),
+            elementContext.getVersionId(), new Date());
     return element;
   }
 
   @Override
   public SearchResult search(SessionContext context, SearchCriteria searchCriteria) {
-    Response<SearchResult> response;
-    response = getSearchIndexAdaptor(context).search(context, searchCriteria);
-    if (!response.isSuccessful()) {
-      ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_SEARCH, Module.ZDB, null, response.getReturnCode());
-      logger.error(returnCode.toString());
-      throw new ZusammenException(returnCode);
-    }
+    Response<SearchResult> response =
+        getSearchIndexAdaptor(context).search(context, searchCriteria);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_SEARCH);
     return response.getValue();
   }
 
-  private void setElementHierarchyPosition(CoreElement element, Namespace namespace, Id parentId) {
-    element.setParentId(parentId);
+  private void setElementHierarchyPosition(CoreElement element, Namespace namespace) {
     element.setNamespace(namespace);
+    element.setParentId(namespace.getParentElementId());
   }
 
   private void validateItemVersionExistence(SessionContext context, Space space, Id itemId,
@@ -158,6 +190,23 @@ public class ElementManagerImpl implements ElementManager {
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
+  }
+
+  private CoreElementInfo coreElementToCoreElementInfo(CoreElement coreElement) {
+    if (coreElement == null) {
+      return null;
+    }
+    CoreElementInfo coreElementInfo = new CoreElementInfo();
+    coreElementInfo.setId(coreElement.getId());
+    coreElementInfo.setInfo(coreElement.getInfo());
+    coreElementInfo.setRelations(coreElement.getRelations());
+    coreElementInfo.setParentId(coreElement.getParentId());
+    coreElementInfo.setNamespace(coreElement.getNamespace());
+    coreElementInfo.setSubElements(new ArrayList<>());
+    coreElement.getSubElements().forEach(element -> coreElementInfo.getSubElements().add
+        (coreElementToCoreElementInfo(element)));
+
+    return coreElementInfo;
   }
 
   protected CollaborationAdaptor getCollaborationAdaptor(SessionContext context) {

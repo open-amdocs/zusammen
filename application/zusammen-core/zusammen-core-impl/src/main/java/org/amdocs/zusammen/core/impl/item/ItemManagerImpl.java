@@ -36,6 +36,7 @@ import org.amdocs.zusammen.datatypes.response.ReturnCode;
 import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
+import java.util.Date;
 
 public class ItemManagerImpl implements ItemManager {
 
@@ -89,6 +90,7 @@ public class ItemManagerImpl implements ItemManager {
   @Override
   public Id create(SessionContext context, Info itemInfo) {
     Id itemId = new Id();
+    Date creationTime = new Date();
     Response response;
     response = getCollaborationAdaptor(context).createItem(context, itemId, itemInfo);
     if (!response.isSuccessful()) {
@@ -97,7 +99,7 @@ public class ItemManagerImpl implements ItemManager {
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
-    response = getStateAdaptor(context).createItem(context, itemId, itemInfo);
+    response = getStateAdaptor(context).createItem(context, itemId, itemInfo,creationTime);
     if (!response.isSuccessful()) {
       ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB, null, response
           .getReturnCode());
@@ -118,7 +120,8 @@ public class ItemManagerImpl implements ItemManager {
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
-    response = getStateAdaptor(context).updateItem(context, itemId, itemInfo);
+    Date modificationTime = new Date();
+    response = getStateAdaptor(context).updateItem(context, itemId, itemInfo,modificationTime);
     if (!response.isSuccessful()) {
       ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_UPDATE, Module.ZDB, null, response
           .getReturnCode());
@@ -145,6 +148,11 @@ public class ItemManagerImpl implements ItemManager {
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
+  }
+
+  @Override
+  public void updateModificationTime(SessionContext context, Id itemId, Date modificationTime) {
+    getStateAdaptor(context).updateItemModificationTime(context,itemId,modificationTime);
   }
 
   private void validateItemExistence(SessionContext context, Id itemId) {

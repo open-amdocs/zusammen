@@ -29,6 +29,7 @@ import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.response.ReturnCode;
 
 import java.util.Collection;
+import java.util.Date;
 
 public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
 
@@ -100,11 +101,11 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
   @Override
   public Response<Void> createItemVersion(SessionContext context, Space space, Id itemId,
                                           Id baseVersionId,
-                                          Id versionId, ItemVersionData data) {
+                                          Id versionId, ItemVersionData data, Date creationTime) {
     Response<Void> response;
     try {
       response = OutboundAdaptorUtils.getStateStore(context)
-          .createItemVersion(context, space, itemId, baseVersionId, versionId, data);
+          .createItemVersion(context, space, itemId, baseVersionId, versionId, data,creationTime);
       if (!response.isSuccessful()) {
         response = new Response<>(new ReturnCode(ErrorCode.MD_ITEM_VERSION_CREATE, Module.ZSTM, null,
             response.getReturnCode()));
@@ -120,11 +121,11 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
 
   @Override
   public Response<Void> updateItemVersion(SessionContext context, Space space, Id itemId,
-                                          Id versionId,ItemVersionData data) {
+                                          Id versionId, ItemVersionData data, Date modificationTime) {
     Response<Void> response;
     try {
       response = OutboundAdaptorUtils.getStateStore(context)
-          .updateItemVersion(context, space, itemId, versionId, data);
+          .updateItemVersion(context, space, itemId, versionId, data,modificationTime);
       if (!response.isSuccessful()) {
         response = new Response<>(new ReturnCode(ErrorCode.MD_ITEM_VERSION_UPDATE, Module.ZSTM, null,
             response.getReturnCode()));
@@ -159,5 +160,28 @@ public class ItemVersionStateAdaptorImpl implements ItemVersionStateAdaptor {
               returnCode));
     }
     return response;
+  }
+
+  @Override
+  public Response<Void> updateItemVersionModificationTime(SessionContext context, Space space, Id itemId,
+                                                Id versionId, Date modificationTime) {
+
+    Response<Void> response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context)
+          .updateItemVersionModificationTime(context, space, itemId, versionId, modificationTime);
+      if (!response.isSuccessful()) {
+        response = new Response<>(new ReturnCode(ErrorCode.MD_ITEM_VERSION_UPDATE, Module.ZSTM, null,
+            response.getReturnCode()));
+      }
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.ST_ITEM_VERSION_UPDATE, Module.ZMDP, rte.getMessage(),
+              null);
+      response = new Response<>(new ReturnCode(ErrorCode.MD_ITEM_VERSION_UPDATE, Module.ZSTM, null,
+          returnCode));
+    }
+    return response;
+
   }
 }

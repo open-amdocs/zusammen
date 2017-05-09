@@ -23,6 +23,7 @@ import org.amdocs.zusammen.datatypes.item.Item;
 import org.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
+import java.util.Date;
 
 public interface ItemStateAdaptor {
 
@@ -32,9 +33,11 @@ public interface ItemStateAdaptor {
 
   Response<Item> getItem(SessionContext context, Id itemId);
 
-  Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo);
+  Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo,Date creationTime);
 
-  Response<Void> updateItem(SessionContext context, Id itemId, Info itemInfo);
+  Response<Void> updateItem(SessionContext context, Id itemId, Info itemInfo,Date modificationTime);
 
   Response<Void> deleteItem(SessionContext context, Id itemId);
+
+  Response<Void> updateItemModificationTime(SessionContext context, Id itemId, Date modificationTime);
 }

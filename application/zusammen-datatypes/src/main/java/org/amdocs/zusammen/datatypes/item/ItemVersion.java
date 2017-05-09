@@ -18,9 +18,13 @@ package org.amdocs.zusammen.datatypes.item;
 
 import org.amdocs.zusammen.datatypes.Id;
 
+import java.util.Date;
+
 public class ItemVersion {
   private Id id;
   private Id baseId;
+  private Date creationTime;
+  private Date modificationTime;
   private ItemVersionData data;
 
   public Id getId() {
@@ -45,5 +49,21 @@ public class ItemVersion {
 
   public void setData(ItemVersionData data) {
     this.data = data;
+  }
+
+  public Date getCreationTime() {
+    return creationTime;
+  }
+
+  public void setCreationTime(Date creationTime) {
+    this.creationTime = creationTime;
+  }
+
+  public Date getModificationTime() {
+    return modificationTime;
+  }
+
+  public void setModificationTime(Date modificationTime) {
+    this.modificationTime = modificationTime;
   }
 }

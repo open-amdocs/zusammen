@@ -31,10 +31,10 @@ public class SimpleErrorFlow extends org.amdocs.zusammen.element.Element {
     syncItemVersion(contextB, itemId, versionId);
 
 
-    Collection<ElementInfo> list =
+    Collection<ElementInfo> listElements =
         getElementList(contextB, itemId, versionId, null);
     System.out.println("======================print Element List=================================");
-    list.forEach(elementInfo -> printElement(elementInfo));
+    listElements.forEach(elementInfo -> printElement(elementInfo));
     ElementInfo info = getElementInfo(contextB, itemId, versionId, elementId);
     System.out.println("======================print Element Info=================================");
     printElement(info);

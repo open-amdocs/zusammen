@@ -41,6 +41,9 @@ public class CollaborationElementConvertor {
   }
 
   public static CoreElement convertToCoreElement(CollaborationElement element) {
+    if (element == null){
+      return null;
+    }
     CoreElement coreElement = convertToCoreElement(element.getId());
     coreElement.setNamespace(element.getNamespace());
     coreElement.setParentId(element.getParentId());

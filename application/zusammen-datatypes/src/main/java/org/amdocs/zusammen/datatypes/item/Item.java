@@ -18,9 +18,14 @@ package org.amdocs.zusammen.datatypes.item;
 
 import org.amdocs.zusammen.datatypes.Id;
 
+import java.util.Date;
+
 public class Item {
   private Id id;
   private Info info;
+  private Date creationTime;
+  private Date modificationTime;
+
 
   public Id getId() {
     return id;
@@ -38,4 +43,19 @@ public class Item {
     this.info = info;
   }
 
+  public Date getCreationTime() {
+    return creationTime;
+  }
+
+  public void setCreationTime(Date creationTime) {
+    this.creationTime = creationTime;
+  }
+
+  public Date getModificationTime() {
+    return modificationTime;
+  }
+
+  public void setModificationTime(Date modificationTime) {
+    this.modificationTime = modificationTime;
+  }
 }

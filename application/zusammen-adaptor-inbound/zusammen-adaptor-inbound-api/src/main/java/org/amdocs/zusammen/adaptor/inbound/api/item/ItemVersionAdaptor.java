@@ -23,6 +23,7 @@ import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import org.amdocs.zusammen.datatypes.itemversion.Tag;
 import org.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
@@ -39,6 +40,8 @@ public interface ItemVersionAdaptor {
 
   Response<Void> delete(SessionContext context, Id itemId, Id versionId);
 
+  Response<Void> tag(SessionContext context, Id itemId, Id versionId, Id changeId, Tag tag);
+
   Response<Void> publish(SessionContext context, Id itemId, Id versionId, String message);
 
   Response<MergeResult> sync(SessionContext context, Id itemId, Id versionId);
@@ -47,5 +50,5 @@ public interface ItemVersionAdaptor {
 
   Response<ItemVersionHistory> listHistory(SessionContext context, Id itemId, Id versionId);
 
-  Response<Void> revertHistory(SessionContext context, Id itemId, Id versionId, Id changeId);
+  Response<Void> resetHistory(SessionContext context, Id itemId, Id versionId, String changeRef);
 }

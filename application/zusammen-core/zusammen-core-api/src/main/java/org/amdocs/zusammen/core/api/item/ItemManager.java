@@ -23,6 +23,7 @@ import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.Item;
 
 import java.util.Collection;
+import java.util.Date;
 
 public interface ItemManager {
 
@@ -37,4 +38,6 @@ public interface ItemManager {
   void update(SessionContext context, Id itemId, Info itemInfo);
 
   void delete(SessionContext context, Id itemId);
+
+  void updateModificationTime(SessionContext context, Id itemId, Date modificationTime);
 }

@@ -63,7 +63,7 @@ public class ItemManagerImplTest {
 
     when(itemManagerImpl.getStateAdaptor(anyObject())).thenReturn(stateAdaptorMock);
     when(itemManagerImpl.getCollaborationAdaptor(anyObject())).thenReturn(collaborationAdaptorMock);
-    when(stateAdaptorMock.createItem(anyObject(),anyObject(),anyObject())).thenReturn(new
+    when(stateAdaptorMock.createItem(anyObject(),anyObject(),anyObject(),anyObject())).thenReturn(new
         Response(Void.TYPE));
     when(collaborationAdaptorMock.createItem(anyObject(),anyObject(),anyObject())).thenReturn(new
         Response(Void.TYPE));
@@ -127,7 +127,8 @@ public class ItemManagerImplTest {
     Assert.assertNotNull(itemId);
 
     verify(collaborationAdaptorMock).createItem(context, itemId, info);
-    verify(stateAdaptorMock).createItem(context, itemId, info);
+    //verify(stateAdaptorMock).createItem(context, itemId, info);
+    verify(stateAdaptorMock).createItem(anyObject(), anyObject(),  anyObject(), anyObject());
   }
 
   @Test
@@ -135,13 +136,15 @@ public class ItemManagerImplTest {
     Id itemId = new Id();
     Info info = TestUtils.createInfo("item1");
     doReturn(new Response<Boolean>(true)).when(stateAdaptorMock).isItemExist(context, itemId);
-    doReturn(new Response(Void.TYPE)).when(stateAdaptorMock).updateItem(context, itemId, info);
+    //doReturn(new Response(Void.TYPE)).when(stateAdaptorMock).updateItem(context, itemId, info);
+    doReturn(new Response(Void.TYPE)).when(stateAdaptorMock).updateItem(anyObject(), anyObject(),  anyObject(), anyObject());
     doReturn(new Response(Void.TYPE)).when(collaborationAdaptorMock).updateItem(context, itemId, info);
 
     itemManagerImpl.update(context, itemId, info);
 
     verify(collaborationAdaptorMock).updateItem(context, itemId, info);
-    verify(stateAdaptorMock).updateItem(context, itemId, info);
+    //verify(stateAdaptorMock).updateItem(context, itemId, info);
+    verify(stateAdaptorMock).updateItem(anyObject(), anyObject(),  anyObject(), anyObject());
   }
 
   @Test(expectedExceptions = ZusammenException.class/*,
@@ -152,7 +155,8 @@ public class ItemManagerImplTest {
 
     doReturn(new Response<Boolean>(false)).when(stateAdaptorMock).isItemExist(context, itemId);
 
-    doReturn(new Response(Void.TYPE)).when(stateAdaptorMock).updateItem(context, itemId, info);
+    //doReturn(new Response(Void.TYPE)).when(stateAdaptorMock).updateItem(context, itemId, info);
+    doReturn(new Response(Void.TYPE)).when(stateAdaptorMock).updateItem(anyObject(), anyObject(),  anyObject(), anyObject());
     doReturn(new Response(Void.TYPE)).when(collaborationAdaptorMock).updateItem(context, itemId, info);
 
     itemManagerImpl.update(context, itemId, info);

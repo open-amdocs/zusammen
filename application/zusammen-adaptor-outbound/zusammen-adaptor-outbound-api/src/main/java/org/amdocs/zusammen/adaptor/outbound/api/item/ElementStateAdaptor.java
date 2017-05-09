@@ -19,6 +19,7 @@ package org.amdocs.zusammen.adaptor.outbound.api.item;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreElementInfo;
 import org.amdocs.zusammen.datatypes.Id;
+import org.amdocs.zusammen.datatypes.Namespace;
 import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.Space;
 import org.amdocs.zusammen.datatypes.item.ElementContext;
@@ -28,20 +29,22 @@ import java.util.Collection;
 
 public interface ElementStateAdaptor {
 
-  Response<Collection<CoreElementInfo>> list(SessionContext context, ElementContext
-      elementContext, Id
-      elementId);
+  Response<Collection<CoreElementInfo>> list(SessionContext context, ElementContext elementContext,
+                                             Id elementId);
 
   Response<Boolean> isExist(SessionContext context, ElementContext elementContext, Id elementId);
 
-  Response<CoreElementInfo> get(SessionContext context, ElementContext elementContext, Id elementId);
+  Response<Namespace> getNamespace(SessionContext context, Id itemId, Id elementId);
+
+  Response<CoreElementInfo> get(SessionContext context, ElementContext elementContext,
+                                Id elementId);
 
   Response<Void> create(SessionContext context, ElementContext elementContext, Space space,
-              CoreElement element);
+                        CoreElement element);
 
   Response<Void> update(SessionContext context, ElementContext elementContext, Space space,
-              CoreElement element);
+                        CoreElement element);
 
   Response<Void> delete(SessionContext context, ElementContext elementContext, Space space,
-              CoreElement element);
+                        CoreElement element);
 }

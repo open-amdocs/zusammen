@@ -28,7 +28,10 @@ import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import org.amdocs.zusammen.datatypes.itemversion.Tag;
 import org.amdocs.zusammen.datatypes.response.Response;
+
+import java.util.Collection;
 
 public interface CollaborationAdaptor {
 
@@ -39,38 +42,49 @@ public interface CollaborationAdaptor {
   Response<Void> deleteItem(SessionContext context, Id itemId);
 
   Response<Void> createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
-                         Id versionId, ItemVersionData data);
+                                   Id versionId, ItemVersionData data);
 
   Response<Void> updateItemVersion(SessionContext context, Id itemId, Id versionId,
-                         ItemVersionData data);
+                                   ItemVersionData data);
 
   Response<Void> deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
+  Response<Void> tagItemVersion(SessionContext context, Id itemId, Id versionId, Id changeId,
+                                Tag tag);
+
   Response<CorePublishResult> publishItemVersion(SessionContext context, Id itemId, Id versionId,
-                                       String message);
+                                                 String message);
 
   Response<CoreMergeResult> syncItemVersion(SessionContext context, Id itemId, Id versionId);
 
   Response<CoreMergeResult> mergeItemVersion(SessionContext context, Id itemId, Id versionId,
-                                   Id sourceVersionId);
+                                             Id sourceVersionId);
 
   Response<CoreElement> getElement(SessionContext context, ElementContext elementContext,
-                         Namespace namespace, Id elementId);
+                                   Namespace namespace, Id elementId);
 
-  Response<Void> createElement(SessionContext context, ElementContext elementContext, CoreElement element);
+  Response<Void> createElement(SessionContext context, ElementContext elementContext,
+                               CoreElement element);
 
-  Response<Void> updateElement(SessionContext context, ElementContext elementContext, CoreElement element);
+  Response<Void> updateElement(SessionContext context, ElementContext elementContext,
+                               CoreElement element);
 
-  Response<Void> deleteElement(SessionContext context, ElementContext elementContext, CoreElement element);
+  Response<Void> deleteElement(SessionContext context, ElementContext elementContext,
+                               CoreElement element);
 
-  Response<Void> commitEntities(SessionContext context, ElementContext elementContext, String message);
+  Response<Void> commitEntities(SessionContext context, ElementContext elementContext,
+                                String message);
 
-  Response<ItemVersionHistory> listItemVersionHistory(SessionContext context, Id itemId, Id
-      versionId);
+  Response<ItemVersionHistory> listItemVersionHistory(SessionContext context, Id itemId,
+                                                      Id versionId);
 
-  Response<CoreMergeChange> revertItemVersionHistory(SessionContext context, Id itemId, Id
-      versionId, Id changeId);
+  Response<CoreMergeChange> resetItemVersionHistory(SessionContext context, Id itemId, Id versionId,
+                                                    String changeRef);
 
-  Response<Void> commitElements(SessionContext context, ElementContext elementContext, String
-      message);
+  Response<Void> commitElements(SessionContext context, ElementContext elementContext,
+                                String message);
+
+  Response<Collection<CoreElement>> listElements(SessionContext context,
+                                                 ElementContext elementContext, Namespace namespace,
+                                                 Id elementId);
 }

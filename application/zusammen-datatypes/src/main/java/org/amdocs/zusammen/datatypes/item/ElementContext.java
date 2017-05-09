@@ -21,6 +21,7 @@ import org.amdocs.zusammen.datatypes.Id;
 public class ElementContext {
   private Id itemId;
   private Id versionId;
+  private String changeRef;
 
   public ElementContext() {
   }
@@ -30,8 +31,13 @@ public class ElementContext {
   }
 
   public ElementContext(Id itemId, Id versionId) {
+    this(itemId, versionId, null);
+  }
+
+  public ElementContext(Id itemId, Id versionId, String changeRef) {
     this.itemId = itemId;
     this.versionId = versionId;
+    this.changeRef = changeRef;
   }
 
   public Id getItemId() {
@@ -50,16 +56,24 @@ public class ElementContext {
     this.versionId = versionId;
   }
 
+  public String getChangeRef() {
+    return changeRef;
+  }
+
+  public void setChangeRef(String changeRef) {
+    this.changeRef = changeRef;
+  }
+
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (obj == null || getClass() != obj.getClass()) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
 
-    ElementContext that = (ElementContext) obj;
+    ElementContext that = (ElementContext) o;
 
     if (itemId != null ? !itemId.equals(that.itemId) : that.itemId != null) {
       return false;
@@ -67,14 +81,14 @@ public class ElementContext {
     if (versionId != null ? !versionId.equals(that.versionId) : that.versionId != null) {
       return false;
     }
-
-    return true;
+    return changeRef != null ? changeRef.equals(that.changeRef) : that.changeRef == null;
   }
 
   @Override
   public int hashCode() {
     int result = itemId != null ? itemId.hashCode() : 0;
     result = 31 * result + (versionId != null ? versionId.hashCode() : 0);
+    result = 31 * result + (changeRef != null ? changeRef.hashCode() : 0);
     return result;
   }
 }

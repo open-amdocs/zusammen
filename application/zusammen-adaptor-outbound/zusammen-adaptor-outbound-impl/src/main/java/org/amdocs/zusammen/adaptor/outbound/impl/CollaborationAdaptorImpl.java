@@ -33,6 +33,7 @@ import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import org.amdocs.zusammen.datatypes.itemversion.Tag;
 import org.amdocs.zusammen.datatypes.response.ErrorCode;
 import org.amdocs.zusammen.datatypes.response.Module;
 import org.amdocs.zusammen.datatypes.response.Response;
@@ -44,6 +45,9 @@ import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeChange;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeResult;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
@@ -189,6 +193,32 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       throw new ZusammenException(returnCode);
     }
   }
+
+  @Override
+  public Response<Void> tagItemVersion(SessionContext context, Id itemId, Id versionId, Id changeId,
+                                       Tag tag) {
+    Response<Void> response;
+    try {
+      response =
+          getCollaborationStore(context).tagItemVersion(context, itemId, versionId, changeId, tag);
+
+    } catch (RuntimeException re) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.MD_ITEM_VERSION_TAG, Module.ZCSM, null,
+              new ReturnCode(ErrorCode.CL_ITEM_VERSION_TAG, Module.ZCSP, re.getMessage(), null));
+
+      //logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
+    if (response.isSuccessful()) {
+      return response;
+    } else {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.MD_ITEM_VERSION_TAG, Module.ZCSM,
+          null, response.getReturnCode());
+      throw new ZusammenException(returnCode);
+    }
+  }
+
 
   @Override
   public Response<CorePublishResult> publishItemVersion(SessionContext context, Id itemId, Id
@@ -423,19 +453,19 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   }
 
   @Override
-  public Response<CoreMergeChange> revertItemVersionHistory(SessionContext context, Id
-      itemId, Id versionId, Id changeId) {
+  public Response<CoreMergeChange> resetItemVersionHistory(SessionContext context, Id
+      itemId, Id versionId, String changeRef) {
 
     Response<CollaborationMergeChange> collaborationResponse;
     try {
 
       collaborationResponse = getCollaborationStore(context)
-          .revertItemVersionHistory(context, itemId, versionId, changeId);
+          .resetItemVersionHistory(context, itemId, versionId, changeRef);
 
     } catch (RuntimeException re) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.MD_ITEM_VERSION_REVERT_HISTORY, Module.ZCSM, null,
-              new ReturnCode(ErrorCode.CL_ITEM_VERSION_REVERT_HISTORY, Module.ZCSP, re.getMessage(),
+          new ReturnCode(ErrorCode.MD_ITEM_VERSION_RESET_HISTORY, Module.ZCSM, null,
+              new ReturnCode(ErrorCode.CL_ITEM_VERSION_RESET_HISTORY, Module.ZCSP, re.getMessage(),
                   null));
       //logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -445,7 +475,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
           .convertToCoreMergeChange(collaborationResponse.getValue()));
     } else {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.MD_ITEM_VERSION_REVERT_HISTORY, Module.ZCSM, null,
+          new ReturnCode(ErrorCode.MD_ITEM_VERSION_RESET_HISTORY, Module.ZCSM, null,
               collaborationResponse.getReturnCode());
       //logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
@@ -458,9 +488,9 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   public Response<Void> commitElements(SessionContext context, ElementContext elementContext,
                                        String message) {
     Response<Void> response;
-    response = getCollaborationStore(context).commit(context,elementContext.getItemId(),
+    response = getCollaborationStore(context).commitElements(context, elementContext.getItemId(),
         elementContext
-        .getVersionId(),message);
+            .getVersionId(), message);
     if (!response.isSuccessful()) {
       ReturnCode returnCode = new ReturnCode(ErrorCode.MD_COMMIT, Module.ZCSM,
           null,
@@ -471,5 +501,30 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
     return response;
   }
 
+  @Override
+  public Response<Collection<CoreElement>> listElements(SessionContext context,
+                                                        ElementContext elementContext,
+                                                        Namespace namespace, Id elementId) {
+    Response<Collection<CollaborationElement>> collaborationResponse;
+    try {
+      collaborationResponse = getCollaborationStore(context)
+          .listElements(context, elementContext, namespace, elementId);
 
+    } catch (RuntimeException re) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.MD_ELEMENT_GET_LIST, Module.ZCSM, null,
+              new ReturnCode(ErrorCode.CL_ELEMENT_GET_LIST, Module.ZCSP, re.getMessage(), null));
+      //logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
+    if (!collaborationResponse.isSuccessful()) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.MD_ELEMENT_GET_LIST, Module.ZCSM, null,
+          collaborationResponse.getReturnCode());
+      //logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
+    return new Response<>(collaborationResponse.getValue().stream()
+        .map(CollaborationElementConvertor::convertToCoreElement)
+        .collect(Collectors.toList()));
+  }
 }

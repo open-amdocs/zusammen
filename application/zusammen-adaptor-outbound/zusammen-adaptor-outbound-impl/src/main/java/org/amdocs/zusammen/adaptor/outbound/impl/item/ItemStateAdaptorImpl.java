@@ -28,6 +28,7 @@ import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.response.ReturnCode;
 
 import java.util.Collection;
+import java.util.Date;
 
 public class ItemStateAdaptorImpl implements ItemStateAdaptor {
 
@@ -96,10 +97,12 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
   }
 
   @Override
-  public Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo) {
+  public Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo,Date
+      creationTime) {
     Response<Void> response;
     try {
-      response = OutboundAdaptorUtils.getStateStore(context).createItem(context, itemId, itemInfo);
+      response = OutboundAdaptorUtils.getStateStore(context).createItem(context, itemId,
+          itemInfo,creationTime);
       if (!response.isSuccessful()) {
         response = new Response<>(new ReturnCode(ErrorCode.MD_ITEM_CREATE, Module.ZSTM, null,
             response.getReturnCode()));
@@ -116,10 +119,12 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
   }
 
   @Override
-  public Response<Void> updateItem(SessionContext context, Id itemId, Info itemInfo) {
+  public Response<Void> updateItem(SessionContext context, Id itemId, Info itemInfo,
+                                   Date modificationTime) {
     Response<Void> response;
     try {
-      response = OutboundAdaptorUtils.getStateStore(context).updateItem(context, itemId, itemInfo);
+      response = OutboundAdaptorUtils.getStateStore(context).updateItem(context, itemId,
+          itemInfo,modificationTime);
       if (!response.isSuccessful()) {
         response = new Response<>(new ReturnCode(ErrorCode.MD_ITEM_UPDATE, Module.ZSTM, null,
             response.getReturnCode()));
@@ -150,6 +155,28 @@ public class ItemStateAdaptorImpl implements ItemStateAdaptor {
       ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_DELETE, Module.ZMDP, rte.getMessage()
           , null);
       response = new Response<>(new ReturnCode(ErrorCode.MD_ITEM_DELETE, Module.ZSTM, null,
+          returnCode));
+      //logger.error(response.getReturnCode().toString(), rte);
+    }
+    return response;
+  }
+
+  @Override
+  public Response<Void> updateItemModificationTime(SessionContext context, Id itemId, Date modificationTime) {
+    Response<Void> response;
+    try {
+      response = OutboundAdaptorUtils.getStateStore(context).updateItemModificationTime(context, itemId,
+          modificationTime);
+      if (!response.isSuccessful()) {
+        response = new Response<>(new ReturnCode(ErrorCode.MD_ITEM_UPDATE, Module.ZSTM, null,
+            response.getReturnCode()));
+        //logger.error(response.getReturnCode().toString());
+      }
+
+    } catch (RuntimeException rte) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ST_ITEM_UPDATE, Module.ZMDP, rte.getMessage()
+          , null);
+      response = new Response<>(new ReturnCode(ErrorCode.MD_ITEM_UPDATE, Module.ZSTM, null,
           returnCode));
       //logger.error(response.getReturnCode().toString(), rte);
     }
