@@ -30,10 +30,11 @@ import org.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeChange;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeResult;
 import org.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
+import org.amdocs.zusammen.sdk.health.IHealthCheck;
 
 import java.util.Collection;
 
-public interface CollaborationStore {
+public interface CollaborationStore  extends IHealthCheck {
 
   Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo);
 

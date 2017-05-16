@@ -17,8 +17,6 @@
 package org.amdocs.zusammen.datatypes.response;
 
 public class ErrorCode {
-
-
   public static final int SYSTEM_ERROR = 10000;
   public static final int ZU_ITEM_VERSION_LIST = 10100;
   public static final int ZU_ITEM_VERSION_CREATE = 10200;
@@ -30,7 +28,7 @@ public class ErrorCode {
   public static final int ZU_ITEM_VERSION_SYNC = 10800;
   public static final int ZU_ITEM_VERSION_MERGE = 10800;
   public static final int ZU_ITEM_VERSION_HISTORY = 10900;
-  public static final int ZU_ITEM_VERSION_REVERT_HISTORY = 11000;
+  public static final int ZU_ITEM_VERSION_RESET_HISTORY = 11000;
   public static final int ZU_ITEM_LIST = 11100;
   public static final int ZU_ITEM_CREATE = 11200;
   public static final int ZU_ITEM_UPDATE = 11300;
@@ -49,7 +47,7 @@ public class ErrorCode {
   public static final int ZU_ELEMENT_GET_INFO = 12600;
   public static final int ZU_ELEMENT_SAVE = 12700;
   public static final int ZU_ELEMENT_SEARCH = 12800;
-
+  public static final int ZU_ITEM_VERSION_TAG = 12900;
 
   public static final int MD_ITEM_UPDATE = 20100;
   public static final int MD_ITEM_DELETE = 20200;
@@ -73,10 +71,12 @@ public class ErrorCode {
   public static final int MD_ITEM_VERSION_SYNC = 22000;
   public static final int MD_ITEM_VERSION_MERGE = 22100;
   public static final int MD_ITEM_VERSION_HISTORY = 22200;
-  public static final int MD_ITEM_VERSION_REVERT_HISTORY = 22300;
+  public static final int MD_ITEM_VERSION_RESET_HISTORY = 22300;
   public static final int MD_SEARCH = 22400;
   public static final int MD_COMMIT = 22500;
+  public static final int MD_ELEMENT_GET_LIST = 22600;
 
+  public static final int MD_ITEM_VERSION_TAG = 22600;
   public static final int ST_ITEM_LIST = 50100;
   public static final int ST_ITEM_IS_EXIST = 50200;
   public static final int ST_ITEM_GET = 50300;
@@ -93,13 +93,9 @@ public class ErrorCode {
   public static final int ST_ELEMENT_CREATE = 51400;
   public static final int ST_ELEMENT_DELETE = 51500;
   public static final int ST_ELEMENT_UPDATE = 51600;
-  public static final int ST_WORKSPACE_CREATE = 51700;
-  public static final int ST_WORKSPACE_SAVE = 51800;
-  public static final int ST_WORKSPACE_DELETE = 51900;
-  public static final int ST_WORKSPACE_LIST = 52000;
   public static final int ST_ELEMENT_LIST = 52100;
-  public static final int ST_ELEMENT_IS_EXIST = 52200;
 
+  public static final int ST_ELEMENT_IS_EXIST = 52200;
   public static final int CL_ITEM_VERSION_UPDATE = 30100;
   public static final int CL_ITEM_VERSION_CREATE = 30200;
   public static final int CL_ITEM_VERSION_DELETE = 30300;
@@ -113,8 +109,9 @@ public class ErrorCode {
   public static final int CL_ITEM_VERSION_SYNC = 31100;
   public static final int CL_ITEM_VERSION_MERGE = 31200;
   public static final int CL_ITEM_VERSION_HISTORY = 31300;
-  public static final int CL_ITEM_VERSION_REVERT_HISTORY = 31400;
-
+  public static final int CL_ITEM_VERSION_RESET_HISTORY = 31400;
+  public static final int CL_ITEM_VERSION_TAG = 31500;
+  public static final int CL_ELEMENT_GET_LIST = 31600;
 
   public static final int IN_SEARCH = 40100;
   public static final int IN_ELEMENT_CREATE = 40200;
@@ -122,9 +119,6 @@ public class ErrorCode {
   public static final int IN_ELEMENT_UPDATE = 40400;
 
   public static final int HC_MISSING_PLUGIN = 40500;
-
-
-
   private int errorCode;
   private Module module;
 
