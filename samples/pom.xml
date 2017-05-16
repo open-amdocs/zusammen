@@ -39,6 +39,25 @@
             <version>0.0.1</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.amdocs.zusammen.plugin</groupId>
+            <artifactId>zusammen-collaboration-store-plugin</artifactId>
+            <version>0.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.zusammen.plugin</groupId>
+            <artifactId>zusammen-state-store-cassandra-plugin</artifactId>
+            <version>0.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.amdocs.zusammen.plugin</groupId>
+            <artifactId>zusammen-search-index-elasticsearch-plugin</artifactId>
+            <version>0.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
         <!--dependency>
             <groupId>org.amdocs.zusammen.web</groupId>
             <artifactId>item-rest-services</artifactId>
