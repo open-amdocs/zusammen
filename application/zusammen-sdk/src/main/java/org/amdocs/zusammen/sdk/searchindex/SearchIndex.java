@@ -21,9 +21,10 @@ import org.amdocs.zusammen.datatypes.SessionContext;
 import org.amdocs.zusammen.datatypes.response.Response;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
+import org.amdocs.zusammen.sdk.health.IHealthCheck;
 import org.amdocs.zusammen.sdk.searchindex.types.SearchIndexElement;
 
-public interface SearchIndex {
+public interface SearchIndex extends IHealthCheck{
 
   Response<Void> createElement(SessionContext sessionContext, SearchIndexElement
       elementSearchableData);

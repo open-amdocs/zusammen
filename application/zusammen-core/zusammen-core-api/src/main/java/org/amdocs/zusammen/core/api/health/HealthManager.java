@@ -17,6 +17,7 @@
 package org.amdocs.zusammen.core.api.health;
 
 import org.amdocs.zusammen.commons.health.HealthCheck;
+import org.amdocs.zusammen.commons.health.data.HealthInfo;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreElementInfo;
 import org.amdocs.zusammen.datatypes.Id;
@@ -27,7 +28,6 @@ import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
 
 import java.util.Collection;
 
-public interface HealthManager extends HealthCheck {
-
+public interface HealthManager extends HealthCheck<SessionContext>  {
 
 }

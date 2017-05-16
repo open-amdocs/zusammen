@@ -18,8 +18,6 @@ package org.amdocs.zusammen.core.impl.health;
 
 import org.amdocs.zusammen.core.api.health.HealthManager;
 import org.amdocs.zusammen.core.api.health.HealthManagerFactory;
-import org.amdocs.zusammen.core.api.item.ElementManager;
-import org.amdocs.zusammen.core.api.item.ElementManagerFactory;
 import org.amdocs.zusammen.datatypes.SessionContext;
 
 public class HealthManagerFactoryImpl extends HealthManagerFactory {

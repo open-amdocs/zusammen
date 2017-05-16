@@ -27,12 +27,13 @@ import org.amdocs.zusammen.datatypes.item.Item;
 import org.amdocs.zusammen.datatypes.item.ItemVersion;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.sdk.health.IHealthCheck;
 import org.amdocs.zusammen.sdk.state.types.StateElement;
 
 import java.util.Collection;
 import java.util.Date;
 
-public interface StateStore {
+public interface StateStore extends IHealthCheck {
 
   Response<Collection<Item>> listItems(SessionContext context);
 

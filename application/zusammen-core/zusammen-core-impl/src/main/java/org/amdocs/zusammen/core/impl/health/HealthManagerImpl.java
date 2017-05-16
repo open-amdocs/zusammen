@@ -20,16 +20,34 @@ import org.amdocs.zusammen.commons.health.data.HealthInfo;
 import org.amdocs.zusammen.commons.log.ZusammenLogger;
 import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import org.amdocs.zusammen.core.api.health.HealthManager;
+import org.amdocs.zusammen.datatypes.SessionContext;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class HealthManagerImpl implements HealthManager {
   private static ZusammenLogger logger =
       ZusammenLoggerFactory.getLogger(HealthManagerImpl.class.getName());
 
-  @Override
-  public Collection<HealthInfo> getHealthStatus() {
-    return null;
+  private CollaborationHealthService collaborationHealthService;
+  private SearchHealthService searchHealthService;
+  private StateHealthService stateHealthService;
+
+  public HealthManagerImpl() {
+    collaborationHealthService = new CollaborationHealthService();
+    searchHealthService = new SearchHealthService();
+    stateHealthService = new StateHealthService();
   }
+
+  @Override
+  public Collection<HealthInfo> getHealthStatus(SessionContext context) {
+    List<HealthInfo> retVal = new ArrayList<>();
+    retVal.addAll(stateHealthService.getHealthStatus(context));
+    retVal.addAll(collaborationHealthService.getHealthStatus(context));
+    retVal.addAll(searchHealthService.getHealthStatus(context));
+    return retVal;
+  }
+
 
 }

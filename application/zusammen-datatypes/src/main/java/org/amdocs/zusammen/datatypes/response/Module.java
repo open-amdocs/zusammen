@@ -23,5 +23,6 @@ public enum Module {
   ZDB,
   ZCSM,
   ZSTM,
-  ZSIM
+  ZSIM,
+  ZHC
 }

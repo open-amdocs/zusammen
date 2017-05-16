@@ -25,6 +25,8 @@ import org.amdocs.zusammen.adaptor.inbound.impl.convertor.ElementInfoConvertor;
 import org.amdocs.zusammen.commons.health.data.HealthInfo;
 import org.amdocs.zusammen.commons.log.ZusammenLogger;
 import org.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
+import org.amdocs.zusammen.core.api.health.HealthManager;
+import org.amdocs.zusammen.core.api.health.HealthManagerFactory;
 import org.amdocs.zusammen.core.api.item.ElementManager;
 import org.amdocs.zusammen.core.api.item.ElementManagerFactory;
 import org.amdocs.zusammen.datatypes.Id;
@@ -33,22 +35,29 @@ import org.amdocs.zusammen.datatypes.item.ElementContext;
 import org.amdocs.zusammen.datatypes.response.*;
 import org.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import org.amdocs.zusammen.datatypes.searchindex.SearchResult;
+import org.amdocs.zusammen.utils.fileutils.json.JsonUtil;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class HealthAdaptorImpl implements HealthAdaptor {
 
-  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(HealthAdaptorImpl.class
-      .getName());
+    private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(HealthAdaptorImpl.class
+            .getName());
 
 
-  @Override
-  public Collection<HealthInfo> getHealthStatus() {
-    return null;
-  }
+    @Override
+   public Collection<HealthInfo> getHealthStatus(SessionContext context) {
+        return getHealthManager(context).getHealthStatus(context);
+    }
 
-  private ElementManager getElementManager(SessionContext context) {
-    return ElementManagerFactory.getInstance().createInterface(context);
-  }
+    private HealthManager getHealthManager(SessionContext context) {
+        return HealthManagerFactory.getInstance().createInterface(context);
+    }
+
+    @Override
+    public String getHealthStatusReport(SessionContext sessionContext) {
+        Collection<HealthInfo> healthStatus = getHealthStatus(sessionContext);
+        return JsonUtil.object2Json(healthStatus);
+    }
 }

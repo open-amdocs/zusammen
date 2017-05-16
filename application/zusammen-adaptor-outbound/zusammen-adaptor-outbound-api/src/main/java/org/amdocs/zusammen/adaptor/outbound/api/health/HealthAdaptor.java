@@ -18,6 +18,7 @@ package org.amdocs.zusammen.adaptor.outbound.api.health;
 
 
 import org.amdocs.zusammen.commons.health.HealthCheck;
+import org.amdocs.zusammen.commons.health.data.HealthInfo;
 import org.amdocs.zusammen.core.api.types.CoreElement;
 import org.amdocs.zusammen.core.api.types.CoreMergeChange;
 import org.amdocs.zusammen.core.api.types.CoreMergeResult;
@@ -30,7 +31,14 @@ import org.amdocs.zusammen.datatypes.item.Info;
 import org.amdocs.zusammen.datatypes.item.ItemVersionData;
 import org.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import org.amdocs.zusammen.datatypes.response.Response;
+import org.amdocs.zusammen.datatypes.response.ZusammenException;
 
-public interface HealthAdaptor extends HealthCheck{
+import java.util.Collection;
+
+public interface HealthAdaptor{
+
+    HealthInfo getCollaborationStatus(SessionContext sessionContext) throws ZusammenException;
+    HealthInfo getStateStatus(SessionContext sessionContext) throws ZusammenException;
+    HealthInfo getSearchStatus(SessionContext sessionContext) throws ZusammenException;
 
 }
