@@ -1,6 +1,5 @@
 package com.amdocs.zusammen.flow;
 
-import com.amdocs.zusammen.element.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import com.amdocs.zusammen.datatypes.Id;
@@ -12,7 +11,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 public class SimplePublishAndSyncRandomElementWithUpdateFlow
-    extends Element {
+    extends com.amdocs.zusammen.element.Element {
 
 
   private static Element elementTree;

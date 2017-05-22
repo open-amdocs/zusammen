@@ -1,6 +1,5 @@
 package com.amdocs.zusammen.flow;
 
-import com.amdocs.zusammen.element.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.MergeResult;
 import com.amdocs.zusammen.datatypes.Id;
@@ -11,7 +10,7 @@ import com.amdocs.zusammen.element.ElementScenarios;
 import com.amdocs.zusammen.utils.fileutils.FileUtils;
 
 public class SimplePublishAndSyncElementWithConflictFlow
-    extends Element {
+    extends com.amdocs.zusammen.element.Element {
 
   public static void main(String[] args) {
     SimplePublishAndSyncElementWithConflictFlow

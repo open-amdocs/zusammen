@@ -1,6 +1,6 @@
 package com.amdocs.zusammen.element;
 
-import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
+import  com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
@@ -8,7 +8,7 @@ import com.amdocs.zusammen.datatypes.item.ElementContext;
 
 import java.util.Collection;
 
-public class CreateElement extends Element {
+public class CreateElement extends com.amdocs.zusammen.element.Element {
 
 
   public static void main(String[] args) {

@@ -1,6 +1,5 @@
 package com.amdocs.zusammen.flow;
 
-import com.amdocs.zusammen.element.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import com.amdocs.zusammen.datatypes.Id;
@@ -8,7 +7,7 @@ import com.amdocs.zusammen.datatypes.Id;
 import java.util.Collection;
 
 public class ComplexPublishAndSyncElementTwoVersionsFlow
-    extends Element {
+    extends com.amdocs.zusammen.element.Element {
 
   public static void main(String[] args) {
     ComplexPublishAndSyncElementTwoVersionsFlow
@@ -37,7 +36,7 @@ public class ComplexPublishAndSyncElementTwoVersionsFlow
 
     System.out.println("======================print B Element List==============================");
     Collection<ElementInfo> elementsB = getElementList(contextB, itemId, newVersionId, null);
-    elementsB.forEach(Element::printElement);
+    elementsB.forEach(com.amdocs.zusammen.element.Element::printElement);
     System.out.println("======================print B Element Info==============================");
     ElementInfo elementInfoB = getElementInfo(contextB, itemId, newVersionId, elementId);
     printElement(elementInfoB);

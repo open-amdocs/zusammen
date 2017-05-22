@@ -1,6 +1,5 @@
 package com.amdocs.zusammen.flow;
 
-import com.amdocs.zusammen.element.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import com.amdocs.zusammen.datatypes.Id;
@@ -13,7 +12,7 @@ import com.amdocs.zusammen.utils.fileutils.FileUtils;
 import java.util.Collection;
 
 public class SimplePublishAndSyncElementWithFastFowardFlow
-    extends Element {
+    extends com.amdocs.zusammen.element.Element {
 
   public static void main(String[] args) {
     SimplePublishAndSyncElementWithFastFowardFlow
@@ -92,7 +91,7 @@ public class SimplePublishAndSyncElementWithFastFowardFlow
         getElementList(contextA, itemId, versionId, null);
     System.out.println("======================print A Element " +
         "List=================================");
-    list.forEach(Element::printElement);
+    list.forEach(com.amdocs.zusammen.element.Element::printElement);
     ElementInfo info = getElementInfo(contextA, itemId, versionId, elementId);
     System.out.println("======================print A Element " +
         "Info=================================");

@@ -13,7 +13,7 @@ import com.amdocs.zusammen.itemversion.CreateItemVersion;
 import java.util.Collection;
 import java.util.UUID;
 
-public class CreateRandomElement extends Element {
+public class CreateRandomElement extends com.amdocs.zusammen.element.Element {
 
 
   public static void main(String[] args) {

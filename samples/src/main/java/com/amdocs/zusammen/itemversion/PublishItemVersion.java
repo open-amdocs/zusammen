@@ -13,7 +13,7 @@ public class PublishItemVersion extends ItemVersion {
     Id versionId = Zusammen.initVersion(Zusammen.contextA,itemId,null);
     Id elementId = Zusammen.initElement(Zusammen.contextA,itemId,versionId);
 
-    PublishItemVersion publishItemVersioFn = new PublishItemVersion();
+    PublishItemVersion publishItemVersion = new PublishItemVersion();
     publishItemVersion.execute(Zusammen.contextA,itemId,versionId,"execute from User_a");
 
     System.exit(0);

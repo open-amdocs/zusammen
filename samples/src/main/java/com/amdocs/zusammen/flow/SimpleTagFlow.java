@@ -1,13 +1,10 @@
 package com.amdocs.zusammen.flow;
 
-import com.amdocs.zusammen.element.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.item.ItemVersionAdaptor;
 import com.amdocs.zusammen.adaptor.inbound.api.item.ItemVersionAdaptorFactory;
-import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
+import com.amdocs.zusammen.element.Element;
 import com.amdocs.zusammen.datatypes.Id;
-import com.amdocs.zusammen.datatypes.item.Action;
-import com.amdocs.zusammen.datatypes.item.Info;
-import com.amdocs.zusammen.utils.fileutils.FileUtils;
+
 
 public class SimpleTagFlow extends Element {
   public static void main(String[] args) {

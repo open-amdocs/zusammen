@@ -1,7 +1,6 @@
 package com.amdocs.zusammen.flow;
 
 import com.amdocs.zusammen.element.Element;
-import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import com.amdocs.zusammen.datatypes.Id;
 
