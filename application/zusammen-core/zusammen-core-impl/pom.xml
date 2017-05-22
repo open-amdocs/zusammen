@@ -20,34 +20,34 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.amdocs.zusammen</groupId>
+        <groupId>com.amdocs.zusammen</groupId>
         <artifactId>zusammen-core</artifactId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </parent>
     <artifactId>zusammen-core-impl</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>org.amdocs.zusammen</groupId>
+            <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-core-api</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.2</version>
         </dependency>
         <dependency>
-            <groupId>org.amdocs.zusammen</groupId>
+            <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-commons-utils</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.2</version>
         </dependency>
         <dependency>
-            <groupId>org.amdocs.zusammen</groupId>
+            <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-adaptor-outbound-api</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.2</version>
         </dependency>
         <dependency>
-            <groupId>org.amdocs.zusammen</groupId>
+            <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-adaptor-outbound-impl</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.2</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>

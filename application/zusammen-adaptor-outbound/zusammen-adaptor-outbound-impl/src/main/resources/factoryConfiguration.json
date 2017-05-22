@@ -1,8 +1,8 @@
 {
-  "org.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.CollaborationAdaptorFactoryImpl",
-  "org.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.item.ItemStateAdaptorFactoryImpl",
-  "org.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.item.ItemVersionStateAdaptorFactoryImpl",
-  "org.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.item.ElementStateAdaptorFactoryImpl",
-  "org.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.SearchIndexAdaptorFactoryImpl",
-  "org.amdocs.zusammen.adaptor.outbound.api.health.HealthAdaptorFactory": "org.amdocs.zusammen.adaptor.outbound.impl.health.HealthAdaptorFactoryImpl"
+  "com.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptorFactory": "com.amdocs.zusammen.adaptor.outbound.impl.CollaborationAdaptorFactoryImpl",
+  "com.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptorFactory": "com.amdocs.zusammen.adaptor.outbound.impl.item.ItemStateAdaptorFactoryImpl",
+  "com.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory": "com.amdocs.zusammen.adaptor.outbound.impl.item.ItemVersionStateAdaptorFactoryImpl",
+  "com.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptorFactory": "com.amdocs.zusammen.adaptor.outbound.impl.item.ElementStateAdaptorFactoryImpl",
+  "com.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptorFactory": "com.amdocs.zusammen.adaptor.outbound.impl.SearchIndexAdaptorFactoryImpl",
+  "com.amdocs.zusammen.adaptor.outbound.api.health.HealthAdaptorFactory": "com.amdocs.zusammen.adaptor.outbound.impl.health.HealthAdaptorFactoryImpl"
 }

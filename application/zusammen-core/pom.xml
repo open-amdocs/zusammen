@@ -20,14 +20,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.amdocs.zusammen</groupId>
+        <groupId>com.amdocs.zusammen</groupId>
         <artifactId>application</artifactId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </parent>
 
-    <groupId>org.amdocs.zusammen</groupId>
+    <groupId>com.amdocs.zusammen</groupId>
     <artifactId>zusammen-core</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>pom</packaging>
     <modules>
         <module>zusammen-core-api</module>

@@ -1,7 +1,7 @@
 {
 
-  "org.amdocs.zusammen.core.api.item.ItemManagerFactory": "org.amdocs.zusammen.core.impl.item.ItemManagerFactoryImpl",
-  "org.amdocs.zusammen.core.api.item.ItemVersionManagerFactory": "org.amdocs.zusammen.core.impl.item.ItemVersionManagerFactoryImpl",
-  "org.amdocs.zusammen.core.api.item.ElementManagerFactory": "org.amdocs.zusammen.core.impl.item.ElementManagerFactoryImpl",
-  "org.amdocs.zusammen.core.api.health.HealthManagerFactory": "org.amdocs.zusammen.core.impl.health.HealthManagerFactoryImpl"
+  "com.amdocs.zusammen.core.api.item.ItemManagerFactory": "com.amdocs.zusammen.core.impl.item.ItemManagerFactoryImpl",
+  "com.amdocs.zusammen.core.api.item.ItemVersionManagerFactory": "com.amdocs.zusammen.core.impl.item.ItemVersionManagerFactoryImpl",
+  "com.amdocs.zusammen.core.api.item.ElementManagerFactory": "com.amdocs.zusammen.core.impl.item.ElementManagerFactoryImpl",
+  "com.amdocs.zusammen.core.api.health.HealthManagerFactory": "com.amdocs.zusammen.core.impl.health.HealthManagerFactoryImpl"
 }
