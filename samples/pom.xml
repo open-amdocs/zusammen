@@ -25,13 +25,11 @@
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-collaboration-store-plugin</artifactId>
             <version>0.0.2</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-state-store-cassandra-plugin</artifactId>
             <version>0.0.2</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen.plugin</groupId>
@@ -44,25 +42,18 @@
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-collaboration-store-plugin</artifactId>
             <version>0.0.2</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-state-store-cassandra-plugin</artifactId>
             <version>0.0.2</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-search-index-elasticsearch-plugin</artifactId>
             <version>0.0.2</version>
-            <scope>runtime</scope>
         </dependency>
-        <!--dependency>
-            <groupId>com.amdocs.zusammen.web</groupId>
-            <artifactId>item-rest-services</artifactId>
-            <version>0.0.2</version>
-        </dependency-->
+
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlets</artifactId>
@@ -98,7 +89,11 @@
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-adaptor-inbound-impl</artifactId>
             <version>0.0.2</version>
-            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.amdocs.zusammen</groupId>
+            <artifactId>zusammen-commons-utils</artifactId>
+            <version>0.0.2</version>
         </dependency>
     </dependencies>
 
