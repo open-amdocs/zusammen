@@ -22,16 +22,16 @@
     <parent>
         <groupId>com.amdocs.zusammen</groupId>
         <artifactId>application</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>zusammen-datatypes</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.1-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-commons-utils</artifactId>
-            <version>0.0.2</version>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>

@@ -22,11 +22,11 @@
     <parent>
         <groupId>com.amdocs.zusammen</groupId>
         <artifactId>application</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>zusammen-adaptor-inbound</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>zusammen-adaptor-inbound-api</module>
