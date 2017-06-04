@@ -22,11 +22,11 @@
     <parent>
         <groupId>com.amdocs.zusammen</groupId>
         <artifactId>amdocs-zusammen</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>application</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>zusammen-datatypes</module>
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-commons-log</artifactId>
-            <version>0.0.2</version>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
