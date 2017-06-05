@@ -16,8 +16,9 @@
 
 package com.amdocs.zusammen.adaptor.inbound.impl.health;
 
-import com.amdocs.zusammen.adaptor.inbound.api.MainApp;
+
 import com.amdocs.zusammen.adaptor.inbound.api.health.HealthAdaptor;
+import com.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
 import com.amdocs.zusammen.commons.health.data.HealthInfo;
 import com.amdocs.zusammen.commons.log.ZusammenLogger;
 import com.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
@@ -45,8 +46,8 @@ public class HealthAdaptorImpl implements HealthAdaptor {
 
     @Override
     public String getVersion() {
-        MainApp mainApp = new MainApp();
-        return mainApp.getClass().getPackage().getImplementationVersion();
+        ZusammenElement element = new ZusammenElement();
+        return element.getClass().getPackage().getImplementationVersion();
     }
 
     @Override

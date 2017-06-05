@@ -54,7 +54,6 @@
             <configuration>
                 <archive>
                     <manifest>
-                        <mainClass>com.amdocs.zusammen.adaptor.inbound.api.MainApp</mainClass>
                         <addDefaultImplementationEntries>
                             true
                         </addDefaultImplementationEntries>
