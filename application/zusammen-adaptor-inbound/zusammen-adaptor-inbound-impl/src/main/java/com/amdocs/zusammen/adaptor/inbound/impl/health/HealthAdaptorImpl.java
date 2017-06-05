@@ -16,6 +16,7 @@
 
 package com.amdocs.zusammen.adaptor.inbound.impl.health;
 
+import com.amdocs.zusammen.adaptor.inbound.api.MainApp;
 import com.amdocs.zusammen.adaptor.inbound.api.health.HealthAdaptor;
 import com.amdocs.zusammen.commons.health.data.HealthInfo;
 import com.amdocs.zusammen.commons.log.ZusammenLogger;
@@ -43,8 +44,14 @@ public class HealthAdaptorImpl implements HealthAdaptor {
     }
 
     @Override
+    public String getVersion() {
+        MainApp mainApp = new MainApp();
+        return mainApp.getClass().getPackage().getImplementationVersion();
+    }
+
+    @Override
     public String getHealthStatusReport(SessionContext sessionContext) {
         Collection<HealthInfo> healthStatus = getHealthStatus(sessionContext);
-        return JsonUtil.object2Json(healthStatus);
+        return  JsonUtil.object2Json(healthStatus);
     }
 }

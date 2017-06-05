@@ -21,4 +21,5 @@ import com.amdocs.zusammen.datatypes.SessionContext;
 
 public interface HealthAdaptor extends HealthCheck<SessionContext> {
    String getHealthStatusReport(SessionContext sessionContext);
+   String getVersion();
 }
