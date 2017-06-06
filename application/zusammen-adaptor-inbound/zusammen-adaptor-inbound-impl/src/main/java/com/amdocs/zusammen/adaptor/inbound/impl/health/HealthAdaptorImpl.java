@@ -46,8 +46,7 @@ public class HealthAdaptorImpl implements HealthAdaptor {
 
     @Override
     public String getVersion() {
-        ZusammenElement element = new ZusammenElement();
-        return element.getClass().getPackage().getImplementationVersion();
+        return this.getClass().getPackage().getImplementationVersion();
     }
 
     @Override
