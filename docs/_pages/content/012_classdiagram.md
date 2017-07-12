@@ -6,4 +6,4 @@ group: arch
 sortindex: 12
 ---
 # Class Diagram
-![Class Diagram](images/classdiagram.png)
+![Class Diagram](images/classdiagram.png =1024x)
