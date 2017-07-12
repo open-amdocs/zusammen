@@ -6,4 +6,4 @@ group: arch
 sortindex: 12
 ---
 # Class Diagram
-![Class Diagram](images/classdiagram.png {width=1024px height=auto})
+![Class Diagram](images/classdiagram.png){:width="1024px"}
