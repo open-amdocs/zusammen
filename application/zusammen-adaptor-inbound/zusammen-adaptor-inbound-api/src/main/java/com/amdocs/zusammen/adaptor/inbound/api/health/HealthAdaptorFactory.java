@@ -21,11 +21,11 @@ import com.amdocs.zusammen.utils.facade.api.AbstractComponentFactory;
 import com.amdocs.zusammen.utils.facade.api.AbstractFactory;
 
 public abstract class HealthAdaptorFactory
-    extends AbstractComponentFactory<HealthAdaptor> {
+        extends AbstractComponentFactory<HealthAdaptor> {
 
-  public static HealthAdaptorFactory getInstance() {
-    return AbstractFactory.getInstance(HealthAdaptorFactory.class);
-  }
+    public static HealthAdaptorFactory getInstance() {
+        return AbstractFactory.getInstance(HealthAdaptorFactory.class);
+    }
 
-  public abstract HealthAdaptor createInterface(SessionContext context);
+    public abstract HealthAdaptor createInterface(SessionContext context);
 }

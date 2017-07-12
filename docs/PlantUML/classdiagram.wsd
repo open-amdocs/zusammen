@@ -1,0 +1,156 @@
+@startuml
+skinparam shadowing false
+
+class ZusammenElement implements Element {
+  -Action action;
+  -Id elementId;
+  -Info info;
+  -Collection<Relation> relations;
+  -byte[] data;
+  -byte[] searchableData;
+  -byte[] visualization;
+  -Collection<Element> subElements = new ArrayList<>();
+  +void setInfo(Info info)
+  +void setElementId(Id elementId)
+  +void setData(InputStream data)
+  +void setRelations(Collection<Relation> relations)
+  +void setSearchableData(InputStream searchableData)
+  +void setVisualization(InputStream visualization)
+  +void setSubElements(Collection<Element> subElements)
+  +void setAction(Action action)
+  +ZusammenElement addSubElement(Element element)
+}
+
+interface ElementAdaptor {
+
+  Response<Collection<ElementInfo>> list(SessionContext context, ElementContext elementContext, Id elementId)
+  Response<ElementInfo> getInfo(SessionContext context, ElementContext elementContext, Id elementId)
+  Response<Element> get(SessionContext context, ElementContext elementContext, Id elementId)
+  Response<Element> save(SessionContext context, ElementContext elementContext, Element element, String message)
+  Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria)
+
+}
+
+abstract class ElementAdaptorFactory extends AbstractComponentFactory {
+  +static ElementAdaptorFactory getInstance()
+  +abstract ElementAdaptor createInterface(SessionContext context)
+}
+
+interface Element {
+  Action getAction()
+  Id getElementId()
+  Info getInfo()
+  Collection<Relation> getRelations()
+  InputStream getData()
+  InputStream getSearchableData()
+  InputStream getVisualization()
+  Collection<Element> getSubElements()
+}
+
+class ElementConflict {
+  -Element localElement
+  -Element remoteElement
+  +void setLocalElement(Element localElement)
+  +void setRemoteElement(Element remoteElement)
+  +Element getLocalElement()
+  +Element getRemoteElement()
+}
+
+class ElementInfo {
+  -Id id
+  -Info info
+  -Collection<Relation> relations
+  -Collection<ElementInfo> subElements = new ArrayList<>()
+  +Id getId()
+  +void setId(Id id)
+  +Info getInfo() 
+  +void setInfo(Info info)
+  +Collection<Relation> getRelations()
+  +void setRelations(Collection<Relation> relations)
+  +Collection<ElementInfo> getSubElements()
+  +void setSubElements(Collection<ElementInfo> subElements)
+}
+
+interface ItemAdaptor {
+  Response<Collection<Item>> list(SessionContext context)
+  Response<Item> get(SessionContext context, Id itemId)
+  Response<Id> create(SessionContext context, Info itemInfo)
+  Response<Void> update(SessionContext context, Id itemId, Info itemInfo)
+  Response<Void> delete(SessionContext context, Id itemId)
+}
+
+interface ItemVersionAdaptor {
+  Response<Collection<ItemVersion>> list(SessionContext context, Space space, Id itemId)
+  Response<ItemVersion> get(SessionContext context, Space space, Id itemId, Id versionId)
+  Response<Id> create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data)
+  Response<Void> update(SessionContext context, Id itemId, Id versionId, ItemVersionData data)
+  Response<Void> delete(SessionContext context, Id itemId, Id versionId)
+  Response<Void> tag(SessionContext context, Id itemId, Id versionId, Id changeId, Tag tag)
+  Response<Void> publish(SessionContext context, Id itemId, Id versionId, String message)
+  Response<MergeResult> sync(SessionContext context, Id itemId, Id versionId)
+  Response<MergeResult> merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId)
+  Response<ItemVersionHistory> listHistory(SessionContext context, Id itemId, Id versionId)
+  Response<Void> resetHistory(SessionContext context, Id itemId, Id versionId, String changeRef)
+}
+
+class MergeChange {
+  -ItemVersionChange changedVersion
+  -Collection<Element> changedElements
+  +ItemVersionChange getChangedVersion()
+  +void setChangedVersion(ItemVersionChange changedVersion)
+  +Collection<Element> getChangedElements()
+  +void setChangedElements(Collection<Element> changedElements)
+}
+
+class MergeConflict {
+  -ItemVersionDataConflict versionDataConflict
+  -Collection<ElementConflict> elementConflicts
+  +ItemVersionDataConflict getVersionDataConflict()
+  +void setVersionDataConflict
+  +Collection<ElementConflict> getElementConflicts()
+  +void setElementConflicts(Collection<ElementConflict> elementConflicts)
+  +boolean isSuccess()
+}
+
+class MergeResult {
+  -MergeChange change;
+  -MergeConflict conflict;
+  +MergeChange getChange()
+  +void setChange(MergeChange change)
+  +MergeConflict getConflict()
+  +void setConflict(MergeConflict conflict)
+  +boolean isSuccess()
+}
+
+
+
+interface HealthAdaptor extends HealthCheck{
+   String getHealthStatusReport(SessionContext sessionContext)
+   String getVersion()
+}
+
+abstract class HealthAdaptorFactory extends AbstractComponentFactory {
+    +static HealthAdaptorFactory getInstance() 
+    +abstract HealthAdaptor createInterface(SessionContext context)
+}
+
+abstract class ItemAdaptorFactory extends AbstractComponentFactory {
+  +static ItemAdaptorFactory getInstance()
+  +abstract ItemAdaptor createInterface(SessionContext context)
+}
+
+abstract class ItemVersionAdaptorFactory extends AbstractComponentFactory {
+
+  +static ItemVersionAdaptorFactory getInstance()
+  +abstract ItemVersionAdaptor createInterface(SessionContext context)
+}
+
+ItemVersionAdaptor -[hidden]- AbstractComponentFactory
+MergeChange -[hidden]- HealthCheck
+ElementAdaptor -[hidden]- ItemVersionAdaptor
+ElementInfo -[hidden]- ElementConflict
+ElementConflict -[hidden]- MergeConflict
+ItemAdaptor -[hidden]- MergeConflict
+MergeResult -[hidden]- ItemAdaptor
+@enduml
+
