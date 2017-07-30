@@ -16,12 +16,14 @@
 
 package com.amdocs.zusammen.adaptor.inbound.api.item;
 
+import com.amdocs.zusammen.adaptor.inbound.api.types.item.ItemVersionConflict;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.MergeResult;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
+import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
@@ -40,6 +42,8 @@ public interface ItemVersionAdaptor {
 
   Response<Void> delete(SessionContext context, Id itemId, Id versionId);
 
+  Response<ItemVersionStatus> getStatus(SessionContext context, Id itemId, Id versionId);
+
   Response<Void> tag(SessionContext context, Id itemId, Id versionId, Id changeId, Tag tag);
 
   Response<Void> publish(SessionContext context, Id itemId, Id versionId, String message);
@@ -51,4 +55,6 @@ public interface ItemVersionAdaptor {
   Response<ItemVersionHistory> listHistory(SessionContext context, Id itemId, Id versionId);
 
   Response<Void> resetHistory(SessionContext context, Id itemId, Id versionId, String changeRef);
+
+  Response<ItemVersionConflict> getConflict(SessionContext context, Id itemId, Id versionId);
 }

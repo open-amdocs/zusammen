@@ -26,4 +26,6 @@ public class Messages {
       "Item Id %s, version Id %s does not exist in %s space";
   public static final String ITEM_VERSION_ELEMENT_NOT_EXIST =
       "Item Id %s, version Id %s, element Id %s does not exist in %s space";
+  public static final String ITEM_VERSION_PUBLISH_NOT_ALLOWED =
+      "Item Id %s, version Id %s: Publish is not allowed since the version status is %s";
 }

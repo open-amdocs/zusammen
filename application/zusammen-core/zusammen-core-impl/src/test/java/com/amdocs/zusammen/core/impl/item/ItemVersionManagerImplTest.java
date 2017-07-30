@@ -33,6 +33,7 @@ import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
+import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.item.Relation;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
@@ -51,6 +52,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import static com.amdocs.zusammen.datatypes.item.SynchronizationStatus.MERGING;
+import static com.amdocs.zusammen.datatypes.item.SynchronizationStatus.OUT_OF_SYNC;
+import static com.amdocs.zusammen.datatypes.item.SynchronizationStatus.UP_TO_DATE;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
@@ -298,8 +302,10 @@ public class ItemVersionManagerImplTest {
   private CoreMergeChange testSuccessfulPublish(Id itemId, Id versionId, boolean newVersion) {
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
 
-    String message = "publish message";
+    doReturn(new Response<>(new ItemVersionStatus(UP_TO_DATE, false)))
+        .when(collaborationAdaptorMock).getItemVersionStatus(context, itemId, versionId);
 
+    String message = "publish message";
     CorePublishResult publishResult = new CorePublishResult();
     CoreMergeChange change = createMergeChange(versionId, newVersion);
     publishResult.setChange(change);
@@ -325,6 +331,27 @@ public class ItemVersionManagerImplTest {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
+
+    itemVersionManagerImpl.publish(context, itemId, versionId, "");
+  }
+
+  @Test(expectedExceptions = ZusammenException.class)
+  public void testPublishOutOfSync() throws Exception {
+    testPublishNotAllowed(new ItemVersionStatus(OUT_OF_SYNC, false));
+  }
+
+  @Test(expectedExceptions = ZusammenException.class)
+  public void testPublishMerging() throws Exception {
+    testPublishNotAllowed(new ItemVersionStatus(MERGING, false));
+  }
+
+  private void testPublishNotAllowed(ItemVersionStatus status) {
+    Id itemId = new Id();
+    Id versionId = new Id();
+    mockExistingVersion(Space.PRIVATE, itemId, versionId);
+
+    doReturn(new Response<>(status)).when(collaborationAdaptorMock)
+        .getItemVersionStatus(context, itemId, versionId);
 
     itemVersionManagerImpl.publish(context, itemId, versionId, "");
   }

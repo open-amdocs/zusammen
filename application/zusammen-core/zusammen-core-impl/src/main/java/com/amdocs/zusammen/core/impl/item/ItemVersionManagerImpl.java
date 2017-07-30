@@ -21,15 +21,16 @@ import com.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptorFactory;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
-import com.amdocs.zusammen.core.impl.Messages;
 import com.amdocs.zusammen.commons.log.ZusammenLogger;
 import com.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import com.amdocs.zusammen.core.api.item.ItemManager;
 import com.amdocs.zusammen.core.api.item.ItemManagerFactory;
 import com.amdocs.zusammen.core.api.item.ItemVersionManager;
+import com.amdocs.zusammen.core.api.types.CoreItemVersionConflict;
 import com.amdocs.zusammen.core.api.types.CoreMergeChange;
 import com.amdocs.zusammen.core.api.types.CoreMergeResult;
 import com.amdocs.zusammen.core.api.types.CorePublishResult;
+import com.amdocs.zusammen.core.impl.Messages;
 import com.amdocs.zusammen.core.impl.ValidationUtil;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
@@ -38,6 +39,7 @@ import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
+import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.ErrorCode;
@@ -48,6 +50,8 @@ import com.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 import java.util.Date;
+
+import static com.amdocs.zusammen.datatypes.item.SynchronizationStatus.UP_TO_DATE;
 
 public class ItemVersionManagerImpl implements ItemVersionManager {
   private ElementVisitor indexingElementVisitor = IndexingElementVisitor.init();
@@ -88,11 +92,11 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
       validateItemVersionExistence(context, Space.PRIVATE, itemId, baseVersionId);
     }
     Id versionId = new Id();
-    Date creationTime = new Date();
     Response<Void> response = getCollaborationAdaptor(context)
         .createItemVersion(context, itemId, baseVersionId, versionId, data);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_CREATE);
 
+    Date creationTime = new Date();
     response = getStateAdaptor(context)
         .createItemVersion(context, Space.PRIVATE, itemId, baseVersionId, versionId, data,
             creationTime);
@@ -130,6 +134,15 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
+  public ItemVersionStatus getStatus(SessionContext context, Id itemId, Id versionId) {
+    validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
+    Response<ItemVersionStatus> response =
+        getCollaborationAdaptor(context).getItemVersionStatus(context, itemId, versionId);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_GET_STATUS);
+    return response.getValue();
+  }
+
+  @Override
   public void tag(SessionContext context, Id itemId, Id versionId, Id changeId, Tag tag) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
     Response<Void> response =
@@ -143,7 +156,14 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   @Override
   public void publish(SessionContext context, Id itemId, Id versionId, String message) {
-    validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
+    ItemVersionStatus status = getStatus(context, itemId, versionId);
+    if (status.getSynchronizationStatus() != UP_TO_DATE) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_PUBLISH_NOT_ALLOWED, Module.ZDB, String.format
+              (Messages.ITEM_VERSION_PUBLISH_NOT_ALLOWED, itemId, versionId, status), null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
 
     Response<CorePublishResult> response =
         getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
@@ -222,6 +242,18 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     getStateAdaptor(context)
         .updateItemVersionModificationTime(context, space, itemId, versionId, modificationTime);
     getItemManager(context).updateModificationTime(context, itemId, modificationTime);
+  }
+
+  @Override
+  public CoreItemVersionConflict getConflict(SessionContext context, Id itemId,
+                                             Id versionId) {
+    validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
+
+    Response<CoreItemVersionConflict> response =
+        getCollaborationAdaptor(context).getItemVersionConflict(context, itemId, versionId);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_GET_CONFLICT);
+    return response.getValue();
+
   }
 
   private Response<Void> saveMergeChange(SessionContext context, Space space, Id itemId,

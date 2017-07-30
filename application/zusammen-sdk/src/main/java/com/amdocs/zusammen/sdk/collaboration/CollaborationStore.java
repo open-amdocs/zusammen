@@ -23,23 +23,26 @@ import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Info;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
+import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
+import com.amdocs.zusammen.datatypes.item.Resolution;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
+import com.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
+import com.amdocs.zusammen.sdk.collaboration.types.CollaborationElementConflict;
+import com.amdocs.zusammen.sdk.collaboration.types.CollaborationItemVersionConflict;
 import com.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeChange;
 import com.amdocs.zusammen.sdk.collaboration.types.CollaborationMergeResult;
 import com.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
 import com.amdocs.zusammen.sdk.health.IHealthCheck;
-import com.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
 
 import java.util.Collection;
 
-public interface CollaborationStore  extends IHealthCheck {
+public interface CollaborationStore extends IHealthCheck {
 
   Response<Void> createItem(SessionContext context, Id itemId, Info itemInfo);
 
   Response<Void> deleteItem(SessionContext context, Id itemId);
-
 
   Response<Void> createItemVersion(SessionContext context, Id itemId, Id baseVersionId,
                                    Id versionId, ItemVersionData data);
@@ -48,6 +51,8 @@ public interface CollaborationStore  extends IHealthCheck {
                                    ItemVersionData data);
 
   Response<Void> deleteItemVersion(SessionContext context, Id itemId, Id versionId);
+
+  Response<ItemVersionStatus> getItemVersionStatus(SessionContext context, Id itemId, Id versionId);
 
   Response<Void> tagItemVersion(SessionContext context, Id itemId, Id versionId, Id changeId,
                                 Tag tag);
@@ -64,9 +69,9 @@ public interface CollaborationStore  extends IHealthCheck {
   Response<ItemVersionHistory> listItemVersionHistory(SessionContext context, Id itemId,
                                                       Id versionId);
 
+
   Response<CollaborationMergeChange> resetItemVersionHistory(SessionContext context, Id itemId,
                                                              Id versionId, String changeRef);
-
 
   Response<CollaborationElement> getElement(SessionContext context, ElementContext elementContext,
                                             Namespace namespace, Id elementId);
@@ -79,7 +84,18 @@ public interface CollaborationStore  extends IHealthCheck {
 
   Response<Void> commitElements(SessionContext context, Id itemId, Id versionId, String message);
 
+  // TODO: 7/2/2017 return ElementDescriptor
   Response<Collection<CollaborationElement>> listElements(SessionContext context,
                                                           ElementContext elementContext,
                                                           Namespace namespace, Id elementId);
+
+  Response<CollaborationItemVersionConflict> getItemVersionConflict(SessionContext context,
+                                                                    Id itemId, Id versionId);
+
+  Response<CollaborationElementConflict> getElementConflict(SessionContext context,
+                                                            ElementContext elementContext,
+                                                            Id elementId);
+
+  Response<Void> resolveConflict(SessionContext context, ElementContext elementContext,
+                                 Id elementId, Resolution resolution);
 }

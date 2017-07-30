@@ -18,7 +18,6 @@ package com.amdocs.zusammen.sdk.types;
 
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.Namespace;
-import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.Info;
 import com.amdocs.zusammen.datatypes.item.Relation;
 
@@ -27,7 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ElementDescriptor {
-  private Space space = Space.PRIVATE;
+
   private Id itemId;
   private Id versionId;
   private Namespace namespace;
@@ -35,21 +34,13 @@ public class ElementDescriptor {
   private Id parentId;
   private Info info;
   private Collection<Relation> relations;
-  private Set<Id> subElements = new HashSet();
+  private Set<Id> subElements = new HashSet<>();
 
   public ElementDescriptor(Id itemId, Id versionId, Namespace namespace, Id id) {
     this.itemId = itemId;
     this.versionId = versionId;
     this.namespace = namespace;
     this.id = id;
-  }
-
-  public Space getSpace() {
-    return space;
-  }
-
-  public void setSpace(Space space) {
-    this.space = space;
   }
 
   public Id getItemId() {

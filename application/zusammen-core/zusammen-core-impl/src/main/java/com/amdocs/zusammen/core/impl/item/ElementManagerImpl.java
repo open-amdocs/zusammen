@@ -22,6 +22,7 @@ import com.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptorFactory;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptorFactory;
+import com.amdocs.zusammen.core.api.types.CoreElementConflict;
 import com.amdocs.zusammen.core.impl.Messages;
 import com.amdocs.zusammen.commons.log.ZusammenLogger;
 import com.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
@@ -39,6 +40,7 @@ import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.Action;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
+import com.amdocs.zusammen.datatypes.item.Resolution;
 import com.amdocs.zusammen.datatypes.response.ErrorCode;
 import com.amdocs.zusammen.datatypes.response.Module;
 import com.amdocs.zusammen.datatypes.response.Response;
@@ -172,6 +174,21 @@ public class ElementManagerImpl implements ElementManager {
         getSearchIndexAdaptor(context).search(context, searchCriteria);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_SEARCH);
     return response.getValue();
+  }
+
+  @Override
+  public CoreElementConflict getConflict(SessionContext context, ElementContext
+      elementContext,
+                                         Id elementId) {
+    return getCollaborationAdaptor(context).getElementConflict( context,elementContext,elementId);
+    }
+
+  @Override
+  public void resolveConflict(SessionContext context, ElementContext elementContext,
+                                        Id elementId, Resolution resolution) {
+     getCollaborationAdaptor(context).resolveConflict( context,  elementContext,
+         elementId, resolution);
+
   }
 
   private void setElementHierarchyPosition(CoreElement element, Namespace namespace) {

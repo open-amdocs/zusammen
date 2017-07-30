@@ -18,6 +18,8 @@ package com.amdocs.zusammen.adaptor.outbound.api;
 
 
 import com.amdocs.zusammen.core.api.types.CoreElement;
+import com.amdocs.zusammen.core.api.types.CoreElementConflict;
+import com.amdocs.zusammen.core.api.types.CoreItemVersionConflict;
 import com.amdocs.zusammen.core.api.types.CoreMergeChange;
 import com.amdocs.zusammen.core.api.types.CoreMergeResult;
 import com.amdocs.zusammen.core.api.types.CorePublishResult;
@@ -27,6 +29,8 @@ import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Info;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
+import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
+import com.amdocs.zusammen.datatypes.item.Resolution;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
@@ -49,6 +53,8 @@ public interface CollaborationAdaptor {
 
   Response<Void> deleteItemVersion(SessionContext context, Id itemId, Id versionId);
 
+  Response<ItemVersionStatus> getItemVersionStatus(SessionContext context, Id itemId, Id versionId);
+
   Response<Void> tagItemVersion(SessionContext context, Id itemId, Id versionId, Id changeId,
                                 Tag tag);
 
@@ -59,6 +65,22 @@ public interface CollaborationAdaptor {
 
   Response<CoreMergeResult> mergeItemVersion(SessionContext context, Id itemId, Id versionId,
                                              Id sourceVersionId);
+
+  Response<ItemVersionHistory> listItemVersionHistory(SessionContext context, Id itemId,
+                                                      Id versionId);
+
+  Response<CoreMergeChange> resetItemVersionHistory(SessionContext context, Id itemId, Id versionId,
+                                                    String changeRef);
+
+  Response<Void> commitElements(SessionContext context, ElementContext elementContext,
+                                String message);
+
+  Response<CoreItemVersionConflict> getItemVersionConflict(SessionContext context, Id itemId, Id
+      versionId);
+
+  Response<Collection<CoreElement>> listElements(SessionContext context,
+                                                 ElementContext elementContext, Namespace namespace,
+                                                 Id elementId);
 
   Response<CoreElement> getElement(SessionContext context, ElementContext elementContext,
                                    Namespace namespace, Id elementId);
@@ -75,16 +97,9 @@ public interface CollaborationAdaptor {
   Response<Void> commitEntities(SessionContext context, ElementContext elementContext,
                                 String message);
 
-  Response<ItemVersionHistory> listItemVersionHistory(SessionContext context, Id itemId,
-                                                      Id versionId);
+  CoreElementConflict getElementConflict(SessionContext context, ElementContext
+      elementContext, Id elementId);
 
-  Response<CoreMergeChange> resetItemVersionHistory(SessionContext context, Id itemId, Id versionId,
-                                                    String changeRef);
-
-  Response<Void> commitElements(SessionContext context, ElementContext elementContext,
-                                String message);
-
-  Response<Collection<CoreElement>> listElements(SessionContext context,
-                                                 ElementContext elementContext, Namespace namespace,
-                                                 Id elementId);
+  void resolveConflict(SessionContext context, ElementContext elementContext, Id elementId,
+                       Resolution resolution);
 }

@@ -17,10 +17,12 @@
 package com.amdocs.zusammen.adaptor.inbound.api.item;
 
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
+import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementConflict;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
+import com.amdocs.zusammen.datatypes.item.Resolution;
 import com.amdocs.zusammen.datatypes.response.Response;
 import com.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import com.amdocs.zusammen.datatypes.searchindex.SearchResult;
@@ -41,5 +43,11 @@ public interface ElementAdaptor {
                          String message);
 
   Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria);
+
+  Response<ElementConflict> getConflict(SessionContext context, ElementContext elementContext,
+                                        Id elementId);
+
+  Response<Void> resolveConflict(SessionContext context, ElementContext elementContext,
+                                 Id elementId, Resolution resolution);
 
 }

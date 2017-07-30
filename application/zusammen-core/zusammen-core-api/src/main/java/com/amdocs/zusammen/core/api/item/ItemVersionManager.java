@@ -17,12 +17,14 @@
 package com.amdocs.zusammen.core.api.item;
 
 
+import com.amdocs.zusammen.core.api.types.CoreItemVersionConflict;
 import com.amdocs.zusammen.core.api.types.CoreMergeResult;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
+import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 
@@ -43,6 +45,8 @@ public interface ItemVersionManager {
 
   void delete(SessionContext context, Id itemId, Id versionId);
 
+  ItemVersionStatus getStatus(SessionContext context, Id itemId, Id versionId);
+
   void tag(SessionContext context, Id itemId, Id versionId, Id changeId, Tag tag);
 
   void publish(SessionContext context, Id itemId, Id versionId, String message);
@@ -57,4 +61,6 @@ public interface ItemVersionManager {
 
   void updateModificationTime(SessionContext context, Space aPrivate, Id itemId, Id versionId,
                               Date modificationTime);
+
+  CoreItemVersionConflict getConflict(SessionContext context, Id itemId, Id versionId);
 }

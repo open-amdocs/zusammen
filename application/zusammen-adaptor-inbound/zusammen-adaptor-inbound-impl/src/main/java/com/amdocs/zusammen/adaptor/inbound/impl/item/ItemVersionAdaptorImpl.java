@@ -17,7 +17,9 @@
 package com.amdocs.zusammen.adaptor.inbound.impl.item;
 
 import com.amdocs.zusammen.adaptor.inbound.api.item.ItemVersionAdaptor;
+import com.amdocs.zusammen.adaptor.inbound.api.types.item.ItemVersionConflict;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.MergeResult;
+import com.amdocs.zusammen.adaptor.inbound.impl.convertor.ItemVersionConflictConvertor;
 import com.amdocs.zusammen.adaptor.inbound.impl.convertor.MergeResultConvertor;
 import com.amdocs.zusammen.commons.log.ZusammenLogger;
 import com.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
@@ -29,6 +31,7 @@ import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
+import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.ErrorCode;
@@ -65,9 +68,8 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   public Response<ItemVersion> get(SessionContext context, Space space, Id itemId, Id versionId) {
     Response<ItemVersion> response;
     try {
-
-      ItemVersion itemVersion = getItemVersionManager(context).get(context, space, itemId,
-          versionId);
+      ItemVersion itemVersion =
+          getItemVersionManager(context).get(context, space, itemId, versionId);
       response = new Response<>(itemVersion);
     } catch (ZusammenException ze) {
       ReturnCode returnCode =
@@ -76,7 +78,6 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
       response = new Response<>(returnCode);
     }
     return response;
-
   }
 
   @Override
@@ -128,6 +129,20 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
     } catch (ZusammenException ze) {
       ReturnCode returnCode =
           new ReturnCode(ErrorCode.ZU_ITEM_VERSION_DELETE, Module.ZDB, null, ze.getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
+    }
+    return response;
+  }
+
+  @Override
+  public Response<ItemVersionStatus> getStatus(SessionContext context, Id itemId, Id versionId) {
+    Response<ItemVersionStatus> response;
+    try {
+      response = new Response<>(getItemVersionManager(context).getStatus(context, itemId, versionId));
+    } catch (ZusammenException ze) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_GET_STATUS, Module.ZDB, null, ze.getReturnCode());
       logger.error(returnCode.toString(), ze);
       response = new Response<>(returnCode);
     }
@@ -231,6 +246,25 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
       ReturnCode returnCode =
           new ReturnCode(ErrorCode.ZU_ITEM_VERSION_RESET_HISTORY, Module.ZDB, null,
               ze.getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
+    }
+    return response;
+  }
+
+  @Override
+  public Response<ItemVersionConflict> getConflict(SessionContext context, Id itemId,
+                                                   Id versionId) {
+    Response<ItemVersionConflict> response;
+    try {
+
+      ItemVersionConflict itemVersionConflict = ItemVersionConflictConvertor
+          .convert(getItemVersionManager(context).getConflict(context, itemId, versionId));
+      response = new Response<>(itemVersionConflict);
+    } catch (ZusammenException ze) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_GET_CONFLICT, Module.ZDB, null, ze.getReturnCode
+              ());
       logger.error(returnCode.toString(), ze);
       response = new Response<>(returnCode);
     }

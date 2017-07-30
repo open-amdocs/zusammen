@@ -48,6 +48,10 @@ public class ErrorCode {
   public static final int ZU_ELEMENT_SAVE = 12700;
   public static final int ZU_ELEMENT_SEARCH = 12800;
   public static final int ZU_ITEM_VERSION_TAG = 12900;
+  public static final int ZU_ITEM_VERSION_GET_CONFLICT = 13000;
+  public static final int ZU_ELEMENT_GET_CONFLICT = 13100;
+  public static final int ZU_ITEM_VERSION_GET_STATUS = 13200;
+  public static final int ZU_ITEM_VERSION_PUBLISH_NOT_ALLOWED = 10700;
 
   public static final int MD_ITEM_UPDATE = 20100;
   public static final int MD_ITEM_DELETE = 20200;
@@ -75,8 +79,12 @@ public class ErrorCode {
   public static final int MD_SEARCH = 22400;
   public static final int MD_COMMIT = 22500;
   public static final int MD_ELEMENT_GET_LIST = 22600;
+  public static final int MD_ITEM_VERSION_GET_CONFLICT = 22700;
+  public static final int MD_ELEMENT_GET_CONFLICT = 22800;
+  public static final int MD_ITEM_VERSION_TAG = 22900;
+  public static final int MD_ELEMENT_RESOLVE_CONFLICT = 23000;
+  public static final int MD_ITEM_VERSION_GET_STATUS = 23100;
 
-  public static final int MD_ITEM_VERSION_TAG = 22600;
   public static final int ST_ITEM_LIST = 50100;
   public static final int ST_ITEM_IS_EXIST = 50200;
   public static final int ST_ITEM_GET = 50300;
@@ -94,8 +102,8 @@ public class ErrorCode {
   public static final int ST_ELEMENT_DELETE = 51500;
   public static final int ST_ELEMENT_UPDATE = 51600;
   public static final int ST_ELEMENT_LIST = 52100;
-
   public static final int ST_ELEMENT_IS_EXIST = 52200;
+
   public static final int CL_ITEM_VERSION_UPDATE = 30100;
   public static final int CL_ITEM_VERSION_CREATE = 30200;
   public static final int CL_ITEM_VERSION_DELETE = 30300;
@@ -112,13 +120,20 @@ public class ErrorCode {
   public static final int CL_ITEM_VERSION_RESET_HISTORY = 31400;
   public static final int CL_ITEM_VERSION_TAG = 31500;
   public static final int CL_ELEMENT_GET_LIST = 31600;
+  public static final int CL_ELEMENT_GET_CONFLICT = 31700;
+  public static final int CL_ITEM_VERSION_GET_CONFLICT = 31800;
+  public static final int CL_ELEMENT_RESOLVE_CONFLICT = 31900;
+  public static final int CL_ITEM_VERSION_GET_STATUS = 32000;
 
   public static final int IN_SEARCH = 40100;
   public static final int IN_ELEMENT_CREATE = 40200;
   public static final int IN_ELEMENT_DELETE = 40300;
   public static final int IN_ELEMENT_UPDATE = 40400;
 
-  public static final int HC_MISSING_PLUGIN = 40500;
+  public static final int HC_MISSING_PLUGIN = 50100;
+
+
+
   private int errorCode;
   private Module module;
 

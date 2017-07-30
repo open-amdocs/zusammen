@@ -17,10 +17,13 @@
 package com.amdocs.zusammen.core.api.item;
 
 import com.amdocs.zusammen.core.api.types.CoreElement;
+import com.amdocs.zusammen.core.api.types.CoreElementConflict;
 import com.amdocs.zusammen.core.api.types.CoreElementInfo;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
+import com.amdocs.zusammen.datatypes.item.Resolution;
+import com.amdocs.zusammen.datatypes.response.Response;
 import com.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import com.amdocs.zusammen.datatypes.searchindex.SearchResult;
 
@@ -39,4 +42,9 @@ public interface ElementManager {
                    String message);
 
   SearchResult search(SessionContext context, SearchCriteria searchCriteria);
+
+  CoreElementConflict getConflict(SessionContext context, ElementContext elementContext, Id elementId);
+
+  void resolveConflict(SessionContext context, ElementContext elementContext, Id elementId,
+                       Resolution resolution);
 }

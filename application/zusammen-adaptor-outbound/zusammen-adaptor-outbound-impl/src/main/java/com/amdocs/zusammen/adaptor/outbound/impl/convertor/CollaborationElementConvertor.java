@@ -17,9 +17,11 @@
 package com.amdocs.zusammen.adaptor.outbound.impl.convertor;
 
 import com.amdocs.zusammen.core.api.types.CoreElement;
+import com.amdocs.zusammen.core.api.types.CoreElementConflict;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
+import com.amdocs.zusammen.sdk.collaboration.types.CollaborationElementConflict;
 
 import java.util.stream.Collectors;
 
@@ -64,5 +66,14 @@ public class CollaborationElementConvertor {
     CoreElement coreElement = new CoreElement();
     coreElement.setId(elementId);
     return coreElement;
+  }
+
+  public static CoreElementConflict convertToCoreElement(
+      CollaborationElementConflict collaborationElementConflict) {
+    CoreElementConflict coreElementConflict = new CoreElementConflict();
+    coreElementConflict.setLocalElement(convertToCoreElement(collaborationElementConflict.getLocalElement()));
+    coreElementConflict.setRemoteElement(convertToCoreElement(collaborationElementConflict.getRemoteElement
+        ()));
+    return coreElementConflict;
   }
 }

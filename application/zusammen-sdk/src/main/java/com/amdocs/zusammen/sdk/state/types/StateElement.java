@@ -18,13 +18,22 @@ package com.amdocs.zusammen.sdk.state.types;
 
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.Namespace;
+import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.sdk.types.ElementDescriptor;
 
 public class StateElement extends ElementDescriptor {
-  public StateElement(Id itemId,
-                      Id versionId,
-                      Namespace namespace,
-                      Id id) {
+
+  private Space space = Space.PRIVATE;
+
+  public StateElement(Id itemId, Id versionId, Namespace namespace, Id id) {
     super(itemId, versionId, namespace, id);
+  }
+
+  public Space getSpace() {
+    return space;
+  }
+
+  public void setSpace(Space space) {
+    this.space = space;
   }
 }

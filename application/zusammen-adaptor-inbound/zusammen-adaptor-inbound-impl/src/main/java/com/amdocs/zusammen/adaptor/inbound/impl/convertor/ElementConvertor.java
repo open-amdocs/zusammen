@@ -17,8 +17,10 @@
 package com.amdocs.zusammen.adaptor.inbound.impl.convertor;
 
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
+import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementConflict;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
 import com.amdocs.zusammen.core.api.types.CoreElement;
+import com.amdocs.zusammen.core.api.types.CoreElementConflict;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -66,4 +68,6 @@ public class ElementConvertor {
             .collect(Collectors.toList()));
     return coreElement;
   }
+
+
 }
