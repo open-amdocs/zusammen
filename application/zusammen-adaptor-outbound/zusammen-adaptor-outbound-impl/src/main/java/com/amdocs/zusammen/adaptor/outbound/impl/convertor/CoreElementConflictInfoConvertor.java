@@ -11,8 +11,10 @@ public class CoreElementConflictInfoConvertor {
   public static CoreElementConflictInfo convertToCoreElementInfo(ElementConflictDescriptor source) {
     CoreElementConflictInfo target = new CoreElementConflictInfo();
 
-    target.setLocalCoreElementInfo(CoreElementInfoConvertor.convertToCoreElementInfo(source.getLocalElementDescriptor()));
-    target.setRemoteCoreElementInfo(CoreElementInfoConvertor.convertToCoreElementInfo(source.getRemoteElementDescriptor()));
+    if(source.getLocalElementDescriptor() != null)
+      target.setLocalCoreElementInfo(CoreElementInfoConvertor.convertToCoreElementInfo(source.getLocalElementDescriptor()));
+    if(source.getRemoteElementDescriptor() != null)
+      target.setRemoteCoreElementInfo(CoreElementInfoConvertor.convertToCoreElementInfo(source.getRemoteElementDescriptor()));
 
     return target;
 
