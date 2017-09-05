@@ -31,11 +31,12 @@ import com.amdocs.zusammen.datatypes.item.Info;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.item.Resolution;
-import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface CollaborationAdaptor {
 
@@ -66,11 +67,16 @@ public interface CollaborationAdaptor {
   Response<CoreMergeResult> mergeItemVersion(SessionContext context, Id itemId, Id versionId,
                                              Id sourceVersionId);
 
-  Response<ItemVersionHistory> listItemVersionHistory(SessionContext context, Id itemId,
-                                                      Id versionId);
+  Response<ItemVersionRevisions> listItemVersionRevisions(SessionContext context, Id itemId,
+                                                                Id versionId);
 
-  Response<CoreMergeChange> resetItemVersionHistory(SessionContext context, Id itemId, Id versionId,
-                                                    String changeRef);
+  Response<CoreMergeChange> resetItemVersionRevision(SessionContext context, Id itemId, Id
+      versionId,
+                                                    String revisionId);
+
+  Response<CoreMergeChange> revertItemVersionRevision(SessionContext context, Id itemId, Id
+      versionId,
+                                                    String revisionId);
 
   Response<CoreItemVersionConflict> getItemVersionConflict(SessionContext context, Id itemId,
                                                            Id versionId);

@@ -25,7 +25,7 @@ import com.amdocs.zusammen.datatypes.item.Info;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.item.Resolution;
-import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
 import com.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
@@ -37,6 +37,7 @@ import com.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
 import com.amdocs.zusammen.sdk.health.IHealthCheck;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface CollaborationStore extends IHealthCheck {
 
@@ -69,12 +70,15 @@ public interface CollaborationStore extends IHealthCheck {
   Response<CollaborationItemVersionConflict> getItemVersionConflict(SessionContext context,
                                                                     Id itemId, Id versionId);
 
+  Response<ItemVersionRevisions> listItemVersionRevisions(SessionContext context, Id itemId,
+                                                                Id versionId);
 
-  Response<ItemVersionHistory> listItemVersionHistory(SessionContext context, Id itemId,
-                                                      Id versionId);
 
-  Response<CollaborationMergeChange> resetItemVersionHistory(SessionContext context, Id itemId,
-                                                             Id versionId, String changeRef);
+  Response<CollaborationMergeChange> resetItemVersionRevision(SessionContext context, Id itemId,
+                                                             Id versionId, String revisionId);
+
+  Response<CollaborationMergeChange> revertItemVersionRevision(SessionContext context, Id itemId,
+                                                              Id versionId, String revisionId);
 
   Response<Void> commitElements(SessionContext context, Id itemId, Id versionId, String message);
 

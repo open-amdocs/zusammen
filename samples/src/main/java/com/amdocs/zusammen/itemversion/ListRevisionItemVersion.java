@@ -5,14 +5,14 @@ import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.Action;
 import com.amdocs.zusammen.datatypes.item.Info;
-import com.amdocs.zusammen.datatypes.itemversion.Change;
-import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import com.amdocs.zusammen.datatypes.itemversion.Revision;
+import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
 import com.amdocs.zusammen.element.CreateElement;
 import com.amdocs.zusammen.element.ElementScenarios;
 import com.amdocs.zusammen.element.GetElementData;
 import com.amdocs.zusammen.utils.fileutils.FileUtils;
 
-public class ListHistoryItemVersion extends ItemVersion{
+public class ListRevisionItemVersion extends ItemVersion{
 
 
   public static void main(String[] args) {
@@ -20,24 +20,24 @@ public class ListHistoryItemVersion extends ItemVersion{
     Id itemId = initItem(contextA);
     Id versionId = initVersion(contextA,itemId,null);
     Id elementId = initElement(contextA,itemId,versionId);
-    ListHistoryItemVersion listHistoryItemVersion = new ListHistoryItemVersion();
-    listHistoryItemVersion.updateElement(contextA,itemId,versionId,elementId,"key1","value1");
-    listHistoryItemVersion.updateElement(contextA,itemId,versionId,elementId,"key2","value2");
-    listHistoryItemVersion.updateElement(contextA,itemId,versionId,elementId,"key3","value3");
-    ItemVersionHistory itemVersionHistory = listHistoryItemVersion.execute(contextA,
+    ListRevisionItemVersion listRevisionItemVersion = new ListRevisionItemVersion();
+    listRevisionItemVersion.updateElement(contextA,itemId,versionId,elementId,"key1","value1");
+    listRevisionItemVersion.updateElement(contextA,itemId,versionId,elementId,"key2","value2");
+    listRevisionItemVersion.updateElement(contextA,itemId,versionId,elementId,"key3","value3");
+    ItemVersionRevisions itemVersionRevisions = listRevisionItemVersion.execute(contextA,
         itemId,versionId);
 
-    printHistory(itemVersionHistory);
+    printHistory(itemVersionRevisions);
     System.exit(0);
   }
 
-  public static void printHistory(ItemVersionHistory itemVersionHistory) {
-    System.out.print("log size:"+itemVersionHistory.getItemVersionChanges().size());
-    for(Change change :itemVersionHistory.getItemVersionChanges()){
-      System.out.println("id:"+change.getChangeId().getValue()+
-      " time:"+change.getTime()+
-      " user:"+change.getUser()+
-      " message:"+change.getMessage());
+  public static void printHistory(ItemVersionRevisions itemVersionRevisions) {
+    System.out.print("log size:"+ itemVersionRevisions.getItemVersionRevisions().size());
+    for(Revision revision : itemVersionRevisions.getItemVersionRevisions()){
+      System.out.println("id:"+ revision.getRevisionId().getValue()+
+      " time:"+ revision.getTime()+
+      " user:"+ revision.getUser()+
+      " message:"+ revision.getMessage());
     }
 
   }
@@ -64,8 +64,8 @@ public class ListHistoryItemVersion extends ItemVersion{
 
   }
 
-  public ItemVersionHistory execute(SessionContext context, Id itemId, Id versionId) {
-    return getItemVersionAdaptor(context).listHistory(context,itemId,
+  public ItemVersionRevisions execute(SessionContext context, Id itemId, Id versionId) {
+    return getItemVersionAdaptor(context).listRevisions(context,itemId,
         versionId).getValue();
   }
 

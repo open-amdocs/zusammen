@@ -32,7 +32,7 @@ import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
-import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.ErrorCode;
 import com.amdocs.zusammen.datatypes.response.Module;
@@ -41,6 +41,7 @@ import com.amdocs.zusammen.datatypes.response.ReturnCode;
 import com.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
+import java.util.List;
 
 public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
 
@@ -218,16 +219,17 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   }
 
   @Override
-  public Response<ItemVersionHistory> listHistory(SessionContext context, Id itemId, Id versionId
+  public Response<ItemVersionRevisions> listRevisions(SessionContext context, Id itemId, Id
+      versionId
   ) {
-    Response<ItemVersionHistory> response;
+    Response<ItemVersionRevisions> response;
     try {
-      ItemVersionHistory itemVersionHistory =
-          getItemVersionManager(context).listHistory(context, itemId, versionId);
-      response = new Response<>(itemVersionHistory);
+      ItemVersionRevisions itemVersionRevisions =
+          getItemVersionManager(context).listRevision(context, itemId, versionId);
+      response = new Response<>(itemVersionRevisions);
     } catch (ZusammenException ze) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_HISTORY, Module.ZDB, null, ze.getReturnCode());
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_REVISION, Module.ZDB, null, ze.getReturnCode());
       logger.error(returnCode.toString(), ze);
       response = new Response<>(returnCode);
     }
@@ -236,15 +238,32 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   }
 
   @Override
-  public Response<Void> resetHistory(SessionContext context, Id itemId, Id versionId,
-                                     String changeRef) {
+  public Response<Void> resetRevision(SessionContext context, Id itemId, Id versionId,
+                                      String revisionId) {
     Response response;
     try {
-      getItemVersionManager(context).resetHistory(context, itemId, versionId, changeRef);
+      getItemVersionManager(context).resetRevision(context, itemId, versionId, revisionId);
       response = new Response<>(Void.TYPE);
     } catch (ZusammenException ze) {
       ReturnCode returnCode =
-          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_RESET_HISTORY, Module.ZDB, null,
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_RESET_REVISION, Module.ZDB, null,
+              ze.getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
+    }
+    return response;
+  }
+
+  @Override
+  public Response<Void> revertRevision(SessionContext context, Id itemId, Id versionId,
+                                      String revisionId) {
+    Response response;
+    try {
+      getItemVersionManager(context).revertRevision(context, itemId, versionId, revisionId);
+      response = new Response<>(Void.TYPE);
+    } catch (ZusammenException ze) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.ZU_ITEM_VERSION_REVERT_REVISION, Module.ZDB, null,
               ze.getReturnCode());
       logger.error(returnCode.toString(), ze);
       response = new Response<>(returnCode);

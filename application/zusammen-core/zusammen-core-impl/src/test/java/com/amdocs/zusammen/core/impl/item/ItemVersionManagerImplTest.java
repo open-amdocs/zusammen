@@ -35,7 +35,7 @@ import com.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.item.Relation;
-import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
 import com.amdocs.zusammen.datatypes.response.ZusammenException;
@@ -449,35 +449,35 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testListHistory() throws Exception {
+  public void testListRevision() throws Exception {
     Id itemId = new Id();
     Id versionId = new Id();
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
 
-    ItemVersionHistory retrievedHistory = new ItemVersionHistory();
-    doReturn(new Response<>(retrievedHistory)).when(collaborationAdaptorMock)
-        .listItemVersionHistory(context, itemId, versionId);
+    ItemVersionRevisions retrievedRevision = new ItemVersionRevisions();
+    doReturn(new Response<>(retrievedRevision)).when(collaborationAdaptorMock)
+        .listItemVersionRevisions(context, itemId, versionId);
 
-    ItemVersionHistory history = itemVersionManagerImpl.listHistory(context, itemId, versionId);
+    ItemVersionRevisions history = itemVersionManagerImpl.listRevision(context, itemId, versionId);
 
-    Assert.assertEquals(history, retrievedHistory);
+    Assert.assertEquals(history, retrievedRevision);
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testListHistoryOnNonExistingItem() throws Exception {
-    itemVersionManagerImpl.listHistory(context, new Id(), new Id());
+  public void testListRevisionOnNonExistingItem() throws Exception {
+    itemVersionManagerImpl.listRevision(context, new Id(), new Id());
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testListHistoryNonExisting() throws Exception {
+  public void testListRevisionNonExisting() throws Exception {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
-    itemVersionManagerImpl.listHistory(context, itemId, versionId);
+    itemVersionManagerImpl.listRevision(context, itemId, versionId);
   }
 
   @Test
-  public void testResetHistory() throws Exception {
+  public void testResetRevision() throws Exception {
     Id itemId = new Id();
     Id versionId = new Id();
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -486,28 +486,28 @@ public class ItemVersionManagerImplTest {
     CoreMergeChange mergeChange = createMergeChange(versionId, false);
     doReturn(new Response<>(mergeChange))
         .when(collaborationAdaptorMock)
-        .resetItemVersionHistory(context, itemId, versionId, changeRef);
+        .resetItemVersionRevision(context, itemId, versionId, changeRef);
 
     doReturn(new Response<>(Void.TYPE)).when(stateAdaptorMock).updateItemVersion(eq(context), eq
         (Space.PRIVATE), eq(itemId), eq(versionId), eq(mergeChange.getChangedVersion()
         .getItemVersion().getData()), any(Date.class));
 
-    itemVersionManagerImpl.resetHistory(context, itemId, versionId, changeRef);
+    itemVersionManagerImpl.resetRevision(context, itemId, versionId, changeRef);
 
     verifySaveChangedElements(itemId, versionId, Space.PRIVATE, mergeChange.getChangedElements());
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testResetHistoryOnNonExistingItem() throws Exception {
-    itemVersionManagerImpl.resetHistory(context, new Id(), new Id(), "changeRef");
+  public void testResetRevisionOnNonExistingItem() throws Exception {
+    itemVersionManagerImpl.resetRevision(context, new Id(), new Id(), "changeRef");
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testResetHistoryNonExisting() throws Exception {
+  public void testResetRevisionNonExisting() throws Exception {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
-    itemVersionManagerImpl.resetHistory(context, itemId, versionId, "changeRef");
+    itemVersionManagerImpl.resetRevision(context, itemId, versionId, "changeRef");
   }
 
   @Test

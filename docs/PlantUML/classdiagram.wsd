@@ -85,7 +85,7 @@ interface ItemVersionAdaptor {
   Response<Id> create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data)
   Response<Void> update(SessionContext context, Id itemId, Id versionId, ItemVersionData data)
   Response<Void> delete(SessionContext context, Id itemId, Id versionId)
-  Response<Void> tag(SessionContext context, Id itemId, Id versionId, Id changeId, Tag tag)
+  Response<Void> tag(SessionContext context, Id itemId, Id versionId, Id revisionId, Tag tag)
   Response<Void> publish(SessionContext context, Id itemId, Id versionId, String message)
   Response<MergeResult> sync(SessionContext context, Id itemId, Id versionId)
   Response<MergeResult> merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId)

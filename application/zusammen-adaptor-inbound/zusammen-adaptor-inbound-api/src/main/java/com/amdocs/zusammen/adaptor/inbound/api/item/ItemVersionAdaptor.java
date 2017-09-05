@@ -24,11 +24,12 @@ import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
-import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface ItemVersionAdaptor {
 
@@ -52,9 +53,12 @@ public interface ItemVersionAdaptor {
 
   Response<MergeResult> merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 
-  Response<ItemVersionHistory> listHistory(SessionContext context, Id itemId, Id versionId);
+  Response<ItemVersionRevisions> listRevisions(SessionContext context, Id itemId, Id
+      versionId);
 
-  Response<Void> resetHistory(SessionContext context, Id itemId, Id versionId, String changeRef);
+  Response<Void> resetRevision(SessionContext context, Id itemId, Id versionId, String revisionId);
+
+  Response<Void> revertRevision(SessionContext context, Id itemId, Id versionId, String revisionId);
 
   Response<ItemVersionConflict> getConflict(SessionContext context, Id itemId, Id versionId);
 }

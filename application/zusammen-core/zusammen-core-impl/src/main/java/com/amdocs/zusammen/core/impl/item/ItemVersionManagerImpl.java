@@ -40,7 +40,7 @@ import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
-import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.ErrorCode;
 import com.amdocs.zusammen.datatypes.response.Module;
@@ -50,6 +50,7 @@ import com.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import static com.amdocs.zusammen.datatypes.item.SynchronizationStatus.UP_TO_DATE;
 
@@ -213,28 +214,43 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public ItemVersionHistory listHistory(SessionContext context, Id itemId,
-                                        Id versionId) {
+  public ItemVersionRevisions listRevision(SessionContext context, Id itemId,
+                                                 Id versionId) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
-    Response<ItemVersionHistory> response =
-        getCollaborationAdaptor(context).listItemVersionHistory(context, itemId, versionId);
-    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_HISTORY);
+    Response<ItemVersionRevisions> response =
+        getCollaborationAdaptor(context).listItemVersionRevisions(context, itemId, versionId);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_REVISION);
     return response.getValue();
   }
 
   @Override
-  public void resetHistory(SessionContext context, Id itemId,
-                           Id versionId, String changeRef) {
+  public void resetRevision(SessionContext context, Id itemId,
+                            Id versionId, String revisionId) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
 
     Response<CoreMergeChange> response = getCollaborationAdaptor(context)
-        .resetItemVersionHistory(context, itemId, versionId, changeRef);
-    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_RESET_HISTORY);
+        .resetItemVersionRevision(context, itemId, versionId, revisionId);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_RESET_REVISION);
 
     Response<Void> saveChangeResponse =
         saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue());
     ValidationUtil
-        .validateResponse(saveChangeResponse, logger, ErrorCode.ZU_ITEM_VERSION_RESET_HISTORY);
+        .validateResponse(saveChangeResponse, logger, ErrorCode.ZU_ITEM_VERSION_RESET_REVISION);
+  }
+
+  @Override
+  public void revertRevision(SessionContext context, Id itemId,
+                            Id versionId, String revisionId) {
+    validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
+
+    Response<CoreMergeChange> response = getCollaborationAdaptor(context)
+        .revertItemVersionRevision(context, itemId, versionId, revisionId);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_REVERT_REVISION);
+
+    Response<Void> saveChangeResponse =
+        saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue());
+    ValidationUtil
+        .validateResponse(saveChangeResponse, logger, ErrorCode.ZU_ITEM_VERSION_REVERT_REVISION);
   }
 
   @Override

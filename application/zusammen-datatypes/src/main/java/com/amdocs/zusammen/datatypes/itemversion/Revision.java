@@ -16,22 +16,43 @@
 
 package com.amdocs.zusammen.datatypes.itemversion;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.amdocs.zusammen.datatypes.Id;
 
-public class ItemVersionHistory {
-  List<Change> itemVersionChanges = new ArrayList<>();
+public class Revision {
+  private Id revisionId;
+  private String message;
+  private String user;
+  private int time;
 
-  public List<Change> getItemVersionChanges() {
-    return itemVersionChanges;
+  public Id getRevisionId() {
+    return revisionId;
   }
 
-  public void setItemVersionChanges(
-      List<Change> itemVersionChanges) {
-    this.itemVersionChanges = itemVersionChanges;
+  public void setRevisionId(Id revisionId) {
+    this.revisionId = revisionId;
   }
 
-  public void addChange(Change change){
-    this.itemVersionChanges.add(change);
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  public String getUser() {
+    return user;
+  }
+
+  public void setUser(String user) {
+    this.user = user;
+  }
+
+  public int getTime() {
+    return time;
+  }
+
+  public void setTime(int time) {
+    this.time = time;
   }
 }

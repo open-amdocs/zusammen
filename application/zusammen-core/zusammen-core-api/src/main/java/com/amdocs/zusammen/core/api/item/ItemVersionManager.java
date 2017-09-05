@@ -25,11 +25,12 @@ import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
-import com.amdocs.zusammen.datatypes.itemversion.ItemVersionHistory;
+import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 public interface ItemVersionManager {
 
@@ -55,9 +56,11 @@ public interface ItemVersionManager {
 
   CoreMergeResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 
-  ItemVersionHistory listHistory(SessionContext context, Id itemId, Id versionId);
+  ItemVersionRevisions listRevision(SessionContext context, Id itemId, Id versionId);
 
-  void resetHistory(SessionContext context, Id itemId, Id versionId, String changeRef);
+  void resetRevision(SessionContext context, Id itemId, Id versionId, String revisionId);
+
+  void revertRevision(SessionContext context, Id itemId, Id versionId, String revisionId);
 
   void updateModificationTime(SessionContext context, Space aPrivate, Id itemId, Id versionId,
                               Date modificationTime);

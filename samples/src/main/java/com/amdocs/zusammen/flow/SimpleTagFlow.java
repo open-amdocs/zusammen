@@ -65,7 +65,7 @@ public class SimpleTagFlow extends Element {
         new Id("f353d2f6fb110137595f3002d90fe432e9a88a5e"), new Tag("tagName2", "tag desc 2"));*/
 
     // works with commit id, tag name, annotated tag name, null
-    itemVersionAdaptor.resetHistory(contextA, itemId, versionId, null);
+    itemVersionAdaptor.resetRevision(contextA, itemId, versionId, null);
 
   }
 }
