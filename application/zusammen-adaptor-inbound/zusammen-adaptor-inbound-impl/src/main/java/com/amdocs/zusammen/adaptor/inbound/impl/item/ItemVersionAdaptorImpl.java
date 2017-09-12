@@ -67,10 +67,16 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
 
   @Override
   public Response<ItemVersion> get(SessionContext context, Space space, Id itemId, Id versionId) {
+   return get(context, space, itemId, versionId,null);
+  }
+
+  @Override
+  public Response<ItemVersion> get(SessionContext context, Space space, Id itemId, Id versionId,
+                                   Id revisionId) {
     Response<ItemVersion> response;
     try {
       ItemVersion itemVersion =
-          getItemVersionManager(context).get(context, space, itemId, versionId);
+          getItemVersionManager(context).get(context, space, itemId, versionId,revisionId);
       response = new Response<>(itemVersion);
     } catch (ZusammenException ze) {
       ReturnCode returnCode =
@@ -239,7 +245,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
 
   @Override
   public Response<Void> resetRevision(SessionContext context, Id itemId, Id versionId,
-                                      String revisionId) {
+                                      Id revisionId) {
     Response response;
     try {
       getItemVersionManager(context).resetRevision(context, itemId, versionId, revisionId);
@@ -256,7 +262,7 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
 
   @Override
   public Response<Void> revertRevision(SessionContext context, Id itemId, Id versionId,
-                                      String revisionId) {
+                                      Id revisionId) {
     Response response;
     try {
       getItemVersionManager(context).revertRevision(context, itemId, versionId, revisionId);

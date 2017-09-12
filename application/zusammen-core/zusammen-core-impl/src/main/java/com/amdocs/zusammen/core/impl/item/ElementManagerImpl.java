@@ -67,7 +67,7 @@ public class ElementManagerImpl implements ElementManager {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
 
-    if (elementContext.getChangeRef() == null) {
+    if (elementContext.getRevisionId() == null) {
       Response<Collection<CoreElementInfo>> infoListResponse =
           getStateAdaptor(context).list(context, elementContext, elementId);
       ValidationUtil.validateResponse(infoListResponse, logger, ErrorCode.ZU_ELEMENT_LIST);
@@ -101,7 +101,7 @@ public class ElementManagerImpl implements ElementManager {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
 
-    if (elementContext.getChangeRef() == null) {
+    if (elementContext.getRevisionId() == null) {
       Response<CoreElementInfo> infoResponse =
           getStateAdaptor(context).get(context, elementContext, elementId);
       ValidationUtil.validateResponse(infoResponse, logger, ErrorCode.ZU_ELEMENT_GET_INFO);

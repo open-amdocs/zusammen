@@ -32,8 +32,10 @@ import com.amdocs.zusammen.core.api.types.CorePublishResult;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.Namespace;
 import com.amdocs.zusammen.datatypes.SessionContext;
+import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Info;
+import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.item.Resolution;
@@ -371,7 +373,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   @Override
   public Response<CoreMergeChange> resetItemVersionRevision(SessionContext context, Id
-      itemId, Id versionId, String revisionId) {
+      itemId, Id versionId, Id revisionId) {
 
     Response<CollaborationMergeChange> collaborationResponse;
     try {
@@ -403,7 +405,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
   @Override
   public Response<CoreMergeChange> revertItemVersionRevision(SessionContext context, Id
-      itemId, Id versionId, String revisionId) {
+      itemId, Id versionId, Id revisionId) {
 
     Response<CollaborationMergeChange> collaborationResponse;
     try {
@@ -655,5 +657,32 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       throw new ZusammenException(returnCode);
     }
     return response;
+  }
+
+  @Override
+  public Response<ItemVersion> getItemVersion(SessionContext context, Space space, Id itemId,
+                                              Id versionId, Id revisionId) {
+    Response<ItemVersion> collaborationResponse;
+    try {
+      collaborationResponse =
+          getCollaborationStore(context)
+              .getItemVersion(context, space,itemId,versionId,revisionId);
+
+    } catch (RuntimeException re) {
+      ReturnCode returnCode =
+          new ReturnCode(ErrorCode.MD_ITEM_VERSION_GET, Module.ZCSM, null,
+              new ReturnCode(ErrorCode.CL_ITEM_VERSION_GET, Module.ZCSP, re.getMessage(), null));
+      //logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
+    if (!collaborationResponse.isSuccessful()) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.MD_ITEM_VERSION_GET, Module.ZCSM, null,
+          collaborationResponse.getReturnCode());
+      //logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
+
+
+    return collaborationResponse;
   }
 }

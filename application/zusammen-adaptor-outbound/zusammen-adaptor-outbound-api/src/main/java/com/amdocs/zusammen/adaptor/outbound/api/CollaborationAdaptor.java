@@ -26,8 +26,10 @@ import com.amdocs.zusammen.core.api.types.CorePublishResult;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.Namespace;
 import com.amdocs.zusammen.datatypes.SessionContext;
+import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Info;
+import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.item.Resolution;
@@ -72,11 +74,11 @@ public interface CollaborationAdaptor {
 
   Response<CoreMergeChange> resetItemVersionRevision(SessionContext context, Id itemId, Id
       versionId,
-                                                    String revisionId);
+                                                    Id revisionId);
 
   Response<CoreMergeChange> revertItemVersionRevision(SessionContext context, Id itemId, Id
       versionId,
-                                                    String revisionId);
+                                                    Id revisionId);
 
   Response<CoreItemVersionConflict> getItemVersionConflict(SessionContext context, Id itemId,
                                                            Id versionId);

@@ -118,13 +118,13 @@ public class ItemVersionManagerImplTest {
         .getItemVersion(context, Space.PRIVATE, itemId, retrievedVersion.getId());
 
     ItemVersion version =
-        itemVersionManagerImpl.get(context, Space.PRIVATE, itemId, versionId);
+        itemVersionManagerImpl.get(context, Space.PRIVATE, itemId, versionId,null);
     Assert.assertEquals(version, retrievedVersion);
   }
 
   @Test(expectedExceptions = ZusammenException.class)
   public void testGetOnNonExistingItem() throws Exception {
-    itemVersionManagerImpl.get(context, Space.PRIVATE, new Id(), new Id());
+    itemVersionManagerImpl.get(context, Space.PRIVATE, new Id(), new Id(),null);
   }
 
   @Test
@@ -138,7 +138,8 @@ public class ItemVersionManagerImplTest {
     doReturn(true).when(itemManagerMock).isExist(context, itemId);
     doReturn(itemVersionResponse).when(stateAdaptorMock)
         .getItemVersion(context, Space.PRIVATE, itemId, versionId);
-    ItemVersion version = itemVersionManagerImpl.get(context, Space.PRIVATE, itemId, versionId);
+    ItemVersion version = itemVersionManagerImpl.get(context, Space.PRIVATE, itemId, versionId,
+        null);
     Assert.assertNull(version);
   }
 
@@ -482,7 +483,7 @@ public class ItemVersionManagerImplTest {
     Id versionId = new Id();
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
 
-    String changeRef = "changeRef";
+    Id changeRef = new Id("changeRef");
     CoreMergeChange mergeChange = createMergeChange(versionId, false);
     doReturn(new Response<>(mergeChange))
         .when(collaborationAdaptorMock)
@@ -499,7 +500,7 @@ public class ItemVersionManagerImplTest {
 
   @Test(expectedExceptions = ZusammenException.class)
   public void testResetRevisionOnNonExistingItem() throws Exception {
-    itemVersionManagerImpl.resetRevision(context, new Id(), new Id(), "changeRef");
+    itemVersionManagerImpl.resetRevision(context, new Id(), new Id(), new Id("changeRef"));
   }
 
   @Test(expectedExceptions = ZusammenException.class)
@@ -507,7 +508,7 @@ public class ItemVersionManagerImplTest {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
-    itemVersionManagerImpl.resetRevision(context, itemId, versionId, "changeRef");
+    itemVersionManagerImpl.resetRevision(context, itemId, versionId, new Id("changeRef"));
   }
 
   @Test

@@ -144,7 +144,8 @@ public class ElementManagerImplTest {
     SessionContext context = TestUtils.createSessionContext(USER, "test");
     Id itemId = new Id();
     Id versionId = new Id();
-    ElementContext elementContext = new ElementContext(itemId, versionId, "changeRef");
+    Id revisionId = new Id("changeRef");
+    ElementContext elementContext = new ElementContext(itemId, versionId, revisionId);
 
     Namespace namespace = parentElementId == null
         ? Namespace.ROOT_NAMESPACE
@@ -195,7 +196,8 @@ public class ElementManagerImplTest {
     Id itemId = new Id();
     Id versionId = new Id();
     Id elementId = new Id();
-    ElementContext elementContext = new ElementContext(itemId, versionId, "changeRef");
+    Id revisionId = new Id("changeRef");
+    ElementContext elementContext = new ElementContext(itemId, versionId, revisionId);
 
 
     Namespace namespace = Namespace.ROOT_NAMESPACE;

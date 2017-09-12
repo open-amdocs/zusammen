@@ -50,7 +50,6 @@ import com.amdocs.zusammen.datatypes.response.ZusammenException;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import static com.amdocs.zusammen.datatypes.item.SynchronizationStatus.UP_TO_DATE;
 
@@ -78,11 +77,19 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public ItemVersion get(SessionContext context, Space space, Id itemId, Id versionId) {
+  public ItemVersion get(SessionContext context, Space space, Id itemId, Id versionId,
+                         Id revisionId) {
     validateItemExistence(context, itemId);
-    Response<ItemVersion> response =
-        getStateAdaptor(context).getItemVersion(context, space, itemId, versionId);
+    Response<ItemVersion> response;
+    if(revisionId == null) {
+      response =
+          getStateAdaptor(context).getItemVersion(context, space, itemId, versionId);
+    }else{
+      response =
+          getCollaborationAdaptor(context).getItemVersion(context, space, itemId, versionId, revisionId);
+    }
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_GET);
+
     return response.getValue();
   }
 
@@ -225,7 +232,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   @Override
   public void resetRevision(SessionContext context, Id itemId,
-                            Id versionId, String revisionId) {
+                            Id versionId, Id revisionId) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
 
     Response<CoreMergeChange> response = getCollaborationAdaptor(context)
@@ -240,7 +247,7 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   @Override
   public void revertRevision(SessionContext context, Id itemId,
-                            Id versionId, String revisionId) {
+                            Id versionId, Id revisionId) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
 
     Response<CoreMergeChange> response = getCollaborationAdaptor(context)

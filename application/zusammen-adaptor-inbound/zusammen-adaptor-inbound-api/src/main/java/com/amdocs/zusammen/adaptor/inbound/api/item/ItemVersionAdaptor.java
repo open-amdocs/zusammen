@@ -29,13 +29,15 @@ import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface ItemVersionAdaptor {
 
   Response<Collection<ItemVersion>> list(SessionContext context, Space space, Id itemId);
 
   Response<ItemVersion> get(SessionContext context, Space space, Id itemId, Id versionId);
+
+  Response<ItemVersion> get(SessionContext context, Space space, Id itemId, Id versionId,
+    Id revisionId);
 
   Response<Id> create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data);
 
@@ -56,9 +58,9 @@ public interface ItemVersionAdaptor {
   Response<ItemVersionRevisions> listRevisions(SessionContext context, Id itemId, Id
       versionId);
 
-  Response<Void> resetRevision(SessionContext context, Id itemId, Id versionId, String revisionId);
+  Response<Void> resetRevision(SessionContext context, Id itemId, Id versionId, Id revisionId);
 
-  Response<Void> revertRevision(SessionContext context, Id itemId, Id versionId, String revisionId);
+  Response<Void> revertRevision(SessionContext context, Id itemId, Id versionId, Id revisionId);
 
   Response<ItemVersionConflict> getConflict(SessionContext context, Id itemId, Id versionId);
 }

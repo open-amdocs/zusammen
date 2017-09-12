@@ -128,6 +128,8 @@ public class ErrorCode {
   public static final int CL_ELEMENT_RESOLVE_CONFLICT = 31900;
   public static final int CL_ITEM_VERSION_GET_STATUS = 32000;
   public static final int CL_ITEM_VERSION_REVERT_REVISION = 32100;
+  public static final int CL_ITEM_VERSION_GET = 32200;
+
 
   public static final int IN_SEARCH = 40100;
   public static final int IN_ELEMENT_CREATE = 40200;

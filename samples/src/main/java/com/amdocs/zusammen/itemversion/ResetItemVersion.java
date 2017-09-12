@@ -32,6 +32,6 @@ public class ResetItemVersion extends ItemVersion {
   }
 
   public void execute(SessionContext context, Id itemId, Id versionId, String changeRef) {
-    getItemVersionAdaptor(context).resetRevision(context, itemId, versionId, changeRef);
+    getItemVersionAdaptor(context).resetRevision(context, itemId, versionId, new Id(changeRef));
   }
 }

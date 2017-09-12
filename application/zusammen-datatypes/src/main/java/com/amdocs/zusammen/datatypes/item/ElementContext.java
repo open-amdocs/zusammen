@@ -21,7 +21,7 @@ import com.amdocs.zusammen.datatypes.Id;
 public class ElementContext {
   private Id itemId;
   private Id versionId;
-  private String changeRef;
+  private Id revisionId;
 
   public ElementContext() {
   }
@@ -34,10 +34,10 @@ public class ElementContext {
     this(itemId, versionId, null);
   }
 
-  public ElementContext(Id itemId, Id versionId, String changeRef) {
+  public ElementContext(Id itemId, Id versionId, Id revisionId) {
     this.itemId = itemId;
     this.versionId = versionId;
-    this.changeRef = changeRef;
+    this.revisionId = revisionId;
   }
 
   public Id getItemId() {
@@ -56,12 +56,12 @@ public class ElementContext {
     this.versionId = versionId;
   }
 
-  public String getChangeRef() {
-    return changeRef;
+  public Id getRevisionId() {
+    return revisionId;
   }
 
-  public void setChangeRef(String changeRef) {
-    this.changeRef = changeRef;
+  public void setRevisionId(Id revisionId) {
+    this.revisionId = revisionId;
   }
 
   @Override
@@ -81,14 +81,14 @@ public class ElementContext {
     if (versionId != null ? !versionId.equals(that.versionId) : that.versionId != null) {
       return false;
     }
-    return changeRef != null ? changeRef.equals(that.changeRef) : that.changeRef == null;
+    return revisionId != null ? revisionId.equals(that.revisionId) : that.revisionId== null;
   }
 
   @Override
   public int hashCode() {
     int result = itemId != null ? itemId.hashCode() : 0;
     result = 31 * result + (versionId != null ? versionId.hashCode() : 0);
-    result = 31 * result + (changeRef != null ? changeRef.hashCode() : 0);
+    result = 31 * result + (revisionId!= null ? revisionId.hashCode() : 0);
     return result;
   }
 }

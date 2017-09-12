@@ -30,7 +30,6 @@ import com.amdocs.zusammen.datatypes.itemversion.Tag;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 public interface ItemVersionManager {
 
@@ -38,7 +37,7 @@ public interface ItemVersionManager {
 
   boolean isExist(SessionContext context, Space space, Id itemId, Id versionId);
 
-  ItemVersion get(SessionContext context, Space space, Id itemId, Id versionId);
+  ItemVersion get(SessionContext context, Space space, Id itemId, Id versionId, Id revisionId);
 
   Id create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data);
 
@@ -58,9 +57,9 @@ public interface ItemVersionManager {
 
   ItemVersionRevisions listRevision(SessionContext context, Id itemId, Id versionId);
 
-  void resetRevision(SessionContext context, Id itemId, Id versionId, String revisionId);
+  void resetRevision(SessionContext context, Id itemId, Id versionId, Id revisionId);
 
-  void revertRevision(SessionContext context, Id itemId, Id versionId, String revisionId);
+  void revertRevision(SessionContext context, Id itemId, Id versionId, Id revisionId);
 
   void updateModificationTime(SessionContext context, Space aPrivate, Id itemId, Id versionId,
                               Date modificationTime);
