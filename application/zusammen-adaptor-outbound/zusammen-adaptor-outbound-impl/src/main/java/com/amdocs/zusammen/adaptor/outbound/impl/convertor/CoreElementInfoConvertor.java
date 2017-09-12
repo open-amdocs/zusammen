@@ -7,7 +7,12 @@ import com.amdocs.zusammen.sdk.types.ElementDescriptor;
 import java.util.stream.Collectors;
 
 public class CoreElementInfoConvertor {
+
   public static CoreElementInfo convertToCoreElementInfo(ElementDescriptor source) {
+    if (source == null) {
+      return null;
+    }
+
     CoreElementInfo target = new CoreElementInfo();
     target.setId(source.getId());
     target.setInfo(source.getInfo());

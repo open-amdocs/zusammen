@@ -23,7 +23,6 @@ import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Resolution;
-import com.amdocs.zusammen.datatypes.response.Response;
 import com.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
 import com.amdocs.zusammen.datatypes.searchindex.SearchResult;
 
@@ -38,13 +37,13 @@ public interface ElementManager {
 
   CoreElement get(SessionContext context, ElementContext elementContext, Id elementId);
 
+  CoreElementConflict getConflict(SessionContext context, ElementContext elementContext, Id elementId);
+
   CoreElement save(SessionContext context, ElementContext elementContext, CoreElement element,
                    String message);
 
-  SearchResult search(SessionContext context, SearchCriteria searchCriteria);
-
-  CoreElementConflict getConflict(SessionContext context, ElementContext elementContext, Id elementId);
-
-  void resolveConflict(SessionContext context, ElementContext elementContext, Id elementId,
+  void resolveConflict(SessionContext context, ElementContext elementContext, CoreElement element,
                        Resolution resolution);
+
+  SearchResult search(SessionContext context, SearchCriteria searchCriteria);
 }

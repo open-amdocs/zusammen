@@ -43,7 +43,7 @@ public class CollaborationElementConvertor {
   }
 
   public static CoreElement convertToCoreElement(CollaborationElement element) {
-    if (element == null){
+    if (element == null) {
       return null;
     }
     CoreElement coreElement = convertToCoreElement(element.getId());
@@ -71,9 +71,10 @@ public class CollaborationElementConvertor {
   public static CoreElementConflict convertToCoreElement(
       CollaborationElementConflict collaborationElementConflict) {
     CoreElementConflict coreElementConflict = new CoreElementConflict();
-    coreElementConflict.setLocalElement(convertToCoreElement(collaborationElementConflict.getLocalElement()));
-    coreElementConflict.setRemoteElement(convertToCoreElement(collaborationElementConflict.getRemoteElement
-        ()));
+    coreElementConflict
+        .setLocalElement(convertToCoreElement(collaborationElementConflict.getLocalElement()));
+    coreElementConflict
+        .setRemoteElement(convertToCoreElement(collaborationElementConflict.getRemoteElement()));
     return coreElementConflict;
   }
 }

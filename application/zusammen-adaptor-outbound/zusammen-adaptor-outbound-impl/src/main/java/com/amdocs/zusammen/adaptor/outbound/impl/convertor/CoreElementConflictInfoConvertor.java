@@ -17,8 +17,6 @@ public class CoreElementConflictInfoConvertor {
       target.setRemoteCoreElementInfo(CoreElementInfoConvertor.convertToCoreElementInfo(source.getRemoteElementDescriptor()));
 
     return target;
-
-
   }
 
   private static CoreElementInfo mapToElementInfo(Id id) {

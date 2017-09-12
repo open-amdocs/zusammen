@@ -39,15 +39,15 @@ public interface ElementAdaptor {
 
   Response<Element> get(SessionContext context, ElementContext elementContext, Id elementId);
 
-  Response<Element> save(SessionContext context, ElementContext elementContext, Element element,
-                         String message);
-
-  Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria);
-
   Response<ElementConflict> getConflict(SessionContext context, ElementContext elementContext,
                                         Id elementId);
 
+  Response<Element> save(SessionContext context, ElementContext elementContext, Element element,
+                         String message);
+
   Response<Void> resolveConflict(SessionContext context, ElementContext elementContext,
-                                 Id elementId, Resolution resolution);
+                                 Element element, Resolution resolution);
+
+  Response<SearchResult> search(SessionContext context, SearchCriteria searchCriteria);
 
 }

@@ -66,21 +66,15 @@ public interface CollaborationStore extends IHealthCheck {
   Response<CollaborationMergeResult> mergeItemVersion(SessionContext context, Id itemId,
                                                       Id versionId, Id sourceVersionId);
 
+  Response<CollaborationItemVersionConflict> getItemVersionConflict(SessionContext context,
+                                                                    Id itemId, Id versionId);
+
+
   Response<ItemVersionHistory> listItemVersionHistory(SessionContext context, Id itemId,
                                                       Id versionId);
 
-
   Response<CollaborationMergeChange> resetItemVersionHistory(SessionContext context, Id itemId,
                                                              Id versionId, String changeRef);
-
-  Response<CollaborationElement> getElement(SessionContext context, ElementContext elementContext,
-                                            Namespace namespace, Id elementId);
-
-  Response<Void> createElement(SessionContext context, CollaborationElement element);
-
-  Response<Void> updateElement(SessionContext context, CollaborationElement element);
-
-  Response<Void> deleteElement(SessionContext context, CollaborationElement element);
 
   Response<Void> commitElements(SessionContext context, Id itemId, Id versionId, String message);
 
@@ -89,13 +83,19 @@ public interface CollaborationStore extends IHealthCheck {
                                                           ElementContext elementContext,
                                                           Namespace namespace, Id elementId);
 
-  Response<CollaborationItemVersionConflict> getItemVersionConflict(SessionContext context,
-                                                                    Id itemId, Id versionId);
+  Response<CollaborationElement> getElement(SessionContext context, ElementContext elementContext,
+                                            Namespace namespace, Id elementId);
 
   Response<CollaborationElementConflict> getElementConflict(SessionContext context,
                                                             ElementContext elementContext,
-                                                            Id elementId);
+                                                            Namespace namespace, Id elementId);
 
-  Response<Void> resolveConflict(SessionContext context, ElementContext elementContext,
-                                 Id elementId, Resolution resolution);
+  Response<Void> createElement(SessionContext context, CollaborationElement element);
+
+  Response<Void> updateElement(SessionContext context, CollaborationElement element);
+
+  Response<Void> deleteElement(SessionContext context, CollaborationElement element);
+
+  Response<Void> resolveElementConflict(SessionContext context, CollaborationElement element,
+                                        Resolution resolution);
 }

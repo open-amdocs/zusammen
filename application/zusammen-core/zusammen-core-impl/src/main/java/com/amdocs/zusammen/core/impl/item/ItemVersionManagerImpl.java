@@ -160,7 +160,8 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
     if (status.getSynchronizationStatus() != UP_TO_DATE) {
       ReturnCode returnCode =
           new ReturnCode(ErrorCode.ZU_ITEM_VERSION_PUBLISH_NOT_ALLOWED, Module.ZDB, String.format
-              (Messages.ITEM_VERSION_PUBLISH_NOT_ALLOWED, itemId, versionId, status), null);
+              (Messages.ITEM_VERSION_PUBLISH_NOT_ALLOWED, itemId, versionId,
+                  status.getSynchronizationStatus()), null);
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }

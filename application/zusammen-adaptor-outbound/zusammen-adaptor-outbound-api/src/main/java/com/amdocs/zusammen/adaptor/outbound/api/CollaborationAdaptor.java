@@ -72,11 +72,11 @@ public interface CollaborationAdaptor {
   Response<CoreMergeChange> resetItemVersionHistory(SessionContext context, Id itemId, Id versionId,
                                                     String changeRef);
 
+  Response<CoreItemVersionConflict> getItemVersionConflict(SessionContext context, Id itemId,
+                                                           Id versionId);
+
   Response<Void> commitElements(SessionContext context, ElementContext elementContext,
                                 String message);
-
-  Response<CoreItemVersionConflict> getItemVersionConflict(SessionContext context, Id itemId, Id
-      versionId);
 
   Response<Collection<CoreElement>> listElements(SessionContext context,
                                                  ElementContext elementContext, Namespace namespace,
@@ -84,6 +84,10 @@ public interface CollaborationAdaptor {
 
   Response<CoreElement> getElement(SessionContext context, ElementContext elementContext,
                                    Namespace namespace, Id elementId);
+
+  Response<CoreElementConflict> getElementConflict(SessionContext context,
+                                                   ElementContext elementContext,
+                                                   Namespace namespace, Id elementId);
 
   Response<Void> createElement(SessionContext context, ElementContext elementContext,
                                CoreElement element);
@@ -94,12 +98,6 @@ public interface CollaborationAdaptor {
   Response<Void> deleteElement(SessionContext context, ElementContext elementContext,
                                CoreElement element);
 
-  Response<Void> commitEntities(SessionContext context, ElementContext elementContext,
-                                String message);
-
-  CoreElementConflict getElementConflict(SessionContext context, ElementContext
-      elementContext, Id elementId);
-
-  void resolveConflict(SessionContext context, ElementContext elementContext, Id elementId,
-                       Resolution resolution);
+  Response<Void> resolveElementConflict(SessionContext context, ElementContext elementContext,
+                                        CoreElement element, Resolution resolution);
 }

@@ -51,7 +51,8 @@ public class ErrorCode {
   public static final int ZU_ITEM_VERSION_GET_CONFLICT = 13000;
   public static final int ZU_ELEMENT_GET_CONFLICT = 13100;
   public static final int ZU_ITEM_VERSION_GET_STATUS = 13200;
-  public static final int ZU_ITEM_VERSION_PUBLISH_NOT_ALLOWED = 10700;
+  public static final int ZU_ITEM_VERSION_PUBLISH_NOT_ALLOWED = 13300;
+  public static final int ZU_ELEMENT_RESOLVE_CONFLICT = 13400;
 
   public static final int MD_ITEM_UPDATE = 20100;
   public static final int MD_ITEM_DELETE = 20200;

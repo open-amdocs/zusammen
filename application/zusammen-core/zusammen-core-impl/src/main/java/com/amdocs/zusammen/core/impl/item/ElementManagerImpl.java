@@ -22,8 +22,6 @@ import com.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.SearchIndexAdaptorFactory;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptorFactory;
-import com.amdocs.zusammen.core.api.types.CoreElementConflict;
-import com.amdocs.zusammen.core.impl.Messages;
 import com.amdocs.zusammen.commons.log.ZusammenLogger;
 import com.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import com.amdocs.zusammen.core.api.item.ElementManager;
@@ -32,7 +30,9 @@ import com.amdocs.zusammen.core.api.item.ItemManagerFactory;
 import com.amdocs.zusammen.core.api.item.ItemVersionManager;
 import com.amdocs.zusammen.core.api.item.ItemVersionManagerFactory;
 import com.amdocs.zusammen.core.api.types.CoreElement;
+import com.amdocs.zusammen.core.api.types.CoreElementConflict;
 import com.amdocs.zusammen.core.api.types.CoreElementInfo;
+import com.amdocs.zusammen.core.impl.Messages;
 import com.amdocs.zusammen.core.impl.ValidationUtil;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.Namespace;
@@ -78,10 +78,8 @@ public class ElementManagerImpl implements ElementManager {
       if (elementId == null) {
         namespace = Namespace.ROOT_NAMESPACE;
       } else {
-        Response<Namespace> namespaceResponse =
-            getStateAdaptor(context).getNamespace(context, elementContext.getItemId(), elementId);
-        ValidationUtil.validateResponse(namespaceResponse, logger, ErrorCode.ZU_ELEMENT_LIST);
-        namespace = namespaceResponse.getValue();
+        namespace =
+            getValidatedNamespace(context, elementContext, elementId, ErrorCode.ZU_ELEMENT_LIST);
         if (namespace == null) {
           return new ArrayList<>();
         }
@@ -109,10 +107,8 @@ public class ElementManagerImpl implements ElementManager {
       ValidationUtil.validateResponse(infoResponse, logger, ErrorCode.ZU_ELEMENT_GET_INFO);
       return infoResponse.getValue();
     } else {
-      Response<Namespace> namespaceResponse =
-          getStateAdaptor(context).getNamespace(context, elementContext.getItemId(), elementId);
-      ValidationUtil.validateResponse(namespaceResponse, logger, ErrorCode.ZU_ELEMENT_GET_INFO);
-      Namespace namespace = namespaceResponse.getValue();
+      Namespace namespace =
+          getValidatedNamespace(context, elementContext, elementId, ErrorCode.ZU_ELEMENT_GET_INFO);
       if (namespace == null) {
         return null;
       }
@@ -127,10 +123,8 @@ public class ElementManagerImpl implements ElementManager {
   @Override
   public CoreElement get(SessionContext context, ElementContext elementContext,
                          Id elementId) {
-    Response<Namespace> namespaceResponse =
-        getStateAdaptor(context).getNamespace(context, elementContext.getItemId(), elementId);
-    ValidationUtil.validateResponse(namespaceResponse, logger, ErrorCode.ZU_ELEMENT_GET);
-    Namespace namespace = namespaceResponse.getValue();
+    Namespace namespace =
+        getValidatedNamespace(context, elementContext, elementId, ErrorCode.ZU_ELEMENT_GET);
     if (namespace == null) {
       return null;
     }
@@ -142,21 +136,31 @@ public class ElementManagerImpl implements ElementManager {
   }
 
   @Override
+  public CoreElementConflict getConflict(SessionContext context, ElementContext elementContext,
+                                         Id elementId) {
+    Namespace namespace = getValidatedNamespace(context, elementContext, elementId,
+        ErrorCode.ZU_ELEMENT_GET_CONFLICT);
+    if (namespace == null) {
+      return null;
+    }
+
+    Response<CoreElementConflict> response = getCollaborationAdaptor(context)
+        .getElementConflict(context, elementContext, namespace, elementId);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ELEMENT_GET_CONFLICT);
+    return response.getValue();
+  }
+
+  @Override
   public CoreElement save(SessionContext context, ElementContext elementContext,
                           CoreElement element, String message) {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
 
-    Namespace namespace;
-    if (element.getAction() == Action.CREATE) {
-      namespace = Namespace.ROOT_NAMESPACE;
-    } else {
-      Response<Namespace> namespaceResponse =
-          getStateAdaptor(context)
-              .getNamespace(context, elementContext.getItemId(), element.getId());
-      ValidationUtil.validateResponse(namespaceResponse, logger, ErrorCode.ZU_ELEMENT_SAVE);
-      namespace = namespaceResponse.getValue();
-    }
+    Namespace namespace = element.getAction() == Action.CREATE
+        ? Namespace.ROOT_NAMESPACE
+        : getValidatedNamespace(context, elementContext, element.getId(),
+            ErrorCode.ZU_ELEMENT_SAVE);
+
     setElementHierarchyPosition(element, namespace);
 
     traverser.traverse(context, elementContext, Space.PRIVATE, element, collaborativeStoreVisitor);
@@ -169,6 +173,20 @@ public class ElementManagerImpl implements ElementManager {
   }
 
   @Override
+  public void resolveConflict(SessionContext context, ElementContext elementContext,
+                              CoreElement element, Resolution resolution) {
+    validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
+        elementContext.getVersionId());
+
+    setElementHierarchyPosition(element,
+        getValidatedNamespace(context, elementContext, element.getId(),
+            ErrorCode.ZU_ELEMENT_RESOLVE_CONFLICT));
+
+    getCollaborationAdaptor(context)
+        .resolveElementConflict(context, elementContext, element, resolution);
+  }
+
+  @Override
   public SearchResult search(SessionContext context, SearchCriteria searchCriteria) {
     Response<SearchResult> response =
         getSearchIndexAdaptor(context).search(context, searchCriteria);
@@ -176,19 +194,12 @@ public class ElementManagerImpl implements ElementManager {
     return response.getValue();
   }
 
-  @Override
-  public CoreElementConflict getConflict(SessionContext context, ElementContext
-      elementContext,
-                                         Id elementId) {
-    return getCollaborationAdaptor(context).getElementConflict( context,elementContext,elementId);
-    }
-
-  @Override
-  public void resolveConflict(SessionContext context, ElementContext elementContext,
-                                        Id elementId, Resolution resolution) {
-     getCollaborationAdaptor(context).resolveConflict( context,  elementContext,
-         elementId, resolution);
-
+  private Namespace getValidatedNamespace(SessionContext context, ElementContext elementContext,
+                                          Id elementId, int errorCode) {
+    Response<Namespace> namespaceResponse =
+        getStateAdaptor(context).getNamespace(context, elementContext.getItemId(), elementId);
+    ValidationUtil.validateResponse(namespaceResponse, logger, errorCode);
+    return namespaceResponse.getValue();
   }
 
   private void setElementHierarchyPosition(CoreElement element, Namespace namespace) {

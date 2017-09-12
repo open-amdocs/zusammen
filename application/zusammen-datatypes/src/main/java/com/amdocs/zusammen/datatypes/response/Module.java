@@ -17,12 +17,22 @@
 package com.amdocs.zusammen.datatypes.response;
 
 public enum Module {
-  ZCSP,   // Zusammen Collaboration Store Plugin
-  ZSIP,   // Zusammen Search Index Plugin
-  ZMDP,   // Zusammen Metadata Plugin
-  ZDB,    // Zusammen Database (core)
-  ZCSM,   // Zusammen Collaboration Store Middleware
-  ZSTM,   // Zusammen State (Metadata) Middleware
-  ZSIM,   // Zusammen Search Index Middleware
-  ZHC     // Zusammen Health Check
+  ZCSP("Zusammen Collaboration Store Plugin"),
+  ZSIP("Zusammen Search Index Plugin"),
+  ZMDP("Zusammen Metadata Plugin"),
+  ZDB("Zusammen Database (core)"),
+  ZCSM("Zusammen Collaboration Store Middleware"),
+  ZSTM("Zusammen State (Metadata) Middleware"),
+  ZSIM("Zusammen Search Index Middleware"),
+  ZHC("Zusammen Health Check");
+
+  private final String description;
+
+  Module(String description) {
+    this.description = description;
+  }
+
+  public String getDescription() {
+    return description;
+  }
 }
