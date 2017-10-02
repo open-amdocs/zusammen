@@ -18,11 +18,13 @@ package com.amdocs.zusammen.datatypes.itemversion;
 
 import com.amdocs.zusammen.datatypes.Id;
 
+import java.util.Date;
+
 public class Revision {
   private Id revisionId;
   private String message;
   private String user;
-  private int time;
+  private Date time;
 
   public Id getRevisionId() {
     return revisionId;
@@ -48,11 +50,11 @@ public class Revision {
     this.user = user;
   }
 
-  public int getTime() {
+  public Date getTime() {
     return time;
   }
 
-  public void setTime(int time) {
+  public void setTime(Date time) {
     this.time = time;
   }
 }

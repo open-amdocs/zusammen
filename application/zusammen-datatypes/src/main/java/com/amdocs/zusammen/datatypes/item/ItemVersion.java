@@ -22,6 +22,7 @@ import java.util.Date;
 
 public class ItemVersion {
   private Id id;
+  private Id revisionId;
   private Id baseId;
   private Date creationTime;
   private Date modificationTime;
@@ -33,6 +34,14 @@ public class ItemVersion {
 
   public void setId(Id id) {
     this.id = id;
+  }
+
+  public Id getRevisionId() {
+    return revisionId;
+  }
+
+  public void setRevisionId(Id revisionId) {
+    this.revisionId = revisionId;
   }
 
   public Id getBaseId() {

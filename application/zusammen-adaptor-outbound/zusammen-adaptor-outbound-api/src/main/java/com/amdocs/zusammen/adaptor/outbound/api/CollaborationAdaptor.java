@@ -108,4 +108,7 @@ public interface CollaborationAdaptor {
 
   Response<Void> resolveElementConflict(SessionContext context, ElementContext elementContext,
                                         CoreElement element, Resolution resolution);
+
+  Response<ItemVersion> getItemVersion(SessionContext context, Space space, Id itemId,
+                                       Id versionId, Id revisionId);
 }
