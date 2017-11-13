@@ -23,6 +23,7 @@ import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ItemVersion;
+import com.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
@@ -61,8 +62,11 @@ public interface ItemVersionManager {
 
   void revertRevision(SessionContext context, Id itemId, Id versionId, Id revisionId);
 
-  void updateModificationTime(SessionContext context, Space aPrivate, Id itemId, Id versionId,
+  void updateModificationTime(SessionContext context, Space space, Id itemId, Id versionId,
                               Date modificationTime);
 
   CoreItemVersionConflict getConflict(SessionContext context, Id itemId, Id versionId);
+
+  void saveMergeChange(SessionContext context, Space space, Id itemId,
+                       ItemVersionChange itemVersionChange);
 }

@@ -633,10 +633,11 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
 
 
   @Override
-  public Response<Void> resolveElementConflict(SessionContext context,
-                                               ElementContext elementContext, CoreElement element,
-                                               Resolution resolution) {
-    Response<Void> response;
+  public Response<CoreMergeResult> resolveElementConflict(SessionContext context,
+                                                          ElementContext elementContext,
+                                                          CoreElement element,
+                                                          Resolution resolution) {
+    Response<CollaborationMergeResult> response;
     try {
       response = getCollaborationStore(context).resolveElementConflict(context,
           CollaborationElementConvertor.convertFromCoreElement(element, elementContext),
@@ -656,7 +657,7 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
       //logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
-    return response;
+    return new Response<>(CollaborationMergeResultConvertor.convert(response.getValue()));
   }
 
   @Override

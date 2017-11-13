@@ -18,6 +18,7 @@ package com.amdocs.zusammen.core.impl.item;
 
 import com.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
+import com.amdocs.zusammen.core.api.item.ElementManager;
 import com.amdocs.zusammen.core.api.item.ItemManager;
 import com.amdocs.zusammen.core.api.types.CoreElement;
 import com.amdocs.zusammen.core.api.types.CoreMergeChange;
@@ -73,7 +74,7 @@ public class ItemVersionManagerImplTest {
   @Mock
   private ItemManager itemManagerMock;
   @Mock
-  private ElementVisitor elementVisitorMock;
+  private ElementManager elementManagerMock;
   @InjectMocks
   @Spy
   private ItemVersionManagerImpl itemVersionManagerImpl;
@@ -85,6 +86,7 @@ public class ItemVersionManagerImplTest {
     when(itemVersionManagerImpl.getCollaborationAdaptor(anyObject()))
         .thenReturn(collaborationAdaptorMock);
     when(itemVersionManagerImpl.getItemManager(anyObject())).thenReturn(itemManagerMock);
+    when(itemVersionManagerImpl.getElementManager(anyObject())).thenReturn(elementManagerMock);
   }
 
   @Test
@@ -554,9 +556,8 @@ public class ItemVersionManagerImplTest {
   private void verifySaveChangedElements(Id itemId, Id versionId, Space space,
                                          Collection<CoreElement> changedElements) {
     ElementContext elementContext = new ElementContext(itemId, versionId);
-    changedElements.forEach(element ->
-        verify(elementVisitorMock)
-            .visit(eq(context), eq(elementContext), eq(space), eq(element)));
+    verify(elementManagerMock)
+        .saveMergeChange(eq(context), eq(space), eq(elementContext), eq(changedElements));
   }
 
   private CoreMergeChange createMergeChange(Id versionId, boolean newVersion) {

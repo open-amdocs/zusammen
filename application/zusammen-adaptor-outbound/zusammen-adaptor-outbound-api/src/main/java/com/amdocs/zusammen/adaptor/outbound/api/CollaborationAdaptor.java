@@ -38,7 +38,6 @@ import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface CollaborationAdaptor {
 
@@ -72,13 +71,11 @@ public interface CollaborationAdaptor {
   Response<ItemVersionRevisions> listItemVersionRevisions(SessionContext context, Id itemId,
                                                                 Id versionId);
 
-  Response<CoreMergeChange> resetItemVersionRevision(SessionContext context, Id itemId, Id
-      versionId,
-                                                    Id revisionId);
+  Response<CoreMergeChange> resetItemVersionRevision(SessionContext context, Id itemId,
+                                                     Id versionId, Id revisionId);
 
-  Response<CoreMergeChange> revertItemVersionRevision(SessionContext context, Id itemId, Id
-      versionId,
-                                                    Id revisionId);
+  Response<CoreMergeChange> revertItemVersionRevision(SessionContext context, Id itemId,
+                                                      Id versionId, Id revisionId);
 
   Response<CoreItemVersionConflict> getItemVersionConflict(SessionContext context, Id itemId,
                                                            Id versionId);
@@ -106,8 +103,9 @@ public interface CollaborationAdaptor {
   Response<Void> deleteElement(SessionContext context, ElementContext elementContext,
                                CoreElement element);
 
-  Response<Void> resolveElementConflict(SessionContext context, ElementContext elementContext,
-                                        CoreElement element, Resolution resolution);
+  Response<CoreMergeResult> resolveElementConflict(SessionContext context,
+                                                   ElementContext elementContext,
+                                                   CoreElement element, Resolution resolution);
 
   Response<ItemVersion> getItemVersion(SessionContext context, Space space, Id itemId,
                                        Id versionId, Id revisionId);

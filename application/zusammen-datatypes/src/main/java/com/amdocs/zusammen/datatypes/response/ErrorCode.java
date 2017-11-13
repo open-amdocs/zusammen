@@ -54,6 +54,7 @@ public class ErrorCode {
   public static final int ZU_ITEM_VERSION_PUBLISH_NOT_ALLOWED = 13300;
   public static final int ZU_ELEMENT_RESOLVE_CONFLICT = 13400;
   public static final int ZU_ITEM_VERSION_REVERT_REVISION = 13500;
+  public static final int ZU_ITEM_VERSION_SAVE_CHANGE = 13600;
 
   public static final int MD_ITEM_UPDATE = 20100;
   public static final int MD_ITEM_DELETE = 20200;

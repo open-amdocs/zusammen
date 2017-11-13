@@ -23,6 +23,8 @@ import com.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ItemVersionStateAdaptorFactory;
 import com.amdocs.zusammen.commons.log.ZusammenLogger;
 import com.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
+import com.amdocs.zusammen.core.api.item.ElementManager;
+import com.amdocs.zusammen.core.api.item.ElementManagerFactory;
 import com.amdocs.zusammen.core.api.item.ItemManager;
 import com.amdocs.zusammen.core.api.item.ItemManagerFactory;
 import com.amdocs.zusammen.core.api.item.ItemVersionManager;
@@ -54,7 +56,6 @@ import java.util.Date;
 import static com.amdocs.zusammen.datatypes.item.SynchronizationStatus.UP_TO_DATE;
 
 public class ItemVersionManagerImpl implements ItemVersionManager {
-  private ElementVisitor indexingElementVisitor = IndexingElementVisitor.init();
   private static ZusammenLogger logger =
       ZusammenLoggerFactory.getLogger(ItemVersionManagerImpl.class.getName());
 
@@ -178,9 +179,9 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         getCollaborationAdaptor(context).publishItemVersion(context, itemId, versionId, message);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_PUBLISH);
 
-    Response<Void> saveChangeResponse =
-        saveMergeChange(context, Space.PUBLIC, itemId, versionId, response.getValue().getChange());
-    ValidationUtil.validateResponse(saveChangeResponse, logger, ErrorCode.ZU_ITEM_VERSION_PUBLISH);
+    if (response.getValue() != null) {
+      saveMergeChange(context, Space.PUBLIC, itemId, versionId, response.getValue().getChange());
+    }
   }
 
   @Override
@@ -191,11 +192,8 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         getCollaborationAdaptor(context).syncItemVersion(context, itemId, versionId);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_SYNC);
 
-    if (response.getValue().isSuccess()) {
-      Response<Void> saveChangeResponse =
-          saveMergeChange(context, Space.PRIVATE, itemId, versionId,
-              response.getValue().getChange());
-      ValidationUtil.validateResponse(saveChangeResponse, logger, ErrorCode.ZU_ITEM_VERSION_SYNC);
+    if (response.getValue() != null && response.getValue().isCompleted()) {
+      saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue().getChange());
     }
     return response.getValue();
   }
@@ -210,11 +208,8 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         .mergeItemVersion(context, itemId, versionId, sourceVersionId);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_MERGE);
 
-    if (response.getValue().isSuccess()) {
-      Response<Void> saveChangeResponse =
-          saveMergeChange(context, Space.PRIVATE, itemId, versionId,
-              response.getValue().getChange());
-      ValidationUtil.validateResponse(saveChangeResponse, logger, ErrorCode.ZU_ITEM_VERSION_MERGE);
+    if (response.getValue() != null && response.getValue().isCompleted()) {
+      saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue().getChange());
     }
 
     return response.getValue();
@@ -239,25 +234,19 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
         .resetItemVersionRevision(context, itemId, versionId, revisionId);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_RESET_REVISION);
 
-    Response<Void> saveChangeResponse =
-        saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue());
-    ValidationUtil
-        .validateResponse(saveChangeResponse, logger, ErrorCode.ZU_ITEM_VERSION_RESET_REVISION);
+    saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue());
   }
 
   @Override
   public void revertRevision(SessionContext context, Id itemId,
-                            Id versionId, Id revisionId) {
+                             Id versionId, Id revisionId) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
 
     Response<CoreMergeChange> response = getCollaborationAdaptor(context)
         .revertItemVersionRevision(context, itemId, versionId, revisionId);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_REVERT_REVISION);
 
-    Response<Void> saveChangeResponse =
-        saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue());
-    ValidationUtil
-        .validateResponse(saveChangeResponse, logger, ErrorCode.ZU_ITEM_VERSION_REVERT_REVISION);
+    saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue());
   }
 
   @Override
@@ -280,42 +269,45 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   }
 
-  private Response<Void> saveMergeChange(SessionContext context, Space space, Id itemId,
-                                         Id versionId,
-                                         CoreMergeChange mergeChange) {
-    if (mergeChange.getChangedVersion() != null) {
-      Response<Void> response =
-          saveItemVersionChange(context, space, itemId, mergeChange.getChangedVersion());
-      if (!response.isSuccessful()) {
-        return response;
-      }
+  private void saveMergeChange(SessionContext context, Space space, Id itemId,
+                               Id versionId, CoreMergeChange mergeChange) {
+    if (mergeChange == null) {
+      return;
     }
-    if (mergeChange.getChangedElements() != null) {
-      ElementContext elementContext = new ElementContext(itemId, versionId);
-      mergeChange.getChangedElements().forEach(element ->
-          indexingElementVisitor.visit(context, elementContext, space, element));
-    }
-    return new Response(Void.TYPE);
+
+    saveMergeChange(context, space, itemId, mergeChange.getChangedVersion());
+
+    getElementManager(context)
+        .saveMergeChange(context, space, new ElementContext(itemId, versionId),
+            mergeChange.getChangedElements());
   }
 
-  private Response<Void> saveItemVersionChange(SessionContext context, Space space, Id itemId,
-                                               ItemVersionChange itemVersionChange) {
+  @Override
+  public void saveMergeChange(SessionContext context, Space space, Id itemId,
+                              ItemVersionChange itemVersionChange) {
+    if (itemVersionChange == null) {
+      return;
+    }
     ItemVersion itemVersion = itemVersionChange.getItemVersion();
     Date currentTime = new Date();
 
+    Response<Void> response;
     switch (itemVersionChange.getAction()) {
       case CREATE:
-        return getStateAdaptor(context)
+        response = getStateAdaptor(context)
             .createItemVersion(context, space, itemId, itemVersion.getBaseId(),
                 itemVersion.getId(), itemVersion.getData(), currentTime);
+        break;
       case UPDATE:
-        return getStateAdaptor(context)
+        response = getStateAdaptor(context)
             .updateItemVersion(context, space, itemId, itemVersion.getId(), itemVersion.getData(),
                 currentTime);
+        break;
       default:
         throw new RuntimeException(String.format(Messages.UNSUPPORTED_VERSION_ACTION,
             itemId, itemVersion.getId(), itemVersionChange.getAction()));
     }
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_SAVE_CHANGE);
   }
 
   private void validateItemVersionExistence(SessionContext context, Space space, Id itemId,
@@ -345,6 +337,10 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
 
   protected ItemVersionStateAdaptor getStateAdaptor(SessionContext context) {
     return ItemVersionStateAdaptorFactory.getInstance().createInterface(context);
+  }
+
+  protected ElementManager getElementManager(SessionContext context) {
+    return ElementManagerFactory.getInstance().createInterface(context);
   }
 
   protected ItemManager getItemManager(SessionContext context) {

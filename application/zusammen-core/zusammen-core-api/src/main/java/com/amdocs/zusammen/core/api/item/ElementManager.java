@@ -19,8 +19,10 @@ package com.amdocs.zusammen.core.api.item;
 import com.amdocs.zusammen.core.api.types.CoreElement;
 import com.amdocs.zusammen.core.api.types.CoreElementConflict;
 import com.amdocs.zusammen.core.api.types.CoreElementInfo;
+import com.amdocs.zusammen.core.api.types.CoreMergeResult;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
+import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Resolution;
 import com.amdocs.zusammen.datatypes.searchindex.SearchCriteria;
@@ -30,20 +32,24 @@ import java.util.Collection;
 
 public interface ElementManager {
 
-  Collection<CoreElementInfo> list(SessionContext context, ElementContext elementContext, Id
-      elementId);
+  Collection<CoreElementInfo> list(SessionContext context, ElementContext elementContext,
+                                   Id elementId);
 
   CoreElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId);
 
   CoreElement get(SessionContext context, ElementContext elementContext, Id elementId);
 
-  CoreElementConflict getConflict(SessionContext context, ElementContext elementContext, Id elementId);
-
   CoreElement save(SessionContext context, ElementContext elementContext, CoreElement element,
                    String message);
 
-  void resolveConflict(SessionContext context, ElementContext elementContext, CoreElement element,
-                       Resolution resolution);
+  CoreElementConflict getConflict(SessionContext context, ElementContext elementContext,
+                                  Id elementId);
+
+  CoreMergeResult resolveConflict(SessionContext context, ElementContext elementContext,
+                                  CoreElement element, Resolution resolution);
 
   SearchResult search(SessionContext context, SearchCriteria searchCriteria);
+
+  void saveMergeChange(SessionContext context, Space space, ElementContext elementContext,
+                       Collection<CoreElement> elements);
 }

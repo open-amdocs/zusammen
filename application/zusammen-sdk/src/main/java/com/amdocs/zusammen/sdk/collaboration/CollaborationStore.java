@@ -39,7 +39,6 @@ import com.amdocs.zusammen.sdk.collaboration.types.CollaborationPublishResult;
 import com.amdocs.zusammen.sdk.health.IHealthCheck;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface CollaborationStore extends IHealthCheck {
 
@@ -75,7 +74,6 @@ public interface CollaborationStore extends IHealthCheck {
   Response<ItemVersionRevisions> listItemVersionRevisions(SessionContext context, Id itemId,
                                                                 Id versionId);
 
-
   Response<CollaborationMergeChange> resetItemVersionRevision(SessionContext context, Id itemId,
                                                              Id versionId, Id revisionId);
 
@@ -102,7 +100,10 @@ public interface CollaborationStore extends IHealthCheck {
 
   Response<Void> deleteElement(SessionContext context, CollaborationElement element);
 
-  Response<Void> resolveElementConflict(SessionContext context, CollaborationElement element,
-                                        Resolution resolution);
- Response<ItemVersion> getItemVersion(SessionContext context, Space space, Id itemId, Id versionId, Id revisionId);
+  Response<CollaborationMergeResult> resolveElementConflict(SessionContext context,
+                                                            CollaborationElement element,
+                                                            Resolution resolution);
+
+  Response<ItemVersion> getItemVersion(SessionContext context, Space space, Id itemId,
+                                       Id versionId, Id revisionId);
 }

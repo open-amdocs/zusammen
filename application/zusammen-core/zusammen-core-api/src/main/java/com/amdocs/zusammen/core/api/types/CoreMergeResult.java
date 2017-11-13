@@ -36,7 +36,7 @@ public class CoreMergeResult {
     this.conflict = conflict;
   }
 
-  public boolean isSuccess() {
+  public boolean isCompleted() {
     return this.conflict == null || conflict.isSuccess();
   }
 }

@@ -22,18 +22,16 @@ import com.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ElementStateAdaptorFactory;
 import com.amdocs.zusammen.commons.log.ZusammenLogger;
 import com.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
+import com.amdocs.zusammen.core.impl.ValidationUtil;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.Action;
 import com.amdocs.zusammen.datatypes.response.ErrorCode;
-import com.amdocs.zusammen.datatypes.response.Module;
 import com.amdocs.zusammen.datatypes.response.Response;
-import com.amdocs.zusammen.datatypes.response.ReturnCode;
-import com.amdocs.zusammen.datatypes.response.ZusammenException;
 
 public class IndexingElementCommandFactory extends ElementCommandAbstarctFactory {
 
-  private static ZusammenLogger logger = ZusammenLoggerFactory.getLogger(IndexingElementCommandFactory.class
-      .getName());
+  private static ZusammenLogger logger =
+      ZusammenLoggerFactory.getLogger(IndexingElementCommandFactory.class.getName());
 
   private IndexingElementCommandFactory() {
   }
@@ -42,50 +40,35 @@ public class IndexingElementCommandFactory extends ElementCommandAbstarctFactory
     final ElementCommandAbstarctFactory factory = new IndexingElementCommandFactory();
 
     factory.addCommand(Action.CREATE, (context, elementContext, space, element) -> {
-      Response response = getStateAdaptor(context).create(context, elementContext, space, element);
-      if(response.isSuccessful()) {
-        response = getSearchIndexAdaptor(context).createElement(context, elementContext, space,
-            element);
+      Response<Void> response =
+          getStateAdaptor(context).create(context, elementContext, space, element);
+      if (response.isSuccessful()) {
+        response =
+            getSearchIndexAdaptor(context).createElement(context, elementContext, space, element);
       }
-
-      if (!response.isSuccessful()) {
-        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_CREATE, Module.ZDB, null,
-            response.getReturnCode());
-        logger.error(returnCode.toString());
-        throw new ZusammenException(returnCode);
-
-      }
-
+      ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ELEMENT_CREATE);
     });
+
     factory.addCommand(Action.UPDATE, (context, elementContext, space, element) -> {
-      Response response = getStateAdaptor(context).update(context, elementContext, space, element);
-      if(response.isSuccessful()) {
-        response = getSearchIndexAdaptor(context).updateElement(context, elementContext, space,
-            element);
+      Response<Void> response =
+          getStateAdaptor(context).update(context, elementContext, space, element);
+      if (response.isSuccessful()) {
+        response =
+            getSearchIndexAdaptor(context).updateElement(context, elementContext, space, element);
       }
-      if (!response.isSuccessful()) {
-        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_UPDATE, Module.ZDB, null,
-            response.getReturnCode());
-        logger.error(returnCode.toString());
-        throw new ZusammenException(returnCode);
-
-      }
-
+      ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ELEMENT_UPDATE);
     });
+
     factory.addCommand(Action.DELETE, (context, elementContext, space, element) -> {
-      Response response = getStateAdaptor(context).delete(context, elementContext, space, element);
-      if(response.isSuccessful()) {
+      Response<Void> response =
+          getStateAdaptor(context).delete(context, elementContext, space, element);
+      if (response.isSuccessful()) {
         response =
             getSearchIndexAdaptor(context).deleteElement(context, elementContext, space, element);
       }
-      if (!response.isSuccessful()) {
-        ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ELEMENT_DELETE, Module.ZDB, null,
-            response.getReturnCode());
-        logger.error(returnCode.toString());
-        throw new ZusammenException(returnCode);
-
-      }
+      ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ELEMENT_DELETE);
     });
+
     return factory;
   }
 

@@ -32,6 +32,8 @@ import com.amdocs.zusammen.core.api.item.ItemVersionManagerFactory;
 import com.amdocs.zusammen.core.api.types.CoreElement;
 import com.amdocs.zusammen.core.api.types.CoreElementConflict;
 import com.amdocs.zusammen.core.api.types.CoreElementInfo;
+import com.amdocs.zusammen.core.api.types.CoreMergeChange;
+import com.amdocs.zusammen.core.api.types.CoreMergeResult;
 import com.amdocs.zusammen.core.impl.Messages;
 import com.amdocs.zusammen.core.impl.ValidationUtil;
 import com.amdocs.zusammen.datatypes.Id;
@@ -173,8 +175,8 @@ public class ElementManagerImpl implements ElementManager {
   }
 
   @Override
-  public void resolveConflict(SessionContext context, ElementContext elementContext,
-                              CoreElement element, Resolution resolution) {
+  public CoreMergeResult resolveConflict(SessionContext context, ElementContext elementContext,
+                                         CoreElement element, Resolution resolution) {
     validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
         elementContext.getVersionId());
 
@@ -182,8 +184,14 @@ public class ElementManagerImpl implements ElementManager {
         getValidatedNamespace(context, elementContext, element.getId(),
             ErrorCode.ZU_ELEMENT_RESOLVE_CONFLICT));
 
-    getCollaborationAdaptor(context)
+    Response<CoreMergeResult> response = getCollaborationAdaptor(context)
         .resolveElementConflict(context, elementContext, element, resolution);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ELEMENT_RESOLVE_CONFLICT);
+
+    if (response.getValue() != null && response.getValue().isCompleted()) {
+      saveMergeChange(context, Space.PUBLIC, elementContext, response.getValue().getChange());
+    }
+    return response.getValue();
   }
 
   @Override
@@ -192,6 +200,27 @@ public class ElementManagerImpl implements ElementManager {
         getSearchIndexAdaptor(context).search(context, searchCriteria);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_SEARCH);
     return response.getValue();
+  }
+
+  @Override
+  public void saveMergeChange(SessionContext context, Space space, ElementContext elementContext,
+                              Collection<CoreElement> elements) {
+    if (elements == null) {
+      return;
+    }
+    elements.forEach(element -> indexingVisitor.visit(context, elementContext, space, element));
+  }
+
+  private void saveMergeChange(SessionContext context, Space space, ElementContext elementContext,
+                               CoreMergeChange mergeChange) {
+    if (mergeChange == null) {
+      return;
+    }
+
+    getItemVersionManager(context).saveMergeChange(context, space, elementContext.getItemId(),
+        mergeChange.getChangedVersion());
+
+    saveMergeChange(context, space, elementContext, mergeChange.getChangedElements());
   }
 
   private Namespace getValidatedNamespace(SessionContext context, ElementContext elementContext,
