@@ -22,27 +22,27 @@
     <parent>
         <groupId>com.amdocs.zusammen</groupId>
         <artifactId>zusammen-adaptor-outbound</artifactId>
-        <version>0.2.0</version>
+        <version>0.2.3</version>
     </parent>
 
     <artifactId>zusammen-adaptor-outbound-impl</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.3</version>
 
     <dependencies>
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-adaptor-outbound-api</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-sdk</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-commons-configuration</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
         </dependency>
     </dependencies>
     <build>

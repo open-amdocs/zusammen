@@ -5,13 +5,13 @@
     <!--parent>
         <artifactId>zusammen-rest-web</artifactId>
         <groupId>com.amdocs.zusammen.web</groupId>
-        <version>0.2.0</version>
+        <version>0.2.3</version>
     </parent-->
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.amdocs.zusammen</groupId>
     <artifactId>zusammen-samples</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.3</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -24,44 +24,44 @@
         <dependency>
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-collaboration-store-plugin</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-state-store-cassandra-plugin</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-search-index-elasticsearch-plugin</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-collaboration-store-plugin</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-state-store-cassandra-plugin</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen.plugin</groupId>
             <artifactId>zusammen-search-index-elasticsearch-plugin</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
             <scope>runtime</scope>
         </dependency>
         <!--dependency>
             <groupId>com.amdocs.zusammen.web</groupId>
             <artifactId>item-rest-services</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
         </dependency-->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -92,12 +92,12 @@
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-adaptor-inbound-api</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-adaptor-inbound-impl</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

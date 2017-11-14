@@ -22,33 +22,33 @@
     <parent>
         <groupId>com.amdocs.zusammen</groupId>
         <artifactId>zusammen-adaptor-inbound</artifactId>
-        <version>0.2.0</version>
+        <version>0.2.3</version>
     </parent>
 
     <artifactId>zusammen-adaptor-inbound-impl</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.3</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-adaptor-inbound-api</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-commons-utils</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-core-api</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.amdocs.zusammen</groupId>
             <artifactId>zusammen-core-impl</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.3</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
