@@ -40,7 +40,7 @@
     <url>http://maven.apache.org</url>
     <groupId>com.amdocs.zusammen</groupId>
     <artifactId>amdocs-zusammen</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
     <packaging>pom</packaging>
     <modules>
         <module>application</module>
