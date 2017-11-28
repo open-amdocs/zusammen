@@ -25,6 +25,7 @@ import com.amdocs.zusammen.datatypes.item.ItemVersion;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
+import com.amdocs.zusammen.datatypes.itemversion.Revision;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
 
@@ -37,7 +38,7 @@ public interface ItemVersionAdaptor {
   Response<ItemVersion> get(SessionContext context, Space space, Id itemId, Id versionId);
 
   Response<ItemVersion> get(SessionContext context, Space space, Id itemId, Id versionId,
-    Id revisionId);
+                            Id revisionId);
 
   Response<Id> create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data);
 
@@ -53,10 +54,13 @@ public interface ItemVersionAdaptor {
 
   Response<MergeResult> sync(SessionContext context, Id itemId, Id versionId);
 
+  Response<MergeResult> forceSync(SessionContext context, Id itemId, Id versionId);
+
   Response<MergeResult> merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 
-  Response<ItemVersionRevisions> listRevisions(SessionContext context, Id itemId, Id
-      versionId);
+  Response<ItemVersionRevisions> listRevisions(SessionContext context, Id itemId, Id versionId);
+
+  Response<Revision> getRevision(SessionContext context, Id itemId, Id versionId, Id revisionId);
 
   Response<Void> resetRevision(SessionContext context, Id itemId, Id versionId, Id revisionId);
 

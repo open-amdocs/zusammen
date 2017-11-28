@@ -461,14 +461,14 @@ public class ItemVersionManagerImplTest {
     doReturn(new Response<>(retrievedRevision)).when(collaborationAdaptorMock)
         .listItemVersionRevisions(context, itemId, versionId);
 
-    ItemVersionRevisions history = itemVersionManagerImpl.listRevision(context, itemId, versionId);
+    ItemVersionRevisions history = itemVersionManagerImpl.listRevisions(context, itemId, versionId);
 
     Assert.assertEquals(history, retrievedRevision);
   }
 
   @Test(expectedExceptions = ZusammenException.class)
   public void testListRevisionOnNonExistingItem() throws Exception {
-    itemVersionManagerImpl.listRevision(context, new Id(), new Id());
+    itemVersionManagerImpl.listRevisions(context, new Id(), new Id());
   }
 
   @Test(expectedExceptions = ZusammenException.class)
@@ -476,7 +476,7 @@ public class ItemVersionManagerImplTest {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
-    itemVersionManagerImpl.listRevision(context, itemId, versionId);
+    itemVersionManagerImpl.listRevisions(context, itemId, versionId);
   }
 
   @Test

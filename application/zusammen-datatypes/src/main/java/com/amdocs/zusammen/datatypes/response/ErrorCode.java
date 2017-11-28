@@ -27,7 +27,7 @@ public class ErrorCode {
   public static final int ZU_ITEM_VERSION_PUBLISH = 10700;
   public static final int ZU_ITEM_VERSION_SYNC = 10800;
   public static final int ZU_ITEM_VERSION_MERGE = 10800;
-  public static final int ZU_ITEM_VERSION_REVISION = 10900;
+  public static final int ZU_ITEM_VERSION_REVISIONS = 10900;
   public static final int ZU_ITEM_VERSION_RESET_REVISION = 11000;
   public static final int ZU_ITEM_LIST = 11100;
   public static final int ZU_ITEM_CREATE = 11200;
@@ -55,6 +55,8 @@ public class ErrorCode {
   public static final int ZU_ELEMENT_RESOLVE_CONFLICT = 13400;
   public static final int ZU_ITEM_VERSION_REVERT_REVISION = 13500;
   public static final int ZU_ITEM_VERSION_SAVE_CHANGE = 13600;
+  public static final int ZU_ITEM_VERSION_FORCE_SYNC = 13700;
+  public static final int ZU_ITEM_VERSION_REVISION = 13800;
 
   public static final int MD_ITEM_UPDATE = 20100;
   public static final int MD_ITEM_DELETE = 20200;
@@ -77,7 +79,7 @@ public class ErrorCode {
   public static final int MD_ITEM_VERSION_PUBLISH = 21900;
   public static final int MD_ITEM_VERSION_SYNC = 22000;
   public static final int MD_ITEM_VERSION_MERGE = 22100;
-  public static final int MD_ITEM_VERSION_REVISION = 22200;
+  public static final int MD_ITEM_VERSION_REVISIONS = 22200;
   public static final int MD_ITEM_VERSION_RESET_REVISION = 22300;
   public static final int MD_SEARCH = 22400;
   public static final int MD_COMMIT = 22500;
@@ -88,6 +90,8 @@ public class ErrorCode {
   public static final int MD_ELEMENT_RESOLVE_CONFLICT = 23000;
   public static final int MD_ITEM_VERSION_GET_STATUS = 23100;
   public static final int MD_ITEM_VERSION_REVERT_REVISION = 23200;
+  public static final int MD_ITEM_VERSION_FORCE_SYNC = 23300;
+  public static final int MD_ITEM_VERSION_REVISION = 23400;
 
   public static final int ST_ITEM_LIST = 50100;
   public static final int ST_ITEM_IS_EXIST = 50200;
@@ -120,7 +124,7 @@ public class ErrorCode {
   public static final int CL_ITEM_VERSION_PUBLISH = 31000;
   public static final int CL_ITEM_VERSION_SYNC = 31100;
   public static final int CL_ITEM_VERSION_MERGE = 31200;
-  public static final int CL_ITEM_VERSION_REVISION = 31300;
+  public static final int CL_ITEM_VERSION_REVISIONS = 31300;
   public static final int CL_ITEM_VERSION_RESET_REVISION = 31400;
   public static final int CL_ITEM_VERSION_TAG = 31500;
   public static final int CL_ELEMENT_GET_LIST = 31600;
@@ -130,6 +134,8 @@ public class ErrorCode {
   public static final int CL_ITEM_VERSION_GET_STATUS = 32000;
   public static final int CL_ITEM_VERSION_REVERT_REVISION = 32100;
   public static final int CL_ITEM_VERSION_GET = 32200;
+  public static final int CL_ITEM_VERSION_FORCE_SYNC = 32300;
+  public static final int CL_ITEM_VERSION_REVISION = 32400;
 
 
   public static final int IN_SEARCH = 40100;
@@ -138,7 +144,6 @@ public class ErrorCode {
   public static final int IN_ELEMENT_UPDATE = 40400;
 
   public static final int HC_MISSING_PLUGIN = 50100;
-
 
 
   private int errorCode;

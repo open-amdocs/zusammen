@@ -28,6 +28,7 @@ import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.item.Resolution;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
+import com.amdocs.zusammen.datatypes.itemversion.Revision;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.Response;
 import com.amdocs.zusammen.sdk.collaboration.types.CollaborationElement;
@@ -65,6 +66,9 @@ public interface CollaborationStore extends IHealthCheck {
   Response<CollaborationMergeResult> syncItemVersion(SessionContext context, Id itemId,
                                                      Id versionId);
 
+  Response<CollaborationMergeResult> forceSyncItemVersion(SessionContext context, Id itemId,
+                                                          Id versionId);
+
   Response<CollaborationMergeResult> mergeItemVersion(SessionContext context, Id itemId,
                                                       Id versionId, Id sourceVersionId);
 
@@ -72,13 +76,16 @@ public interface CollaborationStore extends IHealthCheck {
                                                                     Id itemId, Id versionId);
 
   Response<ItemVersionRevisions> listItemVersionRevisions(SessionContext context, Id itemId,
-                                                                Id versionId);
+                                                          Id versionId);
+
+  Response<Revision> getItemVersionRevision(SessionContext context, Id itemId, Id versionId,
+                                            Id revisionId);
 
   Response<CollaborationMergeChange> resetItemVersionRevision(SessionContext context, Id itemId,
-                                                             Id versionId, Id revisionId);
+                                                              Id versionId, Id revisionId);
 
   Response<CollaborationMergeChange> revertItemVersionRevision(SessionContext context, Id itemId,
-                                                              Id versionId, Id revisionId);
+                                                               Id versionId, Id revisionId);
 
   Response<Void> commitElements(SessionContext context, Id itemId, Id versionId, String message);
 

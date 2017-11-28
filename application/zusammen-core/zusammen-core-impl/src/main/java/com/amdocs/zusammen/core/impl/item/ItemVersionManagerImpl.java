@@ -43,6 +43,7 @@ import com.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
+import com.amdocs.zusammen.datatypes.itemversion.Revision;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import com.amdocs.zusammen.datatypes.response.ErrorCode;
 import com.amdocs.zusammen.datatypes.response.Module;
@@ -82,12 +83,13 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
                          Id revisionId) {
     validateItemExistence(context, itemId);
     Response<ItemVersion> response;
-    if(revisionId == null) {
+    if (revisionId == null) {
       response =
           getStateAdaptor(context).getItemVersion(context, space, itemId, versionId);
-    }else{
+    } else {
       response =
-          getCollaborationAdaptor(context).getItemVersion(context, space, itemId, versionId, revisionId);
+          getCollaborationAdaptor(context)
+              .getItemVersion(context, space, itemId, versionId, revisionId);
     }
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_GET);
 
@@ -199,6 +201,20 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
+  public CoreMergeResult forceSync(SessionContext context, Id itemId, Id versionId) {
+    validateItemVersionExistence(context, Space.PUBLIC, itemId, versionId);
+
+    Response<CoreMergeResult> response =
+        getCollaborationAdaptor(context).forceSyncItemVersion(context, itemId, versionId);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_FORCE_SYNC);
+
+    if (response.getValue() != null && response.getValue().isCompleted()) {
+      saveMergeChange(context, Space.PRIVATE, itemId, versionId, response.getValue().getChange());
+    }
+    return response.getValue();
+  }
+
+  @Override
   public CoreMergeResult merge(SessionContext context, Id itemId, Id versionId,
                                Id sourceVersionId) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
@@ -216,11 +232,19 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   }
 
   @Override
-  public ItemVersionRevisions listRevision(SessionContext context, Id itemId,
-                                                 Id versionId) {
+  public ItemVersionRevisions listRevisions(SessionContext context, Id itemId, Id versionId) {
     validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
     Response<ItemVersionRevisions> response =
         getCollaborationAdaptor(context).listItemVersionRevisions(context, itemId, versionId);
+    ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_REVISIONS);
+    return response.getValue();
+  }
+
+  @Override
+  public Revision getRevision(SessionContext context, Id itemId, Id versionId, Id revisionId) {
+    validateItemVersionExistence(context, Space.PRIVATE, itemId, versionId);
+    Response<Revision> response = getCollaborationAdaptor(context)
+        .getItemVersionRevision(context, itemId, versionId, revisionId);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_REVISION);
     return response.getValue();
   }

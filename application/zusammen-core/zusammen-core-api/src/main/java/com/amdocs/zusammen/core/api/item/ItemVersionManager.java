@@ -27,6 +27,7 @@ import com.amdocs.zusammen.datatypes.item.ItemVersionChange;
 import com.amdocs.zusammen.datatypes.item.ItemVersionData;
 import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
 import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
+import com.amdocs.zusammen.datatypes.itemversion.Revision;
 import com.amdocs.zusammen.datatypes.itemversion.Tag;
 
 import java.util.Collection;
@@ -54,9 +55,13 @@ public interface ItemVersionManager {
 
   CoreMergeResult sync(SessionContext context, Id itemId, Id versionId);
 
+  CoreMergeResult forceSync(SessionContext context, Id itemId, Id versionId);
+
   CoreMergeResult merge(SessionContext context, Id itemId, Id versionId, Id sourceVersionId);
 
-  ItemVersionRevisions listRevision(SessionContext context, Id itemId, Id versionId);
+  ItemVersionRevisions listRevisions(SessionContext context, Id itemId, Id versionId);
+
+  Revision getRevision(SessionContext context, Id itemId, Id versionId, Id revisionId);
 
   void resetRevision(SessionContext context, Id itemId, Id versionId, Id revisionId);
 
