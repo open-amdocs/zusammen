@@ -26,7 +26,6 @@
     </parent>
 
     <artifactId>zusammen-adaptor-inbound</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>zusammen-adaptor-inbound-api</module>

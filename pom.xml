@@ -53,6 +53,7 @@
     <properties>
         <java.source>1.8</java.source>
         <java.target>1.8</java.target>
+        <project.version>0.0.1-SNAPSHOT</project.version>
         <spring.framework.version>4.0.7.RELEASE</spring.framework.version>
         <org.codehaus.jackson.version>1.9.2</org.codehaus.jackson.version>
         <http.client.version>4.4.1</http.client.version>
