@@ -22,7 +22,7 @@
     <parent>
         <groupId>com.amdocs.zusammen</groupId>
         <artifactId>zusammen-adaptor-inbound</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>zusammen-adaptor-inbound-impl</artifactId>
@@ -53,19 +53,6 @@
     </dependencies>
     <build>
 	<plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <configuration>
-                <archive>
-                    <manifest>
-                        <addDefaultImplementationEntries>
-                            true
-                        </addDefaultImplementationEntries>
-                    </manifest>
-                </archive>
-            </configuration>
-        </plugin>
 		<plugin>
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
