@@ -80,7 +80,7 @@ public class ItemVersionManagerImplTest {
   private ItemVersionManagerImpl itemVersionManagerImpl;
 
   @BeforeMethod
-  public void setUp() throws Exception {
+  public void setUp()  {
     MockitoAnnotations.initMocks(this);
     when(itemVersionManagerImpl.getStateAdaptor(anyObject())).thenReturn(stateAdaptorMock);
     when(itemVersionManagerImpl.getCollaborationAdaptor(anyObject()))
@@ -90,7 +90,7 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testList() throws Exception {
+  public void testList()  {
     Id itemId = new Id();
     List<ItemVersion> retrievedVersions = Arrays.asList(
         TestUtils.createItemVersion(new Id(), new Id(), "v1"),
@@ -105,12 +105,12 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testListOnNonExistingItem() throws Exception {
+  public void testListOnNonExistingItem()  {
     itemVersionManagerImpl.list(context, Space.PRIVATE, new Id());
   }
 
   @Test
-  public void testGet() throws Exception {
+  public void testGet()  {
     Id itemId = new Id();
     doReturn(true).when(itemManagerMock).isExist(context, itemId);
 
@@ -125,12 +125,12 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testGetOnNonExistingItem() throws Exception {
+  public void testGetOnNonExistingItem()  {
     itemVersionManagerImpl.get(context, Space.PRIVATE, new Id(), new Id(),null);
   }
 
   @Test
-  public void testGetNonExisting() throws Exception {
+  public void testGetNonExisting()  {
     Id itemId = new Id();
     Id versionId = new Id();
 
@@ -146,7 +146,7 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testCreate() throws Exception {
+  public void testCreate()  {
     Id itemId = new Id();
     Id baseVersionId = new Id();
     mockExistingVersion(Space.PRIVATE, itemId, baseVersionId);
@@ -170,12 +170,64 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testCreateOnNonExistingItem() throws Exception {
+  public void testFailCreateWithNullId() {
+    itemVersionManagerImpl.create(context, new Id(), null, null, new ItemVersionData());
+  }
+
+  @Test(expectedExceptions = ZusammenException.class)
+  public void testFailCreateWithExistingIdOnPrivate() {
+    Id itemId = new Id("itemId");
+    Id versionId = new Id("versionId");
+    doReturn(new Response<>(true)).when(stateAdaptorMock).isItemVersionExist(context, Space.PRIVATE, itemId, versionId);
+
+    itemVersionManagerImpl.create(context, itemId, versionId, null, new ItemVersionData());
+  }
+
+  @Test(expectedExceptions = ZusammenException.class)
+  public void testFailCreateWithExistingIdOnPublic() {
+    Id itemId = new Id("itemId");
+    Id versionId = new Id("versionId");
+    doReturn(new Response<>(false)).when(stateAdaptorMock).isItemVersionExist(context, Space.PRIVATE, itemId, versionId);
+    doReturn(new Response<>(true)).when(stateAdaptorMock).isItemVersionExist(context, Space.PUBLIC, itemId, versionId);
+
+    itemVersionManagerImpl.create(context, itemId, versionId, null, new ItemVersionData());
+  }
+
+  @Test
+  public void testCreateWithId()  {
+    Id itemId = new Id();
+    Id baseVersionId = new Id();
+    mockExistingVersion(Space.PRIVATE, itemId, baseVersionId);
+
+    Id inputVersionId = new Id();
+    doReturn(new Response<>(false)).when(stateAdaptorMock).isItemVersionExist(context, Space.PRIVATE, itemId, inputVersionId);
+    doReturn(new Response<>(false)).when(stateAdaptorMock).isItemVersionExist(context, Space.PUBLIC, itemId, inputVersionId);
+
+    ItemVersionData data = new ItemVersionData();
+    data.setInfo(TestUtils.createInfo("v1"));
+    data.setRelations(Arrays.asList(new Relation(), new Relation()));
+
+    doReturn(new Response<>(Void.TYPE)).when(collaborationAdaptorMock).createItemVersion
+                                                                               (anyObject(), anyObject(), anyObject(), anyObject(), anyObject());
+    doReturn(new Response<>(Void.TYPE)).when(stateAdaptorMock).createItemVersion
+                                                                       (anyObject(), anyObject(), anyObject(), anyObject(), anyObject(), anyObject(), anyObject());
+    Id versionId = itemVersionManagerImpl.create(context, itemId, inputVersionId, baseVersionId, data);
+    Assert.assertNotNull(versionId);
+
+    verify(collaborationAdaptorMock)
+            .createItemVersion(context, itemId, baseVersionId, versionId, data);
+    verify(stateAdaptorMock)
+            .createItemVersion(anyObject(), anyObject(), anyObject(), anyObject(), anyObject(),
+                    anyObject(), anyObject());
+  }
+
+  @Test(expectedExceptions = ZusammenException.class)
+  public void testCreateOnNonExistingItem()  {
     itemVersionManagerImpl.create(context, new Id(), new Id(), new ItemVersionData());
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testCreateBasedOnNonExisting() throws Exception {
+  public void testCreateBasedOnNonExisting()  {
     Id itemId = new Id();
     Id baseVersionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, baseVersionId);
@@ -183,7 +235,7 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testUpdate() throws Exception {
+  public void testUpdate()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -208,12 +260,12 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testUpdateOnNonExistingItem() throws Exception {
+  public void testUpdateOnNonExistingItem()  {
     itemVersionManagerImpl.update(context, new Id(), new Id(), new ItemVersionData());
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testUpdateNonExisting() throws Exception {
+  public void testUpdateNonExisting()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -221,7 +273,7 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testDelete() throws Exception {
+  public void testDelete()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -238,12 +290,12 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testDeleteOnNonExistingItem() throws Exception {
+  public void testDeleteOnNonExistingItem()  {
     itemVersionManagerImpl.delete(context, new Id(), new Id());
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testDeleteNonExisting() throws Exception {
+  public void testDeleteNonExisting()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -251,12 +303,12 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testTagVersion() throws Exception {
+  public void testTagVersion()  {
     testTag(null);
   }
 
   @Test
-  public void testTagChange() throws Exception {
+  public void testTagChange()  {
     testTag(new Id());
   }
 
@@ -279,13 +331,13 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testTagOnNonExistingItem() throws Exception {
+  public void testTagOnNonExistingItem()  {
     itemVersionManagerImpl
         .tag(context, new Id(), new Id(), new Id(), new Tag("tagName", "tagDesc"));
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testTagNonExisting() throws Exception {
+  public void testTagNonExisting()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -293,16 +345,16 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testSuccessfulPublishNew() throws Exception {
+  public void testSuccessfulPublishNew()  {
     testSuccessfulPublish(new Id(), new Id(), true);
   }
 
   @Test
-  public void testSuccessfulPublishExisting() throws Exception {
+  public void testSuccessfulPublishExisting()  {
     testSuccessfulPublish(new Id(), new Id(), false);
   }
 
-  private CoreMergeChange testSuccessfulPublish(Id itemId, Id versionId, boolean newVersion) {
+  private void testSuccessfulPublish(Id itemId, Id versionId, boolean newVersion) {
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
 
     doReturn(new Response<>(new ItemVersionStatus(UP_TO_DATE, false)))
@@ -321,16 +373,15 @@ public class ItemVersionManagerImplTest {
 
     verifySaveChangedElements(itemId, versionId, Space.PUBLIC, change.getChangedElements());
 
-    return change;
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testPublishOnNonExistingItem() throws Exception {
+  public void testPublishOnNonExistingItem()  {
     itemVersionManagerImpl.publish(context, new Id(), new Id(), "");
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testPublishNonExisting() throws Exception {
+  public void testPublishNonExisting()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -339,12 +390,12 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testPublishOutOfSync() throws Exception {
+  public void testPublishOutOfSync()  {
     testPublishNotAllowed(new ItemVersionStatus(OUT_OF_SYNC, false));
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testPublishMerging() throws Exception {
+  public void testPublishMerging()  {
     testPublishNotAllowed(new ItemVersionStatus(MERGING, false));
   }
 
@@ -360,16 +411,16 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testSuccessfulSyncNew() throws Exception {
+  public void testSuccessfulSyncNew()  {
     testSuccessfulSync(new Id(), new Id(), true);
   }
 
   @Test
-  public void testSuccessfulSyncExisting() throws Exception {
+  public void testSuccessfulSyncExisting()  {
     testSuccessfulSync(new Id(), new Id(), false);
   }
 
-  private CoreMergeChange testSuccessfulSync(Id itemId, Id versionId, boolean newVersion) {
+  private void testSuccessfulSync(Id itemId, Id versionId, boolean newVersion) {
     mockExistingVersion(Space.PUBLIC, itemId, versionId);
 
     CoreMergeResult retrievedSyncResult = new CoreMergeResult();
@@ -385,16 +436,15 @@ public class ItemVersionManagerImplTest {
 
     verifySaveChangedElements(itemId, versionId, Space.PRIVATE, change.getChangedElements());
 
-    return change;
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testSyncOnNonExistingItem() throws Exception {
+  public void testSyncOnNonExistingItem()  {
     itemVersionManagerImpl.sync(context, new Id(), new Id());
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testSyncNonExisting() throws Exception {
+  public void testSyncNonExisting()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PUBLIC, itemId, versionId);
@@ -402,7 +452,7 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testMerge() throws Exception {
+  public void testMerge()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -426,12 +476,12 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testMergeOnNonExistingItem() throws Exception {
+  public void testMergeOnNonExistingItem()  {
     itemVersionManagerImpl.merge(context, new Id(), new Id(), new Id());
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testMergeNonExisting() throws Exception {
+  public void testMergeNonExisting()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -440,7 +490,7 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testMergeNonExistingSource() throws Exception {
+  public void testMergeNonExistingSource()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -452,7 +502,7 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testListRevision() throws Exception {
+  public void testListRevision()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -467,12 +517,12 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testListRevisionOnNonExistingItem() throws Exception {
+  public void testListRevisionOnNonExistingItem()  {
     itemVersionManagerImpl.listRevisions(context, new Id(), new Id());
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testListRevisionNonExisting() throws Exception {
+  public void testListRevisionNonExisting()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -480,7 +530,7 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testResetRevision() throws Exception {
+  public void testResetRevision()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -501,12 +551,12 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testResetRevisionOnNonExistingItem() throws Exception {
+  public void testResetRevisionOnNonExistingItem()  {
     itemVersionManagerImpl.resetRevision(context, new Id(), new Id(), new Id("changeRef"));
   }
 
   @Test(expectedExceptions = ZusammenException.class)
-  public void testResetRevisionNonExisting() throws Exception {
+  public void testResetRevisionNonExisting()  {
     Id itemId = new Id();
     Id versionId = new Id();
     mockNonExistingVersion(Space.PRIVATE, itemId, versionId);
@@ -514,7 +564,7 @@ public class ItemVersionManagerImplTest {
   }
 
   @Test
-  public void testUpdateItemVersionModificationTime() throws Exception {
+  public void testUpdateItemVersionModificationTime()  {
     Id itemId = new Id();
     Id versionId = new Id();
     Date modificationTime = new Date();

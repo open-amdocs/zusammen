@@ -43,6 +43,8 @@ public interface ItemVersionManager {
 
   Id create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data);
 
+  Id create(SessionContext context, Id itemId, Id versionId, Id baseVersionId, ItemVersionData data);
+
   void update(SessionContext context, Id itemId, Id versionId, ItemVersionData data);
 
   void delete(SessionContext context, Id itemId, Id versionId);

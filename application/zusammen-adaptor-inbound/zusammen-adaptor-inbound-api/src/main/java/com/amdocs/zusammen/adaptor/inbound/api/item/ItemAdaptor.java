@@ -33,6 +33,8 @@ public interface ItemAdaptor {
 
   Response<Id> create(SessionContext context, Info itemInfo);
 
+  Response<Id> create(SessionContext context, Id itemId, Info itemInfo);
+
   Response<Void> update(SessionContext context, Id itemId, Info itemInfo);
 
   Response<Void> delete(SessionContext context, Id itemId);

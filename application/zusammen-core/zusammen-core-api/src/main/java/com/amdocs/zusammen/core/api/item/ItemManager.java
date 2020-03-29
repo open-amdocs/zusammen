@@ -35,6 +35,8 @@ public interface ItemManager {
 
   Id create(SessionContext context, Info itemInfo);
 
+  Id create(SessionContext context, Id itemId, Info itemInfo);
+
   void update(SessionContext context, Id itemId, Info itemInfo);
 
   void delete(SessionContext context, Id itemId);

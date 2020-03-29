@@ -21,10 +21,10 @@ import com.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.CollaborationAdaptorFactory;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptor;
 import com.amdocs.zusammen.adaptor.outbound.api.item.ItemStateAdaptorFactory;
-import com.amdocs.zusammen.core.impl.Messages;
 import com.amdocs.zusammen.commons.log.ZusammenLogger;
 import com.amdocs.zusammen.commons.log.ZusammenLoggerFactory;
 import com.amdocs.zusammen.core.api.item.ItemManager;
+import com.amdocs.zusammen.core.impl.Messages;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.Info;
@@ -34,7 +34,6 @@ import com.amdocs.zusammen.datatypes.response.Module;
 import com.amdocs.zusammen.datatypes.response.Response;
 import com.amdocs.zusammen.datatypes.response.ReturnCode;
 import com.amdocs.zusammen.datatypes.response.ZusammenException;
-
 import java.util.Collection;
 import java.util.Date;
 
@@ -89,20 +88,38 @@ public class ItemManagerImpl implements ItemManager {
 
   @Override
   public Id create(SessionContext context, Info itemInfo) {
-    Id itemId = new Id();
+    return createItem(context, new Id(), itemInfo);
+  }
+
+  @Override
+  public Id create(SessionContext context, Id itemId, Info itemInfo) {
+    if (itemId == null || itemId.getValue() == null) {
+      ReturnCode returnCode =
+              new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB, Messages.ITEM_ID_TO_CREATE_CANNOT_BE_NULL, null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
+    if (isExist(context, itemId)) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB,
+              String.format(Messages.ITEM_ֹID_ALREADY_EXIST, itemId), null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
+    return createItem(context, itemId, itemInfo);
+  }
+
+  private Id createItem(SessionContext context, Id itemId, Info itemInfo) {
     Date creationTime = new Date();
     Response response;
     response = getCollaborationAdaptor(context).createItem(context, itemId, itemInfo);
     if (!response.isSuccessful()) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB, null, response
-          .getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB, null, response.getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }
-    response = getStateAdaptor(context).createItem(context, itemId, itemInfo,creationTime);
+    response = getStateAdaptor(context).createItem(context, itemId, itemInfo, creationTime);
     if (!response.isSuccessful()) {
-      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB, null, response
-          .getReturnCode());
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB, null, response.getReturnCode());
       logger.error(returnCode.toString());
       throw new ZusammenException(returnCode);
     }

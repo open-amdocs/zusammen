@@ -72,6 +72,10 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   @Override
   public boolean isExist(SessionContext context, Space space, Id itemId, Id versionId) {
     validateItemExistence(context, itemId);
+    return isVersionExist(context, space, itemId, versionId);
+  }
+
+  private boolean isVersionExist(SessionContext context, Space space, Id itemId, Id versionId) {
     Response<Boolean> response =
         getStateAdaptor(context).isItemVersionExist(context, space, itemId, versionId);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_IS_EXIST);
@@ -99,10 +103,30 @@ public class ItemVersionManagerImpl implements ItemVersionManager {
   @Override
   public Id create(SessionContext context, Id itemId, Id baseVersionId,
                    ItemVersionData data) {
+    return createVersion(context, itemId, new Id(), baseVersionId, data);
+  }
+
+  @Override
+  public Id create(SessionContext context, Id itemId, Id versionId, Id baseVersionId, ItemVersionData data) {
+    if (versionId == null || versionId.getValue() == null){
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_VERSION_CREATE, Module.ZDB,
+              String.format(Messages.VERSION_ID_TO_CREATE_CANNOT_BE_NULL, itemId), null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
+    if (isVersionExist(context, Space.PRIVATE, itemId, versionId) || isVersionExist(context, Space.PUBLIC, itemId, versionId)) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_VERSION_CREATE, Module.ZDB,
+              String.format(Messages.ITEM_VERSION_ֹID_ALREADY_EXIST, itemId, versionId), null);
+      logger.error(returnCode.toString());
+      throw new ZusammenException(returnCode);
+    }
+    return createVersion(context, itemId, versionId, baseVersionId, data);
+  }
+
+  private Id createVersion(SessionContext context, Id itemId, Id versionId, Id baseVersionId, ItemVersionData data) {
     if (baseVersionId != null) {
       validateItemVersionExistence(context, Space.PRIVATE, itemId, baseVersionId);
     }
-    Id versionId = new Id();
     Response<Void> response = getCollaborationAdaptor(context)
         .createItemVersion(context, itemId, baseVersionId, versionId, data);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ITEM_VERSION_CREATE);

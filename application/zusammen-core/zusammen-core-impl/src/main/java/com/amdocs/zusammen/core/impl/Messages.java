@@ -21,9 +21,14 @@ public class Messages {
       "Item Id %s, version Id %s, action %s is not supported";
   public static final String UNSUPPORTED_ELEMENT_ACTION =
       "Item Id %s, version Id %s, element Id %s, action %s is not supported";
-  public static final String ITEM_NOT_EXIST = "Item with id %s does not exists.";
+  public static final String ITEM_NOT_EXIST = "Item with id %s does not exist.";
+  public static final String ITEM_ֹID_ALREADY_EXIST = "Item with id %s already exists.";
+  public static final String ITEM_ID_TO_CREATE_CANNOT_BE_NULL = "Item cannot be created with a null id.";
   public static final String ITEM_VERSION_NOT_EXIST =
       "Item Id %s, version Id %s does not exist in %s space";
+  public static final String ITEM_VERSION_ֹID_ALREADY_EXIST =
+          "Item Id %s, version Id %s already exists.";
+  public static final String VERSION_ID_TO_CREATE_CANNOT_BE_NULL = "Item Id %s, version cannot be created with a null id.";
   public static final String ITEM_VERSION_ELEMENT_NOT_EXIST =
       "Item Id %s, version Id %s, element Id %s does not exist in %s space";
   public static final String ITEM_VERSION_PUBLISH_NOT_ALLOWED =

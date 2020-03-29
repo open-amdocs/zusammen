@@ -102,6 +102,24 @@ public class ItemVersionAdaptorImpl implements ItemVersionAdaptor {
   }
 
   @Override
+  public Response<Id> create(SessionContext context, Id itemId, Id versionId, Id baseVersionId, ItemVersionData data) {
+    Response<Id> response;
+    try {
+      Id id = getItemVersionManager(context).create(context, itemId, versionId, baseVersionId, data);
+      response = new Response<>(id);
+      logger.info("create item version - item:" + itemId.getValue() + " version:" + id.getValue());
+    } catch (ZusammenException ze) {
+      response = getErrorResponse(ze, ErrorCode.ZU_ITEM_VERSION_CREATE);
+    } catch (Exception ex) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.SYSTEM_ERROR, Module.ZDB, ex.getMessage(),
+              null);
+      logger.error(returnCode.toString(), ex);
+      response = new Response<>(returnCode);
+    }
+    return response;
+  }
+
+  @Override
   public Response<Void> update(SessionContext context, Id itemId, Id versionId,
                                ItemVersionData data) {
     Response response;

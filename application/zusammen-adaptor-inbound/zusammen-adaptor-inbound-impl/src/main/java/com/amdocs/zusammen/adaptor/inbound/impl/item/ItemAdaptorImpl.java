@@ -88,6 +88,22 @@ public class ItemAdaptorImpl implements ItemAdaptor {
   }
 
   @Override
+  public Response<Id> create(SessionContext context, Id itemId, Info itemInfo) {
+    Response<Id> response;
+    try {
+      Id id = getItemManager(context).create(context, itemId, itemInfo);
+      response = new Response<>(id);
+      logger.info("create item:" + id.getValue());
+    } catch (ZusammenException ze) {
+      ReturnCode returnCode = new ReturnCode(ErrorCode.ZU_ITEM_CREATE, Module.ZDB, null, ze.getReturnCode());
+      logger.error(returnCode.toString(), ze);
+      response = new Response<>(returnCode);
+    }
+
+    return response;
+  }
+
+  @Override
   public Response<Void> update(SessionContext context, Id itemId, Info itemInfo) {
     Response response;
     try {

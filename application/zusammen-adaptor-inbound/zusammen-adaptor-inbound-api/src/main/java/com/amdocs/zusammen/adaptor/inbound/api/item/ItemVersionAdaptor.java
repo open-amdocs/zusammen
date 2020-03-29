@@ -42,6 +42,8 @@ public interface ItemVersionAdaptor {
 
   Response<Id> create(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData data);
 
+  Response<Id> create(SessionContext context, Id itemId, Id versionId, Id baseVersionId, ItemVersionData data);
+
   Response<Void> update(SessionContext context, Id itemId, Id versionId, ItemVersionData data);
 
   Response<Void> delete(SessionContext context, Id itemId, Id versionId);
