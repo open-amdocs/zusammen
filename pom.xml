@@ -40,7 +40,7 @@
     <url>http://maven.apache.org</url>
     <groupId>com.amdocs.zusammen</groupId>
     <artifactId>amdocs-zusammen</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
     <modules>
         <module>application</module>
@@ -53,7 +53,7 @@
     <properties>
         <java.source>1.8</java.source>
         <java.target>1.8</java.target>
-        <project.version>0.0.1-SNAPSHOT</project.version>
+        <project.version>1.0.2</project.version>
         <spring.framework.version>4.0.7.RELEASE</spring.framework.version>
         <org.codehaus.jackson.version>1.9.2</org.codehaus.jackson.version>
         <http.client.version>4.4.1</http.client.version>
