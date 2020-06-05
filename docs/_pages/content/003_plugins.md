@@ -24,15 +24,15 @@ The rest of this topic describes an enterprise-grade non-functional implementati
 
 ## Consistency
 
-The Zusammen contract states that an operation is successful once the underlying plug-in returns **success**. Success might mean that the successful operation is not consistent yet. (Plug-ins may eventually be consistent or have some inner latency, for example.) 
+The Zusammen contract states that an operation is successful once the underlying plug-in returns **success**. That said, Success does _not_ necessarily mean that the successful operation is consistent (yet) - Plug-ins may eventually be consistent or have some inner latency, for example. 
 
-Examples: 
+More examples: 
 
 1. When using a database that uses the eventual consistency model as the Metadata Store plug-in, the plug-in creator must decide when data is considered written. The default configuration for most eventual consistency databases considers a record to be **written** on first-write or quorum majority. At
 this point the plug-in should return a success response to the middleware.
 2. The search index takes some time to actually index the data, search indexes usually return control to the caller at this point.
 
-The developers of the calling application should make their plug-in selection based on the their application requirements, while keeping in mind the [CAP
+Developers of the calling application should make their plug-in selection based on the application requirements, while keeping in mind the [CAP
 theorem](https://en.wikipedia.org/wiki/CAP_theorem).
 
 ## High availability
@@ -70,16 +70,16 @@ with HA-NFS).
 ## Geographic Redundancy (GEoR) Strategy
 
 The reference implementation utilizes Active-Passive GEoR. Users access a GSS, which directs them to the active site's load balancer.
-The load balancer health checks the application nodes, and directs users to healthy application nodes only. 
+The load balancer health-checks the application nodes, and directs users only to healthy nodes. 
 
-The node health-check checks the health of all of the resources required for the application node's operation. If one of the resources fails
+The node health-check verifies the health of all of the resources required for the application node's operation. If one of the resources fails
 (for example, because the Cassandra cluster is down), all application nodes report "not healthy", the load balancer reports "not healthy site" to the GSS, and that makes site 2 the active site.
 
 
 
 ### Search index
 
-Each element indexed to the Active site is indexed to the passive site as well, utilizing the Git hook mechanism (see [diagram](images/geor.png)).
+Each element which is indexed to the Active site is being indexed to the passive site as well, utilizing the Git hook mechanism (see [diagram](images/geor.png)).
 
 ### Metadata store
 
@@ -94,6 +94,6 @@ Casandra will manage the cross-site replication.
 
 ### Git
 
-On each commit to private data or push to public data in the active site, a Git hook is fired and pushes or commits to the passive site. 
+Upon each commit to private data or push to public data in the active site, a Git hook is fired and pushes or commits to the passive site. 
 
 ![Geographic Redundancy](images/geor.png)
