@@ -29,6 +29,7 @@ import com.amdocs.zusammen.core.api.item.ElementManager;
 import com.amdocs.zusammen.core.api.item.ElementManagerFactory;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
+import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Resolution;
 import com.amdocs.zusammen.datatypes.response.ErrorCode;
@@ -70,10 +71,15 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   @Override
   public Response<ElementInfo> getInfo(SessionContext context, ElementContext elementContext, Id
       elementId) {
+    return getInfo(context, Space.PRIVATE, elementContext, elementId);
+  }
+
+  @Override
+  public Response<ElementInfo> getInfo(SessionContext context, Space space, ElementContext elementContext, Id elementId) {
     Response<ElementInfo> response;
     try {
       ElementInfo elementInfo = ElementInfoConvertor
-          .convert(getElementManager(context).getInfo(context, elementContext, elementId));
+              .convert(getElementManager(context).getInfo(context, space,elementContext, elementId));
       response = new Response<>(elementInfo);
     } catch (ZusammenException ze) {
       ReturnCode returnCode =
@@ -87,10 +93,15 @@ public class ElementAdaptorImpl implements ElementAdaptor {
   @Override
   public Response<Element> get(SessionContext context, ElementContext elementContext, Id
       elementId) {
+    return get(context, Space.PRIVATE, elementContext, elementId);
+  }
+
+  @Override
+  public Response<Element> get(SessionContext context, Space space, ElementContext elementContext, Id elementId) {
     Response<Element> response;
     try {
       Element element = ElementConvertor
-          .convert(getElementManager(context).get(context, elementContext, elementId));
+              .convert(getElementManager(context).get(context, space, elementContext, elementId));
       response = new Response<>(element);
     } catch (ZusammenException ze) {
       ReturnCode returnCode =

@@ -95,6 +95,9 @@ public interface CollaborationAdaptor {
   Response<CoreElement> getElement(SessionContext context, ElementContext elementContext,
                                    Namespace namespace, Id elementId);
 
+  Response<CoreElement> getElement(SessionContext context, Space space, ElementContext elementContext,
+                                   Namespace namespace, Id elementId);
+
   Response<CoreElementConflict> getElementConflict(SessionContext context,
                                                    ElementContext elementContext,
                                                    Namespace namespace, Id elementId);

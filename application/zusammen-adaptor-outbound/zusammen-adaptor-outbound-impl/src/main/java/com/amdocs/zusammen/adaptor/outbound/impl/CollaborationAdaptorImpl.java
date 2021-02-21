@@ -560,11 +560,15 @@ public class CollaborationAdaptorImpl implements CollaborationAdaptor {
   @Override
   public Response<CoreElement> getElement(SessionContext context, ElementContext elementContext,
                                           Namespace namespace, Id elementId) {
+    return getElement(context, Space.PRIVATE, elementContext, namespace, elementId);
+  }
 
+  @Override
+  public Response<CoreElement> getElement(SessionContext context, Space space, ElementContext elementContext, Namespace namespace, Id elementId) {
     Response<CollaborationElement> collaborationResponse;
     try {
       collaborationResponse =
-          getCollaborationStore(context).getElement(context, elementContext, namespace, elementId);
+              getCollaborationStore(context).getElement(context, space, elementContext, namespace, elementId);
     } catch (RuntimeException re) {
       ReturnCode returnCode =
           new ReturnCode(ErrorCode.MD_ELEMENT_GET, Module.ZCSM, null,
