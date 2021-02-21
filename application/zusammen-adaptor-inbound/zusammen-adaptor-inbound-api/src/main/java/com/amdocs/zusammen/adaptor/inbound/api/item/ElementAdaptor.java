@@ -21,6 +21,7 @@ import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementConflict;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
+import com.amdocs.zusammen.datatypes.Space;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Resolution;
 import com.amdocs.zusammen.datatypes.response.Response;
@@ -37,7 +38,12 @@ public interface ElementAdaptor {
   Response<ElementInfo> getInfo(SessionContext context, ElementContext elementContext,
                                 Id elementId);
 
+  Response<ElementInfo> getInfo(SessionContext context, Space space, ElementContext elementContext,
+                                Id elementId);
+
   Response<Element> get(SessionContext context, ElementContext elementContext, Id elementId);
+
+  Response<Element> get(SessionContext context, Space space, ElementContext elementContext, Id elementId);
 
   Response<ElementConflict> getConflict(SessionContext context, ElementContext elementContext,
                                         Id elementId);

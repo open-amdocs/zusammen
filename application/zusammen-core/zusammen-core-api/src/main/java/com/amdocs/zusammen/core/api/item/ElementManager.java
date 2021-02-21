@@ -37,7 +37,11 @@ public interface ElementManager {
 
   CoreElementInfo getInfo(SessionContext context, ElementContext elementContext, Id elementId);
 
+  CoreElementInfo getInfo(SessionContext context, Space space, ElementContext elementContext, Id elementId);
+
   CoreElement get(SessionContext context, ElementContext elementContext, Id elementId);
+
+  CoreElement get(SessionContext context, Space space, ElementContext elementContext, Id elementId);
 
   CoreElement save(SessionContext context, ElementContext elementContext, CoreElement element,
                    String message);

@@ -111,11 +111,16 @@ public class ElementStateAdaptorImpl implements ElementStateAdaptor {
   @Override
   public Response<CoreElementInfo> get(SessionContext context, ElementContext elementContext,
                                        Id elementId) {
+    return get(context, Space.PRIVATE, elementContext, elementId);
+  }
+
+  @Override
+  public Response<CoreElementInfo> get(SessionContext context, Space space, ElementContext elementContext, Id elementId) {
     Response<StateElement> pluginResponse;
     Response<CoreElementInfo> response;
     try {
       pluginResponse = OutboundAdaptorUtils.getStateStore(context)
-          .getElement(context, elementContext, elementId);
+              .getElement(context, space, elementContext, elementId);
       if (pluginResponse.isSuccessful()) {
         response = new Response<>(StateElementConvertor.convertToCoreElementInfo
             (pluginResponse.getValue()));

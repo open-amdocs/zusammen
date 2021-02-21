@@ -39,6 +39,9 @@ public interface ElementStateAdaptor {
   Response<CoreElementInfo> get(SessionContext context, ElementContext elementContext,
                                 Id elementId);
 
+  Response<CoreElementInfo> get(SessionContext context, Space space, ElementContext elementContext,
+                                Id elementId);
+
   Response<Void> create(SessionContext context, ElementContext elementContext, Space space,
                         CoreElement element);
 

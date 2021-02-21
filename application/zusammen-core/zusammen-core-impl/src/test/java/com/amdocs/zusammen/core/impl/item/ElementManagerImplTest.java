@@ -183,7 +183,7 @@ public class ElementManagerImplTest {
         createCoreElementInfo(elementId, new Id(), Namespace.ROOT_NAMESPACE);
     Response<CoreElementInfo> coreElementInfoResponse = new Response<>(retrievedElementInfo);
     doReturn(coreElementInfoResponse).when(stateAdaptorMock)
-        .get(context, elementContext, elementId);
+            .get(context, Space.PRIVATE, elementContext, elementId);
 
     CoreElementInfo elementInfo = elementManager.getInfo(context, elementContext, elementId);
 
@@ -213,7 +213,7 @@ public class ElementManagerImplTest {
 
     Response<CoreElement> CoreElementRes = new Response<>(retrievedCoreElement);
     doReturn(CoreElementRes).when(collaborationAdaptorMock)
-        .getElement(context, elementContext, namespace, elementId);
+            .getElement(context, Space.PRIVATE, elementContext, namespace, elementId);
 
     CoreElementInfo elementInfo = elementManager.getInfo(context, elementContext, elementId);
 
@@ -250,7 +250,7 @@ public class ElementManagerImplTest {
     CoreElement retrievedCoreElement = new CoreElement();
     Response<CoreElement> CoreElementRes = new Response<>(retrievedCoreElement);
     doReturn(CoreElementRes).when(collaborationAdaptorMock)
-        .getElement(context, elementContext, namespace, elementId);
+            .getElement(context, Space.PRIVATE, elementContext, namespace, elementId);
 
     CoreElement element = elementManager.get(context, elementContext, elementId);
 

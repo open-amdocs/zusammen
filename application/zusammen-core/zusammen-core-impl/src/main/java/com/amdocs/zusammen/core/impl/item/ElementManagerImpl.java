@@ -100,12 +100,17 @@ public class ElementManagerImpl implements ElementManager {
   @Override
   public CoreElementInfo getInfo(SessionContext context, ElementContext elementContext,
                                  Id elementId) {
-    validateItemVersionExistence(context, Space.PRIVATE, elementContext.getItemId(),
-        elementContext.getVersionId());
+    return getInfo(context, Space.PRIVATE, elementContext, elementId);
+  }
+
+  @Override
+  public CoreElementInfo getInfo(SessionContext context, Space space, ElementContext elementContext, Id elementId) {
+    validateItemVersionExistence(context, space, elementContext.getItemId(),
+            elementContext.getVersionId());
 
     if (elementContext.getRevisionId() == null) {
       Response<CoreElementInfo> infoResponse =
-          getStateAdaptor(context).get(context, elementContext, elementId);
+              getStateAdaptor(context).get(context, space, elementContext, elementId);
       ValidationUtil.validateResponse(infoResponse, logger, ErrorCode.ZU_ELEMENT_GET_INFO);
       return infoResponse.getValue();
     } else {
@@ -115,15 +120,20 @@ public class ElementManagerImpl implements ElementManager {
         return null;
       }
       Response<CoreElement> elementResponse =
-          getCollaborationAdaptor(context)
-              .getElement(context, elementContext, namespace, elementId);
+              getCollaborationAdaptor(context)
+                      .getElement(context, space, elementContext, namespace, elementId);
       ValidationUtil.validateResponse(elementResponse, logger, ErrorCode.ZU_ELEMENT_GET_INFO);
       return coreElementToCoreElementInfo(elementResponse.getValue());
     }
   }
 
   @Override
-  public CoreElement get(SessionContext context, ElementContext elementContext,
+  public CoreElement get(SessionContext context, ElementContext elementContext, Id elementId) {
+    return get(context, Space.PRIVATE, elementContext, elementId);
+  }
+
+  @Override
+  public CoreElement get(SessionContext context, Space space, ElementContext elementContext,
                          Id elementId) {
     Namespace namespace =
         getValidatedNamespace(context, elementContext, elementId, ErrorCode.ZU_ELEMENT_GET);
@@ -132,7 +142,7 @@ public class ElementManagerImpl implements ElementManager {
     }
 
     Response<CoreElement> response =
-        getCollaborationAdaptor(context).getElement(context, elementContext, namespace, elementId);
+        getCollaborationAdaptor(context).getElement(context,space, elementContext, namespace, elementId);
     ValidationUtil.validateResponse(response, logger, ErrorCode.ZU_ELEMENT_GET);
     return response.getValue();
   }

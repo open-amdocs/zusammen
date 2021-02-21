@@ -76,6 +76,9 @@ public interface StateStore extends IHealthCheck {
   Response<StateElement> getElement(SessionContext context, ElementContext elementContext,
                                     Id elementId);
 
+  Response<StateElement> getElement(SessionContext context, Space space, ElementContext elementContext,
+                                    Id elementId);
+
   Response<Void> createElement(SessionContext context, StateElement element);
 
   Response<Void> updateElement(SessionContext context, StateElement element);

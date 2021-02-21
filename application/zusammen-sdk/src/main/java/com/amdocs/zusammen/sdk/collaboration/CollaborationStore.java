@@ -97,6 +97,9 @@ public interface CollaborationStore extends IHealthCheck {
   Response<CollaborationElement> getElement(SessionContext context, ElementContext elementContext,
                                             Namespace namespace, Id elementId);
 
+  Response<CollaborationElement> getElement(SessionContext context, Space space, ElementContext elementContext,
+                                            Namespace namespace, Id elementId);
+
   Response<CollaborationElementConflict> getElementConflict(SessionContext context,
                                                             ElementContext elementContext,
                                                             Namespace namespace, Id elementId);
